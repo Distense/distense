@@ -1,0 +1,11 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Distense/contracts.git",
+  "author": "JohnAllen <johnjalleniii@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "truffle": "^3.4.4"
+  }
+}
