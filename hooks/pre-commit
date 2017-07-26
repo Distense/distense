@@ -14,6 +14,4 @@ if [[ -z ${ETH_ADDRESS} ]]; then
   echo "If you don't have an Ethereum address, please google how you may easiestly find one."
   echo "To bypass this message try your commit again with: --no-verify"
   exit 1
-else
-  echo "Ethereum address is set in your git config"
 fi
