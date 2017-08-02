@@ -11,13 +11,14 @@ contract QueryContributors is usingOraclize {
   }
 
   function __callback(string result) {
-    require(msg.sender == oraclize_cbAddress())
+    require(msg.sender == oraclize_cbAddress());
 
     LogContribution(result);
+    getLatestContributors();
   }
 
   function getLatestContributors()  {
-    oraclize_query(35, "URL", "json(https://api.github.com/repos/Distense/contracts/commits).[0].committer.login");
+    oraclize_query(60, "URL", "json(https://api.github.com/repos/Distense/contracts/commits).[0].committer.login");
   }
 }
 
