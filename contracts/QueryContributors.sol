@@ -10,7 +10,7 @@ contract QueryContributors is usingOraclize {
     getLatestContributors();
   }
 
-  function __callback(string result) {
+  function __callback() {
     require(msg.sender == oraclize_cbAddress());
 
     LogContribution(result);
@@ -18,7 +18,7 @@ contract QueryContributors is usingOraclize {
   }
 
   function getLatestContributors()  {
-    oraclize_query(60, "URL", "json(https://api.github.com/repos/Distense/contracts/commits).[0].committer.login");
+    oraclize_query(60, "URL", "json(https://api.github.com/repos/Distense/contracts/pulls)");
   }
 }
 
