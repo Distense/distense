@@ -2,14 +2,15 @@ pragma solidity ^0.4.11;
 
 import "./lib/oraclizeAPI_0.4.sol";
 import "./lib/Ownable.sol";
-import "./lib/solidity-stringutils/strings.sol";
+
 
 contract QueryContributors is usingOraclize, Ownable {
   uint public interval;
 
   enum QueryType { IsMerged, AuthorEmail }
+
   struct Query {
-    QueryType type;
+    QueryType queryType;
     string taskId;
   }
 
@@ -26,17 +27,17 @@ contract QueryContributors is usingOraclize, Ownable {
     require(msg.sender == oraclize_cbAddress());
 
     Query query = queries[_queryID];
-    QueryType type = query.type;
-    if (type == QueryType.IsMerged) {
+    QueryType queryType = query.queryType;
+    if (queryType == QueryType.IsMerged) {
       if (_result == "true" && !Distense.isTaskRewarded(query.taskId)) {
         queryCommitAuthorEmail(query.taskId);
       }
-    } else if (type == QueryType.AuthorEmail) {
+    } else if (queryType == QueryType.AuthorEmail) {
       address authorAddress = Distense.emailToAddress(_result);
       Distense.rewardTask(authorAddress, query.taskId);
     }
 
-    // LogContribution(_result);
+     LogContribution(_result);
   }
 
   function updateInterval(uint _newInterval) onlyOwner {
