@@ -1,10 +1,11 @@
 pragma solidity ^0.4.11;
 
+import "./Distense.sol";
 import "./lib/oraclizeAPI_0.4.sol";
 import "./lib/Ownable.sol";
 
 
-contract QueryContributors is usingOraclize, Ownable {
+contract PollNewContributions is usingOraclize, Ownable {
   uint public interval;
 
   enum QueryType { IsMerged, AuthorEmail }
@@ -16,11 +17,11 @@ contract QueryContributors is usingOraclize, Ownable {
 
   mapping(bytes32 => Query) public queries;
 
-  event LogContribution(string indexed message, bytes32 indexed username, bytes32 url);
+//  event LogContribution(string indexed message, bytes32 indexed username, bytes32 url);
 
   function QueryContributors() {
     interval = 30;
-    getLatestContribution();
+    beginContributionChecks();
   }
 
   function __callback(bytes32 _queryID, string _result) {
@@ -33,11 +34,11 @@ contract QueryContributors is usingOraclize, Ownable {
         queryCommitAuthorEmail(query.taskId);
       }
     } else if (queryType == QueryType.AuthorEmail) {
-      address authorAddress = Distense.emailToAddress(_result);
-      Distense.rewardTask(authorAddress, query.taskId);
+      address authorAddress = emailToAddress(_result);
+      rewardTask(authorAddress, query.taskId);
     }
 
-     LogContribution(_result);
+//     LogContribution(_result);
   }
 
   function updateInterval(uint _newInterval) onlyOwner {
