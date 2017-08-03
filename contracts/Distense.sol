@@ -9,7 +9,7 @@ contract Distense {
   string public name;
   string public symbol;
   address public owner;
-  address public QueryContributorAddress;
+  address public ContributionsAddress;
 
   struct Contributor {
     uint256 balance;
@@ -26,7 +26,7 @@ contract Distense {
   mapping(address => bool) public approvedAddresses;
   mapping(string => Task) public tasks;
   mapping(address => Contributor) public contributors;
-  mapping(bytes32 => address) public emailToAddress;
+  mapping(string => address) public emailToAddress;
   
   event LogContributionReward(address indexed to, uint256 numDID);
 
@@ -35,10 +35,10 @@ contract Distense {
     name = "Distense DID";
     symbol = "DID";
     owner = msg.sender;
-    QueryContributorAddress = _approvedAddress;
+    ContributionsAddress = _approvedAddress;
   }
 
-  function associateAccount(bytes32 _email) {
+  function associateAccount(string _email) {
     require(emailToAddress[_email] == 0);
     emailToAddress[_email] = msg.sender;
   }
