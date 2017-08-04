@@ -9,7 +9,6 @@ contract Distense {
   string public name;
   string public symbol;
   address public owner;
-  address public ContributionsAddress;
 
   struct Contributor {
     uint256 balance;
@@ -23,24 +22,25 @@ contract Distense {
     bool rewarded;
   }
 
-  mapping(address => bool) public approvedAddresses;
-  mapping(string => Task) public tasks;
-  mapping(address => Contributor) public contributors;
-  mapping(string => address) public emailToAddress;
+  mapping(address => bool) approvedAddresses;
+  mapping(string => Task) tasks;
+  mapping(address => Contributor) contributors;
+  mapping(string => address) addressFromEmail;
   
   event LogContributionReward(address indexed to, uint256 numDID);
 
-  function Distense(address _approvedAddress) {
+  function Distense () {  // human-lint: ignore-space
     totalSupply = 0;
     name = "Distense DID";
     symbol = "DID";
     owner = msg.sender;
-    ContributionsAddress = _approvedAddress;
+    approvedAddresses[owner] = true;
   }
 
   function associateAccount(string _email) {
-    require(emailToAddress[_email] == 0);
-    emailToAddress[_email] = msg.sender;
+    require(addressFromEmail[_email] == 0);
+//  TODO INSECURE prevent anyone changing the email for an address
+    addressFromEmail[_email] = msg.sender;
   }
 
   function updateProfile(string _email, bytes8 _countryCode) {
@@ -60,7 +60,7 @@ contract Distense {
     mintReward(_to, tasks[_taskId].reward);
   }
 
-  function isTaskRewarded(string _id) returns (bool) {
+  function isTaskRewarded(string _id) public returns (bool) {
     return tasks[_id].rewarded;
   }
 
@@ -76,6 +76,10 @@ contract Distense {
   function transferOwnership(address _newOwner) onlyOwner {
     require(_newOwner != address(0));
     owner = _newOwner;
+  }
+
+  function getAddressFromEmail(string _email) constant returns (address) {
+    return addressFromEmail[_email];
   }
 
   function addApprovedAddress(address _validAddress) onlyOwner {
