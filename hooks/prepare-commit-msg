@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# Hook to append committers ether address for receiving Distense DID rewards.
-
-ETH_ADDRESS=$(git config user.distense)
-if [ "$ETH_ADDRESS" != "" ]; then
-  echo "Found ethAddress $ETH_ADDRESS.  Will append it to commit message."
-  grep -qs "^$ETH_ADDRESS" "$GIT_PARAMS" || echo "\nDistense: $ETH_ADDRESS" >> "$GIT_PARAMS"
-fi

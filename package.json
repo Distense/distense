@@ -6,11 +6,7 @@
   "author": "JohnAllen <johnjalleniii@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "truffle": "^3.4.4"
-  },
-  "scripts": {
-    "precommit": "hooks/pre-commit",
-    "preparecommitmsg": "hooks/prepare-commit-msg"
-  },
-  "devDependencies": {}
+    "truffle": "^3.4.4",
+    "web3": "^0.20.1"
+  }
 }
