@@ -12,7 +12,5 @@
     "precommit": "hooks/pre-commit",
     "preparecommitmsg": "hooks/prepare-commit-msg"
   },
-  "devDependencies": {
-    "husky": "^0.14.3"
-  }
+  "devDependencies": {}
 }
