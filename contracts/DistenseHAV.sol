@@ -3,7 +3,9 @@
 
 pragma solidity ^0.4.11;
 
+
 import '../math/SafeMath.sol';
+
 
 //  TODO what is the rate/number per ether? This must coincide approximately with DID rate per hour
 //  TODO add link to page about Distense and the HAV token
@@ -13,102 +15,111 @@ import '../math/SafeMath.sol';
 //  TODO are the units ok?  Can we just
 //  TODO migration options?
 //  TODO should we limit/hardcode a max % of DID?
-
+//  TODO should we forwardFunds(); somewhere or leave funds in this contract?
 
 contract DistenseHAV {
-    using SafeMath for uint256;
+  using SafeMath for uint256;
 
-    event Mint(address indexed to, uint256 amount);
-    event TokenPurchase(address indexed purchaser, uint256 value, uint256 amount);
-    event HAVSaleStatusChange(bool saleEnabled);
+  event Mint(address indexed to, uint256 amount);
 
-    mapping(address => uint256) public balancesHAV;
-    address public DIDContractAddress;
-    uint256 public maxBalanceEther;
-    uint256 public currentBalanceEther;
-    uint256 public numberForSaleEther;
-    uint256 public cumulativeEtherRaised;
-    uint256 public startBlock;
-    address public wallet;
-    uint256 public initialHAVPerEther;  // "initial" because once there is a market we will have to adjust sale price to market price
-    bool public tradingMarketExists;
-    bool saleUnderWay;
+  event TokenPurchase(address indexed purchaser, uint256 value, uint256 amount);
+
+  event LogHAVSaleStatusChange(bool saleEnabled);
+
+  mapping (address => uint256) public balancesHAV;
+
+  address public DIDContractAddress;
+  uint256 public maxBalanceEther;
+  uint256 public currentBalanceEther;
+  uint256 public numberForSaleEther;
+  uint256 public cumulativeEtherRaised;
+  uint256 public startBlock;
+  address public wallet;
+  uint256 public initialHAVPerEther;  // "initial" because once there is a market we will have to adjust sale price to market price
+  bool public tradingMarketExists;
+  bool saleUnderWay;
 
 
-    function DistenseHAV (address _wallet) {
-        wallet = _wallet;
-        maximumBalanceEther = 100000 * 1 ether;
-        initialHAVPerEther = 200;
-        require(maxBalanceEther > 0);
-        require(_startBlock >= block.number);
-        require(HAVPerEther > 0);
-        require(wallet != 0x0);
-    }
+  function DistenseHAV(address _wallet) {
+    wallet = _wallet;
+    maximumBalanceEther = 100000 * 1 ether;
+    initialHAVPerEther = 200;
+    require(maxBalanceEther > 0);
+    require(_startBlock >= block.number);
+    require(HAVPerEther > 0);
+    require(_wallet != 0x0);
+  }
 
-    function exchangeHAVForDID(address burner) onlyDIDContractAddress {
+  function exchangeHAVForDID(address burner) onlyDIDContractAddress {
 
-    }
+  }
 
-    function validPurchase() internal constant returns (bool) {
-        bool withinCap = currentBalanceEther.add(msg.value) <= maxBalanceEther;
-        if (withinCap)  return true;
+  function validPurchase() internal constant returns (bool) {
+    bool withinCap = currentBalanceEther.add(msg.value) <= maxBalanceEther;
+    //        if (withinCap)  return true;
+  }
 
-    }
+  // fallback function to buy tokens
+  function() payable {
+    buyHAVTokens(msg.sender);
+  }
 
-    // fallback function can be used to buy tokens
-    function () payable {
-        buyHAVTokens(msg.sender);
-    }
+  function buyHAVTokens(address beneficiary) payable {
+    require(beneficiary != 0x0);
+    require(approvePurchase());
 
-    // low level token purchase function
-    function buyHAVTokens(address beneficiary) payable {
-        require(beneficiary != 0x0);
-        require(validPurchase());
+    uint256 weiAmount = msg.value;
 
-        uint256 weiAmount = msg.value;
+    // calculate token amount to be created
+    uint256 newHAVTokens = weiAmount.mul(HAVPerEther);
 
-        // calculate token amount to be created
-        uint256 newHAVTokens = weiAmount.mul(HAVPerEther);
+    // update state
+    cumulativeEtherRaised = cumulativeEtherRaised.add(weiAmount);
 
-        // update state
-        cumulativeEtherRaised = cumulativeEtherRaised.add(weiAmount);
+    mint(beneficiary, newHAVTokens);
+    TokenPurchase(msg.sender, weiAmount, newHAVTokens);
+  }
 
-        token.mint(beneficiary, newHAVTokens);
-        TokenPurchase(msg.sender, weiAmount, newHAVTokens);
-        forwardFunds();
-    }
+  function mint(address _to, uint256 _amount) internal onlyOwner returns (bool) {
+    DistenseDID.burnDID(_to, _amount);
+    totalSupply = totalSupply.add(_amount);
+    balances[_to] = balances[_to].add(_amount);
+    Mint(_to, _amount);
+    return true;
+  }
 
-    //  send ether to the fund collection wallet
-    //  override to create custom fund forwarding mechanisms
-    function forwardFunds() internal {
-        wallet.transfer(msg.value);
-    }
+  //  send ether to the fund collection wallet
+  //  override to create custom fund forwarding mechanisms
+  function forwardFunds() internal {
+//    TODO wallet.transfer(msg.value);
+  }
 
-    // @return true if the transaction can buy tokens
-    function validPurchase() internal constant returns (bool) {
-        uint256 current = block.number;
-        bool nonZeroPurchase = msg.value != 0;
-        return current >= startBlock && nonZeroPurchase;
-    }
+  // @return true if the transaction can buy tokens
+  function approvePurchase() internal constant returns (bool) {
+    uint256 current = block.number;
+    bool nonZeroPurchase = msg.value != 0;
+    return current >= startBlock && nonZeroPurchase;
+  }
 
-    //  Contract sale price must be updated to reflect market price -- can't sell HAV here
-    //  if market exists and is trading > || < contract sale price
-    function tradingMarketExists(bool _tradingMarketExists) onlyOwner public returns (bool) {
-        tradingMarketExists = _tradingMarketExists;
-    }
+  //  Contract sale price must be updated to reflect market price -- can't sell HAV here
+  //  if market exists and is trading > || < contract sale price
+  function tradingMarketExists(bool _tradingMarketExists) onlyOwner public returns (bool) {
+    tradingMarketExists = _tradingMarketExists;
+  }
 
-    function numberAvailableForSale(uint256 maximumBalanceEther, uint256 currentBalanceEther) external constant returns (uint256) {
-        return maximumBalanceEther - currentBalanceEther;
-    }
+  function numberAvailableForSale() external constant returns (uint256) {
+    return maximumBalanceEther - currentBalanceEther;
+  }
 
-    function pauseSale() onlyOwner public returns (bool){
-        saleEnabled = !saleEnabled;
-        HAVSaleStatus(saleEnabled);
-    }
+  function pauseSale() onlyOwner public returns (bool){
+    saleEnabled = !saleEnabled;
+    LogHAVSaleStatusChange(saleEnabled);
+    return true;
+  }
 
-    modifier onlyDIDContractAddress () {
-        require(msg.sender == DIDContractAddress);
-        _;
-    }
+  modifier onlyDIDContractAddress() {
+    require(msg.sender == DIDContractAddress);
+    _;
+  }
 
 }
