@@ -17,7 +17,7 @@ import '../math/SafeMath.sol';
 //  TODO should we limit/hardcode a max % of DID?
 //  TODO should we forwardFunds(); somewhere or leave funds in this contract?
 
-contract DistenseHAV {
+contract HAVToken {
   using SafeMath for uint256;
 
   event Mint(address indexed to, uint256 amount);
@@ -28,7 +28,7 @@ contract DistenseHAV {
 
   mapping (address => uint256) public balancesHAV;
 
-  address public DIDContractAddress;
+  address public DIDTokenAddress;
   uint256 public maxBalanceEther;
   uint256 public currentBalanceEther;
   uint256 public numberForSaleEther;
@@ -40,7 +40,7 @@ contract DistenseHAV {
   bool saleUnderWay;
 
 
-  function DistenseHAV(address _wallet) {
+  function HAVToken (address _wallet) {
     wallet = _wallet;
     maximumBalanceEther = 100000 * 1 ether;
     initialHAVPerEther = 200;
@@ -50,7 +50,7 @@ contract DistenseHAV {
     require(_wallet != 0x0);
   }
 
-  function exchangeHAVForDID(address burner) onlyDIDContractAddress {
+  function exchangeHAVForDID(address burner) onlyDIDTokenAddress {
 
   }
 
@@ -71,13 +71,13 @@ contract DistenseHAV {
     uint256 weiAmount = msg.value;
 
     // calculate token amount to be created
-    uint256 newHAVTokens = weiAmount.mul(HAVPerEther);
+    uint256 numHAVTokens = weiAmount.mul(HAVPerEther);
 
     // update state
     cumulativeEtherRaised = cumulativeEtherRaised.add(weiAmount);
 
-    mint(beneficiary, newHAVTokens);
-    TokenPurchase(msg.sender, weiAmount, newHAVTokens);
+    mint(beneficiary, numHAVTokens);
+    TokenPurchase(msg.sender, weiAmount, numHAVTokens);
   }
 
   function mint(address _to, uint256 _amount) internal onlyOwner returns (bool) {
@@ -117,8 +117,8 @@ contract DistenseHAV {
     return true;
   }
 
-  modifier onlyDIDContractAddress() {
-    require(msg.sender == DIDContractAddress);
+  modifier onlyDIDTokenAddress() {
+    require(msg.sender == DIDTokenAddress);
     _;
   }
 
