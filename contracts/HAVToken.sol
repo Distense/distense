@@ -1,6 +1,7 @@
 // Distense is a decentralized, for-profit code cooperative
 // Anyone can contribute
 
+// INSECURE/INSECURE/INSECURE/INSECURE/INSECURE/INSECURE/INSECURE/INSECURE/INSECURE/INSECURE/INSECURE/INSECURE/INSECURE/INSECURE/INSECURE
 pragma solidity ^0.4.11;
 
 
@@ -28,24 +29,30 @@ contract HAVToken {
 
   mapping (address => uint256) public balancesHAV;
 
+  uint256 public numHAVOutstanding;
   address public DIDTokenAddress;
   uint256 public maxBalanceEther;
   uint256 public currentBalanceEther;
-  uint256 public numberForSaleEther;
-  uint256 public cumulativeEtherRaised;
-  uint256 public startBlock;
+  uint256 public numHAVForSale;
+  uint256 public cumEtherRaised;
   address public wallet;
   uint256 public initialHAVPerEther;  // "initial" because once there is a market we will have to adjust sale price to market price
   bool public tradingMarketExists;
-  bool saleUnderWay;
+  bool saleActive;
 
 
   function HAVToken (address _wallet) {
-    wallet = _wallet;
-    maximumBalanceEther = 100000 * 1 ether;
+
+    name = "Distense HAV";
+    symbol = "HAV";
+    numHAVOutstanding = 0;
+    numContributors = 0;
+
+    wallet = _wallet; // TODO
+    maximumBalanceEther = maxBalanceEther * 1 ether;
     initialHAVPerEther = 200;
+
     require(maxBalanceEther > 0);
-    require(_startBlock >= block.number);
     require(HAVPerEther > 0);
     require(_wallet != 0x0);
   }
@@ -77,28 +84,33 @@ contract HAVToken {
     cumulativeEtherRaised = cumulativeEtherRaised.add(weiAmount);
 
     mint(beneficiary, numHAVTokens);
-    TokenPurchase(msg.sender, weiAmount, numHAVTokens);
+    HAVPurchase(msg.sender, weiAmount, numHAVTokens);
   }
 
   function mint(address _to, uint256 _amount) internal onlyOwner returns (bool) {
-    DistenseDID.burnDID(_to, _amount);
-    totalSupply = totalSupply.add(_amount);
-    balances[_to] = balances[_to].add(_amount);
-    Mint(_to, _amount);
-    return true;
+
+    bool burnDIDSuccess = DIDToken.exchangeDIDForHAV(_to, _amount);
+    if (burnDIDSuccess) {
+      totalSupply = totalSupply.add(_amount);
+      balances[_to] = balances[_to].add(_amount);
+      Mint(_to, _amount);
+      return true;
+    } else {
+
+  }
   }
 
   //  send ether to the fund collection wallet
   //  override to create custom fund forwarding mechanisms
   function forwardFunds() internal {
-//    TODO wallet.transfer(msg.value);
+    //    TODO wallet.transfer(msg.value);
   }
 
   // @return true if the transaction can buy tokens
   function approvePurchase() internal constant returns (bool) {
     uint256 current = block.number;
     bool nonZeroPurchase = msg.value != 0;
-    return current >= startBlock && nonZeroPurchase;
+    return nonZeroPurchase && saleActive;
   }
 
   //  Contract sale price must be updated to reflect market price -- can't sell HAV here
@@ -108,12 +120,12 @@ contract HAVToken {
   }
 
   function numberAvailableForSale() external constant returns (uint256) {
-    return maximumBalanceEther - currentBalanceEther;
+    return maxBalanceEther - currentBalanceEther;
   }
 
   function pauseSale() onlyOwner public returns (bool){
-    saleEnabled = !saleEnabled;
-    LogHAVSaleStatusChange(saleEnabled);
+    saleActive = !saleActive;
+    LogHAVSaleStatusChange(saleActive);
     return true;
   }
 
