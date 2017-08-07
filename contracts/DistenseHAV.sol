@@ -29,22 +29,18 @@ contract DistenseHAV {
     uint256 public numberForSaleEther;
     uint256 public startBlock;
     address public wallet;
-    uint256 public rate;
+    uint256 public HAVPerEther;
     bool public tradingMarketExists;
     bool saleEnabled;
 
 
-    function DistenseHAV (uint256 _startBlock/*, /* TODO address _wallet */) {
-        token = createTokenContract();
-        startBlock = _startBlock;
-        endBlock = _endBlock;
-        rate = _rate;
+    function DistenseHAV (/*, TODO address _wallet */) {
         wallet = _wallet;
         maximumBalanceEther = 100000 * 1 ether;
-        require(_cap > 0);
-        rate = 200;
+        HAVPerEther = 200;
+        require(maximumBalanceEther > 0);
         require(_startBlock >= block.number);
-        require(rate > 0);
+        require(HAVPerEther > 0);
         require(wallet != 0x0);
     }
 
@@ -75,14 +71,13 @@ contract DistenseHAV {
         uint256 weiAmount = msg.value;
 
         // calculate token amount to be created
-        uint256 tokens = weiAmount.mul(rate);
+        uint256 newHAVTokens = weiAmount.mul(rate);
 
         // update state
         weiRaised = weiRaised.add(weiAmount);
 
-        token.mint(beneficiary, tokens);
-        TokenPurchase(msg.sender, beneficiary, weiAmount, tokens);
-
+        token.mint(beneficiary, newHAVTokens);
+        TokenPurchase(msg.sender, weiAmount, newHAVTokens);
         forwardFunds();
     }
 
