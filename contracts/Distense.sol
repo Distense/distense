@@ -1,52 +1,89 @@
 pragma solidity ^0.4.11;
 
-import './lib/SafeMath.sol';
+import './lib/AddressUtils.sol';
+import './lib/StringUtils.sol';
+import './lib/StringArrayUtils.sol';
 
-contract Distense {
-  using SafeMath for uint256;
+import './lib/Approvable.sol';
+import './lib/Ownable.sol';
 
-  uint256 public totalSupply;
-  string public name;
-  string public symbol;
-  uint8 public decimals;  // TODO https://ethereum.stackexchange.com/questions/9256/float-not-allowed-in-solidity-vs-decimal-places-asked-for-token-contract?rq=1
+contract Distense is Ownable, Approvable {
+  using AddressUtils for address;
+  using StringUtils for string;
+  using StringArrayUtils for string[];
 
-  struct Contributor {
-    uint256 balance;
-    string email;
-    bytes8 countryCode;
-  }
-  
-  mapping(address => Contributor) public contributors;
-  mapping(bytes32 => address) public emailToAddress;
-  
-  event LogContributionReward(address indexed to, uint256 numDID);
-
-  function Distense() {
-    totalSupply = 0;
-    name = "Distense DID";
-    symbol = "DID";
-    decimals = 1;
+  enum ObjectType { tag, commit, tree, blob }
+  struct GitObject {
+    ObjectType objectType;
+    string ipfsHash;
   }
 
-  function associateAccount(bytes32 _email) {
-    require(emailToAddress[_email] == 0);
-
-    emailToAddress[_email] = msg.sender;
+  struct Repo {
+    string metaHash;
+    mapping(address => string[]) refNames;
+    mapping(string => mapping(address => string)) refs;
+    mapping(string => GitObject) objects;
   }
 
-  function updateProfile(string _email, bytes8 _countryCode) {
-    contributors[msg.sender].email = _email;
-    contributors[msg.sender].countryCode = _countryCode;
+  string[] public repoNames;
+  mapping(string => Repo) repos;
+
+  modifier repoExists(string _repoName) {
+    require(repoNames.contains(_repoName));
+    _;
   }
 
-  function mint(address _to, uint256 _amount) /*onlyContributorContract TODO */ returns (bool) {
-    totalSupply = totalSupply.add(_amount);
-    contributors[_to].balance = contributors[_to].balance.add(_amount);
-    LogContributionReward(_to, _amount);
-    return true;
+  modifier onlyRefOwner(address _refOwner) {
+    require(_refOwner == msg.sender);
+    _;
   }
 
-  function balanceOf(address _owner) constant returns (uint256 balance) {
-    return contributors[_owner].balance;
+  function addRepo(string _repoName, string _metaHash) onlyApproved {
+    require(!repoNames.contains(_repoName));
+
+    repoNames.push(_repoName);
+    repos[_repoName].metaHash = _metaHash;
   }
+
+  function removeRepo(string _repoName) onlyApproved repoExists(_repoName) {
+    repoNames.remove(_repoName);
+  }
+
+  function setMetaHash(string _repoName, string _metaHash) onlyApproved repoExists(_repoName) {
+    repos[_repoName].metaHash = _metaHash;
+  }
+
+  function addObject(string _repoName, string _gitHash, ObjectType _type, string _ipfsHash) repoExists(_repoName) {
+    repos[_repoName].objects[_gitHash] = GitObject(_type, _ipfsHash);
+  }
+
+  function getObject(string _repoName, string _gitHash) repoExists(_repoName) constant returns (ObjectType, string) {
+    GitObject _object = repos[_repoName].objects[_gitHash];
+    require(!_object.ipfsHash.equal(""));
+    return (_object.objectType, _object.ipfsHash);
+  }
+
+  function setRef(string _repoName, address _refOwner, string _refName, string _gitHash) onlyRefOwner(_refOwner) repoExists(_repoName) {
+    if (!repos[_repoName].refNames[_refOwner].contains(_refName)) {
+      repos[_repoName].refNames[_refOwner].push(_refName);
+    }
+
+    repos[_repoName].refs[_refName][_refOwner] = _gitHash;
+  }
+
+  function removeRef(string _repoName, address _refOwner, string _refName) onlyRefOwner(_refOwner) repoExists(_repoName) {
+    require(repos[_repoName].refNames[_refOwner].contains(_refName));
+
+    repos[_repoName].refNames[_refOwner].remove(_refName);
+  }
+
+  function getRef(string _repoName, address _refOwner, uint _index) repoExists(_repoName) constant returns (string, string) {
+    string _refName = repos[_repoName].refNames[_refOwner][_index];
+    return (_refName, repos[_repoName].refs[_refName][_refOwner]);
+  }
+
+  function getRefCount(string _repoName, address _refOwner) repoExists(_repoName) constant returns (uint) {
+    return repos[_repoName].refNames[_refOwner].length;
+  }
+
 }

@@ -1,7 +1,7 @@
+const DIDToken = artifacts.require('./DIDToken.sol')
 const Distense = artifacts.require('./Distense.sol')
-const QueryContributors = artifacts.require('./QueryContributors.sol')
 
-module.exports = function(deployer) {
+module.exports = deployer => {
+  deployer.deploy(DIDToken)
   deployer.deploy(Distense)
-  deployer.deploy(QueryContributors)
 }
