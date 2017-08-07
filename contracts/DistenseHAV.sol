@@ -24,21 +24,22 @@ contract DistenseHAV {
 
     mapping(address => uint256) public balancesHAV;
     address public DIDContractAddress;
-    uint256 public maximumBalanceEther;
+    uint256 public maxBalanceEther;
     uint256 public currentBalanceEther;
     uint256 public numberForSaleEther;
+    uint256 public cumulativeEtherRaised;
     uint256 public startBlock;
     address public wallet;
-    uint256 public HAVPerEther;
+    uint256 public initialHAVPerEther;  // "initial" because once there is a market we will have to adjust sale price to market price
     bool public tradingMarketExists;
-    bool saleEnabled;
+    bool saleUnderWay;
 
 
-    function DistenseHAV (/*, TODO address _wallet */) {
+    function DistenseHAV (address _wallet) {
         wallet = _wallet;
         maximumBalanceEther = 100000 * 1 ether;
-        HAVPerEther = 200;
-        require(maximumBalanceEther > 0);
+        initialHAVPerEther = 200;
+        require(maxBalanceEther > 0);
         require(_startBlock >= block.number);
         require(HAVPerEther > 0);
         require(wallet != 0x0);
@@ -49,32 +50,28 @@ contract DistenseHAV {
     }
 
     function validPurchase() internal constant returns (bool) {
-        bool withinCap = currentBalanceEther.add(msg.value) <= cap;
-        return super.validPurchase() && withinCap;
-    }
+        bool withinCap = currentBalanceEther.add(msg.value) <= maxBalanceEther;
+        if (withinCap)  return true;
 
-    function hasEnded() public constant returns (bool) {
-        bool capReached = weiRaised >= cap;
-        return super.hasEnded() || capReached;
     }
 
     // fallback function can be used to buy tokens
     function () payable {
-        buyTokens(msg.sender);
+        buyHAVTokens(msg.sender);
     }
 
     // low level token purchase function
-    function buyTokens(address beneficiary) payable {
+    function buyHAVTokens(address beneficiary) payable {
         require(beneficiary != 0x0);
         require(validPurchase());
 
         uint256 weiAmount = msg.value;
 
         // calculate token amount to be created
-        uint256 newHAVTokens = weiAmount.mul(rate);
+        uint256 newHAVTokens = weiAmount.mul(HAVPerEther);
 
         // update state
-        weiRaised = weiRaised.add(weiAmount);
+        cumulativeEtherRaised = cumulativeEtherRaised.add(weiAmount);
 
         token.mint(beneficiary, newHAVTokens);
         TokenPurchase(msg.sender, weiAmount, newHAVTokens);
