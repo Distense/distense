@@ -48,7 +48,7 @@ contract HAVToken {
     name = "Distense HAV";
     symbol = "HAV";
     numHAVOutstanding = 314; // For UI testing
-    wallet = _wallet; // TODO research
+    wallet = msg.sender; // TODO research contract wallets
     maxBalanceEther = maxBalanceEther * 1 ether;  // TODO is this right?  basically a type conversion behind the scenes?
     HAVPerEther = 200;
 
