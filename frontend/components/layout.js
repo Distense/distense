@@ -111,6 +111,10 @@ export default ({ children, title }) => (
       img {
         display: block;
       }
+
+      .center {
+        margin: auto;
+      }
     `}</style>
   </div>
 )
