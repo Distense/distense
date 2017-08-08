@@ -1,0 +1,19 @@
+{
+  "name": "distense",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "next": "^2.4.7",
+    "next-routes": "^1.0.40",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-plugin-inline-react-svg": "^0.4.0"
+  }
+}
