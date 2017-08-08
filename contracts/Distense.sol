@@ -28,10 +28,6 @@ contract Distense is Ownable, Approvable {
   string[] public repoNames;
   mapping(string => Repo) repos;
 
-  function Distense() {
-  
-  }
-
   modifier repoExists(string _repoName) {
     require(repoNames.contains(_repoName));
     _;

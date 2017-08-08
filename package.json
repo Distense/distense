@@ -1,12 +1,25 @@
 {
-  "name": "contracts",
+  "name": "distense",
   "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:Distense/contracts.git",
+  "repository": "git@github.com:Distense/distense.git",
   "author": "JohnAllen <johnjalleniii@gmail.com>",
   "license": "MIT",
+  "engines" : {
+    "node" : ">=8.0.0"
+  },
   "dependencies": {
+    "ipfs": "^0.25.1",
+    "lodash": "^4.17.4",
+    "multicb": "^1.2.2",
+    "pull-git-remote-helper": "^2.0.0",
+    "pull-stream": "^3.6.0",
+    "stream-to-pull-stream": "^1.7.2",
     "truffle": "^3.4.4",
-    "web3": "^0.20.1"
+    "truffle-contract": "^2.0.5",
+    "web3": "^0.19.1"
+  },
+  "main": "index.js",
+  "bin": {
+    "git-remote-distense": "./bin/git-remote-distense"
   }
 }
