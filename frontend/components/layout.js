@@ -14,7 +14,7 @@ export default ({ children, title }) => (
 
     <header>
       <div className='container'>
-        <nav>
+        <nav className="navbar">
           <Link route='/'>
             <a className='logoIcon'>
               <LogoIcon width={32} height={32} />
@@ -23,6 +23,7 @@ export default ({ children, title }) => (
           <div style={{ width: 12 }} />
           <Link route='/about'><a>About</a></Link>
         </nav>
+
       </div>
     </header>
 
@@ -79,6 +80,7 @@ export default ({ children, title }) => (
         flex-direction: row;
         align-items: center;
         height: 64px;
+        border-bottom: 1px solid lightgray;
       }
 
       .logoIcon {
