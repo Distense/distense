@@ -50,7 +50,7 @@ const helper = gitRemoteHelper({
       repo.setRef(refName, gitHash).then(() => {
         readUpdates(null, nextUpdate)
       }).catch(err => {
-        // console.error('readUpdates err', err)
+        console.error('readUpdates err', err)
         doneReadingUpdates(err)
       })
     })
@@ -67,7 +67,7 @@ const helper = gitRemoteHelper({
           repo.addObject(object, buffer).then((tx) => {
             readObjects(null, nextObject)
           }).catch(err => {
-            // console.error('readObjects err', err)
+            console.error('readObjects err', err)
             doneReadingObjects(err)
           })
         })

@@ -42,4 +42,20 @@ program
     process.exit()
   })
 
+program
+  .command('create <repo>')
+  .description('Create a Distense repository in the cwd')
+  .action(async (repoName) => {
+    const origin = distenseUrl(program.address, repoName)
+    const repo = new Repo(origin)
+    const contractAddress = await repo.contractAddress()
+    const upstream = distenseUrl(contractAddress, repoName)
+
+    await git.addRemote('origin', origin)
+    await git.addRemote('upstream', upstream)
+    await repo.create()
+
+    process.exit()
+  })
+
 program.parse(process.argv)

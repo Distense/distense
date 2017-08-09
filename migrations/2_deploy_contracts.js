@@ -4,6 +4,6 @@ const Distense = artifacts.require('./Distense.sol')
 
 module.exports = deployer => {
   deployer.deploy(DIDToken)
-  deployer.deploy(HAVToken)
+  // deployer.deploy(HAVToken)
   deployer.deploy(Distense)
 }
