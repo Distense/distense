@@ -4,15 +4,17 @@
   "repository": "git@github.com:Distense/distense.git",
   "author": "JohnAllen <johnjalleniii@gmail.com>",
   "license": "MIT",
-  "engines" : {
-    "node" : ">=8.0.0"
+  "engines": {
+    "node": ">=8.0.0"
   },
   "dependencies": {
+    "commander": "^2.11.0",
     "ipfs": "^0.25.1",
     "lodash": "^4.17.4",
     "multicb": "^1.2.2",
     "pull-git-remote-helper": "^2.0.0",
     "pull-stream": "^3.6.0",
+    "simple-git": "^1.75.0",
     "stream-to-pull-stream": "^1.7.2",
     "truffle": "^3.4.4",
     "truffle-contract": "^2.0.5",
@@ -20,6 +22,7 @@
   },
   "main": "index.js",
   "bin": {
+    "distense": "./bin/distense",
     "git-remote-distense": "./bin/git-remote-distense"
   }
 }
