@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+
+const path = require('path')
+const url = require('url')
+const program = require('commander')
+const git = require('simple-git/promise')()
+const Web3 = require('web3')
+
+const Repo = require('../lib/Repo')
+
+git.outputHandler((_, stdout, stderr) => {
+  // stdout.pipe(process.stdout);
+  // stderr.pipe(process.stderr);
+})
+
+const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+const { coinbase } = web3.eth
+
+const distenseUrl = (address, repoName) => `distense://${address}/${repoName}`
+
+program
+  .version('0.1.0')
+  .option('-a, --address [eth address]', `Your ethereum address [${coinbase}]`, coinbase)
+
+program
+  .command('clone <repo> [<dir>]')
+  .description('Clone a Distense repository')
+  .action(async (repoName, dir) => {
+    dir = dir || repoName
+
+    const origin = distenseUrl(program.address, repoName)
+
+    const gitRepo = await git.clone(origin, dir)
+
+    const repo = new Repo(origin)
+    const contractAddress = await repo.contractAddress()
+    const upstream = distenseUrl(contractAddress, repoName)
+
+    git.cwd(path.resolve(dir))
+    await git.addRemote('upstream', upstream)
+
+    process.exit()
+  })
+
+program.parse(process.argv)
