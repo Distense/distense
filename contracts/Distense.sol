@@ -3,11 +3,9 @@ pragma solidity ^0.4.11;
 import './lib/AddressUtils.sol';
 import './lib/StringUtils.sol';
 import './lib/StringArrayUtils.sol';
-
-import './lib/Approvable.sol';
 import './lib/Ownable.sol';
 
-contract Distense is Ownable, Approvable {
+contract Distense is Ownable {
   using AddressUtils for address;
   using StringUtils for string;
   using StringArrayUtils for string[];
@@ -19,7 +17,7 @@ contract Distense is Ownable, Approvable {
   }
 
   struct Repo {
-    string metaHash;
+    mapping(address => bool) owners;
     mapping(address => string[]) refNames;
     mapping(string => mapping(address => string)) refs;
     mapping(string => GitObject) objects;
@@ -29,28 +27,34 @@ contract Distense is Ownable, Approvable {
   mapping(string => Repo) repos;
 
   modifier repoExists(string _repoName) {
-    require(repoNames.contains(_repoName));
+    require(repoNames.contains(_repoName) && repos[_repoName].owners[msg.sender]);
     _;
   }
 
   modifier onlyRefOwner(address _refOwner) {
-    require(_refOwner == msg.sender);
+    // TEMPORARY! This allows anyone to push to the contract's remote
+    require(_refOwner == msg.sender || _refOwner == address(this));
+    // require(_refOwner == msg.sender);
     _;
   }
 
-  function addRepo(string _repoName, string _metaHash) onlyApproved {
-    require(!repoNames.contains(_repoName));
-
-    repoNames.push(_repoName);
-    repos[_repoName].metaHash = _metaHash;
+  function _addRepoOwner(string _repoName, address _repoOwner) private {
+    if (!repos[_repoName].owners[_repoOwner]) {
+      repos[_repoName].owners[_repoOwner] = true;
+    }
   }
 
-  function removeRepo(string _repoName) onlyApproved repoExists(_repoName) {
-    repoNames.remove(_repoName);
+  function addRepo(string _repoName) {
+    if (!repoNames.contains(_repoName)) {
+      repoNames.push(_repoName);
+    }
+
+    _addRepoOwner(_repoName, owner);
+    _addRepoOwner(_repoName, msg.sender);
   }
 
-  function setMetaHash(string _repoName, string _metaHash) onlyApproved repoExists(_repoName) {
-    repos[_repoName].metaHash = _metaHash;
+  function removeRepo(string _repoName) repoExists(_repoName) {
+    repos[_repoName].owners[msg.sender] = false;
   }
 
   function addObject(string _repoName, string _gitHash, ObjectType _type, string _ipfsHash) repoExists(_repoName) {
