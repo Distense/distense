@@ -20,8 +20,16 @@ export default ({ children, title }) => (
               <LogoIcon width={32} height={32} />
             </a>
           </Link>
-          <div style={{ width: 12 }} />
+          <div style={{ width: 25 }} />
           <Link route='/about'><a>About</a></Link>
+          <div style={{ width: 25 }} />
+          <Link>
+            <a href="https://docs.google.com/spreadsheets/d/1bVDd4Zd5yWrnTMXUY-AT1wvJtXLjcBI3ALc6vCgojeQ/edit#gid=1541435125">
+              Contribute
+            </a>
+          </Link>
+          {/*<div style={{ width: 25 }} />*/}
+          {/* TODO <Link><a href="slack">Slack</a></Link>*/}
         </nav>
 
       </div>
