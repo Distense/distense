@@ -1,10 +1,8 @@
 import { Link } from '../routes'
-import Layout from '../components/layout'
+import Head from '../components/Head'
 
 export default () => (
-  <Layout>
-    <div>
-      <img src="./static/banner-logo.png"/>
-    </div>
-  </Layout>
+  <div className="container">
+    <Head />
+  </div>
 )

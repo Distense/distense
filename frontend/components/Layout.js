@@ -1,17 +1,8 @@
-import Head from 'next/head'
 import { Link } from '../routes'
-
 import LogoIcon from '../static/icon.svg'
 
 export default ({ children, title }) => (
   <div>
-    <Head>
-      <title>{ title ? `${title} - Distense` : 'Distense' }</title>
-      <meta charSet='utf-8' />
-      <meta name='viewport' content='initial-scale=1.0, width=device-width' />
-      <link rel='shortcut icon' type='image/png' href='/favicon.png' />
-    </Head>
-
     <header>
       <div className='container'>
         <nav className="navbar">
