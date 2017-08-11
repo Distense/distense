@@ -90,32 +90,5 @@ export default ({ children, title }) => (
         opacity: 0.8;
       }
     `}</style>
-
-    <style jsx global>{`
-      body {
-        margin: 0;
-        background: #fff;
-        font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Fira Sans", Avenir, "Helvetica Neue", "Lucida Grande", sans-serif;
-      }
-
-      hr {
-        border: none;
-        height: 1px;
-        background: #ccc;
-      }
-
-      a {
-        text-decoration: none;
-        color: #3CA3DC;
-      }
-
-      img {
-        display: block;
-      }
-
-      .center {
-        margin: auto;
-      }
-    `}</style>
   </div>
 )
