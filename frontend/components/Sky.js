@@ -1,4 +1,5 @@
 import ms from 'ms'
+import React from 'react'
 import * as THREE from 'three'
 import {
   Renderer,
@@ -208,22 +209,14 @@ const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff })
 const sunGeometry = new THREE.SphereBufferGeometry(20000, 16, 8)
 
 const secondsPerDay = 10
-const timeStart = Date.now()
 
-export default timeNow(({ width, height, scrollPosition, timeNow }) => {
-  // const scrollY = Math.min(scrollPosition, height)
-  const scrollY = scrollPosition
-  // const angle = Math.PI / (((height - scrollY) / height) * 6)
-  const angle = Math.PI / 6
-  const rotation = new THREE.Quaternion().setFromAxisAngle(uz, angle)
+const angle = Math.PI / 6
+const rotation = new THREE.Quaternion().setFromAxisAngle(uz, angle)
 
-  const timeOfDay = (scrollY / height) * secondsPerDay
-  const percentOfDay = timeOfDay / secondsPerDay
-
+export default ({ width, height, percentOfDay = 0 }) => {
   const effectController = {
-    inclination: 0.5 * (1 - (percentOfDay * 0.1)),
-    // azimuth: 0.5 * percentOfDay,
-    azimuth: 0.25,
+    inclination: 0.5 * percentOfDay,
+    azimuth: 0.3,
   }
 
   const distance = 460000
@@ -273,4 +266,4 @@ export default timeNow(({ width, height, scrollPosition, timeNow }) => {
       </Scene>
     </Renderer>
   )
-}, ms('60ms'))
+}

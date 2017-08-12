@@ -39,7 +39,7 @@ export default () => (
     (<a target="_blank" href="https://docs.google.com/drawings/d/1Iq3akRp4RBnkdwRgVxASD5q44SFYFQ1AEYM096di1XE/edit">
     <small>Become a contributor and edit this drawing</small>
   </a>)
-    <div className="center">
+    <div>
       <img src="./static/distense-versus-industrial.png"/>
     </div>
 

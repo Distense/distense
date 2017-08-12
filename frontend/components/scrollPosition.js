@@ -2,7 +2,7 @@ import { Component } from 'react'
 
 const windowScrollTop = () => window.pageYOffset || document.documentElement.scrollTop
 
-export default (ComposedComponent, interval = 20) => class ScrollPosition extends Component {
+export default (ComposedComponent, interval = 16) => class ScrollPosition extends Component {
   constructor() {
     super()
 
