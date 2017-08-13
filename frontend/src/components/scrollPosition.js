@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 
 const windowScrollTop = () => window.pageYOffset || document.documentElement.scrollTop
 
