@@ -42,28 +42,27 @@ class Home extends Component {
   onSubmitEmail = (e) => {
     e.preventDefault()
 
-    this.input.blur()
-
     this.setState({
-      emailSubmitSuccess: true,
-      email: ''
+      emailSubmitSuccess: true
     })
 
-    setTimeout(() => {
-      this.setState({ emailSubmitSuccess: null })
-    }, ms('2s'))
+    fetch('https://xe6au48aog.execute-api.us-west-2.amazonaws.com/prod/mailchimpLambda', {
+      method: 'POST',
+      body: JSON.stringify({ email: this.state.email })
+    })
   }
 
   render() {
     const { windowWidth, windowHeight } = this.props
     const { email, emailFocused, emailSubmitSuccess } = this.state
+    const percentOfDay = emailSubmitSuccess ? 0.9 : (email || emailFocused ? 0.98 : 1)
 
     return (
       <div className='container'>
         <Head />
 
         <div className='sky'>
-          <Motion style={{ percentOfDay: spring(email || emailFocused ? 0.98 : 1) }}>
+          <Motion style={{ percentOfDay: spring(percentOfDay) }}>
             {({ percentOfDay }) =>
               <Sky
                 width={windowWidth}
@@ -79,20 +78,26 @@ class Home extends Component {
             <div>
               <h1>Đistense</h1>
               <h2>A decentralized, for-profit code cooperative</h2>
-              <form className='email-form' onSubmit={this.onSubmitEmail}>
-                <input
-                  ref={i => this.input = i}
-                  type='email'
-                  placeholder='Email me updates'
-                  value={email}
-                  onFocus={this.onFocusEmail}
-                  onBlur={this.onBlurEmail}
-                  onChange={this.onChangeEmail}
-                />
-                <button type='submit' className={emailSubmitSuccess && 'success'} disabled={!email}>
-                  <Icon name={emailSubmitSuccess ? 'check' : 'chevron-right'} />
-                </button>
-              </form>
+              {emailSubmitSuccess ?
+                <div className='email-form-success'>
+                  Thanks, we'll update you soon!
+                </div>
+                :
+                <form className='email-form' onSubmit={this.onSubmitEmail}>
+                  <input
+                    ref={i => this.input = i}
+                    type='email'
+                    placeholder='Email me updates'
+                    value={email}
+                    onFocus={this.onFocusEmail}
+                    onBlur={this.onBlurEmail}
+                    onChange={this.onChangeEmail}
+                  />
+                  <button type='submit' className={email && 'show'} disabled={!email}>
+                    <Icon name={emailSubmitSuccess ? 'check' : 'chevron-right'} />
+                  </button>
+                </form>
+              }
             </div>
           </div>
         </header>
@@ -113,6 +118,10 @@ class Home extends Component {
         <style jsx>{`
           .container {
             padding-top: 100vh;
+          }
+
+          .show {
+            opacity: 1;
           }
 
           .max-width {
@@ -140,8 +149,14 @@ class Home extends Component {
             top: 30vh;
           }
 
-          .email-form {
+          .email-form, .email-form-success {
             margin-top: 3rem;
+          }
+
+          .email-form-success {
+            font-size: 1.2rem;
+            color: #f5eec5;
+            padding: 1rem 0;
           }
 
           nav {
@@ -230,14 +245,11 @@ class Home extends Component {
             font-size: 1.5rem;
             color: rgba(255, 255, 255, 0.4);
             height: 100%;
+            opacity: 0;
           }
 
           button:hover {
             color: #fff;
-          }
-
-          .success, .success:hover {
-            color: #35FD55;
           }
         `}</style>
       </div>
