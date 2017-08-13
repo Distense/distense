@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import Icon from 'react-fontawesome'
 import { Motion, spring } from 'react-motion'
 import windowSize from 'react-window-size'
 import ms from 'ms'
 
-import { Link } from '../routes'
 import scrollPosition from '../components/scrollPosition'
 import Head from '../components/Head'
 import Sky from '../components/Sky'
@@ -13,15 +13,11 @@ const heroTop = (height, top) => Math.max(0, (height / 3) * (1 - (top / height))
 
 const Nav = () => (
   <nav>
-    <Link route='/about'><a>About</a></Link>
-    <div style={{ width: 25 }} />
-    <Link route='/about'><a>About</a></Link>
-    <div style={{ width: 25 }} />
-    <Link route='/about'><a>About</a></Link>
+    <Link to='/about'>About</Link>
   </nav>
 )
 
-class Index extends Component {
+class Home extends Component {
   constructor(props) {
     super(props)
     
@@ -249,4 +245,4 @@ class Index extends Component {
   }
 }
 
-export default windowSize(scrollPosition(Index))
+export default windowSize(scrollPosition(Home))

@@ -1,26 +1,18 @@
-import { Link } from '../routes'
-import LogoIcon from '../static/icon.svg'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default ({ children, title }) => (
   <div>
     <header>
       <div className='container'>
         <nav className="navbar">
-          <Link route='/'>
-            <a className='logoIcon'>
-              <LogoIcon width={32} height={32} />
-            </a>
-          </Link>
+          <Link to='/'>Distense</Link>
           <div style={{ width: 25 }} />
-          <Link route='/about'><a>About</a></Link>
+          <Link to='/about'>About</Link>
           <div style={{ width: 25 }} />
-          <Link>
-            <a href="https://docs.google.com/spreadsheets/d/1bVDd4Zd5yWrnTMXUY-AT1wvJtXLjcBI3ALc6vCgojeQ/edit#gid=1541435125">
-              Contribute
-            </a>
+          <Link to='//docs.google.com/spreadsheets/d/1bVDd4Zd5yWrnTMXUY-AT1wvJtXLjcBI3ALc6vCgojeQ/edit#gid=1541435125'>
+            Contribute
           </Link>
-          {/*<div style={{ width: 25 }} />*/}
-          {/* TODO <Link><a href="slack">Slack</a></Link>*/}
         </nav>
 
       </div>
@@ -35,9 +27,6 @@ export default ({ children, title }) => (
     <footer>
       <div className='container'>
         <div className='footerContent'>
-          <div className='footerIcon'>
-            <LogoIcon width={16} height={16} />
-          </div>
           © {new Date().getFullYear()} Distense
         </div>
       </div>
@@ -62,16 +51,6 @@ export default ({ children, title }) => (
         margin-top: 32px;
         border-top: 1px solid #eee;
         font-size: 0.8rem;
-      }
-
-      .footerIcon {
-        position: absolute;
-        left: 50%;
-        margin-left: -8px;
-      }
-
-      .footerIcon :global(*) {
-        fill: #eee;
       }
 
       nav {

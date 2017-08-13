@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import ms from 'ms'
 
 export default (ComposedComponent, interval = ms('1min')) => class TimeNow extends Component {
