@@ -1,17 +1,27 @@
 {
   "name": "distense",
   "private": true,
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
+    "export": "next export",
+    "deploy": "now --public",
     "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "express": "^4.15.3",
-    "next": "^2.4.7",
+    "next": "^3.0.3",
     "next-routes": "^1.0.40",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-fontawesome": "^1.6.1",
+    "react-motion": "^0.5.0",
+    "react-three": "^0.9.7",
+    "react-window-size": "^1.1.0",
+    "three": "^0.86.0",
     "truffle-contract": "^2.0.5",
     "web3": "^1.0.0-beta.18"
   },

@@ -1,17 +1,8 @@
-import Head from 'next/head'
 import { Link } from '../routes'
-
 import LogoIcon from '../static/icon.svg'
 
 export default ({ children, title }) => (
   <div>
-    <Head>
-      <title>{ title ? `${title} - Distense` : 'Distense' }</title>
-      <meta charSet='utf-8' />
-      <meta name='viewport' content='initial-scale=1.0, width=device-width' />
-      <link rel='shortcut icon' type='image/png' href='/favicon.png' />
-    </Head>
-
     <header>
       <div className='container'>
         <nav className="navbar">
@@ -97,33 +88,6 @@ export default ({ children, title }) => (
 
       .logoIcon:hover {
         opacity: 0.8;
-      }
-    `}</style>
-
-    <style jsx global>{`
-      body {
-        margin: 0;
-        background: #fff;
-        font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Fira Sans", Avenir, "Helvetica Neue", "Lucida Grande", sans-serif;
-      }
-
-      hr {
-        border: none;
-        height: 1px;
-        background: #ccc;
-      }
-
-      a {
-        text-decoration: none;
-        color: #3CA3DC;
-      }
-
-      img {
-        display: block;
-      }
-
-      .center {
-        margin: auto;
       }
     `}</style>
   </div>
