@@ -7,7 +7,10 @@
     "ipfs": "^0.25.1",
     "ms": "^2.0.0",
     "react": "^15.6.1",
+    "react-autocomplete": "^1.5.10",
     "react-dom": "^15.6.1",
+    "react-fontawesome": "^1.6.1",
+    "react-select-popover": "^0.1.1",
     "react-fontawesome": "^1.6.1",
     "react-helmet": "^5.1.3",
     "react-motion": "^0.5.0",
@@ -19,7 +22,8 @@
     "styled-jsx": "^1.0.10",
     "three": "^0.86.0",
     "truffle-contract": "^2.0.5",
-    "web3": "^1.0.0-beta.18"
+    "web3": "0.20.0",
+    "web3-core-requestmanager": "^1.0.0-beta.18"
   },
   "scripts": {
     "start": "react-scripts start",
