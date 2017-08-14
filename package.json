@@ -2,7 +2,7 @@
   "name": "distense",
   "version": "1.0.0",
   "repository": "git@github.com:Distense/distense.git",
-  "author": "JohnAllen <johnjalleniii@gmail.com>",
+  "author": "The Distense Contributors",
   "license": "MIT",
   "engines": {
     "node": ">=8.0.0"
