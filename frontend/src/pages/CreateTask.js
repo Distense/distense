@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Autocomplete from 'react-autocomplete'
-
+import ipfs from 'ipfs'
 
 import web3, {
   selectContractInstance, mapReponseToJSON
@@ -8,6 +8,25 @@ import web3, {
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
+
+let styles = {
+  item: {
+    padding: '2px 6px',
+    cursor: 'default'
+  },
+
+  highlightedItem: {
+    color: 'white',
+    background: 'hsl(200, 50%, 50%)',
+    padding: '2px 6px',
+    cursor: 'default'
+  },
+
+  menu: {
+    border: 'solid 1px #ccc'
+  }
+}
+
 // const TasksABI = ;
 
 
@@ -27,9 +46,7 @@ export default class CreateTask extends Component {
       titleTooLongError: false,
       propSubmitSuccess: false,
       projectVal: '',
-      previewStruct: {},
-      taskID: '', // unique taskID we create
-      url: 'http://disten.se/tasks/'
+      previewStruct: {}
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -55,7 +72,7 @@ export default class CreateTask extends Component {
       const titlePrepared = value.replace(' ', '-')
 
       let titleTooLongError;
-      if (numChars > 40) {
+      if (numChars > 45) {
         titleTooLongError = true
       }
 
@@ -65,6 +82,11 @@ export default class CreateTask extends Component {
       })
 
     }
+
+    const baseUrl = 'http://disten.se/tasks/'
+    this.setState({
+      url: baseUrl + this.state.title + this.state.ipfsHash
+    })
     this.updateStructPreview()
   }
 
@@ -88,6 +110,25 @@ export default class CreateTask extends Component {
     })
   }
 
+  renderItems(items) {
+    return items.map((item, index) => {
+      const text = item.props.children
+      if (index === 0 || items[index - 1].props.children.charAt(0) !== text.charAt(0)) {
+        const style = {
+          background: '#eee',
+          color: '#454545',
+          padding: '2px 6px',
+          fontWeight: 'bold'
+        }
+        return [<div style={style}>{text.charAt(0)}</div>, item]
+      }
+      else {
+        return item
+      }
+    })
+  }
+
+
   render() {
 
     const { account, titlePrepared, title, detail, propSubmitSuccess, projectVal, titleTooLongError, previewStruct } = this.state
@@ -95,7 +136,7 @@ export default class CreateTask extends Component {
       <Layout>
         <Head title="Create Task"/>
         <div className="task-create-view">
-          <div className="task-inputs">
+          <div className="task-create-inputs">
             <h1>Create Task</h1>
             {propSubmitSuccess ?
               <div className='proposal-form-success'>
@@ -109,7 +150,7 @@ export default class CreateTask extends Component {
                     name='description'
                     ref={i => this.title = i}
                     type='text'
-                    placeholder='A ~26 char description (short descriptive words)'
+                    placeholder='<50 char description (short descriptive words)'
                     value={title}
                     onChange={this.handleInputChange}
                   />
@@ -127,19 +168,21 @@ export default class CreateTask extends Component {
                 <div className="task-input-group">
                   <h2>Select Project</h2>
                   <Autocomplete
-                    className="tasks-create-autocomplete"
+                    inputProps={{ id: 'project-autocomplete' }}
+                    className="input tasks-create-autocomplete"
                     getItemValue={(item) => item.label}
                     items={[
-                      { label: 'Contracts' },
-                      { label: 'Website' },
-                      { label: 'Legal' },
+                      { label: 'Contracts'},
+                      { label: 'Website'  },
+                      { label: 'Legal'    },
                       { label: 'Outreach' },
                       { label: 'HAVToken' },
                       { label: 'DIDToken' }
                     ]}
                     renderItem={(item, isHighlighted) =>
-                      <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                        {item.label}
+                      <div style={{margin: 'auto 0', padding: '2px', background: isHighlighted ? 'lightgray' : 'white', borderBottom: '1px solid' +
+                      ' black', borderLeft: '1px solid', borderRight: '1px solid' }}>
+                        <p style={{fontWeight: 'bold' }}>{item.label}</p>
                       </div>
                     }
                     value={projectVal}
@@ -156,15 +199,15 @@ export default class CreateTask extends Component {
                 </div>
                 <div className="task-input-group ipfs-detail">
                   <h2>Detailed Spec</h2>
-                  <p>
+                  <span>
                     Write until the reader will have no questions.
-                  </p>
+                  </span>
                   <input
                     className="input input-detail"
                     name="detail"
                     ref={i => this.detail = i}
                     type='textarea'
-                    placeholder='Lots of detail'
+                    placeholder='Lots of detail; bullet points with SPECIFICS'
                     value={detail}
                     onChange={this.handleInputChange}
                   />
@@ -176,24 +219,56 @@ export default class CreateTask extends Component {
               </form>
             }
           </div>
-          <div className="task-struct-preview">
-            <h2>Your Task Proposal</h2>
-            <span>
-              struct&nbsp;yourTask&nbsp;&#123;<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              title:&nbsp;{previewStruct.title}<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              project:&nbsp;{previewStruct.project}<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              createdBy:&nbsp;{account}<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              ipfsHash:&nbsp;{previewStruct.ipfsHash}<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              url:&nbsp;{previewStruct.url}<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <br/>
+          <div className="task-create-column task-preview">
+            <h2>Task Preview</h2>
+            <div className="task-preview-content">
+              <p className="inline">struct</p>
+              <em className="word-separator">
+                yourTask</em>
+              &#123;
+              <div className="struct-line">
+                <span className="task-preview-key">
+                title:
+                </span>
+                <span className="task-preview-value">
+                  Some Amazing Title{/*{previewStruct.title}*/}
+                </span>
+              </div>
+              <div className="struct-line">
+                <span className="task-preview-key">
+                  project:
+                </span>
+                <span className="task-preview-value">
+                  Contracts{/*{previewStruct.project}*/}
+                </span>
+              </div>
+              <div className="struct-line">
+                <span className="task-preview-key">
+                  createdBy:
+                </span>
+                <span className="task-preview-value">
+                  {account}
+                </span>
+              </div>
+              <div className="struct-line">
+                <span className="task-preview-key">
+                  ipfsHash:
+                </span>
+                <span className="task-preview-value">
+                  ljkb34nb234asbcdbabsefbcbsc{/*{previewStruct.ipfsHash}*/}
+                  </span>
+              </div>
+              <div className="struct-line">
+                <span className="task-preview-key">
+                  url:
+                </span>
+                <span className="task-preview-value">
+                  disten.se/tasks/some-amazing-title-ljkb34nb234asbcdbabsefbcbsc
+                  {/*{previewStruct.url}*/}
+                </span>
+              </div>
               }
-            </span>
+            </div>
           </div>
         </div>
         <style jsx>{`
@@ -203,13 +278,55 @@ export default class CreateTask extends Component {
 	          display: flex;
           }
 
-          .task-create-view-column {
+          .task-input-group {
+            margin-top: 15px;
+          }
+
+          .task-preview-content {
+            font-size: 18px;
+            font-weight: semi-bold;
+            padding: 25px 15px;
+            width: 100%;
+            height: 200px;
+            background: #FAEBD7;
+          }
+
+          .task-preview {
+            margin: auto;
+          }
+
+          .task-preview-key {
+            font-size: 18px;
+            font-weight: semi-bold;
+            margin: 3px 10px 3px 0.6rem;
+          }
+
+          .struct-line {
+            margin: 7px 0;
+          }
+
+          span.task-preview-value {
+            border-radius: 3px;
+            background-color: lightgrey;
+            color: red;
+            font-style: italic;
+            margin-left: 3px;
+            padding: 1px;
+            -webkit-border-radius: 3;
+            -moz-border-radius: 3;
+          }
+
+          .word-separator {
+            margin: 0 6px;
+          }
+
+          .task-create-column {
             width: 50%;
 	          padding: 10px;
 	        }
 
 	        .task-create-view > div:first-child {
-	          margin-right: 20px;
+	          // margin-right: 5px;
 	        }
 
           .input {
@@ -218,24 +335,19 @@ export default class CreateTask extends Component {
             -webkit-border-radius: 5;
             -moz-border-radius: 5;
             border-radius: 5px;
-          }
-
-          .input-description {
             width: 330px;
           }
 
-          .input-detail {
-            width: 330px;
-            height: 100px;
-          }
-
-          .task-input-group {
-            margin: 20px 0;
-            flex-grow:
+          .inline {
+            display: inline;
           }
 
           input {
             border: 1px solid gray !important;
+          }
+
+          .input-detail {
+            height: 100px;
           }
 
           .button {
@@ -260,6 +372,17 @@ export default class CreateTask extends Component {
             background: #6cfc3c;
             text-decoration: none;
           }
+
+       //   PROJECT AUTOCOMPLETE
+          .tasks-create-autocomplete {
+          }
+          input#project-autocomplete {
+            -webkit-border-radius: 5;
+            -moz-border-radius: 5;
+            border-radius: 5px;
+            width: 330px !important;
+          }
+
        `}</style>
       </Layout>
     );
