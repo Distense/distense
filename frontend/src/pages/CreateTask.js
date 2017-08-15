@@ -19,21 +19,12 @@ export default class CreateTask extends Component {
       usersNumDID: 0,
       skills: [],
       ipfsHash: '',
-      inputState: {}
+      inputState: {},
     }
   }
 
 
   async componentWillMount() {
-
-    // Hmm, not sure we definitely need this
-    if (this.state.account) {
-      // this.DIDToken = await selectContractInstance(DIDABI);
-      // const usersNumDID = await this.DIDToken.usersNumDID();
-      // this.setState({
-      //   usersNumDID
-      // })
-    }
 
   }
 
@@ -76,7 +67,7 @@ export default class CreateTask extends Component {
             getItemValue={(item) => item.label}
             items={[
               { label: 'Contracts/Backend)' },
-              { label: 'Website (disten.se' },
+              { label: 'Website' },
               { label: 'Legal' },
               { label: 'Outreach' },
               { label: 'HAVToken' },
@@ -88,6 +79,7 @@ export default class CreateTask extends Component {
               </div>
             }
             value={value}
+            onChange={(e) => value = e.target.value}
             onSelect={(val) => value = val}
           />
           <Input
