@@ -10,14 +10,10 @@ export default ({ children, title }) => (
           <div style={{ width: 25 }} />
           <Link to='/about'>About</Link>
           <div style={{ width: 25 }} />
-          <Link to='//docs.google.com/spreadsheets/d/1bVDd4Zd5yWrnTMXUY-AT1wvJtXLjcBI3ALc6vCgojeQ/edit#gid=1541435125'>
-            Contribute
-          </Link>
           <Link to='/tasks'><a>Available Tasks</a></Link>
-          <div style={{ width: 30 }} />
+          <div style={{ width: 25 }} />
           <Link to='/tasks/create'><a>Create Task</a></Link>
         </nav>
-
       </div>
     </header>
 
@@ -40,6 +36,10 @@ export default ({ children, title }) => (
         max-width: 900px;
         margin: 0 auto;
         padding: 0 16px;
+      }
+
+      .content {
+        padding: 15px 0;
       }
 
       header {
