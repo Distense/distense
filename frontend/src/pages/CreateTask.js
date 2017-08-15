@@ -33,25 +33,26 @@ let styles = {
 
 export default class CreateTask extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       account: web3.eth.accounts[0] || null,
-      usersNumDID: 0,
-      skills: [],
       ipfsHash: '',
-      project: '',
       detail: '',
+      errorMessages: [],
+      propSubmitSuccess: false,
+      project: '',
+      projectVal: '',
+      previewStruct: {},
+      skills: [],
+      taskUrl: '',
       title: '',
       titlePrepared: '',
       titleTooLongError: false,
-      propSubmitSuccess: false,
-      projectVal: '',
-      previewStruct: {},
-      taskUrl: ''
+      usersNumDID: 0
     }
 
+    this.setErrorMessages = this.setErrorMessages.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
-    this.updateStructPreview = this.updateStructPreview.bind(this)
   }
 
 
@@ -69,26 +70,45 @@ export default class CreateTask extends Component {
     })
 
     if (name === 'title') {
-      const numChars = value.length
-      const titlePrepared = value.replace(' ', '-')
-
-      let titleTooLongError;
-      if (numChars > 45) {
-        titleTooLongError = true
-      }
-
+      const titlePrepared = value.replace(/ /g, '-')
       this.setState({
-        titlePrepared,
-        titleTooLongError
+        titlePrepared
       })
-
     }
+
+    this.setErrorMessages(value)
 
     const baseUrl = 'http://disten.se/tasks/'
     this.setState({
-      taskUrl: baseUrl + this.state.title + this.state.ipfsHash
+      taskUrl: baseUrl + this.state.titlePrepared + this.state.ipfsHash
     })
-    this.updateStructPreview()
+  }
+
+  setErrorMessages(titleValue) {
+
+    const errorMessages = []
+    const specialCharMsg = 'Title cannot contain non-alphanumeric characters'
+    const titleMsg = 'Title Too Long'
+
+    const titleMsgError = errorMessages.indexOf(titleMsg)
+    const specialCharMsgError = errorMessages.indexOf(specialCharMsg)
+
+    if (titleValue.length > 40) {
+      errorMessages.push(titleMsg)
+    } else if (titleMsgError > -1) {
+      errorMessages.splice(titleMsgError, 1)
+    }
+
+    if (/[\.~`!#$%\^&*+=\[\]\\';,/{}|\\":<>\?]/g.test(titleValue)) {
+      errorMessages.push(specialCharMsg)
+    } else if (specialCharMsgError > -1) {
+      errorMessages.splice(specialCharMsgError, 1)
+    }
+
+    this.setState({
+      errorMessages
+    })
+
   }
 
   onSubmitProposal = (e) => {
@@ -98,41 +118,9 @@ export default class CreateTask extends Component {
     })
   }
 
-  updateStructPreview() {
-    let previewStruct = this.state.previewStruct
-    previewStruct.title = this.state.title
-    previewStruct.ipfsHash = this.state.ipfsHash
-    previewStruct.project = this.state.project
-    previewStruct.account = this.state.account
-    previewStruct.url = this.state.url
-
-    this.setState({
-      previewStruct
-    })
-  }
-
-  renderItems(items) {
-    return items.map((item, index) => {
-      const text = item.props.children
-      if (index === 0 || items[index - 1].props.children.charAt(0) !== text.charAt(0)) {
-        const style = {
-          background: '#eee',
-          color: '#454545',
-          padding: '2px 6px',
-          fontWeight: 'bold'
-        }
-        return [<div style={style}>{text.charAt(0)}</div>, item]
-      }
-      else {
-        return item
-      }
-    })
-  }
-
-
   render() {
 
-    const { account, titlePrepared, title, detail, propSubmitSuccess, projectVal, titleTooLongError, ipfsHash, taskUrl } = this.state
+    const { account, detail, errorMessages, propSubmitSuccess, projectVal, titlePrepared, title, ipfsHash, taskUrl } = this.state
     return (
       <Layout>
         <Head title="Create Task"/>
@@ -151,11 +139,14 @@ export default class CreateTask extends Component {
                     name='title'
                     ref={i => this.title = i}
                     type='text'
-                    placeholder='<50 char title (short descriptive words)'
+                    placeholder='<40 char title (short descriptive words)'
                     value={title}
                     onChange={this.handleInputChange}
                   />
-                  {titleTooLongError && <span>Title is a bit too long.</span>}
+                  {errorMessages.length > 0 ? errorMessages.map((errorMsg) => {
+                    return <p key={errorMsg} className="error-message">{errorMsg}</p>
+                  }) : ''
+                  }
                 </div>
                 <div className="task-input-group">
                   <h2>Select Project</h2>
@@ -164,17 +155,18 @@ export default class CreateTask extends Component {
                     className="input tasks-create-autocomplete"
                     getItemValue={(item) => item.label}
                     items={[
-                      { label: 'Contracts'},
-                      { label: 'Website'  },
-                      { label: 'Legal'    },
-                      { label: 'Outreach' },
-                      { label: 'HAVToken' },
-                      { label: 'DIDToken' }
+                      { label: 'TODO' },
+                      { label: 'contracts' },
+                      { label: 'website' },
+                      { label: 'legal' },
+                      { label: 'outreach' }
                     ]}
                     renderItem={(item, isHighlighted) =>
-                      <div style={{margin: 'auto 0', padding: '2px', background: isHighlighted ? 'lightgray' : 'white', borderBottom: '1px solid' +
-                      ' black', borderLeft: '1px solid', borderRight: '1px solid' }}>
-                        <p style={{fontWeight: 'bold' }}>{item.label}</p>
+                      <div style={{
+                        margin: 'auto 0', padding: '2px', background: isHighlighted ? 'lightgray' : 'white', borderBottom: '1px solid' +
+                        ' black', borderLeft: '1px solid', borderRight: '1px solid'
+                      }}>
+                        <p style={{ fontWeight: 'bold' }}>{item.label}</p>
                       </div>
                     }
                     value={projectVal}
@@ -199,7 +191,7 @@ export default class CreateTask extends Component {
                     name="detail"
                     ref={i => this.detail = i}
                     type='textarea'
-                    placeholder='Lots of detail; bullet points with SPECIFICS'
+                    placeholder='Lots of detail; bullet points with SPECIFICS; You get an IPFS hash when you begin typing here :)'
                     value={detail}
                     onChange={this.handleInputChange}
                   />
@@ -213,16 +205,17 @@ export default class CreateTask extends Component {
           </div>
           <div className="task-create-column task-preview">
             <h2>Task Preview</h2>
+            <p>Note that <b>this task insert costs gas</b>, so we show you this preview here.  Make sure it's valid and as you want.</p>
             <div className="task-preview-content">
               <p className="inline">struct</p>
-              <em className="word-separator">
-                yourTask</em>
+              <span className="word-separator">
+                Task</span>
               &#123;
               <div className="struct-line">
                 <span className="task-preview-key">
                 title:
                 </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': titlePrepared})}>
+                <span className={classNames('task-preview-value', { 'bg-light-gray': titlePrepared })}>
                   {titlePrepared}
                 </span>
               </div>
@@ -230,7 +223,7 @@ export default class CreateTask extends Component {
                 <span className="task-preview-key">
                   project:
                 </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': projectVal})}>
+                <span className={classNames('task-preview-value', { 'bg-light-gray': projectVal })}>
                   {projectVal}
                 </span>
               </div>
@@ -238,7 +231,7 @@ export default class CreateTask extends Component {
                 <span className="task-preview-key">
                   createdBy:
                 </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': account})}>
+                <span className={classNames('task-preview-value', { 'bg-light-gray': account })}>
                   {account}
                 </span>
               </div>
@@ -246,7 +239,7 @@ export default class CreateTask extends Component {
                 <span className="task-preview-key">
                   ipfsHash:
                 </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': ipfsHash})}>
+                <span className={classNames('task-preview-value', { 'bg-light-gray': ipfsHash })}>
                   {ipfsHash}
                   </span>
               </div>
@@ -254,7 +247,7 @@ export default class CreateTask extends Component {
                 <span className="task-preview-key">
                   url:
                 </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': taskUrl})}>
+                <span className={classNames('task-preview-value', { 'bg-light-gray': taskUrl })}>
                   {taskUrl}
                 </span>
               </div>
@@ -280,6 +273,9 @@ export default class CreateTask extends Component {
             width: 100%;
             height: 220px;
             background: #FAEBD7;
+            border-radius: 3px;
+            -webkit-border-radius: 3;
+            -moz-border-radius: 3;
           }
 
           .task-preview {
@@ -288,12 +284,11 @@ export default class CreateTask extends Component {
 
           .task-preview-key {
             font-size: 18px;
-            font-weight: semi-bold;
-            margin: 3px 10px 3px 0.6rem;
+            margin: 3px 10px 3px 1rem;
           }
 
           .struct-line {
-            margin: 10px 0;
+            margin: 8px 0;
           }
 
           .bg-light-gray {
@@ -301,12 +296,23 @@ export default class CreateTask extends Component {
           }
 
           span.task-preview-value {
-            border-radius: 3px;
             color: red;
             margin-left: 3px;
-            padding: 3px;
+            padding: 4px;
+            border-radius: 3px;
             -webkit-border-radius: 3;
             -moz-border-radius: 3;
+          }
+
+          p.error-message {
+            margin: .5em 0;
+            color: #fff;
+            padding: 4px;
+            width: 330px;
+            border-radius: 3px;
+            -webkit-border-radius: 3;
+            -moz-border-radius: 3;
+            background-color: red;
           }
 
           .word-separator {
