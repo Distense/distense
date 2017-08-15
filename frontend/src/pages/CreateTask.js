@@ -7,7 +7,6 @@ import web3, {
 } from '../web3.js'
 
 import Head from '../components/common/Head'
-import Input from '../components/common/Input'
 import Layout from '../components/Layout'
 // const TasksABI = ;
 
@@ -23,12 +22,18 @@ export default class CreateTask extends Component {
       ipfsHash: '',
       project: '',
       detail: '',
-      convertedDesc: '',
-      descTooLongError: false,
-      propSubmitSuccess: false
+      title: '',
+      titlePrepared: '',
+      titleTooLongError: false,
+      propSubmitSuccess: false,
+      projectVal: '',
+      previewStruct: {},
+      taskID: '', // unique taskID we create
+      url: 'http://disten.se/tasks/'
     }
 
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.updateStructPreview = this.updateStructPreview.bind(this)
   }
 
 
@@ -37,31 +42,31 @@ export default class CreateTask extends Component {
   }
 
   handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
 
     this.setState({
       [name]: value
-    });
+    })
 
-    if (name === 'description') {
+    if (name === 'title') {
       const numChars = value.length
-      const convertedDesc = value.replace(' ', '-')
+      const titlePrepared = value.replace(' ', '-')
 
-      let descTooLongError;
-      if (numChars > 32) {
-        descTooLongError = true
+      let titleTooLongError;
+      if (numChars > 40) {
+        titleTooLongError = true
       }
 
       this.setState({
-        convertedDesc,
-        descTooLongError
-      });
+        titlePrepared,
+        titleTooLongError
+      })
 
     }
+    this.updateStructPreview()
   }
-
 
   onSubmitProposal = (e) => {
     e.preventDefault()
@@ -70,66 +75,86 @@ export default class CreateTask extends Component {
     })
   }
 
+  updateStructPreview() {
+    let previewStruct = this.state.previewStruct
+    previewStruct.title = this.state.title
+    previewStruct.ipfsHash = this.state.ipfsHash
+    previewStruct.project = this.state.project
+    previewStruct.account = this.state.account
+    previewStruct.url = this.state.url
+
+    this.setState({
+      previewStruct
+    })
+  }
+
   render() {
 
-    const { convertedDesc, desc, detail, propSubmitSuccess, projectVal, descTooLongError } = this.state
+    const { account, titlePrepared, title, detail, propSubmitSuccess, projectVal, titleTooLongError, previewStruct } = this.state
     return (
       <Layout>
         <Head title="Create Task"/>
-        <div className="task-view">
-          <h2>Create Task</h2>
-          {propSubmitSuccess ?
-            <div className='proposal-form-success'>
-              Thanks, we'll update you soon!
-            </div>
-            : <form className='proposal-form' onSubmit={this.onSubmitProposal}>
-              <div className="task-input-group">
-                <h2>Task Description</h2>
-                <input
-                  className="input input-description"
-                  name='description'
-                  ref={i => this.desc = i}
-                  type='text'
-                  placeholder='A ~26 char description (short descriptive words)'
-                  value={desc}
-                  onChange={this.handleInputChange}
-                />
-                {convertedDesc && <div>
-                <span>
-                  How your description will be displayed:
-                </span>
-                  <div>
-                    <em>{convertedDesc}</em>
-                  </div>
-                </div>
-                }
-                {descTooLongError && <span>Your description is too long for the blockchain</span>}
+        <div className="task-create-view">
+          <div className="task-inputs">
+            <h1>Create Task</h1>
+            {propSubmitSuccess ?
+              <div className='proposal-form-success'>
+                Thanks, we'll update you soon!
               </div>
-              <div className="task-input-group">
-                <h2>Select Project</h2>
-                <Autocomplete
-                  ref={el => this.project = el}
-                  getItemValue={(item) => item.label}
-                  items={[
-                    { label: 'Contracts/Backend)' },
-                    { label: 'Website' },
-                    { label: 'Legal' },
-                    { label: 'Outreach' },
-                    { label: 'HAVToken' },
-                    { label: 'DIDToken' }
-                  ]}
-                  renderItem={(item, isHighlighted) =>
-                    <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                      {item.label}
+              : <form className='proposal-form' onSubmit={this.onSubmitProposal}>
+                <div className="task-input-group">
+                  <h2>Task Description</h2>
+                  <input
+                    className='input input-description'
+                    name='description'
+                    ref={i => this.title = i}
+                    type='text'
+                    placeholder='A ~26 char description (short descriptive words)'
+                    value={title}
+                    onChange={this.handleInputChange}
+                  />
+                  {titlePrepared && <div>
+                  <span>
+                    How your description will be displayed:
+                  </span>
+                    <div>
+                      <em>{titlePrepared}</em>
                     </div>
+                  </div>
                   }
-                  placeholder='Project type'
-                  value={projectVal}
-                  onChange={(e) => this.state.project = e.target.value}
-                  onSelect={(val) => this.state.project = val}
-                />
-              </div>
-              <div className="task-input-group ipfs-detail">
+                  {titleTooLongError && <span>Title too long.</span>}
+                </div>
+                <div className="task-input-group">
+                  <h2>Select Project</h2>
+                  <Autocomplete
+                    className="tasks-create-autocomplete"
+                    getItemValue={(item) => item.label}
+                    items={[
+                      { label: 'Contracts' },
+                      { label: 'Website' },
+                      { label: 'Legal' },
+                      { label: 'Outreach' },
+                      { label: 'HAVToken' },
+                      { label: 'DIDToken' }
+                    ]}
+                    renderItem={(item, isHighlighted) =>
+                      <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                        {item.label}
+                      </div>
+                    }
+                    value={projectVal}
+                    onChange={(e) => this.setState({
+                      projectVal: e.target.value
+                    })
+                    }
+                    onSelect={(val) => this.setState({
+                      projectVal: val
+                    })
+                    }
+                    ref={el => this.project = el}
+                  />
+                </div>
+                <div className="task-input-group ipfs-detail">
                   <h2>Detailed Spec</h2>
                   <p>
                     Write until the reader will have no questions.
@@ -148,17 +173,51 @@ export default class CreateTask extends Component {
                 <button className="button" type='submit' disabled={!propSubmitSuccess}>
                   Submit
                 </button>
-            </form>
-          }
+              </form>
+            }
+          </div>
+          <div className="task-struct-preview">
+            <h2>Your Task Proposal</h2>
+            <span>
+              struct&nbsp;yourTask&nbsp;&#123;<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              title:&nbsp;{previewStruct.title}<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              project:&nbsp;{previewStruct.project}<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              createdBy:&nbsp;{account}<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              ipfsHash:&nbsp;{previewStruct.ipfsHash}<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              url:&nbsp;{previewStruct.url}<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <br/>
+              }
+            </span>
+          </div>
         </div>
         <style jsx>{`
-          .task-view {
-
+          .task-create-view {
+            display: -ms-flex;
+	          display: -webkit-flex;
+	          display: flex;
           }
+
+          .task-create-view-column {
+            width: 50%;
+	          padding: 10px;
+	        }
+
+	        .task-create-view > div:first-child {
+	          margin-right: 20px;
+	        }
 
           .input {
             margin: 10px 0 20px 0;
             border: 1px solid gray;
+            -webkit-border-radius: 5;
+            -moz-border-radius: 5;
+            border-radius: 5px;
           }
 
           .input-description {
@@ -172,6 +231,11 @@ export default class CreateTask extends Component {
 
           .task-input-group {
             margin: 20px 0;
+            flex-grow:
+          }
+
+          input {
+            border: 1px solid gray !important;
           }
 
           .button {
@@ -186,10 +250,9 @@ export default class CreateTask extends Component {
             -moz-border-radius: 5;
             border-radius: 5px;
             text-shadow: 2px 1px 3px #666666;
-            font-family: Courier New;
             color: #ffffff;
-            font-size: 27px;
-            padding: 10px 20px 10px 20px;
+            font-size: 18px;
+            padding: 10px 20px;
             text-decoration: none;
           }
 
