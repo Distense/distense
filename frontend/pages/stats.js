@@ -704,6 +704,336 @@ const HAVABI = {
   "schema_version": "0.0.5",
   "updated_at": 1502438179288
 };
+=======
+import Web3 from 'web3';
+const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+const DIDABI = [{  "contract_name": "DIDToken",  "abi": [    { "constant": true,
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_email",
+          "type": "string"
+        },
+        {
+          "name": "_countryCode",
+          "type": "bytes8"
+        }
+      ],
+      "name": "updateProfile",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "contributors",
+      "outputs": [
+        {
+          "name": "DIDBalance",
+          "type": "uint256"
+        },
+        {
+          "name": "email",
+          "type": "string"
+        },
+        {
+          "name": "countryCode",
+          "type": "bytes8"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "DIDBalances",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "emailToAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_contribAddress",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_contribAddress",
+          "type": "address"
+        },
+        {
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "exchangeDIDForHAV",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "numContributors",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "incNumContributors",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "taskID",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "numDIDOutstanding",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_HAVAddress",
+          "type": "address"
+        }
+      ],
+      "name": "setHAVAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_validAddress",
+          "type": "address"
+        }
+      ],
+      "name": "approveAddress",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "numDID",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "taskID",
+          "type": "string"
+        }
+      ],
+      "name": "LogDIDReward",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000c57fe5b5b5b5b60008054600160a060020a03191633600160a060020a03161790555b6100413364010000000061098c61010482021704565b5b60028054600160a060020a03191633600160a060020a031617905560408051808201909152600c8082527f44697374656e736520444944000000000000000000000000000000000000000060209092019182526100a19160039161014b565b506040805180820190915260038082527f444944000000000000000000000000000000000000000000000000000000000060209092019182526100e69160049161014b565b50600060058190556006556007805460ff191660011790555b6101eb565b60005433600160a060020a039081169116146101205760006000fd5b600160a060020a0381166000908152600160208190526040909120805460ff191690911790555b5b50565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061018c57805160ff19168380011785556101b9565b828001600101855582156101b9579182015b828111156101b957825182559160200191906001019061019e565b5b506101c69291506101ca565b5090565b6101e891905b808211156101c657600081556001016101d0565b5090565b90565b610ab6806101fa6000396000f300606060405236156100d55763ffffffff60e060020a60003504166306fdde0381146100d75780630915e929146101675780631f6d4942146101cb57806320dd38fa1461028a578063313ce567146102b857806354817832146102de57806370a082311461030d578063792adc141461033b5780638da5cb5b1461036e5780638f03850b1461039a5780639313f7c8146103bc57806395d89b41146103ce578063b6ef730a1461045e578063bd33a4ab146104ee578063f2fde38b14610510578063fa83230c1461052e578063fabf657a1461055e575bfe5b34156100df57fe5b6100e761057c565b60408051602080825283518183015283519192839290830191850190808383821561012d575b80518252602083111561012d57601f19909201916020918201910161010d565b505050905090810190601f1680156101595780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561016f57fe5b6101c9600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284375094965050509235600160c060020a031916925061060a915050565b005b34156101d357fe5b6101e7600160a060020a0360043516610670565b60408051848152600160c060020a0319831691810191909152606060208201818152845460026000196101006001841615020190911604918301829052906080830190859080156102795780601f1061024e57610100808354040283529160200191610279565b820191906000526020600020905b81548152906001019060200180831161025c57829003601f168201915b505094505050505060405180910390f35b341561029257fe5b6102a6600160a060020a0360043516610694565b60408051918252519081900360200190f35b34156102c057fe5b6102c86106a6565b6040805160ff9092168252519081900360200190f35b34156102e657fe5b6102f16004356106af565b60408051600160a060020a039092168252519081900360200190f35b341561031557fe5b6102a6600160a060020a03600435166106ca565b60408051918252519081900360200190f35b341561034357fe5b61035a600160a060020a03600435166024356106e9565b604080519115158252519081900360200190f35b341561037657fe5b6102f16107b8565b60408051600160a060020a039092168252519081900360200190f35b34156103a257fe5b6102a66107c7565b60408051918252519081900360200190f35b34156103c457fe5b6101c96107cd565b005b34156103d657fe5b6100e76107d9565b60408051602080825283518183015283519192839290830191850190808383821561012d575b80518252602083111561012d57601f19909201916020918201910161010d565b505050905090810190601f1680156101595780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561046657fe5b6100e7610867565b60408051602080825283518183015283519192839290830191850190808383821561012d575b80518252602083111561012d57601f19909201916020918201910161010d565b505050905090810190601f1680156101595780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156104f657fe5b6102a66108f5565b60408051918252519081900360200190f35b341561051857fe5b6101c9600160a060020a03600435166108fb565b005b341561053657fe5b61035a600160a060020a036004351661094d565b604080519115158252519081900360200190f35b341561056657fe5b6101c9600160a060020a036004351661098c565b005b6003805460408051602060026001851615610100026000190190941693909304601f810184900484028201840190925281815292918301828280156106025780601f106105d757610100808354040283529160200191610602565b820191906000526020600020905b8154815290600101906020018083116105e557829003601f168201915b505050505081565b600160a060020a0333166000908152600b602090815260409091208351610639926001909201918501906109ea565b5033600160a060020a03166000908152600b6020526040902060020180546001604060020a03191660c060020a83041790555b5050565b600b6020526000908152604090208054600282015490916001019060c060020a0283565b600a6020526000908152604090205481565b60075460ff1681565b600c60205260009081526040902054600160a060020a031681565b600160a060020a0381166000908152600b60205260409020545b919050565b60095460009033600160a060020a039081169116146107085760006000fd5b600160a060020a0383166000908152600a60205260409020548290101561072f5760006000fd5b600160a060020a0383166000908152600b60205260409020548211156107555760006000fd5b600554610768908363ffffffff6109d316565b600555600160a060020a0383166000908152600b6020526040902054610794908363ffffffff6109d316565b600160a060020a0384166000908152600b60205260409020555060015b5b92915050565b600254600160a060020a031681565b60065481565b6006805460010190555b565b6004805460408051602060026001851615610100026000190190941693909304601f810184900484028201840190925281815292918301828280156106025780601f106105d757610100808354040283529160200191610602565b820191906000526020600020905b8154815290600101906020018083116105e557829003601f168201915b505050505081565b6008805460408051602060026001851615610100026000190190941693909304601f810184900484028201840190925281815292918301828280156106025780601f106105d757610100808354040283529160200191610602565b820191906000526020600020905b8154815290600101906020018083116105e557829003601f168201915b505050505081565b60055481565b60005433600160a060020a039081169116146109175760006000fd5b600160a060020a038116151561092d5760006000fd5b60008054600160a060020a031916600160a060020a0383161790555b5b50565b6000805433600160a060020a0390811691161461096a5760006000fd5b60098054600160a060020a031916600160a060020a0384161790555b5b919050565b60005433600160a060020a039081169116146109a85760006000fd5b600160a060020a0381166000908152600160208190526040909120805460ff191690911790555b5b50565b6000828211156109df57fe5b508082035b92915050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610a2b57805160ff1916838001178555610a58565b82800160010185558215610a58579182015b82811115610a58578251825591602001919060010190610a3d565b5b50610a65929150610a69565b5090565b610a8791905b80821115610a655760008155600101610a6f565b5090565b905600a165627a7a7230582096b57e20edd9c55a98fd64cfde6d90e83610d7ca6be95b725701825f5058adab0029",
+  "networks": {
+    "3": {
+      "links": {},
+      "events": {
+        "0x487dd0c113f7cd07009232d3c9cda3f42a50680770b47a8800e713fc2b62c7d1": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "numDID",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "taskID",
+              "type": "string"
+            }
+          ],
+          "name": "LogDIDReward",
+          "type": "event"
+        }
+      },
+      "updated_at": 1502302922515,
+      "address": "0x41c080486c2213e0ec83746d5300020da5f9f71c"
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1502302922515
+}];
+
+
+>>>>>>> Stashed changes
 
 export default class Stats extends Component {
   constructor(props) {
@@ -720,6 +1050,11 @@ export default class Stats extends Component {
     };
 
     this.getStats = this.getStats.bind(this);
+      totalHAVHolders: 0,
+      etherRaised: 0,
+      havSold: 0,
+      numCountries: 0
+    }
   }
 
   async componentWillMount() {
@@ -751,6 +1086,36 @@ export default class Stats extends Component {
       etherRaised,
       saleOn
     }
+    const DIDTokenContract = new web3.eth.contract(DIDABI).at('0x41c080486c2213e0ec83746d5300020da5f9f71c');
+    console.log(`DIDTokenContract`);
+    // const HAVTokenContract = new web3.eth.Contract(HAVABI);
+    // const HAVTokenInstance= DIDTokenContract.new('0xac3de77eb929070d4ce59702da4127fa8fe370b6');
+    // const DistenseContract = new web3.eth.Contract(DistenseABI);
+    // const DistenseDeployedAddress = '0x07956831da69505111c7cbd3328b5be4a57e005a';
+
+    // Use auto-created Solidity getters in respective contracts
+    // this.DIDTokenInstance = await selectContractInstance(DIDTokenContract, DIDTokenDeployedAddress);
+    // this.HAVTokenContract = await selectContractInstance(HAVTokenContract, HAVTokenDeployedAddress);
+
+    // const numDID = await this.DIDTokenInstance.numDIDOutstanding();
+    // console.log(`numDID: ${numDID}`);
+    // const numHAV = await this.HAVTokenContract.numHAVOutstanding();
+    // const totalTokensOutstanding = numDID + numHAV;
+
+    // const numContributors = await this.DIDTokenContract.numContributors();
+    // const numHAVHolders = await this.HAVTokenContract.numAccounts();
+    // const etherRaised = await this.HAVTokenContract.cumEtherRaised();
+    // const saleUnderWay = await this.HAVTokenContract.saleUnderWay();
+
+    // this.setState({
+    //   numDID//,
+    // numHAV,
+    // totalTokensOutstanding,
+    // numContributors,
+    // numHAVHolders,
+    // etherRaised,
+    // saleUnderWay
+    // });
   }
 
 
@@ -760,6 +1125,8 @@ export default class Stats extends Component {
     return (
       <Layout title="Stats">
         <div className="stats">
+          <h2>Stats <p><small>(testnet)</small></p></h2>
+          {s.account && <span className="stat">Welcome: {s.account}</span>}
           <h2>Stats <p><small>(testnet)</small></p></h2>
           {s.account && <span className="stat">Welcome: {s.account}</span>}
           {s.numDID && <div className="stat">Number of DID outstanding: {s.numDID}</div>}
