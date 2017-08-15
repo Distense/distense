@@ -20,10 +20,16 @@ export default class CreateTask extends Component {
       account: web3.eth.accounts[0] || null,
       usersNumDID: 0,
       skills: [],
+      description: '',
       ipfsHash: '',
-      projectVal: '',
-      proposalSubmitSuccess: false
+      project: '',
+      detail: '',
+      convertedDesc: '',
+      descTooLongError: false,
+      propSubmitSuccess: false
     }
+
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
 
@@ -31,45 +37,73 @@ export default class CreateTask extends Component {
 
   }
 
-  onFocusIPFSDescription() {
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
 
+    this.setState({
+      [name]: value
+    });
+
+    if (name === 'description') {
+      const numChars = value.length
+      const numWords = value.split(' ').length
+      const convertedDesc = value.replace(' ', '-')
+
+      let descTooLongError;
+      if (numChars + numWords > 32) {
+          descTooLongError = true
+      }
+
+      this.setState({
+        convertedDesc,
+        descTooLongError
+      });
+
+    }
   }
+
 
   onSubmitProposal = (e) => {
     e.preventDefault()
     this.setState({
-      proposalSubmitSuccess: true
+      propSubmitSuccess: true
     })
   }
 
   render() {
 
-    const { desc, proposalSubmitSuccess, projectVal } = this.state
+    const { convertedDesc, desc, propSubmitSuccess, projectVal, descTooLongError } = this.state
     return (
       <Layout>
-        <Head title="Create a Task"/>
+        <Head title="Create Task"/>
         <div className="proposals-create">
-          <h2>Create a Proposal</h2>
-          {proposalSubmitSuccess ?
-            <div className='email-form-success'>
+          <h2>Create Task</h2>
+          {propSubmitSuccess ?
+            <div className='proposal-form-success'>
               Thanks, we'll update you soon!
             </div>
             : <form className='proposal-form' onSubmit={this.onSubmitProposal}>
-              <Input
-                name="Description"
+              <input
+                className="input-single-line input-description"
+                name='description'
                 ref={i => this.desc = i}
                 type='text'
-                placeholder='A ~26 char description of the task'
+                placeholder='A ~26 char description (short descriptive words)'
                 value={desc}
-                onChange={(desc) => {
-                  this.setState({ desc })
-                  const numChars = desc.length
-                  const numWords = desc.split(' ')
-                  if (numChars + numWords > 32) {
-                    this.setState({ descTooLongError: true })
-                  }
-                }}
+                onChange={this.handleInputChange}
               />
+              {convertedDesc && <div>
+                <span>
+                  How your description will be displayed:
+                </span>
+                <div>
+                  <em>{convertedDesc}</em>
+                </div>
+              </div>
+              }
+              {descTooLongError && <span>Your description is too long for the blockchain</span>}
               <Autocomplete
                 ref={el => this.project = el}
                 getItemValue={(item) => item.label}
@@ -86,28 +120,40 @@ export default class CreateTask extends Component {
                     {item.label}
                   </div>
                 }
+                placeholder='Project type'
                 value={projectVal}
-                onChange={(e) => this.state.projectVal = e.target.value}
-                onSelect={(val) => this.state.projectVal = val}
+                onChange={(e) => this.state.project = e.target.value}
+                onSelect={(val) => this.state.project = val}
               />
               <Input
-                name="Detail"
+                name="detail"
                 ref={i => this.detail = i}
                 type='text'
                 placeholder='A ~26 char description of the task'
                 value={this.state.detail}
                 isMultiline={true}
                 onChange={(detail) => {
-                  this.state.detail = detail
+                  this.setState({
+                    detail
+                  })
                 }}
               />
-              <button className="button" type='submit' disabled={!proposalSubmitSuccess}>
+              <button className="button" type='submit' disabled={!propSubmitSuccess}>
                 Submit
               </button>
             </form>
           }
         </div>
         <style jsx>{`
+          .input-single-line {
+            margin: 40px 0;
+            border: 1px solid gray;
+          }
+
+          .input-description {
+            width: 330px;
+          }
+
           .button {
             margin-top: 10px;
             background: #4ad934;
