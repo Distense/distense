@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Autocomplete from 'react-autocomplete'
 import ipfs from 'ipfs'
+import classNames from 'classnames'
 
 import web3, {
   selectContractInstance, mapReponseToJSON
@@ -37,7 +38,6 @@ export default class CreateTask extends Component {
       account: web3.eth.accounts[0] || null,
       usersNumDID: 0,
       skills: [],
-      description: '',
       ipfsHash: '',
       project: '',
       detail: '',
@@ -46,7 +46,8 @@ export default class CreateTask extends Component {
       titleTooLongError: false,
       propSubmitSuccess: false,
       projectVal: '',
-      previewStruct: {}
+      previewStruct: {},
+      taskUrl: ''
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -85,7 +86,7 @@ export default class CreateTask extends Component {
 
     const baseUrl = 'http://disten.se/tasks/'
     this.setState({
-      url: baseUrl + this.state.title + this.state.ipfsHash
+      taskUrl: baseUrl + this.state.title + this.state.ipfsHash
     })
     this.updateStructPreview()
   }
@@ -131,7 +132,7 @@ export default class CreateTask extends Component {
 
   render() {
 
-    const { account, titlePrepared, title, detail, propSubmitSuccess, projectVal, titleTooLongError, previewStruct } = this.state
+    const { account, titlePrepared, title, detail, propSubmitSuccess, projectVal, titleTooLongError, ipfsHash, taskUrl } = this.state
     return (
       <Layout>
         <Head title="Create Task"/>
@@ -144,26 +145,17 @@ export default class CreateTask extends Component {
               </div>
               : <form className='proposal-form' onSubmit={this.onSubmitProposal}>
                 <div className="task-input-group">
-                  <h2>Task Description</h2>
+                  <h2>Task Title</h2>
                   <input
-                    className='input input-description'
-                    name='description'
+                    className='input input-title'
+                    name='title'
                     ref={i => this.title = i}
                     type='text'
-                    placeholder='<50 char description (short descriptive words)'
+                    placeholder='<50 char title (short descriptive words)'
                     value={title}
                     onChange={this.handleInputChange}
                   />
-                  {titlePrepared && <div>
-                  <span>
-                    How your description will be displayed:
-                  </span>
-                    <div>
-                      <em>{titlePrepared}</em>
-                    </div>
-                  </div>
-                  }
-                  {titleTooLongError && <span>Title too long.</span>}
+                  {titleTooLongError && <span>Title is a bit too long.</span>}
                 </div>
                 <div className="task-input-group">
                   <h2>Select Project</h2>
@@ -230,23 +222,23 @@ export default class CreateTask extends Component {
                 <span className="task-preview-key">
                 title:
                 </span>
-                <span className="task-preview-value">
-                  Some Amazing Title{/*{previewStruct.title}*/}
+                <span className={classNames('task-preview-value', { 'bg-light-gray': titlePrepared})}>
+                  {titlePrepared}
                 </span>
               </div>
               <div className="struct-line">
                 <span className="task-preview-key">
                   project:
                 </span>
-                <span className="task-preview-value">
-                  Contracts{/*{previewStruct.project}*/}
+                <span className={classNames('task-preview-value', { 'bg-light-gray': projectVal})}>
+                  {projectVal}
                 </span>
               </div>
               <div className="struct-line">
                 <span className="task-preview-key">
                   createdBy:
                 </span>
-                <span className="task-preview-value">
+                <span className={classNames('task-preview-value', { 'bg-light-gray': account})}>
                   {account}
                 </span>
               </div>
@@ -254,17 +246,16 @@ export default class CreateTask extends Component {
                 <span className="task-preview-key">
                   ipfsHash:
                 </span>
-                <span className="task-preview-value">
-                  ljkb34nb234asbcdbabsefbcbsc{/*{previewStruct.ipfsHash}*/}
+                <span className={classNames('task-preview-value', { 'bg-light-gray': ipfsHash})}>
+                  {ipfsHash}
                   </span>
               </div>
               <div className="struct-line">
                 <span className="task-preview-key">
                   url:
                 </span>
-                <span className="task-preview-value">
-                  disten.se/tasks/some-amazing-title-ljkb34nb234asbcdbabsefbcbsc
-                  {/*{previewStruct.url}*/}
+                <span className={classNames('task-preview-value', { 'bg-light-gray': taskUrl})}>
+                  {taskUrl}
                 </span>
               </div>
               }
@@ -285,9 +276,9 @@ export default class CreateTask extends Component {
           .task-preview-content {
             font-size: 18px;
             font-weight: semi-bold;
-            padding: 25px 15px;
+            padding: 20px 15px;
             width: 100%;
-            height: 200px;
+            height: 220px;
             background: #FAEBD7;
           }
 
@@ -302,16 +293,18 @@ export default class CreateTask extends Component {
           }
 
           .struct-line {
-            margin: 7px 0;
+            margin: 10px 0;
+          }
+
+          .bg-light-gray {
+            background-color: lightgray;
           }
 
           span.task-preview-value {
             border-radius: 3px;
-            background-color: lightgrey;
             color: red;
-            font-style: italic;
             margin-left: 3px;
-            padding: 1px;
+            padding: 3px;
             -webkit-border-radius: 3;
             -moz-border-radius: 3;
           }
