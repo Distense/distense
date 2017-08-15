@@ -58,7 +58,6 @@ export default class Input extends Component {
       <div className={classNames('input')} >
         {!isMultiline &&
         <input
-          {...p}
           className={classNames('box', className, { 'search-input': isSearch })}
           type={type}
           value={value}
@@ -68,7 +67,6 @@ export default class Input extends Component {
         }
         {isMultiline &&
         <textarea
-          {...p}
           className="box"
           value={value}
           onChange={this.handleOnChange}

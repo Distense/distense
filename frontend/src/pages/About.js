@@ -1,8 +1,8 @@
 import React from 'react'
 
 import Layout from '../components/Layout'
-import Head from '../components/Head'
-import AvailableTasksLink from '../components/AvailableTasksLink'
+import Head from '../components/common/Head'
+import AvailableTasksLink from '../components/common/AvailableTasksLink'
 
 export default () => (
   <Layout>

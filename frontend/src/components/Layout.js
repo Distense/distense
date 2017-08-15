@@ -13,9 +13,9 @@ export default ({ children, title }) => (
           <Link to='//docs.google.com/spreadsheets/d/1bVDd4Zd5yWrnTMXUY-AT1wvJtXLjcBI3ALc6vCgojeQ/edit#gid=1541435125'>
             Contribute
           </Link>
-          <Link route='/tasks'><a>Available Tasks</a></Link>
+          <Link to='/tasks'><a>Available Tasks</a></Link>
           <div style={{ width: 30 }} />
-          <Link route='/tasks/create'><a>Create Task</a></Link>
+          <Link to='/tasks/create'><a>Create Task</a></Link>
         </nav>
 
       </div>

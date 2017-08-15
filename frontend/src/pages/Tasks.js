@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import web3, {
   selectContractInstance, mapReponseToJSON
-} from '../../../lib/web3.js';
+} from '../web3.js';
 
 // const TasksABI = ;
 
