@@ -6,7 +6,7 @@ import windowSize from 'react-window-size'
 import ms from 'ms'
 
 import scrollPosition from '../components/scrollPosition'
-import Head from '../components/Head'
+import Head from '../components/common/Head'
 import Sky from '../components/Sky'
 
 const heroTop = (height, top) => Math.max(0, (height / 3) * (1 - (top / height)))
