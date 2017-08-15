@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Autocomplete from 'react-autocomplete'
-import Icon from 'react-fontawesome'
 
 
 import web3, {
@@ -48,12 +47,11 @@ export default class CreateTask extends Component {
 
     if (name === 'description') {
       const numChars = value.length
-      const numWords = value.split(' ').length
       const convertedDesc = value.replace(' ', '-')
 
       let descTooLongError;
-      if (numChars + numWords > 32) {
-          descTooLongError = true
+      if (numChars > 32) {
+        descTooLongError = true
       }
 
       this.setState({
@@ -74,84 +72,106 @@ export default class CreateTask extends Component {
 
   render() {
 
-    const { convertedDesc, desc, propSubmitSuccess, projectVal, descTooLongError } = this.state
+    const { convertedDesc, desc, detail, propSubmitSuccess, projectVal, descTooLongError } = this.state
     return (
       <Layout>
         <Head title="Create Task"/>
-        <div className="proposals-create">
+        <div className="task-view">
           <h2>Create Task</h2>
           {propSubmitSuccess ?
             <div className='proposal-form-success'>
               Thanks, we'll update you soon!
             </div>
             : <form className='proposal-form' onSubmit={this.onSubmitProposal}>
-              <input
-                className="input-single-line input-description"
-                name='description'
-                ref={i => this.desc = i}
-                type='text'
-                placeholder='A ~26 char description (short descriptive words)'
-                value={desc}
-                onChange={this.handleInputChange}
-              />
-              {convertedDesc && <div>
+              <div className="task-input-group">
+                <h2>Task Description</h2>
+                <input
+                  className="input input-description"
+                  name='description'
+                  ref={i => this.desc = i}
+                  type='text'
+                  placeholder='A ~26 char description (short descriptive words)'
+                  value={desc}
+                  onChange={this.handleInputChange}
+                />
+                {convertedDesc && <div>
                 <span>
                   How your description will be displayed:
                 </span>
-                <div>
-                  <em>{convertedDesc}</em>
-                </div>
-              </div>
-              }
-              {descTooLongError && <span>Your description is too long for the blockchain</span>}
-              <Autocomplete
-                ref={el => this.project = el}
-                getItemValue={(item) => item.label}
-                items={[
-                  { label: 'Contracts/Backend)' },
-                  { label: 'Website' },
-                  { label: 'Legal' },
-                  { label: 'Outreach' },
-                  { label: 'HAVToken' },
-                  { label: 'DIDToken' }
-                ]}
-                renderItem={(item, isHighlighted) =>
-                  <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                    {item.label}
+                  <div>
+                    <em>{convertedDesc}</em>
                   </div>
+                </div>
                 }
-                placeholder='Project type'
-                value={projectVal}
-                onChange={(e) => this.state.project = e.target.value}
-                onSelect={(val) => this.state.project = val}
-              />
-              <Input
-                name="detail"
-                ref={i => this.detail = i}
-                type='text'
-                placeholder='A ~26 char description of the task'
-                value={this.state.detail}
-                isMultiline={true}
-                onChange={(detail) => {
-                  this.setState({
-                    detail
-                  })
-                }}
-              />
-              <button className="button" type='submit' disabled={!propSubmitSuccess}>
-                Submit
-              </button>
+                {descTooLongError && <span>Your description is too long for the blockchain</span>}
+              </div>
+              <div className="task-input-group">
+                <h2>Select Project</h2>
+                <Autocomplete
+                  ref={el => this.project = el}
+                  getItemValue={(item) => item.label}
+                  items={[
+                    { label: 'Contracts/Backend)' },
+                    { label: 'Website' },
+                    { label: 'Legal' },
+                    { label: 'Outreach' },
+                    { label: 'HAVToken' },
+                    { label: 'DIDToken' }
+                  ]}
+                  renderItem={(item, isHighlighted) =>
+                    <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                      {item.label}
+                    </div>
+                  }
+                  placeholder='Project type'
+                  value={projectVal}
+                  onChange={(e) => this.state.project = e.target.value}
+                  onSelect={(val) => this.state.project = val}
+                />
+              </div>
+              <div className="task-input-group ipfs-detail">
+                  <h2>Detailed Spec</h2>
+                  <p>
+                    Write until the reader will have no questions.
+                  </p>
+                  <input
+                    className="input input-detail"
+                    name="detail"
+                    ref={i => this.detail = i}
+                    type='textarea'
+                    placeholder='Lots of detail'
+                    value={detail}
+                    onChange={this.handleInputChange}
+                  />
+                </div>
+
+                <button className="button" type='submit' disabled={!propSubmitSuccess}>
+                  Submit
+                </button>
             </form>
           }
         </div>
         <style jsx>{`
-          .input-single-line {
-            margin: 40px 0;
+          .task-view {
+
+          }
+
+          .input {
+            margin: 10px 0 20px 0;
             border: 1px solid gray;
           }
 
           .input-description {
             width: 330px;
+          }
+
+          .input-detail {
+            width: 330px;
+            height: 100px;
+          }
+
+          .task-input-group {
+            margin: 20px 0;
           }
 
           .button {
