@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Autocomplete from 'react-autocomplete'
-import ipfs from 'ipfs'
+import IPFS from 'ipfs'
 import classNames from 'classnames'
 
 import web3, {
@@ -9,6 +9,8 @@ import web3, {
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
+
+const Buffer = require('safe-buffer').Buffer
 
 let styles = {
   item: {
@@ -37,26 +39,68 @@ export default class CreateTask extends Component {
     this.state = {
       account: web3.eth.accounts[0] || null,
       ipfsHash: '',
-      detail: '',
+      ipfsReady: false,
+      ipfsDetail: '',
       errorMessages: [],
       propSubmitSuccess: false,
       project: '',
-      projectVal: '',
       previewStruct: {},
       skills: [],
       taskUrl: '',
       title: '',
       titlePrepared: '',
-      titleTooLongError: false,
       usersNumDID: 0
     }
 
     this.setErrorMessages = this.setErrorMessages.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.writeIPFSDetail = this.writeIPFSDetail.bind(this)
+    this.setTaskUrl = this.setTaskUrl.bind(this)
   }
 
-
   async componentWillMount() {
+      this.node = await new IPFS({
+        repo: String(Math.random() + Date.now())
+      })
+
+      this.node.on('ready', () => {
+        console.log('IPFS ready')
+      })
+  }
+
+  writeIPFSDetail(event) {
+
+    const ipfsDetail = event.target.value
+    this.setState({
+      ipfsDetail
+    })
+    this.node.files.add([Buffer.from(ipfsDetail)], (err, res) => {
+      if (err) {
+        throw err
+      }
+
+      const ipfsHash = res[0].hash
+      this.setState({
+        ipfsHash
+      }, function () {
+        //  ensure state updates have been made before updating taskUrl
+        this.setTaskUrl()
+      })
+
+    })
+  }
+
+  setTaskUrl() {
+    const baseUrl = 'http://disten.se/tasks/'
+    if (this.state.ipfsDetail && this.state.titlePrepared && this.state.project) {
+      this.setState({
+        taskUrl: baseUrl + this.state.titlePrepared + '-' + this.state.ipfsHash
+      })
+    } else {
+      this.setState({
+        taskUrl: ''
+      })
+    }
 
   }
 
@@ -75,34 +119,39 @@ export default class CreateTask extends Component {
         titlePrepared
       })
     }
-
+    this.setTaskUrl()
     this.setErrorMessages(value)
-
-    const baseUrl = 'http://disten.se/tasks/'
-    this.setState({
-      taskUrl: baseUrl + this.state.titlePrepared + this.state.ipfsHash
-    })
   }
 
-  setErrorMessages(titleValue) {
+  setErrorMessages(title) {
 
-    const errorMessages = []
+    const errorMessages = this.state.errorMessages
     const specialCharMsg = 'Title cannot contain non-alphanumeric characters'
-    const titleMsg = 'Title Too Long'
+    const lengthErrorMsg = 'Title Too Long'
 
-    const titleMsgError = errorMessages.indexOf(titleMsg)
-    const specialCharMsgError = errorMessages.indexOf(specialCharMsg)
+    const titleMsgErrorIndex = errorMessages.indexOf(lengthErrorMsg)
+    const specialCharMsgIndex = errorMessages.indexOf(specialCharMsg)
 
-    if (titleValue.length > 40) {
-      errorMessages.push(titleMsg)
-    } else if (titleMsgError > -1) {
-      errorMessages.splice(titleMsgError, 1)
+    const titleTooLong = title.length > 40
+    if (titleTooLong && titleMsgErrorIndex < 0) {
+      errorMessages.push(lengthErrorMsg)
+    } else if (!titleTooLong && titleMsgErrorIndex > -1) {
+      errorMessages.splice(titleMsgErrorIndex, 1)
     }
 
-    if (/[\.~`!#$%\^&*+=\[\]\\';,/{}|\\":<>\?]/g.test(titleValue)) {
+    const titleHasSpecialChars = /[\.~`!#$%\^&*+=\[\]\\';,/{}|\\":<>\?]/g.test(title)
+    if (titleHasSpecialChars && specialCharMsgIndex < 0) {
       errorMessages.push(specialCharMsg)
-    } else if (specialCharMsgError > -1) {
-      errorMessages.splice(specialCharMsgError, 1)
+    } else if (!titleHasSpecialChars && specialCharMsgIndex > -1) {
+      errorMessages.splice(specialCharMsgIndex, 1)
+    }
+
+    if (errorMessages.length) {
+      this.setState({
+        taskUrl: 'Sorry. You get no URL when you have title errors'
+      })
+    } else {
+      this.setTaskUrl()
     }
 
     this.setState({
@@ -120,7 +169,7 @@ export default class CreateTask extends Component {
 
   render() {
 
-    const { account, detail, errorMessages, propSubmitSuccess, projectVal, titlePrepared, title, ipfsHash, taskUrl } = this.state
+    const { account, ipfsHash, ipfsDetail, errorMessages, propSubmitSuccess, project, titlePrepared, title, taskUrl } = this.state
     return (
       <Layout>
         <Head title="Create Task"/>
@@ -169,16 +218,15 @@ export default class CreateTask extends Component {
                         <p style={{ fontWeight: 'bold' }}>{item.label}</p>
                       </div>
                     }
-                    value={projectVal}
+                    value={project}
                     onChange={(e) => this.setState({
-                      projectVal: e.target.value
+                      project: e.target.value
                     })
                     }
                     onSelect={(val) => this.setState({
-                      projectVal: val
+                      project: val
                     })
                     }
-                    ref={el => this.project = el}
                   />
                 </div>
                 <div className="task-input-group ipfs-detail">
@@ -192,8 +240,8 @@ export default class CreateTask extends Component {
                     ref={i => this.detail = i}
                     type='textarea'
                     placeholder='Lots of detail; bullet points with SPECIFICS; You get an IPFS hash when you begin typing here :)'
-                    value={detail}
-                    onChange={this.handleInputChange}
+                    value={ipfsDetail}
+                    onChange={this.writeIPFSDetail}
                   />
                 </div>
 
@@ -223,8 +271,8 @@ export default class CreateTask extends Component {
                 <span className="task-preview-key">
                   project:
                 </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': projectVal })}>
-                  {projectVal}
+                <span className={classNames('task-preview-value', { 'bg-light-gray': project })}>
+                  {project}
                 </span>
               </div>
               <div className="struct-line">
@@ -288,7 +336,7 @@ export default class CreateTask extends Component {
           }
 
           .struct-line {
-            margin: 8px 0;
+            margin: 12px 0;
           }
 
           .bg-light-gray {
