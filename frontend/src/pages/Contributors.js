@@ -1,7 +1,8 @@
+import Layout from '../components/layout'
 import React, { Component } from 'react';
-import web3, { selectContractInstance } from '../../../lib/web3';
+import web3, { selectContractInstance } from '../blockchain/web3.js';
 
-import ContributorsContract from '../Contributors.json';
+import ContributorsContract from '../blockchain/Contributors.json';
 const ContributorsDeployedAddress = '0x098964520943bbf6731aa02ca9c7b1eb8c34e4f9';
 
 export default class Contributors extends Component {
@@ -37,18 +38,19 @@ export default class Contributors extends Component {
   }
 
   render() {
-
     const s = this.state;
     return (
-      <div className="contributors">
-        <div className="">
-          <h2>Contributors</h2>
+      <Layout title="Contributions">
+        <div className="contributors">
+          <div className="">
+            <h2>Contributors</h2>
+          </div>
+          {s.contributorsList.length ? s.contributorsList.map((contrib) => {
+            return <Contributor key={contrib.address} contrib={contrib}/>
+          }) : 'No contributors.'
+          }
         </div>
-        {s.contributorsList.length ? s.contributorsList.map((contrib) => {
-          return <Contributor key={contrib.address} contrib={contrib} />
-        }) : 'No contributors.'
-        }
-      </div>
+      </Layout>
     );
   }
 }
@@ -56,4 +58,3 @@ export default class Contributors extends Component {
 const Contributor = (p) => (
   <p>{p.contrib.name}: {p.contrib.address}</p>
 );
-
