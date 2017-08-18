@@ -2,7 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {
   HashRouter as Router,
-  Route
+  Route,
+  Switch
 } from 'react-router-dom'
 
 import registerServiceWorker from './registerServiceWorker'
@@ -16,10 +17,12 @@ import CreateTask from './pages/CreateTask'
 const Root = () => (
   <Router>
     <div>
+      <Switch>
       <Route exact path='/' component={Home} />
       <Route path='/about' component={About} />
       <Route path='/tasks/create' component={CreateTask} />
-      <Route path='/tasks/all' component={Tasks} />
+      <Route path='/tasks' component={Tasks} />
+      </Switch>
     </div>
   </Router>
 )

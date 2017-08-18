@@ -8,9 +8,8 @@ import './lib/SafeMath.sol';
 contract Tasks {
   using SafeMath for uint256;
 
-  uint256  numProps;
-  uint256  numTasks;
-  uint256  numContribs;
+  uint256 public numTasks;
+  uint256 public numContribs;
 
   address  public votingAddress;
 
@@ -24,26 +23,36 @@ contract Tasks {
     TaskStatus status;
   }
 
-  mapping (bytes32 => Task) tasks;
+  mapping (bytes32 => Task) tasksMap;
+  Task[] public tasksList;
+
   enum TaskStatus { Proposal, Task, Contribution }
   event TaskCreated(address indexed purchaser, bytes32 indexed title, bytes32 url);
 
   // INSECURE/DRAFT
   function Tasks () {
-    numProps = 0;
     numTasks = 0;
     numContribs = 0;
   }
 
-  function createTask(bytes32 _title, bytes32 _url, bytes32 _project, bytes32 _ipfsHashID) external returns (bool) {
-    tasks[_ipfsHashID] = Task(msg.sender, _title, _url, _project, _ipfsHashID, block.timestamp, TaskStatus.Proposal);
-    numTasks += 1;
+  function createTask(bytes32 _title, string _url, string _project, bytes32 _ipfsHashID) external returns (bool) {
+    Task memory task = Task(msg.sender, _title, _url, _project, _ipfsHashID, block.timestamp, TaskStatus.Proposal);
+    tasksMap[_ipfsHashID] = task;
+    tasksList.push(task);
     TaskCreated(msg.sender, _title, _url);
     return true;
   }
 
-  function getTask(bytes32 ipfsHashID) public constant returns (address, bytes32, bytes32, bytes32, uint256, TaskStatus) {
-    return (tasks[ipfsHashID].createdBy, tasks[ipfsHashID].title, tasks[ipfsHashID].url, tasks[ipfsHashID].project, tasks[ipfsHashID].createdAt, tasks[ipfsHashID].status);
+  function getTasksLength() public constant returns(uint) {
+    return tasksList.length;
+  }
+
+  function getTaskFromMapping(bytes32 ipfsHashID) public constant returns (address, bytes32, bytes32, bytes32, uint256, TaskStatus) {
+    return (tasksMap[ipfsHashID].createdBy, tasksMap[ipfsHashID].title, tasksMap[ipfsHashID].url, tasksMap[ipfsHashID].project, tasksMap[ipfsHashID].createdAt, tasksMap[ipfsHashID].status);
+  }
+
+  function getTaskFromList(uint256 ind) public constant returns (address, bytes32, bytes32, bytes32, uint256, TaskStatus) {
+    return (tasksList[ind].createdBy, tasksList[ind].title, tasksList[ind].url, tasksList[ind].project, tasksList[ind].createdAt, tasksList[ind].status);
   }
 
   modifier onlyVoting () {
