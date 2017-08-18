@@ -36,11 +36,11 @@ export default () => (
     <hr/>
 
     <h3>Distense is Different</h3>
-    (<a target="_blank" href="https://docs.google.com/drawings/d/1Iq3akRp4RBnkdwRgVxASD5q44SFYFQ1AEYM096di1XE/edit">
+    (<a rel="noopener noreferrer" target="_blank" href="https://docs.google.com/drawings/d/1Iq3akRp4RBnkdwRgVxASD5q44SFYFQ1AEYM096di1XE/edit">
     <small>Become a contributor and edit this drawing</small>
   </a>)
     <div>
-      <img src="./static/distense-versus-industrial.png"/>
+      <img alt="How Distense is Different" src="./static/distense-versus-industrial.png"/>
     </div>
 
 
@@ -48,15 +48,9 @@ export default () => (
       How Distense Works
     </h3>
 
-    <p>
-
-    </p>
-
     <h3>
       How Will Distense <strike>Contributors Get Rich</strike> Sustain Itself?
     </h3>
-
-
 
   </Layout>
 )
