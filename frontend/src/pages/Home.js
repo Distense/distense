@@ -22,7 +22,7 @@ class Home extends Component {
     super(props)
     
     this.state = {
-      email: null,
+      email: '',
       emailFocused: false
     }
   }
