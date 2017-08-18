@@ -1,4 +1,3 @@
-import ms from 'ms'
 import React from 'react'
 import * as THREE from 'three'
 import {
@@ -8,7 +7,6 @@ import {
   Mesh,
 } from 'react-three'
 
-import timeNow from './timeNow'
 
 const buildShader = (sunPosition) => ({
   uniforms: {
@@ -207,8 +205,6 @@ const uz = new THREE.Vector3(1,0,0)
 
 const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff })
 const sunGeometry = new THREE.SphereBufferGeometry(20000, 16, 8)
-
-const secondsPerDay = 10
 
 const angle = Math.PI / 6
 const rotation = new THREE.Quaternion().setFromAxisAngle(uz, angle)
