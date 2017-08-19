@@ -526,13 +526,26 @@ export default class CreateTask extends Component {
 
   render() {
 
-    const { account, ipfsHash, ipfsDetail, errorMessages, taskSubmitted, taskTXID, project, subProject, titlePrepared, title, url } = this.state
+    const {
+      account,
+      ipfsDetail,
+      ipfsHash,
+      errorMessages,
+      project,
+      subProject,
+      taskSubmitted,
+      taskTXID,
+      titlePrepared,
+      title,
+      url
+    } = this.state
+    
     return (
       <Layout>
-        <Head title="Create Task"/>
-        <div className="task-create-view">
-          <div className="task-create-inputs">
-            {taskTXID ? <span className="tx-hash">Tx ID: {taskTXID}</span> :
+        <Head title='Create Task'/>
+        <div className='task-create-view'>
+          <div className='task-create-inputs'>
+            {taskTXID ? <span className='tx-hash'>Tx ID: {taskTXID}</span> :
               taskSubmitted ?
                 <div className='proposal-form-success'>
                   Please wait for your transaction to be mined.  This could take 20 seconds.
@@ -552,15 +565,15 @@ export default class CreateTask extends Component {
                         onChange={this.onTitleChange}
                       />
                       {errorMessages.length > 0 ? errorMessages.map((errorMsg) => {
-                        return <p key={errorMsg} className="error-message">{errorMsg}</p>
+                        return <p key={errorMsg} className='error-message'>{errorMsg}</p>
                       }) : ''
                       }
                     </div>
-                    <div className="task-input-group">
+                    <div className='task-input-group'>
                       <h2>Select Project</h2>
                       <Autocomplete
                         inputProps={{ id: 'project-autocomplete' }}
-                        className="input autocomplete-wrapper"
+                        className='input autocomplete-wrapper'
                         getItemValue={(item) => item.label}
                         items={[
                           { label: 'contracts' },
@@ -570,10 +583,10 @@ export default class CreateTask extends Component {
                           { label: 'crowdsale' },
                         ]}
                         renderItem={(item, isHighlighted) =>
-                          <div className="autocomplete-box" style={{
+                          <div className='autocomplete-box' style={{
                             textAlign: 'center', margin: 'auto 0', background: isHighlighted ? 'lightgray' : 'white'
                           }}>
-                            <p className="autocomplete-item">
+                            <p className='autocomplete-item'>
                               {item.label}
                             </p>
                           </div>
@@ -589,13 +602,13 @@ export default class CreateTask extends Component {
                         }
                       />
                     </div>
-                    <div className="task-input-group">
+                    <div className='task-input-group'>
                       <h2>Select Sub-Project</h2>
                       <Autocomplete
                         inputProps={{
                           id: 'sub-project-autocomplete'
                         }}
-                        className="input autocomplete-wrapper"
+                        className='input autocomplete-wrapper'
                         getItemValue={(item) => item.label}
                         items={[
                           { label: 'Twitter' },
@@ -610,10 +623,10 @@ export default class CreateTask extends Component {
                           { label: 'Crowdsale' },
                         ]}
                         renderItem={(item, isHighlighted) =>
-                          <div className="autocomplete-box" style={{
+                          <div className='autocomplete-box' style={{
                             textAlign: 'center', margin: 'auto 0', background: isHighlighted ? 'lightgray' : 'white'
                           }}>
-                            <p className="autocomplete-item">
+                            <p className='autocomplete-item'>
                               {item.label}
                             </p>
                           </div>
@@ -628,14 +641,14 @@ export default class CreateTask extends Component {
                         })}
                       />
                     </div>
-                    <div className="task-input-group ipfs-detail">
+                    <div className='task-input-group ipfs-detail'>
                       <h2>Detailed Spec</h2>
                       <span>
                         Write until the reader will have no questions.
                       </span>
                       <input
-                        className="input input-detail"
-                        name="detail"
+                        className='input input-detail'
+                        name='detail'
                         ref={i => this.detail = i}
                         type='textarea'
                         placeholder='Lots of detail'
@@ -643,63 +656,63 @@ export default class CreateTask extends Component {
                         onChange={this.onWriteIPFSDetail}
                       />
                     </div>
-                    <button className="button" type='submit'>
+                    <button className='button' type='submit'>
                       Submit
                     </button>
                   </form>
               </div>
             }
           </div>
-          <div className="task-create-column task-preview">
+          <div className='task-create-column task-preview'>
             <h2>Task Preview</h2>
             <p>Note that <b>this task insert costs gas</b>, so we show you this preview here.  Make sure it's valid and as you want.</p>
-            <div className="task-preview-content">
-              <p className="inline">struct</p>
-              <span className="word-separator">
+            <div className='task-preview-content'>
+              <p className='inline'>struct</p>
+              <span className='word-separator'>
                 Task</span>
               &#123;
-              <div className="struct-line">
-                <span className="task-preview-key">
+              <div className='struct-line'>
+                <span className='task-preview-key'>
                 title:
                 </span>
                 <span className={classNames('task-preview-value', { 'bg-light-gray': titlePrepared })}>
                   {titlePrepared}
                 </span>
               </div>
-              <div className="struct-line">
-                <span className="task-preview-key">
+              <div className='struct-line'>
+                <span className='task-preview-key'>
                   project:
                 </span>
                 <span className={classNames('task-preview-value', { 'bg-light-gray': project })}>
                   {project}
                 </span>
               </div>
-              <div className="struct-line">
-                <span className="task-preview-key">
+              <div className='struct-line'>
+                <span className='task-preview-key'>
                   subProject:
                 </span>
                 <span className={classNames('task-preview-value', { 'bg-light-gray': subProject })}>
                   {subProject}
                 </span>
               </div>
-              <div className="struct-line">
-                <span className="task-preview-key">
+              <div className='struct-line'>
+                <span className='task-preview-key'>
                   createdBy:
                 </span>
                 <span className={classNames('task-preview-value', { 'bg-light-gray': account })}>
                   {account}
                 </span>
               </div>
-              <div className="struct-line">
-                <span className="task-preview-key">
+              <div className='struct-line'>
+                <span className='task-preview-key'>
                   ipfsHash:
                 </span>
                 <span className={classNames('task-preview-value', { 'bg-light-gray': ipfsHash })}>
                   {ipfsHash}
                   </span>
               </div>
-              <div className="struct-line">
-                <span className="task-preview-key">
+              <div className='struct-line'>
+                <span className='task-preview-key'>
                   url:
                 </span>
                 <span className={classNames('task-preview-value', { 'bg-light-gray': url })}>
