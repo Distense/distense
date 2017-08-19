@@ -1,7 +1,7 @@
 const DIDToken = artifacts.require('./DIDToken.sol')
 const HAVToken = artifacts.require('./HAVToken.sol')
 const Distense = artifacts.require('./Distense.sol')
-const    Tasks = artifacts.require('./Tasks.sol')
+const Tasks = artifacts.require('./Tasks.sol')
 
 
 module.exports = deployer => {
