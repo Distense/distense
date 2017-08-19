@@ -2129,7 +2129,7 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-debug@2.6.8, debug@^2.1.0, debug@^2.1.1, debug@^2.2.0, debug@^2.6.0, debug@^2.6.1, debug@^2.6.3, debug@^2.6.6, debug@^2.6.8, debug@~2.6.4, debug@~2.6.6:
+debug@2.6.8, debug@^2.1.0, debug@^2.1.1, debug@^2.2.0, debug@^2.6.0, debug@^2.6.1, debug@^2.6.3, debug@^2.6.6, debug@^2.6.8, debug@~2.6.1, debug@~2.6.4, debug@~2.6.6:
   version "2.6.8"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
   dependencies:
@@ -3796,6 +3796,14 @@ https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
 
+hyperdiff@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/hyperdiff/-/hyperdiff-2.0.2.tgz#831e847bc3815712d6f677826f399dcbeea9ccde"
+  dependencies:
+    debug "~2.6.1"
+    lodash.clonedeep "~4.5.0"
+    lodash.pullat "~4.6.0"
+
 iconv-lite@0.4.13:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
@@ -4028,6 +4036,15 @@ ipfs-multipart@~0.1.0:
   dependencies:
     content "^3.0.0"
     dicer "^0.2.5"
+
+ipfs-pubsub-room@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/ipfs-pubsub-room/-/ipfs-pubsub-room-0.1.3.tgz#038b1dac5e4469eee147df9fc73bc544559809c4"
+  dependencies:
+    hyperdiff "^2.0.2"
+    lodash.clonedeep "^4.5.0"
+    pull-pushable "^2.1.1"
+    pull-stream "^3.6.0"
 
 ipfs-repo@~0.17.0:
   version "0.17.0"
@@ -5378,6 +5395,10 @@ lodash.camelcase@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
 
+lodash.clonedeep@^4.5.0, lodash.clonedeep@~4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
+
 lodash.cond@^4.3.0:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.cond/-/lodash.cond-4.5.2.tgz#f471a1da486be60f6ab955d17115523dd1d255d5"
@@ -5457,6 +5478,10 @@ lodash.padstart@^4.6.1:
 lodash.pullallwith@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.pullallwith/-/lodash.pullallwith-4.7.0.tgz#657e4200710d8b59d694ee5213662ae0511d1170"
+
+lodash.pullat@~4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.pullat/-/lodash.pullat-4.6.0.tgz#bdfacf0e209fd27f965e711fa65a774a84d30261"
 
 lodash.range@^3.2.0:
   version "3.2.0"

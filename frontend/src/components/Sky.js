@@ -8,8 +8,11 @@ import {
   Mesh,
 } from 'react-three'
 
+<<<<<<< Updated upstream
 import timeNow from './timeNow'
 
+=======
+>>>>>>> Stashed changes
 const buildShader = (sunPosition) => ({
   uniforms: {
     luminance: { value: 1 },
@@ -200,8 +203,6 @@ const buildShader = (sunPosition) => ({
 const geometry = new THREE.SphereBufferGeometry(450000, 32, 32);
 
 const position = new THREE.Vector3(0, 20000, 2000)
-
-const look = new THREE.Vector3(0, 20000 + 20000, 0)
 
 const uz = new THREE.Vector3(1,0,0)
 
