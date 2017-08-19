@@ -28,7 +28,6 @@ contract DIDToken is Approvable {
   event LogDIDReward(address indexed to, uint256 numDID, string indexed taskID);
 
   function DIDToken () {
-    owner = msg.sender;
     name = "Distense DID";
     symbol = "DID";
     DIDOutstanding = 123;
