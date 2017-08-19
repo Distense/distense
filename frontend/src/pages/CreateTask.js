@@ -719,8 +719,6 @@ export default class CreateTask extends Component {
         </div>
         <style jsx>{`
           .task-create-view {
-            display: -ms-flex;
-	          display: -webkit-flex;
 	          display: flex;
           }
 
