@@ -380,7 +380,7 @@ export default class CreateTask extends Component {
     }
 
     this.onSetErrorMessages = this.onSetErrorMessages.bind(this)
-    this.onInputChange = this.onInputChange.bind(this)
+    this.onTitleChange = this.onTitleChange.bind(this)
     this.onWriteIPFSDetail = this.onWriteIPFSDetail.bind(this)
     this.onSetTaskUrl = this.onSetTaskUrl.bind(this)
     this.onCreateTask = this.onCreateTask.bind(this)
@@ -437,23 +437,16 @@ export default class CreateTask extends Component {
 
   }
 
-  onInputChange(event) {
-    const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
+  onTitleChange(event) {
+    const title = event.target.value
 
+    const titlePrepared = title.replace(/ /g, '-')
     this.setState({
-      [name]: value
+      title,
+      titlePrepared
     })
-
-    if (name === 'title') {
-      const titlePrepared = value.replace(/ /g, '-')
-      this.setState({
-        titlePrepared
-      })
-    }
     this.onSetTaskUrl()
-    this.onSetErrorMessages(value)
+    this.onSetErrorMessages(title)
   }
 
   onSetErrorMessages(title) {
@@ -539,7 +532,7 @@ export default class CreateTask extends Component {
         <Head title="Create Task"/>
         <div className="task-create-view">
           <div className="task-create-inputs">
-            {taskTXID ? <div>Tx ID: {taskTXID}</div> :
+            {taskTXID ? <span className="tx-hash">Tx ID: {taskTXID}</span> :
               taskSubmitted ?
                 <div className='proposal-form-success'>
                   Please wait for your transaction to be mined.  This could take 20 seconds.
@@ -556,7 +549,7 @@ export default class CreateTask extends Component {
                         type='text'
                         placeholder='<40 char title (short descriptive words)'
                         value={title}
-                        onChange={this.onInputChange}
+                        onChange={this.onTitleChange}
                       />
                       {errorMessages.length > 0 ? errorMessages.map((errorMsg) => {
                         return <p key={errorMsg} className="error-message">{errorMsg}</p>
@@ -821,6 +814,10 @@ export default class CreateTask extends Component {
 
           .input-detail {
             height: 100px;
+          }
+
+          .tx-hash {
+            overflow-wrap: break-word;
           }
 
           .button {
