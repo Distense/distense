@@ -1,21 +1,13 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import Icon from 'react-fontawesome'
 import { Motion, spring } from 'react-motion'
 import windowSize from 'react-window-size'
-import ms from 'ms'
 
 import scrollPosition from '../components/scrollPosition'
 import Head from '../components/common/Head'
 import Sky from '../components/Sky'
 
 const heroTop = (height, top) => Math.max(0, (height / 3) * (1 - (top / height)))
-
-const Nav = () => (
-  <nav>
-    <Link to='/about'>About</Link>
-  </nav>
-)
 
 class Home extends Component {
   constructor(props) {

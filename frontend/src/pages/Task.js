@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import IPFS from 'ipfs'
-// import fs from 'fs'
 
 import web3, {
   selectContractInstance
@@ -8,6 +7,7 @@ import web3, {
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
+
 
 const TasksABI ={
   "contract_name": "Tasks",
@@ -356,13 +356,14 @@ const TasksABI ={
   "updated_at": 1503102803682
 }
 
-export default class Tasks extends Component {
+
+export default class Task extends Component {
   constructor(props) {
     super(props)
     this.state = {
       account: web3.eth.accounts[0] || null,
-      tasks: [],
-      errorMessages: []
+      task: {},
+      taskID: this.props.match.params.id || ''
     }
   }
 
@@ -379,66 +380,59 @@ export default class Tasks extends Component {
     })
 
     this.Tasks = await selectContractInstance(TasksABI)
-    const tasks = await this.getTasks()
-    this.setState({ tasks })
+    const task = await this.getTask(this.state.taskID)
+    this.setState({ task })
 
   }
 
-  async getTasks() {
+  async getTask(taskID) {
 
-    const numTasks = await this.Tasks.getTasksLength()
-    console.log(`Found ${numTasks} tasks`);
+    console.log(`${taskID}`);
+    const taskArray = await this.Tasks.getTaskByID(taskID)
+    const task = {}
+    task.createdBy = web3.toHex(taskArray[0])
+    task.title = web3.toAscii(taskArray[1])
+    task.url = web3.toAscii(taskArray[2])
+    task.project = web3.toAscii(taskArray[3])
+    task.subProject = web3.toAscii(taskArray[4])
+    task.ipfsHash = taskArray[5]
+    task.created = web3.toAscii(taskArray[6])
+    task.status = web3.toAscii(taskArray[7])
+    return task
+  }
 
-    const tasks = []
-    for (let i = 0; i < numTasks; i++) {
-      const taskArray = await this.Tasks.getTaskFromList(i)
-      const task = {}
-      task.createdBy = web3.toHex(taskArray[0])
-      task.title = taskArray[1]
-      task.url = taskArray[2]
-      console.log(`task.url: ${task.url}`)
-      task.project = taskArray[3]
-      task.subProject = taskArray[4]
-      task.ipfsHash = taskArray[5]
-      task.createdAt = taskArray[6]
-      task.status = taskArray[7]
-      tasks.push(task)
-    }
+  getIPFSDetail(ipfsHash) {
 
-    tasks.sort(function(a, b) {
-      return a.createdAt > b.createdAt
+    this.node.files.get(ipfsHash, (err, res) => {
+      if (err) console.error(`${err}`)
+      const ipfsDetail = res[0]
+      this.setState({
+        ipfsDetail
+      })
     })
-
-    return tasks
   }
+
 
   render() {
+    const { ipfsDetail, task } = this.state
 
-    const { tasks } = this.state
     return (
       <Layout>
         <Head title="Available Tasks"/>
-        <div className="tasks-container">
-          <h2>Available Tasks</h2>
-          <div className="tasks-list">
-            {tasks.length ? tasks.map(function (task) {
-              return <Task key={Math.random().toString()} task={task}/>
-            }) : 'No Tasks Available'
-            }
-          </div>
+        <div className="task">
+          {task ? (
+            <a href={task.url}>
+              <div>
+                {task.title}
+              </div>
+              {task.createdBy}
+              {ipfsDetail && <span>{ipfsDetail}</span>}
+            </a>
+          )
+            : 'Loading Task'
+          }
         </div>
-        <style jsx>{`
-
-        `}</style>
       </Layout>
     );
   }
 }
-
-const Task = ({ task }) => {
-  return (
-    <div>
-      <a href={task.url}>{task.createdBy}</a>
-    </div>
-  );
-};

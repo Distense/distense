@@ -8,10 +8,11 @@ import {
 
 import registerServiceWorker from './registerServiceWorker'
 
-import Home from './pages/Home'
-import About from './pages/About'
-import Tasks from './pages/Tasks'
+import Home       from './pages/Home'
+import About      from './pages/About'
 import CreateTask from './pages/CreateTask'
+import Tasks      from './pages/Tasks'
+import Task       from './pages/Task'
 
 
 const Root = () => (
@@ -22,6 +23,7 @@ const Root = () => (
       <Route path='/about' component={About} />
       <Route path='/tasks/create' component={CreateTask} />
       <Route path='/tasks' component={Tasks} />
+      <Route path='/tasks/:id' component={Task} />
       </Switch>
     </div>
   </Router>

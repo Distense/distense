@@ -10,9 +10,9 @@ export default ({ children, title }) => (
           <div style={{ width: 25 }} />
           <Link to='/about'>About</Link>
           <div style={{ width: 25 }} />
-          <Link to='/tasks'><a>Available Tasks</a></Link>
+          <Link to='/tasks'>Available Tasks</Link>
           <div style={{ width: 25 }} />
-          <Link to='/tasks/create'><a>Create Task</a></Link>
+          <Link to='/tasks/create'>Create Task</Link>
         </nav>
       </div>
     </header>
