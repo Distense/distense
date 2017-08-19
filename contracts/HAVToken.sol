@@ -51,15 +51,15 @@ contract HAVToken is Approvable {
     buyHAVTokens(msg.sender);
   }
 
-  function buyHAVTokens(address recip) payable {
-    require(recip != 0x0);
+  function buyHAVTokens(address _recip) payable {
+    require(_recip != 0x0);
     require(approvePurchase());
 
     uint256 numWei = msg.value;
     uint256 numHav = numWei.mul(rate);
     etherRaised = etherRaised.add(numWei);
 
-    issueHAVForDID(recip, numHav);
+    issueHAVForDID(_recip, numHav);
     LogHAVSale(msg.sender, numWei, numHav);
   }
 
