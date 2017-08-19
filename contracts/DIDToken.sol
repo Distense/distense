@@ -34,6 +34,7 @@ contract DIDToken is Approvable {
     DIDOutstanding = 123;
     numContribs = 321;
     decimals = 1;
+    approveAddress(owner);
   }
 
   function updateProfile(string _email, bytes8 _countryCode) {
@@ -41,7 +42,7 @@ contract DIDToken is Approvable {
     contributors[msg.sender].countryCode = _countryCode;
   }
 
-  function issueDIDReward(address _contribAddress, uint256 _amount, string _taskID) onlyHAVContractOrOwner returns (bool) {
+  function issueDIDReward(address _contribAddress, uint256 _amount, string _taskID) onlyApproved returns (bool) {
     DIDOutstanding = DIDOutstanding.add(_amount);
     contributors[_contribAddress].DIDBalance = contributors[_contribAddress].DIDBalance.add(_amount);
     DIDBalances[_contribAddress] = DIDBalances[_contribAddress] + _amount;
@@ -50,7 +51,7 @@ contract DIDToken is Approvable {
   }
 
   // This is called from HAVToken to decrement DID hodler's account prior to issuing HAV when they exchange
-  function burnDIDHAV(address _contribAddress, uint256 _amount) onlyHAVContractOrOwner returns (bool) {
+  function burnDIDHAV(address _contribAddress, uint256 _amount) onlyOwner onlyApproved returns (bool) {
     require(DIDBalances[_contribAddress] >= _amount);
     require(_amount <= contributors[_contribAddress].DIDBalance);
     DIDOutstanding = DIDOutstanding.sub(_amount);
@@ -64,15 +65,6 @@ contract DIDToken is Approvable {
 
   function balanceOf(address _contribAddress) constant returns (uint256 balance) {
     return contributors[_contribAddress].DIDBalance;
-  }
-
-  function setHAVAddress(address _HAVAddress) onlyOwner returns (bool) {
-    HAVAddress = _HAVAddress;
-  }
-
-  modifier onlyHAVContractOrOwner {
-    require(msg.sender == HAVAddress || msg.sender == owner);
-    _;
   }
 
 }
