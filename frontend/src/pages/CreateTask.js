@@ -380,7 +380,7 @@ export default class CreateTask extends Component {
     }
 
     this.onSetErrorMessages = this.onSetErrorMessages.bind(this)
-    this.onHandleInputChange = this.onHandleInputChange.bind(this)
+    this.onInputChange = this.onInputChange.bind(this)
     this.onWriteIPFSDetail = this.onWriteIPFSDetail.bind(this)
     this.onSetTaskUrl = this.onSetTaskUrl.bind(this)
     this.onCreateTask = this.onCreateTask.bind(this)
@@ -437,7 +437,7 @@ export default class CreateTask extends Component {
 
   }
 
-  onHandleInputChange(event) {
+  onInputChange(event) {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
@@ -556,7 +556,7 @@ export default class CreateTask extends Component {
                         type='text'
                         placeholder='<40 char title (short descriptive words)'
                         value={title}
-                        onChange={this.onHandleInputChange}
+                        onChange={this.onInputChange}
                       />
                       {errorMessages.length > 0 ? errorMessages.map((errorMsg) => {
                         return <p key={errorMsg} className="error-message">{errorMsg}</p>
