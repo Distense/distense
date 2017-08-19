@@ -1,17 +1,17 @@
 // Distense is a decentralized, for-profit code cooperative
 // Anyone can contribute
 
-// INSECURE/DRAFT
+// DRAFT -- LIKELY INSECURE
 pragma solidity ^0.4.11;
 
-import './DIDToken.sol';
+import './lib/Approvable.sol';
 import './lib/SafeMath.sol';
+import './DIDToken.sol';
 
-// INSECURE/DRAFT
-contract HAVToken {
+
+contract HAVToken is Approvable {
   using SafeMath for uint256;
 
-  address public owner;
   string public name;
   string public sym;
   uint256 public numHAV;
@@ -26,7 +26,7 @@ contract HAVToken {
 
   mapping (address => uint256) public bals;
 
-  event DIDHAV(address indexed buyer, uint256 num);
+  event LogSwapDIDForHAV(address indexed buyer, uint256 num);
   event LogHAVSale(address indexed buyer, uint256 value, uint256 amount);
   event LogStatusChange(bool saleOn);
 
@@ -34,12 +34,11 @@ contract HAVToken {
 
     name = "Distense HAV";
     sym = "HAV";
-    numHAV = 12;
-    owner = msg.sender;
+    numHAV = 0;
     maxEther = maxEther * 1 ether;
     rate = 200;
-    etherRaised = 987643;
-    saleOn = true;
+    etherRaised = 0;
+    saleOn = false;
     require(rate > 0);
   }
 
@@ -71,7 +70,7 @@ contract HAVToken {
     if (burntDID) {
       numHAV = numHAV.add(_num);
       bals[_to] = bals[_to].add(_num);
-      DIDHAV(_to, _num);
+      LogSwapDIDForHAV(_to, _num);
       return true;
     }
     else {
@@ -87,8 +86,7 @@ contract HAVToken {
     return msg.value != 0 && saleOn;
   }
 
-  function tradMkt(bool _tradMkt) public returns (bool) {
-    require(msg.sender == owner);
+  function tradMkt(bool _tradMkt) onlyOwner public returns (bool) {
     tradMkt = _tradMkt;
   }
 
@@ -96,8 +94,7 @@ contract HAVToken {
     return maxEther - etherBal;
   }
 
-  function pauseSale() public returns (bool) {
-    require(msg.sender == owner);
+  function pauseSale() onlyOwner public returns (bool) {
     saleOn = !saleOn;
     LogStatusChange(saleOn);
     return true;
