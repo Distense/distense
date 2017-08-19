@@ -414,7 +414,7 @@ export default class CreateTask extends Component {
       const ipfsHash = res[0].hash
       this.setState({
         ipfsHash
-      }, function () {
+      }, () => {
         //  ensure state updates have been made before updating url
         this.onSetTaskUrl()
       })
@@ -423,11 +423,24 @@ export default class CreateTask extends Component {
   }
 
   onSetTaskUrl() {
+
+    const {
+      ipfsDetail,
+      ipfsHash,
+      project,
+      subProject,
+      titlePrepared
+    } = this.state
+
     const baseUrl = window.location.origin + '/tasks/'
     console.log(`${baseUrl}`);
-    if (this.state.ipfsDetail && this.state.titlePrepared && this.state.project && this.state.subProject) {
+    if (ipfsDetail
+      && titlePrepared
+      && project
+      && subProject
+    ) {
       this.setState({
-        url: baseUrl + this.state.titlePrepared + '-' + this.state.ipfsHash
+        url: baseUrl + titlePrepared + '-' + ipfsHash
       })
     } else {
       this.setState({
