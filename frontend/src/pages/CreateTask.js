@@ -423,7 +423,8 @@ export default class CreateTask extends Component {
   }
 
   onSetTaskUrl() {
-    const baseUrl = 'http://disten.se/tasks/'
+    const baseUrl = window.location.origin + '/tasks/'
+    console.log(`${baseUrl}`);
     if (this.state.ipfsDetail && this.state.titlePrepared && this.state.project && this.state.subProject) {
       this.setState({
         url: baseUrl + this.state.titlePrepared + '-' + this.state.ipfsHash
