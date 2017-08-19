@@ -18,9 +18,9 @@ contract DIDToken is Approvable {
   mapping (address => uint) public DIDBalances;
 
   struct Contributor {
-  uint256 DIDBalance;
-  string email;
-  bytes8 countryCode;
+    uint256 DIDBalance;
+    string email;
+    bytes8 countryCode;
   }
   mapping(address => Contributor) public contributors;
   mapping(bytes32 => address) public emailToAddress;
