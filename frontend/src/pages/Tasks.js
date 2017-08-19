@@ -378,7 +378,7 @@ export default class Tasks extends Component {
       console.log('IPFS')
     })
 
-    this.Tasks = await selectContractInstance(TasksABI)
+    this.TasksContract = await selectContractInstance(TasksABI)
     const tasks = await this.getTasks()
     this.setState({ tasks })
 
@@ -386,12 +386,12 @@ export default class Tasks extends Component {
 
   async getTasks() {
 
-    const numTasks = await this.Tasks.getTasksLength()
+    const numTasks = await this.TasksContract.getTasksLength()
     console.log(`Found ${numTasks} tasks`);
 
     const tasks = []
     for (let i = 0; i < numTasks; i++) {
-      const taskArray = await this.Tasks.getTaskFromList(i)
+      const taskArray = await this.TasksContract.getTaskFromList(i)
       const task = {}
       task.createdBy = web3.toHex(taskArray[0])
       task.title = taskArray[1]

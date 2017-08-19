@@ -505,8 +505,8 @@ export default class CreateTask extends Component {
     const { title, project, subProject, url, ipfsHash } = this.state
 
     if (title && project && subProject && url && ipfsHash) {
-      const Tasks = await selectContractInstance(TasksABI);
-      const taskCreated = await Tasks.createTask(
+      const TasksContract = await selectContractInstance(TasksABI);
+      const taskCreated = await TasksContract.createTask(
         title,
         url,
         project,
@@ -521,7 +521,7 @@ export default class CreateTask extends Component {
           taskTXID: taskCreated.tx || ''
         })
       }
-      const task = await Tasks.getTaskFromMapping(ipfsHash)
+      const task = await TasksContract.getTaskFromMapping(ipfsHash)
       if (task) {
         console.log(`Distense task Created!`)
         this.room.broadcast(this.state.ipfsHash)

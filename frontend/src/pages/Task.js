@@ -379,7 +379,7 @@ export default class Task extends Component {
       console.log('IPFS')
     })
 
-    this.Tasks = await selectContractInstance(TasksABI)
+    this.TasksContract = await selectContractInstance(TasksABI)
     const task = await this.getTask(this.state.taskID)
     this.setState({ task })
 
@@ -388,7 +388,7 @@ export default class Task extends Component {
   async getTask(taskID) {
 
     console.log(`${taskID}`);
-    const taskArray = await this.Tasks.getTaskByID(taskID)
+    const taskArray = await this.TasksContract.getTaskByID(taskID)
     const task = {}
     task.createdBy = web3.toHex(taskArray[0])
     task.title = web3.toAscii(taskArray[1])
@@ -418,7 +418,7 @@ export default class Task extends Component {
 
     return (
       <Layout>
-        <Head title="Available Tasks"/>
+        <Head title="Available TasksContract"/>
         <div className="task">
           {task ? (
             <a href={task.url}>
