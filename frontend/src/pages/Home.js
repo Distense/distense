@@ -12,7 +12,7 @@ const heroTop = (height, top) => Math.max(0, (height / 3) * (1 - (top / height))
 class Home extends Component {
   constructor(props) {
     super(props)
-    
+
     this.state = {
       email: '',
       emailFocused: false
@@ -86,10 +86,15 @@ class Home extends Component {
                     onChange={this.onChangeEmail}
                   />
                   <button type='submit' className={email && 'show'} disabled={!email}>
-                    <Icon name={emailSubmitSuccess ? 'check' : 'chevron-right'} />
+                    <Icon name={emailSubmitSuccess ? 'check' : 'chevron-right'}/>
                   </button>
                 </form>
               }
+              <div className="overview">
+                <a target="_blank" href="../public/Distense-Overview-8-17-17.pdf" download>
+                  <h2 className="underlined">One Page Overview</h2>
+                </a>
+              </div>
             </div>
           </div>
         </header>
@@ -114,6 +119,14 @@ class Home extends Component {
 
           .show {
             opacity: 1;
+          }
+
+          .underlined {
+            text-decoration: underline;
+          }
+
+          .overview {
+            margin-top: 2rem;
           }
 
           .max-width {
