@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Route,
   Switch
 } from 'react-router-dom'
@@ -14,7 +14,6 @@ import CreateTask from './pages/CreateTask'
 import Tasks      from './pages/Tasks'
 import Task       from './pages/Task'
 
-
 const Root = () => (
   <Router>
     <div>
@@ -23,7 +22,7 @@ const Root = () => (
       <Route path='/about' component={About} />
       <Route exact path='/tasks/create' component={CreateTask} />
       <Route exact path='/tasks' component={Tasks} />
-      <Route exact path='/tasks/:id' component={Task} />
+      <Route exact path='/tasks/:title/:id' component={Task} />
       </Switch>
     </div>
   </Router>
