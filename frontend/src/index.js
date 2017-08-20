@@ -14,7 +14,6 @@ import CreateTask from './pages/CreateTask'
 import Tasks      from './pages/Tasks'
 import Task       from './pages/Task'
 
-
 const Root = () => (
   <Router>
     <div>
