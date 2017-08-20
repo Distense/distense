@@ -1,41 +1,44 @@
-import Web3 from 'web3';
-import contract from 'truffle-contract';
-import _ from 'lodash';
+import Web3 from 'web3'
+import contract from 'truffle-contract'
+import _ from 'lodash'
 
-const provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
+const provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545')
 
-const web3 = new Web3(provider);
-export default web3;
+const web3 = new Web3(provider)
+export default web3
 
 export const selectContractInstance = (contractBuild) => {
   return new Promise(res => {
-    const myContract = contract(contractBuild);
-    myContract.setProvider(provider);
+    const myContract = contract(contractBuild)
+    myContract.setProvider(provider)
+    myContract.defaults({
+      gas: 1e6
+    })
     myContract
       .deployed()
-      .then(instance => res(instance));
+      .then(instance => res(instance))
   })
 }
 
 export const mapReponseToJSON = (contractResponse, parameters, type) => {
   switch (type) {
     case 'arrayOfObject': {
-      const result = [];
+      const result = []
       contractResponse.forEach((paramValues, paramIndex) => {
-        const paramName = parameters[paramIndex];
+        const paramName = parameters[paramIndex]
         paramValues.forEach((paramValue, itemIndex) => {
-          const item = _.merge({}, _.get(result, [itemIndex], {}));
+          const item = _.merge({}, _.get(result, [itemIndex], {}))
           if (typeof paramValue === 'string') {
-            paramValue = web3.toUtf8(paramValue).trim();
+            paramValue = web3.toUtf8(paramValue).trim()
           }
-          item[paramName] = paramValue;
-          result[itemIndex] = item;
+          item[paramName] = paramValue
+          result[itemIndex] = item
         })
-      });
+      })
 
-      return result;
+      return result
     }
     default:
-      return contractResponse;
+      return contractResponse
   }
 }

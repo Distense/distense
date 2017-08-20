@@ -22,7 +22,7 @@ const Root = () => (
       <Route path='/about' component={About} />
       <Route exact path='/tasks/create' component={CreateTask} />
       <Route exact path='/tasks' component={Tasks} />
-      <Route exact path='/tasks/:id' component={Task} />
+      <Route exact path='/tasks/:title/:id' component={Task} />
       </Switch>
     </div>
   </Router>
