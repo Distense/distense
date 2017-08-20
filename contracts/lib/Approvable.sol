@@ -15,6 +15,7 @@ contract Approvable is Ownable {
   }
 
   function updateAddressState(address _address, bool _approved) onlyApproved {
+    require(_address != address(0));
     approved[_address] = _approved;
   }
 }

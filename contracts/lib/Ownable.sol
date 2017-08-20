@@ -12,8 +12,8 @@ contract Ownable {
     _;
   }
 
-  function transferOwnership(address newOwner) onlyOwner {
-    require(newOwner != address(0));
-    owner = newOwner;
+  function transferOwnership(address _newOwner) onlyOwner {
+    require(_newOwner != address(0));
+    owner = _newOwner;
   }
 }
