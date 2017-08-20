@@ -1,9 +1,9 @@
 module.exports = {
   networks: {
-    development: {
+    distnet: {
       host: "localhost",
       port: 8545,
-      network_id: "*", // Match any network id
+      network_id: "15"
     },
     ropsten: {
       host: "localhost",

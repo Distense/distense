@@ -199,8 +199,6 @@ const geometry = new THREE.SphereBufferGeometry(450000, 32, 32);
 
 const position = new THREE.Vector3(0, 20000, 2000)
 
-const look = new THREE.Vector3(0, 20000 + 20000, 0)
-
 const uz = new THREE.Vector3(1,0,0)
 
 const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff })
