@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import IPFS from 'ipfs'
-// import fs from 'fs'
 
 import web3, {
   selectContractInstance
