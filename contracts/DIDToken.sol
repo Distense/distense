@@ -15,7 +15,7 @@ contract DIDToken is Approvable, Token {
   }
 
   function issueReward(address _recipient, uint256 _amount) external onlyApproved returns (bool) {
-    total = total.add(_amount);
+    totalSupply = totalSupply.add(_amount);
     balances[_recipient] = balances[_recipient].add(_amount);
     LogReward(_recipient, _amount);
     return true;

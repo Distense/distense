@@ -8,12 +8,12 @@ contract Token {
   string public name;
   string public symbol;
   uint8 public decimals;
-  uint256 public total;
+  uint256 public totalSupply;
 
   mapping (address => uint256) public balances;
 
   function Token() {
-    total = 0;
-    decimals = 1;
+    totalSupply = 0;
+    decimals = 18;
   }
 }
