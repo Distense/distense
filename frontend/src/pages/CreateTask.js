@@ -384,7 +384,7 @@ export default class CreateTask extends Component {
 
   async componentWillMount() {
 
-    this.node = await new IPFS({
+    this.node = new IPFS({
       EXPERIMENTAL: {
         pubsub: true
       },
