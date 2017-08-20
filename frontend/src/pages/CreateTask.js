@@ -365,24 +365,20 @@ export default class CreateTask extends Component {
     super(props)
     this.state = {
       account: web3.eth.accounts[0] || null,
+      errorMessages: [],
       ipfsHash: '',
       ipfsDetail: '',
-      errorMessages: [],
-      taskSubmitted: false,
       project: '',
       subProject: '',
-      skills: [],
-      url: '',
+      taskSubmitted: false,
+      taskCreateSuccess: false,
       title: '',
-      titlePrepared: '',
-      userNumDID: 0,
-      taskCreateSuccess: false
+      titleSlug: ''
     }
 
     this.onSetErrorMessages = this.onSetErrorMessages.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onWriteIPFSDetail = this.onWriteIPFSDetail.bind(this)
-    this.onSetTaskUrl = this.onSetTaskUrl.bind(this)
     this.onCreateTask = this.onCreateTask.bind(this)
   }
 
@@ -405,60 +401,24 @@ export default class CreateTask extends Component {
   onWriteIPFSDetail(event) {
 
     const ipfsDetail = event.target.value
-    this.setState({
-      ipfsDetail
-    })
+    this.setState({ ipfsDetail })
+
     this.node.files.add([Buffer.from(ipfsDetail)], (err, res) => {
-      if (err) console.error(`${err}`)
-
-      const ipfsHash = res[0].hash
-      this.setState({
-        ipfsHash
-      }, () => {
-        //  ensure state updates have been made before updating url
-        this.onSetTaskUrl()
-      })
-
+      if (err) console.error(err)
+      else if (res && res[0].hash) {
+        const ipfsHash = res[0].hash
+        this.setState({ ipfsHash })
+      }
     })
-  }
-
-  onSetTaskUrl() {
-
-    const {
-      ipfsDetail,
-      ipfsHash,
-      project,
-      subProject,
-      titlePrepared
-    } = this.state
-
-    const baseUrl = window.location.origin + '/tasks/'
-    console.log(`${baseUrl}`);
-    if (ipfsDetail
-      && titlePrepared
-      && project
-      && subProject
-    ) {
-      this.setState({
-        url: baseUrl + titlePrepared + '-' + ipfsHash
-      })
-    } else {
-      this.setState({
-        url: ''
-      })
-    }
-
   }
 
   onTitleChange(event) {
     const title = event.target.value
-
-    const titlePrepared = title.replace(/ /g, '-')
+    const titleSlug = title.replace(/ /g, '-')
     this.setState({
       title,
-      titlePrepared
+      titleSlug
     })
-    this.onSetTaskUrl()
     this.onSetErrorMessages(title)
   }
 
@@ -485,14 +445,6 @@ export default class CreateTask extends Component {
       errorMessages.splice(specialCharMsgIndex, 1)
     }
 
-    if (errorMessages.length) {
-      this.setState({
-        url: 'Sorry. You get no URL when you have title errors'
-      })
-    } else {
-      this.onSetTaskUrl()
-    }
-
     this.setState({
       errorMessages
     })
@@ -500,20 +452,19 @@ export default class CreateTask extends Component {
   }
 
   async onCreateTask(e) {
-    // e.preventDefault()
-    console.log(`Submitting proposal`)
     console.log(`ipfsHash: ${this.state.ipfsHash}`)
 
     this.setState({
       taskSubmitted: true
     })
 
-    const { title, project, subProject, url, ipfsHash } = this.state
+    const { titleSlug, project, subProject, ipfsHash } = this.state
 
-    if (title && project && subProject && url && ipfsHash) {
+    if (titleSlug && project && subProject && ipfsHash) {
+      const url = window.location.origin + '/tasks/' + titleSlug + '-' + ipfsHash
       const TasksContract = await selectContractInstance(TasksABI);
       const taskCreated = await TasksContract.createTask(
-        title,
+        titleSlug,
         url,
         project,
         subProject,
@@ -529,7 +480,7 @@ export default class CreateTask extends Component {
       }
       const task = await TasksContract.getTaskFromMapping(ipfsHash)
       if (task) {
-        console.log(`Distense task Created!`)
+        console.log(`Distense task created!`)
         this.room.broadcast(this.state.ipfsHash)
       }
     }
@@ -548,11 +499,15 @@ export default class CreateTask extends Component {
       subProject,
       taskSubmitted,
       taskTXID,
-      titlePrepared,
-      title,
-      url
+      titleSlug,
+      title
     } = this.state
-    
+
+    let url
+    if (titleSlug && ipfsHash) {
+      url = window.location.origin + '/tasks/' + titleSlug + '-' + ipfsHash
+    }
+
     return (
       <Layout>
         <Head title='Create Task'/>
@@ -688,8 +643,8 @@ export default class CreateTask extends Component {
                 <span className='task-preview-key'>
                 title:
                 </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': titlePrepared })}>
-                  {titlePrepared}
+                <span className={classNames('task-preview-value', { 'bg-light-gray': titleSlug })}>
+                  {titleSlug}
                 </span>
               </div>
               <div className='struct-line'>
