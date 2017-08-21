@@ -5,28 +5,44 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import { Provider } from 'react-redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 import registerServiceWorker from './registerServiceWorker'
+import reducers from './reducers'
+import { getAllAccounts } from './actions'
 
-import Home       from './pages/Home'
-import About      from './pages/About'
+import Home from './pages/Home'
+import About from './pages/About'
 import CreateTask from './pages/CreateTask'
-import Tasks      from './pages/Tasks'
-import Task       from './pages/Task'
+import Tasks from './pages/Tasks'
+import Task from './pages/Task'
+
+const store = createStore(
+  reducers,
+  composeWithDevTools(applyMiddleware(thunk))
+)
+
+store.dispatch(getAllAccounts())
 
 const Root = () => (
   <Router>
-    <div>
-      <Switch>
+    <Switch>
       <Route exact path='/' component={Home} />
       <Route path='/about' component={About} />
       <Route exact path='/tasks/create' component={CreateTask} />
       <Route exact path='/tasks' component={Tasks} />
       <Route exact path='/tasks/:title/:id' component={Task} />
-      </Switch>
-    </div>
+    </Switch>
   </Router>
 )
 
-ReactDOM.render(<Root />, document.getElementById('root'))
+ReactDOM.render(
+  <Provider store={store}>
+    <Root />
+  </Provider>,
+document.getElementById('root'))
+
 registerServiceWorker()
