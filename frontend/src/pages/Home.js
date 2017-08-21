@@ -68,7 +68,7 @@ class Home extends Component {
         <header className='hero' style={{ top: `${heroTop(windowHeight, scrollPosition)}px` }}>
           <div className='header-inner max-width'>
             <div>
-              <h1>Đistense</h1>
+              <h1>Distense</h1>
               <h2>A decentralized, for-profit code cooperative</h2>
               {emailSubmitSuccess ?
                 <div className='email-form-success'>
@@ -102,8 +102,8 @@ class Home extends Component {
         <div className='content'>
           <header style={{ top: `${heroTop(windowHeight, scrollPosition)}px` }}>
             <div className='header-inner max-width'>
-              <h1 className='logo'>Đ</h1>
-              <h1 style={{ visibility: 'hidden' }}>Đ</h1>
+              <h1 className='logo'>D</h1>
+              <h1 style={{ visibility: 'hidden' }}>D</h1>
             </div>
           </header>
 
