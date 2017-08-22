@@ -202,7 +202,7 @@ export default class CreateTask extends Component {
                           border: '1px solid gray',
                           borderRadius: '4px'
                         }}
-                        className='select-input'
+                        className='react-select'
                         optionClassName='select-option'
                         clearable={false}
                         name='react-select'
@@ -211,6 +211,8 @@ export default class CreateTask extends Component {
                         delimiter='|'
                         multi={true}
                         placeholder=''
+                        backspaceToRemoveMessage=''
+                        // NOTE: options values must adhere to bytes32 in Tasks.sol contract
                         options={[
                           { value: 'frontend-tests', label: 'Frontend Tests' },
                           { value: 'contract-tests', label: 'Contract Tests' },
@@ -325,15 +327,44 @@ export default class CreateTask extends Component {
 
         { /*language=SCSS*/ }
         <style jsx>{`
-
-          :global(.select-wrapper) {
-
+          body * {
+            font-family: Quicksand;
           }
 
-          :global(.select-option) {
+          :global(.Select-multi-value-wrapper) {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+          }
+
+          :global(.Select-value), :global(.select-option) {
             background-color: lightgray;
-            padding: 3px;
-            margin: 5px 0;
+            border: 1px solid transparent !important;
+            border-radius: .25rem;
+            display: inline-block;
+            font-weight: 400;
+            line-height: 1.25;
+            margin: 2px;
+            padding: .4rem .6rem;
+            font-size: 1rem;
+            text-align: center;
+            text-transform: none;
+            vertical-align: middle;
+            user-select: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+          }
+
+          :global(.Select-menu-outer) {
+            margin-top: 5px;
+          }
+
+          :global(.Select-value-icon) {
+            margin-right: 4px;
+            cursor: pointer;
           }
 
           .task-create-view {
@@ -345,13 +376,12 @@ export default class CreateTask extends Component {
           }
 
           .task-preview-content {
-            font-size: 18px;
-            font-weight: semi-bold;
-            padding: 10px;
-            width: 100%;
-            height: 270px;
             background: #FAEBD7;
             border-radius: 3px;
+            font-size: 18px;
+            height: 270px;
+            padding: 10px;
+            width: 100%;
           }
 
           .task-create-inputs {
