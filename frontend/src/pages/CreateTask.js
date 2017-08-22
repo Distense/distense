@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Autocomplete from 'react-autocomplete'
 import IPFS from 'ipfs'
 import classNames from 'classnames'
+import Select from 'react-select';
 import Room from 'ipfs-pubsub-room'
 import { Buffer } from 'safe-buffer'
 
@@ -11,6 +11,7 @@ import * as contracts from '../contracts'
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 
+
 export default class CreateTask extends Component {
   constructor(props) {
     super(props)
@@ -19,18 +20,18 @@ export default class CreateTask extends Component {
       errorMessages: [],
       ipfsHash: '',
       ipfsDetail: '',
-      project: '',
-      subProject: '',
+      tags: [],
       taskSubmitted: false,
       taskCreateSuccess: false,
       title: '',
       titleSlug: ''
     }
 
+    this.onCreateTask = this.onCreateTask.bind(this)
+    this.onTagsChange = this.onTagsChange.bind(this);
     this.onSetErrorMessages = this.onSetErrorMessages.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onWriteIPFSDetail = this.onWriteIPFSDetail.bind(this)
-    this.onCreateTask = this.onCreateTask.bind(this)
   }
 
   async componentWillMount() {
@@ -41,10 +42,6 @@ export default class CreateTask extends Component {
       },
       repo: String(Math.random() + Date.now())
       })
-
-    this.node.on('ready', () => {
-      console.log('IPFS ready')
-    })
 
     this.room = Room(this.node, 'distense-task-detail')
   }
@@ -89,7 +86,7 @@ export default class CreateTask extends Component {
       errorMessages.splice(titleMsgErrorIndex, 1)
     }
 
-    const titleHasSpecialChars = /[.~`!#$%^&*+=[\]\\';,/{}|\\":<>?]/g.test(title)
+    const titleHasSpecialChars = /[.~`!#$%^&*+=[\]\\';,/{}|\\':<>?]/g.test(title)
     if (titleHasSpecialChars && specialCharMsgIndex < 0) {
       errorMessages.push(specialCharMsg)
     } else if (!titleHasSpecialChars && specialCharMsgIndex > -1) {
@@ -109,9 +106,9 @@ export default class CreateTask extends Component {
       taskSubmitted: true
     })
 
-    const { titleSlug, project, subProject, ipfsHash } = this.state
+    const { titleSlug, tags, ipfsHash } = this.state
 
-    if (titleSlug && project && subProject && ipfsHash) {
+    if (titleSlug && tags.length && ipfsHash) {
       const url = window.location.origin + '/tasks/' + titleSlug + '/' + ipfsHash
 
       const {
@@ -122,8 +119,7 @@ export default class CreateTask extends Component {
       const taskCreated = await createTask(
         titleSlug,
         url,
-        project,
-        subProject,
+        tags,
         ipfsHash, {
           from: this.state.account
         }
@@ -144,7 +140,11 @@ export default class CreateTask extends Component {
     }
   }
 
-
+  onTagsChange(tags) {
+    this.setState({
+      tags: tags
+    })
+  }
 
   render() {
 
@@ -153,8 +153,7 @@ export default class CreateTask extends Component {
       ipfsDetail,
       ipfsHash,
       errorMessages,
-      project,
-      subProject,
+      tags,
       taskSubmitted,
       taskTXID,
       titleSlug,
@@ -179,8 +178,8 @@ export default class CreateTask extends Component {
                 : <div>
                     <h1>Create Task</h1>
                     <form className='proposal-form' onSubmit={this.onCreateTask}>
-                    <div className="task-input-group">
-                      <h2>Task Title</h2>
+                    <div className='task-input-group'>
+                      <h2>Title</h2>
                       <input
                         className='input input-title'
                         name='title'
@@ -196,75 +195,57 @@ export default class CreateTask extends Component {
                       }
                     </div>
                     <div className='task-input-group'>
-                      <h2>Select Project</h2>
-                      <Autocomplete
-                        inputProps={{ id: 'project-autocomplete' }}
-                        className='input autocomplete-wrapper'
-                        getItemValue={(item) => item.label}
-                        items={[
-                          { label: 'contracts' },
-                          { label: 'site' },
-                          { label: 'legal' },
-                          { label: 'outreach' },
-                          { label: 'crowdsale' },
-                        ]}
-                        renderItem={(item, isHighlighted) =>
-                          <div className='autocomplete-box' style={{
-                            textAlign: 'center', margin: 'auto 0', background: isHighlighted ? 'lightgray' : 'white'
-                          }}>
-                            <p className='autocomplete-item'>
-                              {item.label}
-                            </p>
-                          </div>
-                        }
-                        value={project}
-                        onChange={(e) => this.setState({
-                          project: e.target.value
-                          })
-                        }
-                        onSelect={(val) => this.setState({
-                          project: val
-                          })
-                        }
-                      />
-                    </div>
-                    <div className='task-input-group'>
-                      <h2>Select Sub-Project</h2>
-                      <Autocomplete
-                        inputProps={{
-                          id: 'sub-project-autocomplete'
+                      <h2 style={{ marginBottom: '10px' }}>Tags</h2>
+                      <Select
+                        //{/*TODO make Creatable if large enough DID hodler ;)*/}
+                        style={{
+                          border: '1px solid gray',
+                          borderRadius: '4px'
                         }}
-                        className='input autocomplete-wrapper'
-                        getItemValue={(item) => item.label}
-                        items={[
-                          { label: 'Twitter' },
-                          { label: 'Technical Task Spec' },
-                          { label: 'Distense Education' },
-                          { label: 'HAVToken.sol' },
-                          { label: 'DIDToken.sol' },
-                          { label: 'Contributor Outreach' },
-                          { label: 'Planning' },
-                          { label: 'Tasks.sol' },
-                          { label: 'Legal' },
-                          { label: 'Crowdsale' },
+                        className='select-input'
+                        optionClassName='select-option'
+                        clearable={false}
+                        name='react-select'
+                        joinValues={true}  // join just the values with the below delimiter
+                        simpleValue={true}  // return the value string and not the entire object
+                        delimiter='|'
+                        multi={true}
+                        placeholder=''
+                        options={[
+                          { value: 'frontend-tests', label: 'Frontend Tests' },
+                          { value: 'contract-tests', label: 'Contract Tests' },
+                          { value: 'research', label: 'Research' },
+                          { value: 'twitter', label: 'Twitter' },
+                          { value: 'solidity', label: 'Solidity' },
+                          { label: 'DID', value: 'did' },
+                          { label: 'HAV', value: 'hav' },
+                          { label: 'Tokens', value: 'tokens' },
+                          { label: 'React', value: 'react' },
+                          { label: 'HTML', value: 'html' },
+                          { label: 'CSS', value: 'css' },
+                          { label: 'Ideas', value: 'ideas' },
+                          { label: 'Governance', value: 'governance' },
+                          { label: 'Code Review', value: 'code-review' },
+                          { label: 'Applications', value: 'applications' },
+                          { label: 'Security', value: 'security' },
+                          { label: 'Contracts', value: 'contracts' },
+                          { label: 'Website', value: 'website' },
+                          { label: 'Social', value: 'social' },
+                          { label: 'Administration', value: 'admin' },
+                          { label: 'Decisions', value: 'decisions' },
+                          { label: 'Design', value: 'design' },
+                          { label: 'Open Source', value: 'open-source' },
+                          { label: 'Meetups', value: 'meetups' },
+                          { label: 'Education', value: 'education' },
+                          { label: 'Contributors', value: 'contributors' },
+                          { label: 'Voting Dapp', value: 'voting-dapp' },
+                          { label: 'Planning', value: 'planning' },
+                          { label: 'Task Management', value: 'tasks' },
+                          { label: 'Legal', value: 'Legal' },
+                          { label: 'Crowdsale', value: 'crowdsale' }
                         ]}
-                        renderItem={(item, isHighlighted) =>
-                          <div className='autocomplete-box' style={{
-                            textAlign: 'center', margin: 'auto 0', background: isHighlighted ? 'lightgray' : 'white'
-                          }}>
-                            <p className='autocomplete-item'>
-                              {item.label}
-                            </p>
-                          </div>
-                        }
-                        value={subProject}
-                        onChange={(e) => this.setState({
-                          subProject: e.target.value
-                        })
-                        }
-                        onSelect={(val) => this.setState({
-                          subProject: val
-                        })}
+                        value={tags}
+                        onChange={this.onTagsChange}
                       />
                     </div>
                     <div className='task-input-group ipfs-detail'>
@@ -272,7 +253,7 @@ export default class CreateTask extends Component {
                       <span>
                         Write until the reader will have no questions.
                       </span>
-                      <input
+                      <textarea
                         className='input input-detail'
                         name='detail'
                         ref={i => this.detail = i}
@@ -307,18 +288,10 @@ export default class CreateTask extends Component {
               </div>
               <div className='struct-line'>
                 <span className='task-preview-key'>
-                  project:
+                  Tags:
                 </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': project })}>
-                  {project}
-                </span>
-              </div>
-              <div className='struct-line'>
-                <span className='task-preview-key'>
-                  subProject:
-                </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': subProject })}>
-                  {subProject}
+                <span className={classNames('task-preview-value', { 'bg-light-gray': tags })}>
+                  {tags}
                 </span>
               </div>
               <div className='struct-line'>
@@ -349,7 +322,20 @@ export default class CreateTask extends Component {
             </div>
           </div>
         </div>
+
+        { /*language=SCSS*/ }
         <style jsx>{`
+
+          :global(.select-wrapper) {
+
+          }
+
+          :global(.select-option) {
+            background-color: lightgray;
+            padding: 3px;
+            margin: 5px 0;
+          }
+
           .task-create-view {
 	          display: flex;
           }
@@ -366,8 +352,6 @@ export default class CreateTask extends Component {
             height: 270px;
             background: #FAEBD7;
             border-radius: 3px;
-            -webkit-border-radius: 3;
-            -moz-border-radius: 3;
           }
 
           .task-create-inputs {
