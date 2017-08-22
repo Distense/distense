@@ -48,7 +48,7 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.1.2",
     "react-router-dom": "^4.1.2",
-    "react-select-popover": "^0.1.1",
+    "react-select": "^1.0.0-rc.5",
     "react-three": "^0.9.7",
     "react-window-size": "^1.1.0",
     "redux": "^3.7.2",

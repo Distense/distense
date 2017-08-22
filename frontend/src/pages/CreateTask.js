@@ -9,8 +9,6 @@ import { createTask } from '../actions'
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 
-const taskUrl = ({ title, _id }) => `/tasks/${slug(title)}/${_id}`
-
 class CreateTask extends Component {
   constructor(props) {
     super(props)
@@ -43,7 +41,7 @@ class CreateTask extends Component {
     } = this.state
 
     if (pendingTask) {
-      return <Redirect to={taskUrl(pendingTask)} />
+      return <Redirect to='/' />
     }
 
     return (
