@@ -252,12 +252,11 @@ export default class CreateTask extends Component {
                       onChange={this.onTagsChange}
                     />
                   </div>
-                  <div className='task-input-group ipfs-detail'>
+                  <div className='task-input-group'>
                     <CodeMirror
                       value={taskDetail}
                       options={{
                         mode: 'markdown',
-                        theme: 'material',
                         lineNumbers: true
                       }}
                       onValueChange={this.onWriteTaskDetail}
@@ -288,9 +287,9 @@ export default class CreateTask extends Component {
               </div>
               <div className='struct-line'>
                 <span className='task-preview-key'>
-                  Tags:
+                  tags:
                 </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': tags })}>
+                <span className={classNames('task-preview-value', { 'bg-light-gray': tags.length })}>
                   {tags}
                 </span>
               </div>
@@ -323,10 +322,15 @@ export default class CreateTask extends Component {
           </div>
         </div>
 
-        { /*language=SCSS*/ }
+        { /*language=CSS*/ }
         <style jsx>{`
           body * {
             font-family: Quicksand;
+          }
+
+          :global(.react-codemirror2) {
+            border: 1px solid gray !important;
+            border-radius: 3px;
           }
 
           :global(.Select-multi-value-wrapper) {
