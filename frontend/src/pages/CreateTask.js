@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import IPFS from 'ipfs'
 import classNames from 'classnames'
+import CodeMirror from 'react-codemirror2'
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/mode/markdown/markdown';
+import 'codemirror/theme/material.css';
+
 import Select from 'react-select';
-import Room from 'ipfs-pubsub-room'
 import { Buffer } from 'safe-buffer'
 
 import web3 from '../web3'
@@ -19,7 +23,7 @@ export default class CreateTask extends Component {
       account: web3.eth.accounts[0] || null,
       errorMessages: [],
       ipfsHash: '',
-      ipfsDetail: '',
+      taskDetail: '',
       tags: [],
       taskSubmitted: false,
       taskCreateSuccess: false,
@@ -31,27 +35,21 @@ export default class CreateTask extends Component {
     this.onTagsChange = this.onTagsChange.bind(this);
     this.onSetErrorMessages = this.onSetErrorMessages.bind(this)
     this.onTitleChange = this.onTitleChange.bind(this)
-    this.onWriteIPFSDetail = this.onWriteIPFSDetail.bind(this)
+    this.onWriteTaskDetail = this.onWriteTaskDetail.bind(this)
   }
 
-  async componentWillMount() {
-
+  componentWillMount() {
     this.node = new IPFS({
-      EXPERIMENTAL: {
-        pubsub: true
-      },
       repo: String(Math.random() + Date.now())
-      })
-
-    this.room = Room(this.node, 'distense-task-detail')
+    })
   }
 
-  onWriteIPFSDetail(event) {
+  onWriteTaskDetail(editor, metadata, value) {
 
-    const ipfsDetail = event.target.value
-    this.setState({ ipfsDetail })
+    const taskDetail = value
+    this.setState({ taskDetail })
 
-    this.node.files.add([Buffer.from(ipfsDetail)], (err, res) => {
+    this.node.files.add([Buffer.from(taskDetail)], (err, res) => {
       if (err) console.error(err)
       else if (res && res[0].hash) {
         const ipfsHash = res[0].hash
@@ -74,7 +72,7 @@ export default class CreateTask extends Component {
 
     const errorMessages = this.state.errorMessages
     const specialCharMsg = 'Title cannot contain non-alphanumeric characters'
-    const lengthErrorMsg = 'Title Too Long'
+    const lengthErrorMsg = 'Title too long'
 
     const titleMsgErrorIndex = errorMessages.indexOf(lengthErrorMsg)
     const specialCharMsgIndex = errorMessages.indexOf(specialCharMsg)
@@ -100,13 +98,16 @@ export default class CreateTask extends Component {
   }
 
   async onCreateTask(e) {
-    console.log(`ipfsHash: ${this.state.ipfsHash}`)
 
     this.setState({
       taskSubmitted: true
     })
 
-    const { titleSlug, tags, ipfsHash } = this.state
+    const {
+      titleSlug,
+      tags,
+      ipfsHash
+    } = this.state
 
     if (titleSlug && tags.length && ipfsHash) {
       const url = window.location.origin + '/tasks/' + titleSlug + '/' + ipfsHash
@@ -127,7 +128,7 @@ export default class CreateTask extends Component {
 
       if (taskCreated) {
         this.setState({
-          taskTXID: taskCreated.tx || ''
+          taskTXID: taskCreated.tx
         })
       }
 
@@ -150,7 +151,7 @@ export default class CreateTask extends Component {
 
     const {
       account,
-      ipfsDetail,
+      taskDetail,
       ipfsHash,
       errorMessages,
       tags,
@@ -173,102 +174,99 @@ export default class CreateTask extends Component {
             {taskTXID ? <span className='tx-hash'>Tx ID: {taskTXID}</span> :
               taskSubmitted ?
                 <div className='proposal-form-success'>
-                  Please wait for your transaction to be mined.  This could take 20 seconds.
+                  Please wait for your transaction to be mined.<br/>
+                  This could take 20 seconds.
                 </div>
                 : <div>
-                    <h1>Create Task</h1>
-                    <form className='proposal-form' onSubmit={this.onCreateTask}>
-                    <div className='task-input-group'>
-                      <h2>Title</h2>
-                      <input
-                        className='input input-title'
-                        name='title'
-                        ref={i => this.title = i}
-                        type='text'
-                        placeholder='<40 char title (short descriptive words)'
-                        value={title}
-                        onChange={this.onTitleChange}
-                      />
-                      {errorMessages.length > 0 ? errorMessages.map((errorMsg) => {
-                        return <p key={errorMsg} className='error-message'>{errorMsg}</p>
-                      }) : ''
-                      }
-                    </div>
-                    <div className='task-input-group'>
-                      <h2 style={{ marginBottom: '10px' }}>Tags</h2>
-                      <Select
-                        //{/*TODO make Creatable if large enough DID hodler ;)*/}
-                        style={{
-                          border: '1px solid gray',
-                          borderRadius: '4px'
-                        }}
-                        className='react-select'
-                        optionClassName='select-option'
-                        clearable={false}
-                        name='react-select'
-                        joinValues={true}  // join just the values with the below delimiter
-                        simpleValue={true}  // return the value string and not the entire object
-                        delimiter='|'
-                        multi={true}
-                        placeholder=''
-                        backspaceToRemoveMessage=''
-                        // NOTE: options values must adhere to bytes32 in Tasks.sol contract
-                        options={[
-                          { value: 'frontend-tests', label: 'Frontend Tests' },
-                          { value: 'contract-tests', label: 'Contract Tests' },
-                          { value: 'research', label: 'Research' },
-                          { value: 'twitter', label: 'Twitter' },
-                          { value: 'solidity', label: 'Solidity' },
-                          { label: 'DID', value: 'did' },
-                          { label: 'HAV', value: 'hav' },
-                          { label: 'Tokens', value: 'tokens' },
-                          { label: 'React', value: 'react' },
-                          { label: 'HTML', value: 'html' },
-                          { label: 'CSS', value: 'css' },
-                          { label: 'Ideas', value: 'ideas' },
-                          { label: 'Governance', value: 'governance' },
-                          { label: 'Code Review', value: 'code-review' },
-                          { label: 'Applications', value: 'applications' },
-                          { label: 'Security', value: 'security' },
-                          { label: 'Contracts', value: 'contracts' },
-                          { label: 'Website', value: 'website' },
-                          { label: 'Social', value: 'social' },
-                          { label: 'Administration', value: 'admin' },
-                          { label: 'Decisions', value: 'decisions' },
-                          { label: 'Design', value: 'design' },
-                          { label: 'Open Source', value: 'open-source' },
-                          { label: 'Meetups', value: 'meetups' },
-                          { label: 'Education', value: 'education' },
-                          { label: 'Contributors', value: 'contributors' },
-                          { label: 'Voting Dapp', value: 'voting-dapp' },
-                          { label: 'Planning', value: 'planning' },
-                          { label: 'Task Management', value: 'tasks' },
-                          { label: 'Legal', value: 'Legal' },
-                          { label: 'Crowdsale', value: 'crowdsale' }
-                        ]}
-                        value={tags}
-                        onChange={this.onTagsChange}
-                      />
-                    </div>
-                    <div className='task-input-group ipfs-detail'>
-                      <h2>Detailed Spec</h2>
-                      <span>
-                        Write until the reader will have no questions.
-                      </span>
-                      <textarea
-                        className='input input-detail'
-                        name='detail'
-                        ref={i => this.detail = i}
-                        type='textarea'
-                        placeholder='Lots of detail'
-                        value={ipfsDetail}
-                        onChange={this.onWriteIPFSDetail}
-                      />
-                    </div>
-                    <button className='button' type='submit'>
-                      Submit
-                    </button>
-                  </form>
+                <h1>Create Task</h1>
+                <form className='proposal-form' onSubmit={this.onCreateTask}>
+                  <div className='task-input-group'>
+                    <h2>Title</h2>
+                    <input
+                      className='input input-title'
+                      name='title'
+                      ref={i => this.title = i}
+                      type='text'
+                      placeholder='<40 char title (short descriptive words)'
+                      value={title}
+                      onChange={this.onTitleChange}
+                    />
+                    {errorMessages.length > 0 ? errorMessages.map((errorMsg) => {
+                      return <p key={errorMsg} className='error-message'>{errorMsg}</p>
+                    }) : ''
+                    }
+                  </div>
+                  <div className='task-input-group'>
+                    <h2 style={{ marginBottom: '10px' }}>Tags</h2>
+                    <Select
+                      //{/*TODO make Creatable if large enough DID hodler ;)*/}
+                      style={{
+                        border: '1px solid gray',
+                        borderRadius: '4px'
+                      }}
+                      className='react-select'
+                      optionClassName='select-option'
+                      clearable={false}
+                      name='react-select'
+                      joinValues={true}  // join just the values with the below delimiter
+                      simpleValue={true}  // return the value string and not the entire object
+                      delimiter='|'
+                      multi={true}
+                      placeholder=''
+                      backspaceToRemoveMessage=''
+                      // NOTE: options values must adhere to bytes32 in Tasks.sol contract
+                      options={[
+                        { value: 'frontend-tests', label: 'Frontend Tests' },
+                        { value: 'contract-tests', label: 'Contract Tests' },
+                        { value: 'research', label: 'Research' },
+                        { value: 'twitter', label: 'Twitter' },
+                        { value: 'solidity', label: 'Solidity' },
+                        { label: 'DID', value: 'did' },
+                        { label: 'HAV', value: 'hav' },
+                        { label: 'Tokens', value: 'tokens' },
+                        { label: 'React', value: 'react' },
+                        { label: 'HTML', value: 'html' },
+                        { label: 'CSS', value: 'css' },
+                        { label: 'Ideas', value: 'ideas' },
+                        { label: 'Governance', value: 'governance' },
+                        { label: 'Code Review', value: 'code-review' },
+                        { label: 'Applications', value: 'applications' },
+                        { label: 'Security', value: 'security' },
+                        { label: 'Contracts', value: 'contracts' },
+                        { label: 'Website', value: 'website' },
+                        { label: 'Social', value: 'social' },
+                        { label: 'Administration', value: 'admin' },
+                        { label: 'Decisions', value: 'decisions' },
+                        { label: 'Design', value: 'design' },
+                        { label: 'Open Source', value: 'open-source' },
+                        { label: 'Meetups', value: 'meetups' },
+                        { label: 'Education', value: 'education' },
+                        { label: 'Contributors', value: 'contributors' },
+                        { label: 'Voting Dapp', value: 'voting-dapp' },
+                        { label: 'Planning', value: 'planning' },
+                        { label: 'Task Management', value: 'tasks' },
+                        { label: 'Legal', value: 'Legal' },
+                        { label: 'Crowdsale', value: 'crowdsale' }
+                      ]}
+                      value={tags}
+                      onChange={this.onTagsChange}
+                    />
+                  </div>
+                  <div className='task-input-group ipfs-detail'>
+                    <CodeMirror
+                      value={taskDetail}
+                      options={{
+                        mode: 'markdown',
+                        theme: 'material',
+                        lineNumbers: true
+                      }}
+                      onValueChange={this.onWriteTaskDetail}
+                    />
+                  </div>
+                  <button className='button' type='submit'>
+                    Submit
+                  </button>
+                </form>
               </div>
             }
           </div>
@@ -368,7 +366,7 @@ export default class CreateTask extends Component {
           }
 
           .task-create-view {
-	          display: flex;
+            display: flex;
           }
 
           .task-input-group {
@@ -441,12 +439,12 @@ export default class CreateTask extends Component {
 
           .task-create-column {
             width: 50%;
-	          padding: 10px;
-	        }
+            padding: 10px;
+          }
 
-	        .task-create-view > div:first-child {
-	          // margin-right: 5px;
-	        }
+          .task-create-view > div:first-child {
+            // margin-right: 5px;
+          }
 
           .input {
             margin: 10px 0 20px 0;
@@ -503,7 +501,7 @@ export default class CreateTask extends Component {
             width: 330px !important;
           }
 
-       `}</style>
+        `}</style>
       </Layout>
     );
   }
