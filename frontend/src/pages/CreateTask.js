@@ -97,7 +97,7 @@ export default class CreateTask extends Component {
 
   }
 
-  async onCreateTask(e) {
+  async onCreateTask() {
 
     this.setState({
       taskSubmitted: true
@@ -136,7 +136,6 @@ export default class CreateTask extends Component {
 
       if (task) {
         console.log(`Distense task created!`)
-        this.room.broadcast(this.state.ipfsHash)
       }
     }
   }
@@ -163,7 +162,7 @@ export default class CreateTask extends Component {
 
     let url
     if (titleSlug && ipfsHash) {
-      url = window.location.origin + '/tasks/' + titleSlug + '-' + ipfsHash
+      url = window.location.origin + '/tasks/' + titleSlug + '/' + ipfsHash
     }
 
     return (
@@ -253,6 +252,7 @@ export default class CreateTask extends Component {
                     />
                   </div>
                   <div className='task-input-group'>
+                    <h2 style={{ marginBottom: '10px' }}>Specification</h2>
                     <CodeMirror
                       value={taskDetail}
                       options={{
@@ -451,24 +451,12 @@ export default class CreateTask extends Component {
           }
 
           .input {
-            margin: 10px 0 20px 0;
+            margin: 10px 0;
             border: 1px solid gray;
             -webkit-border-radius: 5;
             -moz-border-radius: 5;
             border-radius: 5px;
             width: 330px;
-          }
-
-          .inline {
-            display: inline;
-          }
-
-          input {
-            border: 1px solid gray !important;
-          }
-
-          .input-detail {
-            height: 100px;
           }
 
           .tx-hash {
@@ -496,13 +484,6 @@ export default class CreateTask extends Component {
           .button:hover {
             background: #6cfc3c;
             text-decoration: none;
-          }
-
-          input#project-autocomplete, input#sub-project-autocomplete {
-            -webkit-border-radius: 5;
-            -moz-border-radius: 5;
-            border-radius: 5px;
-            width: 330px !important;
           }
 
         `}</style>

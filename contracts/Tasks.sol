@@ -14,7 +14,7 @@ contract Tasks {
     address createdBy;
     string title;
     string url;
-    bytes32[] tags;
+    string tags;
     bytes ipfsHashID; // longer than 32 so use bytes
     uint256 createdAt;
     TaskStatus status;
@@ -25,7 +25,12 @@ contract Tasks {
 
   enum TaskStatus { Proposal, Task, Contribution }
 
-  function createTask(string _title, string _url, bytes32[] _tags, bytes _ipfsHashID) external returns (bool) {
+  function createTask(
+    string _title,
+    string _url,
+    string _tags,
+    bytes _ipfsHashID
+  ) external returns (bool) {
     Task memory task = Task(msg.sender, _title, _url, _tags, _ipfsHashID, block.timestamp, TaskStatus.Proposal);
     taskIds.push(_ipfsHashID);
     tasks[_ipfsHashID] = task;
