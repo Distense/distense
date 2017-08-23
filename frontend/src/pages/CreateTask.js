@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import slug from 'slug'
 
 import { getPendingTask } from '../reducers/tasks'
 import { createTask } from '../actions'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
+
 
 class CreateTask extends Component {
   constructor(props) {
@@ -18,11 +18,11 @@ class CreateTask extends Component {
     }
   }
 
-  onChangeTitle = ({ target: { value }}) => {
+  onChangeTitle = ({ target: { value } }) => {
     this.setState({ title: value })
   }
 
-  onChangeSpec = ({ target: { value }}) => {
+  onChangeSpec = ({ target: { value } }) => {
     this.setState({ spec: value })
   }
 
@@ -41,90 +41,60 @@ class CreateTask extends Component {
     } = this.state
 
     if (pendingTask) {
-      return <Redirect to='/' />
+      return <Redirect to={taskUrl(pendingTask)}/>
     }
 
     return (
       <Layout>
-        <Head title='Create Task' />
+        <Head title='Create Task'/>
         <div className='task-create-view'>
           <div className='task-create-inputs'>
             <h1>Create Task</h1>
             <form className='proposal-form' onSubmit={this.onSubmit}>
-
-            <div className="task-input-group">
-              <h2>Task Title</h2>
-              <input
-                className='input input-title'
-                placeholder='<40 char title (short descriptive words)'
-                value={title}
-                onChange={this.onChangeTitle}
-              />
-            </div>
-            <div className='task-input-group ipfs-detail'>
-              <h2>Detailed Spec</h2>
-              <span>
+              <div className="task-input-group">
+                <h2>Task Title</h2>
+                <input
+                  className='input input-title'
+                  placeholder='<40 char title (short descriptive words)'
+                  value={title}
+                  onChange={this.onChangeTitle}
+                />
+              </div>
+              <div className='task-input-group ipfs-detail'>
+                <h2>Detailed Spec</h2>
+                <span>
                 Write until the reader will have no questions.
               </span>
-              <input
-                className='input input-detail'
-                type='textarea'
-                placeholder='Lots of detail'
-                value={spec}
-                onChange={this.onChangeSpec}
-              />
-            </div>
-            <button className='button' type='submit'>
-              Submit
-            </button>
-          </form>
+                <input
+                  className='input input-detail'
+                  type='textarea'
+                  placeholder='Lots of detail'
+                  value={spec}
+                  onChange={this.onChangeSpec}
+                />
+              </div>
+              <button className='button' type='submit'>
+                Submit
+              </button>
+            </form>
           </div>
         </div>
 
-        { /*language=SCSS*/ }
+        { /*language=CSS*/ }
         <style jsx>{`
-          body * {
-            font-family: Quicksand;
+
+          :global(.select-wrapper) {
+
           }
 
-          :global(.Select-multi-value-wrapper) {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-          }
-
-          :global(.Select-value), :global(.select-option) {
+          :global(.select-option) {
             background-color: lightgray;
-            border: 1px solid transparent !important;
-            border-radius: .25rem;
-            display: inline-block;
-            font-weight: 400;
-            line-height: 1.25;
-            margin: 2px;
-            padding: .4rem .6rem;
-            font-size: 1rem;
-            text-align: center;
-            text-transform: none;
-            vertical-align: middle;
-            user-select: none;
-            white-space: nowrap;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-          }
-
-          :global(.Select-menu-outer) {
-            margin-top: 5px;
-          }
-
-          :global(.Select-value-icon) {
-            margin-right: 4px;
-            cursor: pointer;
+            padding: 3px;
+            margin: 5px 0;
           }
 
           .task-create-view {
-	          display: flex;
+            display: flex;
           }
 
           .task-input-group {
@@ -132,12 +102,13 @@ class CreateTask extends Component {
           }
 
           .task-preview-content {
-            background: #FAEBD7;
-            border-radius: 3px;
             font-size: 18px;
-            height: 270px;
+            font-weight: semi-bold;
             padding: 10px;
             width: 100%;
+            height: 270px;
+            background: #FAEBD7;
+            border-radius: 3px;
           }
 
           .task-create-inputs {
@@ -197,12 +168,12 @@ class CreateTask extends Component {
 
           .task-create-column {
             width: 50%;
-	          padding: 10px;
-	        }
+            padding: 10px;
+          }
 
-	        .task-create-view > div:first-child {
-	          // margin-right: 5px;
-	        }
+          .task-create-view > div:first-child {
+          / / margin-right: 5 px;
+          }
 
           .input {
             margin: 10px 0 20px 0;
@@ -259,7 +230,7 @@ class CreateTask extends Component {
             width: 330px !important;
           }
 
-       `}</style>
+        `}</style>
       </Layout>
     )
   }
