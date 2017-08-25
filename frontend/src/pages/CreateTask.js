@@ -4,8 +4,6 @@ import classNames from 'classnames'
 import CodeMirror from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/markdown/markdown';
-import 'codemirror/theme/material.css';
-
 import Select from 'react-select';
 import { Buffer } from 'safe-buffer'
 
