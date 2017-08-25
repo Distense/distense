@@ -1,12 +1,11 @@
 pragma solidity ^0.4.11;
 
-import './Ownable.sol';
 
-contract Approvable is Ownable {
+contract Approvable {
   mapping(address => bool) public approved;
 
   function Approvable() {
-    updateAddressState(msg.sender, true);
+    approved[msg.sender] = true;
   }
 
   modifier onlyApproved() {
@@ -14,8 +13,11 @@ contract Approvable is Ownable {
     _;
   }
 
-  function updateAddressState(address _address, bool _approved) onlyApproved {
-    require(_address != address(0));
-    approved[_address] = _approved;
+  function approve(address _address) external validAddress(_address) onlyApproved {
+    approved[_address] = true;
+  }
+
+  function revokeApproval(address _address) external validAddress(_address) onlyApproved {
+    approved[_address] = false;
   }
 }
