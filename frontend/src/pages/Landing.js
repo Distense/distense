@@ -5,76 +5,18 @@ import Head from '../components/common/Head'
 
 export default () => (
   <Layout>
-    <Head title='About'/>
-    <div className="">
+    <Head title='Landing'/>
+    <div>
 
-      <p className='hero-header-about'>
-        Distense is a decentralized, for-profit code cooperative.
-      </p>
-      <h2>Anyone, anywhere can join and contribute anonymously</h2>
-
-      <p>
-        Distense is unlike most companies in that there are no executives, shareholders or board of directors. Decisions are made by past
-        contributors to Distense.
-        Ethereum smart contracts execute the decisions that are voted on by contributors. Nearly everything can be voted on.
-      </p>
-      <p>
-        Contributors receive a token called DID which they can choose to keep and participate in Distense or they can exchange and sell their DID at
-        any time.
-        Only past contributors to Distense can vote on governance matters votes are tallied securely on the Ethereum blockchain.
-        Votes are determined according to the number of DID each contributor holds.
-      </p>
-
-      <h2 className='header-about'>
-        How Can I Get Started?
-      </h2>
-      <p>
-        Anyone, anywhere can join Distense and start contributing. While Distense is not currently running on the Ethereum mainnet,
-        tasks and work <em>are</em> being tracked and <em>will</em> be rewarded upon launch.
-      </p>
-
-      <p>The best way to join Distense is to&nbsp;
-        <a href='mailto:team@disten.se?Subject=Contributing to Distense' target='_top'>email our team</a>
-         , and we'll get you setup.
-      </p>
-
-      <h2 className='header-about'>
-        How is Distense Different?
-      </h2>
-      <img className='distense-versus-industrial-img' alt='How Distense is Different' src='../public/distense-versus-industrial.png'/>
-
-      <h2 className='header-about'>
-        How does Distense Work?
-      </h2>
-      <ul className='how-it-works'>
-        <li>Anyone visits our site</li>
-        <li>They view the list of available tasks</li>
-        {/*TODO link*/}
-        <li>They read the detailed spec of a task</li>
-        <li>
-          They pick a task with skills they have (e.g. website development or <span className='code-highlighting-general'>web3.js</span>
-          )
-        </li>
-        <li>The user authenticates themselves with an Ethereum account using Metamask, Mist or another Ethereum browser</li>
-        <li>They begin work on the task</li>
-        <li>When complete, they submit their work to be reviewed by past contributors to Distense</li>
-        <li>They are rewarded with DID</li>
-        <li>They optionally exchange their DID for HAV and receive cash</li>
-      </ul>
-
-      <h2 className='header-about'>
-        How does Distense Sustain Itself?
-      </h2>
-      <p>
-        Distense sustains itself by exposing the blockchain and remote work applications we build for our internal operations to third-parties. Many
-        of these applications involve transferring ether in some way, so we charge a small fee on top of the amounts users send.
-      </p>
-
+      <h1 className='landing-header-main'>
+        Distense is Work In the 21st Century
+      </h1>
+      <hr className='landing-title-splitter'></hr>
 
       <section id='why' className='container-info'>
         <div className='below-fold-content'>
           <h2 className='content-center'>
-            Modern work is <strong>Broken</strong>
+            Work is <strong>Broken</strong>
           </h2>
           <div className='grid-flex-container'>
             <div className='grid-flex-cell'>
@@ -149,7 +91,7 @@ export default () => (
           <div className='grid-flex-container'>
             <div className='grid-flex-cell'>
               <div className='illustration'>
-                <img src='../public/laptop-table-beach.png' alt='Laptop on Beach Picture'/>
+                <img src='../public/laptop-table-beach.png' />
               </div>
               <h5 className='content-center'><strong>Work from anywhere</strong></h5>
               <p>
@@ -166,7 +108,7 @@ export default () => (
               </div>
               <h5 className='content-center'>
                 <strong>
-                  Work on exactly what you want
+                  Work on the right thing for you
                 </strong>
               </h5>
               <p>
@@ -176,11 +118,18 @@ export default () => (
               <p>
                 Work on exactly what you want:
               </p>
+
               <ul className='unstyled-list'>
-                <li>React Frontend</li>
-                <li>Design</li>
-                <li>Solidity Contracts</li>
-                <li>Build Ethereum applications</li>
+                <li>
+                  <span className='fa-block' />
+                  {/* GET ETHEREUM ICON HERE PLENTY SVGs available on the WWW */}
+                  Build Ethereum DApps
+                </li>
+                <li><span className='fa fa-cog fa-spin fa-2x fa-fw' />The Future</li>
+                <li><span className='fa fa-2x fa-fw' />Design</li>
+                <li><span className='fa fa-hashtag fa-fw' />Social</li>
+                <li><span className='fa fa-desktop fa-2x fa-fw' />React Frontend</li>
+                <li><span className='fa fa-2x fa-fw' />Solidity</li>
               </ul>
             </div>
             <div className='grid-flex-cell'>
@@ -217,14 +166,21 @@ export default () => (
       </section>
     </div>
 
-    { /*language=CSS*/ }
     <style jsx>{`
 
-      /*BEGIN -- BELOW THE FOLD*/
       @media screen and (min-width: 900px) {
         h2 {
           font-size: 36px;
         }
+
+      .landing-title-splitter {
+        width: 30%;
+      }
+
+      h1.landing-header-main {
+        font: normal 600 36px Quicksand !important;
+        margin: 40px 0 20px 0;
+        text-align: center;
       }
 
       h2 {
@@ -278,8 +234,15 @@ export default () => (
         border-radius: 5px;
       }
 
-      .unstyled-list li {
-        list-style-type: circle;
+      .fa-block {
+        display: block;
+      }
+
+      .fa-ethereum {
+        /*background-image: url('/static/fa-ethereum.svg');*/
+      }
+      .unstyled-list {
+        list-style-type: none;
       }
 
       .content-center {
@@ -289,10 +252,6 @@ export default () => (
       }
 
       /*END -- BELOW THE FOLD*/
-      ul.how-it-works {
-        list-style-type: circle;
-      }
-
       .italicized {
         font-style: italic;
       / / TODO globalify
@@ -302,8 +261,9 @@ export default () => (
         margin: 30px 0 -5px 0;
       }
 
-      .hero-header-about {
-        font-size: 24px;
+      .hero-header-landing {
+        text-align: center;
+        /*font-size: 24px;*/
         font-weight: bold;
         margin: 30px 0 5px 0;
       }

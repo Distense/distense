@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Autocomplete from 'react-autocomplete'
 import IPFS from 'ipfs'
 import classNames from 'classnames'
-import Room from 'ipfs-pubsub-room'
 import { Buffer } from 'safe-buffer'
 
 import web3 from '../web3'
@@ -36,9 +35,6 @@ export default class CreateTask extends Component {
   async componentWillMount() {
 
     this.node = new IPFS({
-      EXPERIMENTAL: {
-        pubsub: true
-      },
       repo: String(Math.random() + Date.now())
       })
 
@@ -46,7 +42,6 @@ export default class CreateTask extends Component {
       console.log('IPFS ready')
     })
 
-    this.room = Room(this.node, 'distense-task-detail')
   }
 
   onWriteIPFSDetail(event) {
