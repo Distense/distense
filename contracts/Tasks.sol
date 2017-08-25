@@ -15,13 +15,13 @@ contract Tasks {
     string title;
     string url;
     string tags;
-    bytes ipfsHashID; // longer than 32 so use bytes
+    string ipfsHashID;
     uint256 createdAt;
     TaskStatus status;
   }
 
-  bytes[] public taskIds;
-  mapping (bytes => Task) tasks;
+  string[] public taskIds;
+  mapping (string => Task) tasks;
 
   enum TaskStatus { Proposal, Task, Contribution }
 
@@ -29,7 +29,7 @@ contract Tasks {
     string _title,
     string _url,
     string _tags,
-    bytes _ipfsHashID
+    string _ipfsHashID
   ) external returns (bool) {
     Task memory task = Task(msg.sender, _title, _url, _tags, _ipfsHashID, block.timestamp, TaskStatus.Proposal);
     taskIds.push(_ipfsHashID);
@@ -45,14 +45,18 @@ contract Tasks {
     address,
     string,
     string,
+    string,
+    string,
     uint256,
     TaskStatus
   ) {
     return getTask(taskIds[_index]);
   }
 
-  function getTask(bytes _id) public constant returns (
+  function getTask(string _id) public constant returns (
     address,
+    string,
+    string,
     string,
     string,
     uint256,
@@ -62,6 +66,8 @@ contract Tasks {
       tasks[_id].createdBy,
       tasks[_id].title,
       tasks[_id].url,
+      tasks[_id].tags,
+      tasks[_id].ipfsHashID,
       tasks[_id].createdAt,
       tasks[_id].status
     );
