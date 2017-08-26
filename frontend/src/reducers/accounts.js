@@ -32,9 +32,9 @@ export default combineReducers({
 })
 
 export const getAccount = (state, address) => {
-  return state.byAddress[address]
+  return state.accountByAddress[address]
 }
 
 export const getAllAccounts = state => {
-  return state.allAccounts.map(address => getAccount(state, address))
+  return state.accounts.map(address => getAccount(state, address))
 }

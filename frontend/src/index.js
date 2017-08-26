@@ -32,9 +32,9 @@ const Root = () => (
     <Switch>
       <Route exact path='/' component={Home} />
       <Route path='/about' component={About} />
-      <Route exact path='/tasks/create' component={CreateTask} />
-      <Route exact path='/tasks' component={Tasks} />
-      <Route exact path='/tasks/:title/:id' component={Task} />
+      <Route path='/tasks/:title/:id' component={Task} />
+      <Route path='/tasks/create' component={CreateTask} />
+      <Route path='/tasks' component={Tasks} />
     </Switch>
   </Router>
 )
