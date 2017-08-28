@@ -6,166 +6,64 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/markdown/markdown';
 import Select from 'react-select';
 import { Buffer } from 'safe-buffer'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
+import slug from 'slug'
 
-import web3 from '../web3'
-import * as contracts from '../contracts'
+import { getPendingTask } from '../reducers/tasks'
+import { createTask } from '../actions'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 
+const taskUrl = ({ title, _id }) => `/tasks/${slug(title)}/${_id}`
 
-export default class CreateTask extends Component {
+class CreateTask extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      account: web3.eth.accounts[0] || null,
-      errorMessages: [],
-      ipfsHash: '',
-      taskDetail: '',
-      tags: [],
-      taskSubmitted: false,
-      taskCreateSuccess: false,
-      title: '',
-      titleSlug: ''
-    }
-
-    this.onCreateTask = this.onCreateTask.bind(this)
-    this.onTagsChange = this.onTagsChange.bind(this);
-    this.onSetErrorMessages = this.onSetErrorMessages.bind(this)
-    this.onTitleChange = this.onTitleChange.bind(this)
-    this.onWriteTaskDetail = this.onWriteTaskDetail.bind(this)
-  }
-
-  componentWillMount() {
-    this.node = new IPFS({
-      repo: String(Math.random() + Date.now())
-    })
-  }
-
-  onWriteTaskDetail(editor, metadata, value) {
-
-    const taskDetail = value
-    this.setState({ taskDetail })
-
-    this.node.files.add([Buffer.from(taskDetail)], (err, res) => {
-      if (err) console.error(err)
-      else if (res && res[0].hash) {
-        const ipfsHash = res[0].hash
-        this.setState({ ipfsHash })
-      }
-    })
-  }
-
-  onTitleChange(event) {
-    const title = event.target.value
-    const titleSlug = title.replace(/ /g, '-')
-    this.setState({
-      title,
-      titleSlug
-    })
-    this.onSetErrorMessages(title)
-  }
-
-  onSetErrorMessages(title) {
-
-    const errorMessages = this.state.errorMessages
-    const specialCharMsg = 'Title cannot contain non-alphanumeric characters'
-    const lengthErrorMsg = 'Title too long'
-
-    const titleMsgErrorIndex = errorMessages.indexOf(lengthErrorMsg)
-    const specialCharMsgIndex = errorMessages.indexOf(specialCharMsg)
-
-    const titleTooLong = title.length > 40
-    if (titleTooLong && titleMsgErrorIndex < 0) {
-      errorMessages.push(lengthErrorMsg)
-    } else if (!titleTooLong && titleMsgErrorIndex > -1) {
-      errorMessages.splice(titleMsgErrorIndex, 1)
-    }
-
-    const titleHasSpecialChars = /[.~`!#$%^&*+=[\]\\';,/{}|\\':<>?]/g.test(title)
-    if (titleHasSpecialChars && specialCharMsgIndex < 0) {
-      errorMessages.push(specialCharMsg)
-    } else if (!titleHasSpecialChars && specialCharMsgIndex > -1) {
-      errorMessages.splice(specialCharMsgIndex, 1)
-    }
-
-    this.setState({
-      errorMessages
-    })
-
-  }
-
-  async onCreateTask() {
-
-    this.setState({
-      taskSubmitted: true
-    })
-
-    const {
-      titleSlug,
-      tags,
-      ipfsHash
-    } = this.state
-
-    if (titleSlug && tags.length && ipfsHash) {
-      const url = window.location.origin + '/tasks/' + titleSlug + '/' + ipfsHash
-
-      const {
-        createTask,
-        getTask
-      } = await contracts.Tasks
-
-      const taskCreated = await createTask(
-        titleSlug,
-        url,
-        tags,
-        ipfsHash, {
-          from: this.state.account
-        }
-      )
-
-      if (taskCreated) {
-        this.setState({
-          taskTXID: taskCreated.tx
-        })
-      }
-
-      const task = await getTask(ipfsHash)
-
-      if (task) {
-        console.log(`Distense task created!`)
-      }
+      spec: '',
+      tags: '',
+      title: ''
     }
   }
 
+  onChangeTitle = ({ target: { value }}) => {
+    this.setState({ title: value })
+  }
+
+  onChangeSpec = ({ target: { value }}) => {
+    this.setState({ spec: value })
+  }
+
+  onSubmit = async (e) => {
+    e.preventDefault()
+    const { title, spec } = this.state
+
+    this.props.createTask({ title, spec })
+  }
+  
   onTagsChange(tags) {
-    this.setState({
-      tags: tags
-    })
+     this.setState({
+       tags: tags
+     })
   }
 
   render() {
-
+    const { pendingTask } = this.props
     const {
-      account,
-      taskDetail,
-      ipfsHash,
-      errorMessages,
+      spec,
       tags,
-      taskSubmitted,
-      taskTXID,
-      titleSlug,
       title
     } = this.state
 
-    let url
-    if (titleSlug && ipfsHash) {
-      url = window.location.origin + '/tasks/' + titleSlug + '/' + ipfsHash
+    if (pendingTask) {
+      return <Redirect to={taskUrl(pendingTask)} />
     }
 
     return (
       <Layout>
-        <Head title='Create Task'/>
+        <Head title='Create Task' />
         <div className='task-create-view'>
           <div className='task-create-inputs'>
             {taskTXID ? <span className='tx-hash'>Tx ID: {taskTXID}</span> :
@@ -196,7 +94,7 @@ export default class CreateTask extends Component {
                   <div className='task-input-group'>
                     <h2 style={{ marginBottom: '10px' }}>Tags</h2>
                     <Select
-                      //{/*TODO make Creatable if large enough DID hodler ;)*/}
+                      // TODO make Creatable tags if large enough DID hodler
                       style={{
                         border: '1px solid gray',
                         borderRadius: '4px'
@@ -211,7 +109,6 @@ export default class CreateTask extends Component {
                       multi={true}
                       placeholder=''
                       backspaceToRemoveMessage=''
-                      // NOTE: options values must adhere to bytes32 in Tasks.sol contract
                       options={[
                         { value: 'frontend-tests', label: 'Frontend Tests' },
                         { value: 'contract-tests', label: 'Contract Tests' },
@@ -252,7 +149,7 @@ export default class CreateTask extends Component {
                   <div className='task-input-group'>
                     <h2 style={{ marginBottom: '10px' }}>Specification</h2>
                     <CodeMirror
-                      value={taskDetail}
+                      value={spec}
                       options={{
                         mode: 'markdown',
                         lineNumbers: true
@@ -317,10 +214,13 @@ export default class CreateTask extends Component {
               </div>
               }
             </div>
+            <button className='button' type='submit'>
+              Submit
+            </button>
+          </form>
           </div>
         </div>
 
-        { /*language=CSS*/ }
         <style jsx>{`
           body * {
             font-family: Quicksand;
@@ -444,10 +344,6 @@ export default class CreateTask extends Component {
             padding: 10px;
           }
 
-          .task-create-view > div:first-child {
-            // margin-right: 5px;
-          }
-
           .input {
             margin: 10px 0;
             border: 1px solid gray;
@@ -486,6 +382,16 @@ export default class CreateTask extends Component {
 
         `}</style>
       </Layout>
-    );
+    )
   }
 }
+
+const mapStateToProps = (state) => ({
+  pendingTask: getPendingTask(state)
+})
+
+const mapDispatchToProps = dispatch => ({
+  createTask: task => dispatch(createTask(task))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTask)

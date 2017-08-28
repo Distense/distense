@@ -1,50 +1,38 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import web3 from '../web3'
-import { reconstructTask } from '../utils'
-import * as contracts from '../contracts'
+import { fetchTask } from '../actions'
+import { getTask } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 
-export default class Task extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      account: web3.eth.accounts[0] || null,
-      task: {}
-    }
-  }
-
-  async componentWillMount() {
-    this.setState({
-      task: await this.getTask(this.props.match.params.id)
-    })
-  }
-
-  async getTask(taskID) {
-    const { getTask } = await contracts.Tasks
-    const taskValues = await getTask(taskID)
-    return reconstructTask(taskValues)
+class Task extends Component {
+  componentWillMount() {
+    const { fetchTask, match: { params: { id }}} = this.props
+    fetchTask(id)
   }
 
   render() {
-    const { task } = this.state
+    const { task } = this.props
 
     return (
       <Layout>
-        <Head title={task.title} />
-        <div className='task'>
-          {task ? (
-            <div>
-              <h1>
-                {task.title}
-              </h1>
-            </div>
-          ) : 'Loading Task'
-          }
+        <Head title="Task"/>
+        <div className="task">
+          {JSON.stringify(task)}
         </div>
       </Layout>
-    );
+    )
   }
 }
+
+const mapStateToProps = (state, { match: { params: { id }}}) => ({
+  task: getTask(state, id)
+})
+
+const mapDispatchToProps = dispatch => ({
+  fetchTask: id => dispatch(fetchTask(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Task)
