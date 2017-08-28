@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import IPFS from 'ipfs'
-import classNames from 'classnames'
 import CodeMirror from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/markdown/markdown';
 import Select from 'react-select';
-import { Buffer } from 'safe-buffer'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import slug from 'slug'
+import ReactMarkdown from 'react-markdown';
 
 import { getPendingTask } from '../reducers/tasks'
 import { createTask } from '../actions'
@@ -17,44 +15,65 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 
 const taskUrl = ({ title, _id }) => `/tasks/${slug(title)}/${_id}`
+const initialSpec = [
+      // One line per array item
+      '## Sample Task Spec\n\n',
+      '- <-Prepend **pithy** facts with bullets\n',
+      '- Bold things with &#95;&#95;__bold__&#95;&#95;\n\n',
+      '- Be like the itals and &ast;*italicize*&ast; text\n\n',
+      '- ### &#x23;&#x23;&#x23; <- Make headers\n\n',
+      '## You can and should include code examples\n\n',
+      '```js\n',
+      'var someVar = require(\'react\');\nvar Markdown = require(\'react-markdown\')\n\n',
+      'React.render(\n    <Markdown source="# Your markdown here" />,\n    document.',
+      'getElementById(\'content\')\n)\n',
+      '```\n\n\n\n',
+      '---------------\n\n'
+  ].join('')
+
 
 class CreateTask extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      spec: '',
-      tags: '',
-      title: ''
+      title: '',
+      tags: [],
+      spec: initialSpec
     }
+    this.onChangeTags = this.onChangeTags.bind(this)
   }
 
   onChangeTitle = ({ target: { value }}) => {
     this.setState({ title: value })
   }
 
-  onChangeSpec = ({ target: { value }}) => {
+  onChangeTags(tags) {
+    this.setState({
+      tags
+    })
+  }
+
+  onChangeSpec = (editor, metadata, value) => {
     this.setState({ spec: value })
   }
 
   onSubmit = async (e) => {
     e.preventDefault()
-    const { title, spec } = this.state
+    const {
+      title,
+      tags,
+      spec,
+    } = this.state
 
-    this.props.createTask({ title, spec })
-  }
-  
-  onTagsChange(tags) {
-     this.setState({
-       tags: tags
-     })
+    this.props.createTask({ title, tags, spec })
   }
 
   render() {
     const { pendingTask } = this.props
     const {
-      spec,
+      title,
       tags,
-      title
+      spec,
     } = this.state
 
     if (pendingTask) {
@@ -64,183 +83,148 @@ class CreateTask extends Component {
     return (
       <Layout>
         <Head title='Create Task' />
-        <div className='task-create-view'>
-          <div className='task-create-inputs'>
-            {taskTXID ? <span className='tx-hash'>Tx ID: {taskTXID}</span> :
-              taskSubmitted ?
-                <div className='proposal-form-success'>
-                  Please wait for your transaction to be mined.<br/>
-                  This could take 20 seconds.
+        <div className='create-task-container'>
+          <div>
+            <div>
+              <h1 className="center">Create Task</h1>
+              <hr/>
+              <form className='proposal-form' onSubmit={createTask}>
+                <div className='create-task-input-group'>
+                  <h2 className='underlined'>Title</h2>
+                  <input
+                    className='input'
+                    name='title'
+                    ref={i => this.title = i}
+                    type='text'
+                    placeholder='<40 char title (short descriptive words)'
+                    value={title}
+                    onChange={this.onChangeTitle}
+                  />
                 </div>
-                : <div>
-                <h1>Create Task</h1>
-                <form className='proposal-form' onSubmit={this.onCreateTask}>
-                  <div className='task-input-group'>
-                    <h2>Title</h2>
-                    <input
-                      className='input input-title'
-                      name='title'
-                      ref={i => this.title = i}
-                      type='text'
-                      placeholder='<40 char title (short descriptive words)'
-                      value={title}
-                      onChange={this.onTitleChange}
-                    />
-                    {errorMessages.length > 0 ? errorMessages.map((errorMsg) => {
-                      return <p key={errorMsg} className='error-message'>{errorMsg}</p>
-                    }) : ''
-                    }
-                  </div>
-                  <div className='task-input-group'>
-                    <h2 style={{ marginBottom: '10px' }}>Tags</h2>
-                    <Select
-                      // TODO make Creatable tags if large enough DID hodler
-                      style={{
-                        border: '1px solid gray',
-                        borderRadius: '4px'
-                      }}
-                      className='react-select'
-                      optionClassName='select-option'
-                      clearable={false}
-                      name='react-select'
-                      joinValues={true}  // join just the values with the below delimiter
-                      simpleValue={true}  // return the value string and not the entire object
-                      delimiter='|'
-                      multi={true}
-                      placeholder=''
-                      backspaceToRemoveMessage=''
-                      options={[
-                        { value: 'frontend-tests', label: 'Frontend Tests' },
-                        { value: 'contract-tests', label: 'Contract Tests' },
-                        { value: 'research', label: 'Research' },
-                        { value: 'twitter', label: 'Twitter' },
-                        { value: 'solidity', label: 'Solidity' },
-                        { label: 'DID', value: 'did' },
-                        { label: 'HAV', value: 'hav' },
-                        { label: 'Tokens', value: 'tokens' },
-                        { label: 'React', value: 'react' },
-                        { label: 'HTML', value: 'html' },
-                        { label: 'CSS', value: 'css' },
-                        { label: 'Ideas', value: 'ideas' },
-                        { label: 'Governance', value: 'governance' },
-                        { label: 'Code Review', value: 'code-review' },
-                        { label: 'Applications', value: 'applications' },
-                        { label: 'Security', value: 'security' },
-                        { label: 'Contracts', value: 'contracts' },
-                        { label: 'Website', value: 'website' },
-                        { label: 'Social', value: 'social' },
-                        { label: 'Administration', value: 'admin' },
-                        { label: 'Decisions', value: 'decisions' },
-                        { label: 'Design', value: 'design' },
-                        { label: 'Open Source', value: 'open-source' },
-                        { label: 'Meetups', value: 'meetups' },
-                        { label: 'Education', value: 'education' },
-                        { label: 'Contributors', value: 'contributors' },
-                        { label: 'Voting Dapp', value: 'voting-dapp' },
-                        { label: 'Planning', value: 'planning' },
-                        { label: 'Task Management', value: 'tasks' },
-                        { label: 'Legal', value: 'Legal' },
-                        { label: 'Crowdsale', value: 'crowdsale' }
-                      ]}
-                      value={tags}
-                      onChange={this.onTagsChange}
-                    />
-                  </div>
-                  <div className='task-input-group'>
-                    <h2 style={{ marginBottom: '10px' }}>Specification</h2>
-                    <CodeMirror
-                      value={spec}
-                      options={{
+                <div className='create-task-input-group'>
+                  <h2 className='underlined'>Tags</h2>
+                  <Select
+                    className='react-select'
+                    optionClassName='select-option'
+                    clearable={false}
+                    name='react-select'
+                    simpleValue={true}  // return the value string and not the entire object
+                    smartIndent={true}
+                    multi={true}
+                    placeholder=''
+                    backspaceToRemoveMessage='' // helper message we don't want displayed
+                    options={[
+                      { value: 'frontend-tests', label: 'Frontend Tests' },
+                      { value: 'contract-tests', label: 'Contract Tests' },
+                      { value: 'research', label: 'Research' },
+                      { value: 'twitter', label: 'Twitter' },
+                      { value: 'solidity', label: 'Solidity' },
+                      { label: 'DID', value: 'did' },
+                      { label: 'HAV', value: 'hav' },
+                      { label: 'Tokens', value: 'tokens' },
+                      { label: 'React', value: 'react' },
+                      { label: 'HTML', value: 'html' },
+                      { label: 'CSS', value: 'css' },
+                      { label: 'Ideas', value: 'ideas' },
+                      { label: 'Governance', value: 'governance' },
+                      { label: 'Code Review', value: 'code-review' },
+                      { label: 'Applications', value: 'applications' },
+                      { label: 'Security', value: 'security' },
+                      { label: 'Contracts', value: 'contracts' },
+                      { label: 'Website', value: 'website' },
+                      { label: 'Social', value: 'social' },
+                      { label: 'Administration', value: 'admin' },
+                      { label: 'Decisions', value: 'decisions' },
+                      { label: 'Design', value: 'design' },
+                      { label: 'Open Source', value: 'open-source' },
+                      { label: 'Meetups', value: 'meetups' },
+                      { label: 'Education', value: 'education' },
+                      { label: 'Contributors', value: 'contributors' },
+                      { label: 'Voting Dapp', value: 'voting-dapp' },
+                      { label: 'Planning', value: 'planning' },
+                      { label: 'Task Management', value: 'tasks' },
+                      { label: 'Legal', value: 'Legal' },
+                      { label: 'Crowdsale', value: 'crowdsale' }
+                    ]}
+                    value={tags}
+                    onChange={this.onChangeTags}
+                  />
+                </div>
+                <div className='create-task-input-group'>
+                  <h2 className='spec'>Specification</h2>
+                  <CodeMirror
+                    value={spec}
+                    options={{
+                        cursorBlinkRate: 230,
+                        gitHubSpice: true,
+                        lineNumbers: true,
                         mode: 'markdown',
-                        lineNumbers: true
-                      }}
-                      onValueChange={this.onWriteTaskDetail}
-                    />
-                  </div>
+                        tabSize: 2,
+                        lineWrapping: true
+                    }}
+                    onValueChange={this.onChangeSpec}
+                  />
+                </div>
+                <div className='submit-button center'>
                   <button className='button' type='submit'>
                     Submit
                   </button>
-                </form>
-              </div>
-            }
-          </div>
-          <div className='task-create-column task-preview'>
-            <h2>Task Preview</h2>
-            <p>Note that <b>this task insert costs gas</b>, so we show you this preview here.  Make sure it's valid and as you want.</p>
-            <div className='task-preview-content'>
-              <p className='inline'>struct</p>
-              <span className='word-separator'>
-                Task</span>
-              &#123;
-              <div className='struct-line'>
-                <span className='task-preview-key'>
-                title:
-                </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': titleSlug })}>
-                  {titleSlug}
-                </span>
-              </div>
-              <div className='struct-line'>
-                <span className='task-preview-key'>
-                  tags:
-                </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': tags.length })}>
-                  {tags}
-                </span>
-              </div>
-              <div className='struct-line'>
-                <span className='task-preview-key'>
-                  createdBy:
-                </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': account })}>
-                  {account}
-                </span>
-              </div>
-              <div className='struct-line'>
-                <span className='task-preview-key'>
-                  ipfsHash:
-                </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': ipfsHash })}>
-                  {ipfsHash}
-                  </span>
-              </div>
-              <div className='struct-line'>
-                <span className='task-preview-key'>
-                  url:
-                </span>
-                <span className={classNames('task-preview-value', { 'bg-light-gray': url })}>
-                  {url}
-                </span>
-              </div>
-              }
+                </div>
+              </form>
             </div>
-            <button className='button' type='submit'>
-              Submit
-            </button>
-          </form>
+          </div>
+          <div>
+            <h1 className='center'>Preview</h1>
+            <hr/>
+            <div className='preview-content'>
+              <div className='preview-title'>
+                <span className='preview-title-text'>
+                  {title}
+                </span>
+              </div>
+              <div className='preview-tags'>
+                {tags}
+              </div>
+              <div className='preview-spec'>
+                <span className='preview-value'>
+                  <ReactMarkdown source={spec} />
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <style jsx>{`
-          body * {
-            font-family: Quicksand;
+        <style global jsx>{`
+
+          .create-task-container {
+            display: flex;
           }
 
-          :global(.react-codemirror2) {
-            border: 1px solid gray !important;
-            border-radius: 3px;
+          .create-task-container > div {
+          	width: 50%;
+          	padding: 20px;
+            border: .3px solid #ccc !important;
           }
 
-          :global(.Select-multi-value-wrapper) {
+          .create-task-container > div:first-child {
+            border: 1px solid #ccc !important;
+          }
+
+          .react-codemirror2 {
+            border: 1px solid #ccc !important;
+            border-radius: 2px;
+          }
+
+          .Select-multi-value-wrapper {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: center;
           }
 
-          :global(.Select-value), :global(.select-option) {
+          .Select-value, .select-option {
             background-color: lightgray;
-            border: 1px solid transparent !important;
+            border: 1px solid #ccc !important;
             border-radius: .25rem;
             display: inline-block;
             font-weight: 400;
@@ -253,16 +237,36 @@ class CreateTask extends Component {
             vertical-align: middle;
             user-select: none;
             white-space: nowrap;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
           }
 
-          :global(.Select-menu-outer) {
+          .center {
+            text-align: center;
+          }
+
+          .Select-menu-outer {
             margin-top: 5px;
           }
 
-          :global(.Select-value-icon) {
+          .preview-title {
+            height: 25px;
+            padding-top: 55px;
+            border-bottom: 1px solid #ccc;
+          }
+
+          .preview > .preview-value {
+            font-weight: semi-bold !important;
+          }
+
+          .preview-tags {
+            padding-top: 10px;
+          }
+
+          .preview-title-text {
+            font-weight: semi-bold;
+            font-size: 22px;
+          }
+
+          .Select-value-icon {
             margin-right: 4px;
             cursor: pointer;
           }
@@ -271,113 +275,62 @@ class CreateTask extends Component {
             display: flex;
           }
 
-          .task-input-group {
-            margin-top: 15px;
-          }
-
-          .task-preview-content {
-            background: #FAEBD7;
-            border-radius: 3px;
-            font-size: 18px;
-            height: 270px;
-            padding: 10px;
-            width: 100%;
-          }
-
-          .task-create-inputs {
-            width: 38%;
-          }
-
-          .task-preview {
-            margin: auto;
-          }
-
-          .struct-line {
-            margin: 12px 0;
-          }
-
-          .bg-light-gray {
-            background-color: lightgray;
-          }
-
-          span.task-preview-value {
-            color: red;
-            padding: 4px;
-            border-radius: 3px;
-            -webkit-border-radius: 3;
-            -moz-border-radius: 3;
-            font-size: 13.5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-
-          .task-preview-key {
-            font-size: 16px;
-            margin: 3px 5px 3px 1rem;
-          }
-
-          p.error-message {
-            margin: .5em 0;
-            color: #fff;
-            padding: 4px;
-            width: 330px;
-            border-radius: 3px;
-            -webkit-border-radius: 3;
-            -moz-border-radius: 3;
-            background-color: red;
-          }
-
           p.autocomplete-item {
-            fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif';
+            font-family: '-apple-system, BlinkMacSystemFont, sans-serif';
             padding: '.3rem';
-            fontSize: '18px';
-            borderBottom: '1px solid gray';
+            font-size: '18px';
+            border-bottom: '1px solid gray';
           }
 
           .word-separator {
             margin: 0 6px;
           }
 
-          .task-create-column {
-            width: 50%;
-            padding: 10px;
-          }
-
           .input {
-            margin: 10px 0;
-            border: 1px solid gray;
-            -webkit-border-radius: 5;
-            -moz-border-radius: 5;
-            border-radius: 5px;
-            width: 330px;
-          }
-
-          .tx-hash {
-            overflow-wrap: break-word;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            width: 96.5%;
           }
 
           .button {
-            margin-top: 10px;
             background: #4ad934;
-            background-image: -webkit-linear-gradient(top, #4ad934, #4eb82b);
-            background-image: -moz-linear-gradient(top, #4ad934, #4eb82b);
-            background-image: -ms-linear-gradient(top, #4ad934, #4eb82b);
-            background-image: -o-linear-gradient(top, #4ad934, #4eb82b);
             background-image: linear-gradient(to bottom, #4ad934, #4eb82b);
-            -webkit-border-radius: 5;
-            -moz-border-radius: 5;
             border-radius: 5px;
-            text-shadow: 2px 1px 3px #666666;
+            text-shadow: 2.5px 1.5px 3.5px #666666;
             color: #ffffff;
+            width: 40%;
             font-size: 18px;
             padding: 10px 20px;
             text-decoration: none;
           }
 
           .button:hover {
-            background: #6cfc3c;
+            background: #3ba52b;
             text-decoration: none;
+          }
+
+          .submit-button {
+            margin-bottom: -10px;
+          }
+
+          .underlined {
+            border-bottom: 1px solid #ccc;
+          }
+
+          .create-task-input-group {
+            margin: 15px 0 20px 0;
+          }
+
+          .create-task-input-group:nth-of-type(3) {
+            margin-bottom: 10px;
+          }
+
+          .create-task-input-group h2 {
+            margin-bottom: 10px;
+          }
+
+          h2.spec {
+            margin-bottom: 2px;
           }
 
         `}</style>
