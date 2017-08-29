@@ -1,6 +1,7 @@
 pragma solidity ^0.4.11;
 
 contract Tasks {
+
   // Array of all task ipfs hashes (ids)
   string[] public taskIds;
 
