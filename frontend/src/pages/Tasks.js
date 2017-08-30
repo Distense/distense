@@ -27,8 +27,8 @@ class Tasks extends Component {
           <h2>Available Tasks</h2>
           <div className="tasks-list">
             {tasks.length ?
-              tasks.map(task => <Task key={task.id} task={task} />)
-              : 'No Tasks Available'
+              tasks.map(task => <Task key={task._id} task={task} />
+              ) : 'No Tasks Available'
             }
           </div>
         </div>
