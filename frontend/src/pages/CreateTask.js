@@ -6,12 +6,16 @@ import Select from 'react-select'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import ReactMarkdown from 'react-markdown'
+import slug from 'slug'
 
 import { getPendingTask } from '../reducers/tasks'
 import { createTask } from '../actions'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
+
+const taskUrl = ({ title, _id }) => `/tasks/${slug(title)}/${_id}`
+
 
 // Placeholder text for markdown spec input -- One line per array item
 const specPlaceholder = [
@@ -71,7 +75,7 @@ class CreateTask extends Component {
     } = this.state
 
     if (pendingTask) {
-      return <Redirect to='/tasks'/>
+      return <Redirect to={taskUrl(pendingTask)} />
     }
 
     return (
@@ -80,7 +84,7 @@ class CreateTask extends Component {
         <div className='create-task-container'>
           <div>
             <h1 className='center'>Create Task</h1>
-            <form className='proposal-form' onSubmit={createTask}>
+            <form className='proposal-form' onSubmit={this.onSubmit}>
               <div className='create-task-row-title'>
                 <input
                   type='text'
