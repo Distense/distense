@@ -247,8 +247,8 @@ class CreateTask extends Component {
           }
 
           .create-task-row-tags {
-            border: 1px solid #ccc;
-            border-radius: 2px;
+            border-bottom: 1px solid #ccc;
+            border-radius: 3px;
             margin: 15px 0;
             min-height: 00px;
             padding: 15px;
@@ -318,8 +318,8 @@ class CreateTask extends Component {
           }
 
           .react-codemirror2 {
-            border: 1px solid #ccc !important;
-            border-radius: 2px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
           }
 
           .center {
