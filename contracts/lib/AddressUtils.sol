@@ -7,4 +7,8 @@ library AddressUtils {
         b[i] = byte(uint8(uint(self) / (2**(8*(19 - i)))));
     return string(b);
   }
+
+  function isValid(address self) internal returns (bool) {
+    return self != address(0);
+  }
 }
