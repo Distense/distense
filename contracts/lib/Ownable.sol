@@ -1,6 +1,10 @@
 pragma solidity ^0.4.11;
 
+import './AddressUtils.sol';
+
 contract Ownable {
+  using AddressUtils for address;
+
   address public owner;
 
   function Ownable() {
@@ -12,12 +16,8 @@ contract Ownable {
     _;
   }
 
-  modifier validAddress(address _address) {
-    require(_address != address(0));
-    _;
-  }
-
-  function transferOwnership(address _newOwner) external validAddress(_newOwner) onlyOwner {
+  function transferOwnership(address _newOwner) external onlyOwner {
+    require(_newOwner.isValid());
     owner = _newOwner;
   }
 }
