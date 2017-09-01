@@ -73,7 +73,7 @@ class CreateTask extends Component {
       <Layout>
         <Head title='Create Task'/>
         <Grid.Column>
-          <Form className='ui form' onSubmit={this.onSubmit}>
+          <Form onSubmit={this.onSubmit}>
             <Header as='h1'>Create Task</Header>
             <Form.Field>
               <input
