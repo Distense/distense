@@ -94,13 +94,14 @@ const submitTask = task => ({
   task
 })
 
-export const createTask = ({ title, spec }) => async (dispatch, getState) => {
+export const createTask = ({ title, tags, spec }) => async (dispatch, getState) => {
   const { tasks } = await db
   const { addTask } = await contracts.Tasks
   const { selectedAddress } = getState()
 
   const task = {
     title,
+    tags,
     spec,
     createdAt: new Date(),
     createdBy: selectedAddress
