@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CodeMirror from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/markdown/markdown'
-import { Dropdown } from 'semantic-ui-react'
+import { Button, Dropdown, Form, Grid, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import ReactMarkdown from 'react-markdown'
@@ -12,10 +12,14 @@ import { getPendingTask } from '../reducers/tasks'
 import { createTask } from '../actions'
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
-import { tagsOptions, specPlaceholder } from '../shared'
+import { specPlaceholder, tagsOptions } from '../shared'
 
 const taskUrl = ({ title, _id }) => `/tasks/${slug(title)}/${_id}`
 
+const tagOption = tag => {
+  const value = slug(tag)
+  return { text: tag, key: value, value }
+}
 
 class CreateTask extends Component {
   constructor(props) {
@@ -68,10 +72,10 @@ class CreateTask extends Component {
     return (
       <Layout>
         <Head title='Create Task'/>
-        <div className='ui one column grid'>
-          <form className='ui form' onSubmit={this.onSubmit}>
-            <h1 className='ui header'>Create Task</h1>
-            <div className='field'>
+        <Grid.Column>
+          <Form className='ui form' onSubmit={this.onSubmit}>
+            <Header as='h1'>Create Task</Header>
+            <Form.Field>
               <input
                 type='text'
                 placeholder='Title'
@@ -80,22 +84,21 @@ class CreateTask extends Component {
                 name='title'
                 value={title}
               />
-            </div>
-            <div className='field'>
+            </Form.Field>
+            <Form.Field>
               <Dropdown
-                // compact
                 fluid
                 multiple
                 onChange={this.onChangeTags}
-                options={tagsOptions}
+                options={tagsOptions.map(tagOption)}
                 placeholder='Tags'
                 search
                 selection
                 scrolling
                 value={tags}
               />
-            </div>
-            <div className='fields fields-margin-fix'>
+            </Form.Field>
+            <Form.Field className='fields fields-margin-fix'>
               <div className='eight wide field'>
                 <CodeMirror value={spec}
                   options={{
@@ -110,20 +113,24 @@ class CreateTask extends Component {
                 />
               </div>
               <div className='eight wide field react-markdown'>
-                <ReactMarkdown source={spec} />
+                <ReactMarkdown source={spec}/>
               </div>
-            </div>
-            <button className='ui large green button' type='submit'>
+            </Form.Field>
+            <Button
+              size='large'
+              color='green'
+              type='submit'
+            >
               Submit
-            </button>
-          </form>
-        </div>
+            </Button>
+          </Form>
+        </Grid.Column>
 
         { /*language=CSS*/ }
         <style global jsx>{`
 
           .react-codemirror2, .react-markdown {
-            border: 1px solid rgba(34,36,38,.15);
+            border: 1px solid rgba(34, 36, 38, .15);
             border-radius: .28571429rem;
           }
 
@@ -137,6 +144,7 @@ class CreateTask extends Component {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
             padding: 1rem;
+            width: 49.7% !important;
           }
 
           .fields-margin-fix {
@@ -168,6 +176,7 @@ class CreateTask extends Component {
     )
   }
 }
+
 const mapStateToProps = (state) => ({
   pendingTask: getPendingTask(state)
 })
