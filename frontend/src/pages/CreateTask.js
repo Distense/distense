@@ -99,7 +99,9 @@ class CreateTask extends Component {
               />
             </Form.Field>
             <Form.Field className='fields fields-margin-fix'>
-              <div className='eight wide field'>
+              <Form.Field
+                width='8'
+              >
                 <CodeMirror value={spec}
                   options={{
                     cursorBlinkRate: 650,
@@ -111,10 +113,13 @@ class CreateTask extends Component {
                   }}
                   onValueChange={this.onChangeSpec}
                 />
-              </div>
-              <div className='eight wide field react-markdown'>
+              </Form.Field>
+              <Form.Field
+                className='react-markdown'
+                width='8'
+              >
                 <ReactMarkdown source={spec}/>
-              </div>
+              </Form.Field>
             </Form.Field>
             <Button
               size='large'
