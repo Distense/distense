@@ -25,11 +25,13 @@ export const selectAddress = address => dispatch => {
 export const getAllAccounts = () => (dispatch, getState) => {
   const { selectedAddress } = getState()
 
+  // web3 may not exist at all here
   web3.eth.getAccounts((err, accounts) => {
-    dispatch(receiveAccountsAction(accounts.map(address => ({ address }))))
+    if (!err && accounts.length)
+      dispatch(receiveAccountsAction(accounts.map(address => ({ address }))))
   })
 
-  if (!selectedAddress) {
+  if (web3.isConnected() && !selectedAddress) {
     web3.eth.getCoinbase((err, coinbase) => {
       dispatch(selectAddressAction(coinbase))
     })
