@@ -8,9 +8,26 @@ export const ipfs = new IPFS({
   },
   config: {
     Addresses: {
-      Swarm: []
+      Swarm: [
+        "/libp2p-webrtc-star/dns4/star-signal.cloud.ipfs.team/wss"
+      ],
+      API: "",
+      Gateway: ""
+    },
+    Discovery: {
+      MDNS: {
+        Enabled: false,
+        Interval: 10
+      },
+      webRTCStar: {
+        Enabled: true
+      }
+    },
+      Bootstrap: [
+        "/dns4/wss0.bootstrap.libp2p.io/tcp/443/wss/ipfs/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic",
+        "/dns4/wss1.bootstrap.libp2p.io/tcp/443/wss/ipfs/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6"
+      ]
     }
-  }
 })
 
 export default new Promise(resolve => {
