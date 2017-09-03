@@ -22,10 +22,10 @@ class Tasks extends Component {
     const { tasks } = this.props
     return (
       <Layout>
-        <Head title="Available Tasks"/>
-        <div className="tasks-container">
+        <Head title='Available Tasks' />
+        <div className='tasks-container'>
           <h2>Available Tasks</h2>
-          <div className="tasks-list">
+          <div className='tasks-list'>
             {tasks.length ?
               tasks.map(task => <Task key={task._id} task={task} />
               ) : 'No Tasks Available'
