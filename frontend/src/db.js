@@ -1,5 +1,4 @@
 import IPFS from 'ipfs'
-import OrbitDB from 'orbit-db'
 
 export const ipfs = new IPFS({
   repo: 'distense',
@@ -9,10 +8,10 @@ export const ipfs = new IPFS({
   config: {
     Addresses: {
       Swarm: [
-        "/libp2p-webrtc-star/dns4/star-signal.cloud.ipfs.team/wss"
+        '/libp2p-webrtc-star/dns4/star-signal.cloud.ipfs.team/wss'
       ],
-      API: "",
-      Gateway: ""
+      API: '',
+      Gateway: ''
     },
     Discovery: {
       MDNS: {
@@ -23,25 +22,26 @@ export const ipfs = new IPFS({
         Enabled: true
       }
     },
-      Bootstrap: [
-        "/dns4/wss0.bootstrap.libp2p.io/tcp/443/wss/ipfs/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic",
-        "/dns4/wss1.bootstrap.libp2p.io/tcp/443/wss/ipfs/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6"
-      ]
-    }
+    Bootstrap: [
+      '/dns4/wss0.bootstrap.libp2p.io/tcp/443/wss/ipfs/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic',
+      '/dns4/wss1.bootstrap.libp2p.io/tcp/443/wss/ipfs/Qmbut9Ywz9YEDrz8ySBSgWyJk41Uvm2QJPhwDJzJyGFsD6'
+    ]
+  }
 })
 
-export default new Promise(resolve => {
+
+export default new Promise((resolve, reject) => {
   ipfs.on('ready', () => {
-    const orbitdb = new OrbitDB(ipfs)
-    const tasks = orbitdb.docstore('distense.tasks')
-
-    // TODO: Better way to wait on the db you need
-    tasks.events.on('ready', () => {
-      resolve({
-        tasks
-      })
+    ipfs.swarm.connect('/ip4/165.227.28.206/tcp/9999/ws/ipfs/QmSX1Q4rYtSpBXbSs4ZXnw4kyCwHBpS33siSUpiBJwTHtn', (err) => {
+      if (err) reject(err)
+      else {
+        console.log(`Connected`);
+        resolve(ipfs)
+      }
     })
-
-    tasks.load()
   })
 })
+
+export async function getIPFSDagDetail(hash) {
+  return await ipfs.dag.get(hash)
+}

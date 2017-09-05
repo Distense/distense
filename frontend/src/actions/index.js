@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import web3 from '../web3'
-import db, { ipfs } from '../db'
+import ipfsReady, { getIPFSDagDetail } from '../db'
 import * as contracts from '../contracts'
 
 import { SELECT_ADDRESS } from '../reducers'
@@ -62,13 +62,14 @@ const getTaskByIndex = async index => {
 }
 
 const getTaskByID = async id => {
-  const { tasks } = await db
-  // const { taskExists } = await contracts.Tasks
-  // console.log('exists?', await taskExists(id), await tasks.get(id))
-  // if (!(await taskExists(id))) return
+  const { taskExists } = await contracts.Tasks
 
-  const [ task ] = await tasks.get(id)
-  return task
+  if (!(await taskExists(id))) return
+
+  const taskDetail = getIPFSDagDetail(id)
+  // const [ task ] = await tasks.get(id)
+  return taskDetail
+  // return task
 }
 
 export const fetchTasks = () => async (dispatch, getState) => {
@@ -95,7 +96,7 @@ const submitTask = task => ({
 })
 
 export const createTask = ({ title, tags, spec }) => async (dispatch, getState) => {
-  const { tasks } = await db
+  const ipfs = await ipfsReady
   const { addTask } = await contracts.Tasks
   const { selectedAddress } = getState()
 
@@ -107,16 +108,14 @@ export const createTask = ({ title, tags, spec }) => async (dispatch, getState) 
     createdBy: selectedAddress
   }
 
-  const hash = await ipfs.dag.put(task, { format: 'dag-cbor', hashAlg: 'sha3-512' })
-
+  // Add task to IPFS.  Use dag.put instead of files.add because task is object/dag node not a file
+  const hash = await ipfs.dag.put(task, { format: 'dag-cbor', hashAlg: 'sha2-256' })
   task._id = hash.toBaseEncodedString()
-
-  await tasks.put(task)
 
   dispatch(submitTask(task))
 
+  //  Add task IPFS hash to blockchain
   await addTask(task._id, { from: task.createdBy })
-
   dispatch(receiveTask(task))
 
   return task
