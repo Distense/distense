@@ -62,19 +62,24 @@ const getTaskByIndex = async index => {
 }
 
 const getTaskByID = async id => {
-  const { taskExists } = await contracts.Tasks
-
+  // Check task id/hash is stored in blockchain
+  const { taskExists } = await contracts.Tasks  // confirm task id/hash stored in blockchain
   if (!(await taskExists(id))) return
 
-  const taskDetail = getIPFSDagDetail(id)
-  // const [ task ] = await tasks.get(id)
-  return taskDetail
-  // return task
+  await ipfsReady
+
+  // TODO obviously clean this up because for some reason .value does not work here
+  const ipfsValue = await getIPFSDagDetail(id)
+  const task = ipfsValue.value
+  task._id = id
+
+  return task
 }
 
 export const fetchTasks = () => async (dispatch, getState) => {
   dispatch(requestTasks())
 
+  // Have to get numTasks from chain to know how many to query by index
   const { getNumTasks } = await contracts.Tasks
   const numTasks = +(await getNumTasks())
   const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
@@ -116,6 +121,7 @@ export const createTask = ({ title, tags, spec }) => async (dispatch, getState) 
 
   //  Add task IPFS hash to blockchain
   await addTask(task._id, { from: task.createdBy })
+
   dispatch(receiveTask(task))
 
   return task
