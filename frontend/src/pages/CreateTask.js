@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CodeMirror from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/markdown/markdown'
-import { Button, Dropdown, Form, Grid, Header } from 'semantic-ui-react'
+import { Button, Dropdown, Input, Form, Grid, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import ReactMarkdown from 'react-markdown'
@@ -27,15 +27,22 @@ class CreateTask extends Component {
     this.state = {
       title: '',
       tags: [],
-      spec: specPlaceholder
+      issueURL: '',
+      spec: specPlaceholder  // TODO make title of spec match title value
     }
 
     this.onChangeTags = this.onChangeTags.bind(this)
   }
 
   onChangeTitle = ({ target: { value } }) => {
+    //  TODO replace '## Task Title Goes Here' in taskSpec with the title value
     if (value.length <= 50)
       this.setState({ title: value })
+  }
+
+  onChangeIssueURL = ({ target: { value } }) => {
+    //  TODO url validation
+    this.setState({ issueURL: value })
   }
 
   onChangeTags(e, data) {
@@ -50,8 +57,8 @@ class CreateTask extends Component {
 
   onSubmit = async (e) => {
     e.preventDefault()
-    const { title, tags, spec } = this.state
-    this.props.createTask({ title, tags, spec })
+    const { title, tags, issueURL, spec } = this.state
+    this.props.createTask({ title, tags, issueURL, spec })
   }
 
   render() {
@@ -59,6 +66,7 @@ class CreateTask extends Component {
     const {
       title,
       tags,
+      issueURL,
       spec
     } = this.state
 
@@ -96,6 +104,13 @@ class CreateTask extends Component {
                 selection
                 scrolling
                 value={tags}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Input
+                onChange={this.onChangeIssueURL}
+                placeholder='Github Issue URL'
+                value={issueURL}
               />
             </Form.Field>
             <Form.Field className='fields fields-margin-fix'>
