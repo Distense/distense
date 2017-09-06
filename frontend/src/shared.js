@@ -35,7 +35,6 @@ export const tagsOptions = [
 ]
 
 export const specPlaceholder = `
-  ## Sample Task Spec
   - Make lists of pithy facts and instructions
   - **Bold** stuff
   - *Italicize* text
