@@ -4,7 +4,7 @@ import './lib/StringArrayUtils.sol';
 import './DIDToken.sol';
 import './Tasks.sol';
 
-contract PullRequests {
+contract PullRequests is Approvable {
   using StringArrayUtils for string[];
 
   DIDToken didToken;
@@ -55,9 +55,9 @@ struct PullRequest {
      PullRequest _pr = pullRequests[_id];
 
 //     require(!approved(_id)); // TODO wondering if you should be allowed to vote after approval; could be useful information
-
-     _task.rewardVotes[msg.sender] = _reward;
-     _task.rewardVoters.push(msg.sender);
+//     Task _task = Task(_id);
+//     _task.rewardVotes[msg.sender] = _reward;
+//     _task.rewardVoters.push(msg.sender);
    }
 
   function numDIDApproved(string _id) public constant returns (uint256) {
@@ -68,7 +68,7 @@ struct PullRequest {
     for (uint256 i = 0; i < _pr.approvalVoters.length; i++) {
       _voter = _pr.approvalVoters[i];
       if (_pr.approvalVotes[_voter]) {
-        _numDIDApproved += didToken.balances[_voter];
+        _numDIDApproved += didToken.balances(_voter);
       }
     }
 
