@@ -90,8 +90,6 @@ class Tasks extends Component {
       <Layout>
         <Head title='Available Tasks'/>
         <Table
-          // padded
-          selectable
           sortable
           striped
         >
