@@ -15,10 +15,14 @@ import Tags from '../components/common/Tags'
 const Task = ({ task }) => (
   <Table.Row key={task._id}>
     <Table.Cell>
-      <Link to={`/tasks/${task.title}/${task._id}`}>{task.title}</Link>
+      <Link
+        to={`/tasks/${task.title}/${task._id}`}
+      >
+        {task.title}
+      </Link>
     </Table.Cell>
     <Table.Cell singleLine>
-      <Tags tags={task.tags} />
+      <Tags tags={task.tags}/>
     </Table.Cell>
     <Table.Cell>
       Task
@@ -133,8 +137,8 @@ class Tasks extends Component {
                   task={task}
                 />
               )) : <Table.Cell>
-                    Loading tasks...
-                   </Table.Cell>
+                Loading tasks...
+              </Table.Cell>
             }
           </Table.Body>
         </Table>
