@@ -76,9 +76,9 @@ class Task extends Component {
                   </Item>
                   <Item>
                     Issue url:
-                    <a href={task.issueURL}>
+                    <a target='_blank' href={task.issueURL}>
                       {task.issueURL}
-                      </a>
+                    </a>
                   </Item>
                   <Item as='p'>
                     Created: {new Date(task.createdAt).toDateString()}
