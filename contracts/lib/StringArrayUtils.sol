@@ -31,4 +31,10 @@ library StringArrayUtils {
   function remove(string[] self, string value) internal {
     // remove(self, indexOf(self, value));
   }
+
+// TODO this doesn't compile and I don't know why yet
+//  function replace(string[] self, string oldValue, string newValue) internal {
+//    int index = self.indexOf(oldValue);
+//    self[index] = newValue;
+//  }
 }
