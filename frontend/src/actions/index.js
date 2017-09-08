@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import web3 from '../web3'
-import db, { ipfs } from '../db'
+import ipfsReady, { getIPFSDagDetail } from '../db'
 import * as contracts from '../contracts'
 
 import { SELECT_ADDRESS } from '../reducers'
@@ -25,13 +25,11 @@ export const selectAddress = address => dispatch => {
 export const getAllAccounts = () => (dispatch, getState) => {
   const { selectedAddress } = getState()
 
-  // web3 may not exist at all here
   web3.eth.getAccounts((err, accounts) => {
-    if (!err && accounts.length)
-      dispatch(receiveAccountsAction(accounts.map(address => ({ address }))))
+    dispatch(receiveAccountsAction(accounts.map(address => ({ address }))))
   })
 
-  if (web3.isConnected() && !selectedAddress) {
+  if (!selectedAddress) {
     web3.eth.getCoinbase((err, coinbase) => {
       dispatch(selectAddressAction(coinbase))
     })
@@ -64,18 +62,24 @@ const getTaskByIndex = async index => {
 }
 
 const getTaskByID = async id => {
-  const { tasks } = await db
-  // const { taskExists } = await contracts.Tasks
-  // console.log('exists?', await taskExists(id), await tasks.get(id))
-  // if (!(await taskExists(id))) return
+  // Check task id/hash is stored in blockchain
+  const { taskExists } = await contracts.Tasks  // confirm task id/hash stored in blockchain
+  if (!(await taskExists(id))) return
 
-  const [ task ] = await tasks.get(id)
+  await ipfsReady
+
+  // TODO obviously clean this up because for some reason .value does not work here
+  const ipfsValue = await getIPFSDagDetail(id)
+  const task = ipfsValue.value
+  task._id = id
+
   return task
 }
 
 export const fetchTasks = () => async (dispatch, getState) => {
   dispatch(requestTasks())
 
+  // Have to get numTasks from chain to know how many to query by index
   const { getNumTasks } = await contracts.Tasks
   const numTasks = +(await getNumTasks())
   const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
@@ -97,7 +101,7 @@ const submitTask = task => ({
 })
 
 export const createTask = ({ title, tags, issueURL, spec }) => async (dispatch, getState) => {
-  const { tasks } = await db
+  const ipfs = await ipfsReady
   const { addTask } = await contracts.Tasks
   const { selectedAddress } = getState()
 
@@ -110,14 +114,13 @@ export const createTask = ({ title, tags, issueURL, spec }) => async (dispatch, 
     createdBy: selectedAddress
   }
 
-  const hash = await ipfs.dag.put(task, { format: 'dag-cbor', hashAlg: 'sha3-512' })
-
+  // Add task to IPFS.  Use dag.put instead of files.add because task is object/dag node not a file
+  const hash = await ipfs.dag.put(task, { format: 'dag-cbor', hashAlg: 'sha2-256' })
   task._id = hash.toBaseEncodedString()
-
-  await tasks.put(task)
 
   dispatch(submitTask(task))
 
+  //  Add task IPFS hash to blockchain
   await addTask(task._id, { from: task.createdBy })
 
   dispatch(receiveTask(task))
