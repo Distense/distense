@@ -35,10 +35,12 @@ export const tagsOptions = [
 ]
 
 export const specPlaceholder = `
+  ## Task Title 
   - Make lists of pithy facts and instructions
   - **Bold** stuff
   - *Italicize* text
-  - ### Headers\n
+  - ### Headers
+  - ------------------
   ## Add code examples
   \`\`\`js
   const React = require('react')
