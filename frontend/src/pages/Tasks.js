@@ -11,8 +11,29 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
 
+
 const Task = ({ task }) => (
-  <Table.Row key={task.title}>
+  <Table.Row key={task._id}>
+    <Table.Cell>
+      <Link to={`/tasks/${task.title}/${task._id}`}>{task.title}</Link>
+    </Table.Cell>
+    <Table.Cell singleLine>
+      <Tags tags={task.tags} />
+    </Table.Cell>
+    <Table.Cell>
+      Task
+      {/*{task.status}*/}
+    </Table.Cell>
+    <Table.Cell>
+      100
+      {/*{task.reward}*/}
+    </Table.Cell>
+    <Table.Cell
+      collapsing
+      textAlign='right'
+    >
+      {task.createdAt.toDateString()}
+    </Table.Cell>
   </Table.Row>
 )
 
@@ -28,12 +49,12 @@ class Tasks extends Component {
   }
 
   componentDidMount() {
-    //  TODO total hack; not sure why tasks: this.props.tasks || [], above doesn't accomplish this
+    //  Not sure why tasks: this.props.tasks || [], above doesn't accomplish this
     setTimeout(() => {
       this.setState({
         tasks: this.props.tasks
       })
-    }, 2200)
+    }, 3000)
   }
 
   handleSort = clickedColumn => () => {
@@ -65,6 +86,7 @@ class Tasks extends Component {
       <Layout>
         <Head title='Available Tasks'/>
         <Table
+          // padded
           selectable
           sortable
           striped
@@ -84,6 +106,12 @@ class Tasks extends Component {
                 Tags
               </Table.HeaderCell>
               <Table.HeaderCell
+                sorted={column === 'Status' ? direction : null}
+                onClick={this.handleSort('status')}
+              >
+                Status
+              </Table.HeaderCell>
+              <Table.HeaderCell
                 sorted={column === 'Reward' ? direction : null}
                 onClick={this.handleSort('reward')}
               >
@@ -100,22 +128,10 @@ class Tasks extends Component {
           <Table.Body>
             {tasks.length ?
               tasks.map(task => (
-                <Table.Row key={task.title}>
-                  <Table.Cell>
-                    <Link to='/tasks/{task.title'>{task.title}</Link>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Tags tags={task.tags} />
-                  </Table.Cell>
-                  <Table.Cell>
-                    {task.reward}
-                  </Table.Cell>
-                  <Table.Cell
-                    collapsing
-                    textAlign='right'>
-                    {task.createdAt.toDateString()}
-                    </Table.Cell>
-                </Table.Row>
+                <Task
+                  key={task._id}
+                  task={task}
+                />
               )) : <Table.Cell>
                     Loading tasks...
                    </Table.Cell>

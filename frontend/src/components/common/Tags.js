@@ -9,13 +9,11 @@ export default class Tags extends Component {
 
   createTagsList() {
     return this.props.tags.map((tag) => {
-      console.log(`${tag}`);
-      return <Label
-        size='tiny'
-        key={tag}
-      >
-        {tag}
-      </Label>
+      return (
+        <Label size='tiny' key={tag}>
+          {tag}
+        </Label>
+      )
     })
   }
 
