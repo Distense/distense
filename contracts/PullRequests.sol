@@ -8,10 +8,10 @@ contract PullRequests is Approvable {
   using StringArrayUtils for string[];
 
   DIDToken didToken;
-  address public didTokenAddress;
+  address didTokenAddress;
 
-  Tasks tasks;
-  address public tasksAddress ;
+  Tasks tasksContract;
+  address public tasksAddress;
 
 struct PullRequest {
     address createdBy;
@@ -26,24 +26,17 @@ struct PullRequest {
   mapping (string => PullRequest) pullRequests;
 
 
-  function PullRequests () {
-  }
-
-  function setDIDAddress(address _DIDTokenAddress) external onlyApproved {
-    didTokenAddress = _DIDTokenAddress;
-  }
-
-  function setTasksAddress(address _TasksAddress) external onlyApproved {
-    tasksAddress = _TasksAddress;
+  function PullRequests (address _DIDTokenAddress, address _TasksAddress) {
+    DIDToken didToken = DIDToken(_DIDTokenAddress);
+    Tasks tasksContract = Tasks(_TasksAddress);
   }
 
   function submitPullRequest(string _id, string _taskId) external returns (bool) {
     pullRequests[_id].createdBy = msg.sender;
     pullRequestIds.push(_id);
-    //  TODO ensure submitter hasn't voted false on this task for someone else (Distense is all about preventing conflicts of interest)
   }
 
-   function submitterVotedOnTask(string _taskId) public constant returns (bool) {
+   function submitterVotedTask(string _taskId) public constant returns (bool) {
 //    TODO
    }
 
@@ -75,16 +68,17 @@ struct PullRequest {
     return _numDIDApproved;
   }
 
-  function percentDIDApproved(string _id) public constant returns (uint8) {
-    return (numDIDApproved(_id) * 100) / (didToken.totalSupply * 100);
+  function percentDIDApproved(string _id) public constant returns (uint256) {
+    return (numDIDApproved(_id) * 100) / (didToken.totalSupply() * 100);
   }
 
-  // function approved(string _id) public constant returns (bool) {
-  //   return percentDIDApproved(_id) >= Tasks.;
-  // }
+//   function approved(string _id) public constant returns (bool) {
+//     return percentDIDApproved(_id) >= Tasks.;
+//   }
 
-  modifier voterNotVoted(string _taskId) {
-    require(tasks[_taskId].rewardVotes[msg.sender] == 0);
-    _;
-  }
+//  TODO what is this for????
+//  modifier voterNotVoted(string _taskId) {
+//    require(tasksContract.tasks(_taskId).rewardVotes[msg.sender] == 0);
+//    _;
+//  }
 }
