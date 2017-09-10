@@ -1,17 +1,15 @@
 pragma solidity ^0.4.11;
 
-import './lib/Approvable.sol';
 import './lib/StringArrayUtils.sol';
 import './DIDToken.sol';
 
-contract Tasks is Approvable {
+contract Tasks {
   using StringArrayUtils for string[];
 
   DIDToken didToken;
 
   uint8 public requiredDIDApprovalThreshold;  // TODO this should be updatable based on voting.  This should decline over time
 
-  // Array of all task IPFS hashes
   string[] public taskIds;
 
   struct Task {
@@ -28,7 +26,7 @@ contract Tasks is Approvable {
     DIDToken didToken = DIDToken(_DIDTokenAddress);
   }
 
-  function addTask(string _ipfsHash) external {
+  function addTask(string _ipfsHash) external returns (bool) {
     tasks[_ipfsHash].createdBy = msg.sender;
     tasks[_ipfsHash].reward = 0;
     taskIds.push(_ipfsHash);
@@ -42,7 +40,7 @@ contract Tasks is Approvable {
     return taskIds.length;
   }
 
-  // Make sure voter hasn't voted and the reward for this task isn't set so they are not charged gas
+  // Make sure voter hasn't voted and the reward for this task isn't set
   function voteOnReward(string _ipfsHash, uint256 _reward) notVoted(_ipfsHash) external returns (bool) {
     require(!enoughDIDVotedOnTask(_ipfsHash));
 
@@ -107,6 +105,11 @@ contract Tasks is Approvable {
   }
 
   modifier notVoted(string _taskId) {
+    require(tasks[_taskId].rewardVotes[msg.sender] == 0);
+    _;
+  }
+
+  modifier meetsDIDThresholdToVote(string _taskId) {
     require(tasks[_taskId].rewardVotes[msg.sender] == 0);
     _;
   }

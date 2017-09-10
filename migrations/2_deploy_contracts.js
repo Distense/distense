@@ -1,18 +1,18 @@
 const DIDToken = artifacts.require('./DIDToken.sol')
-const Distense = artifacts.require('./Distense.sol')
-const Tasks = artifacts.require('./Tasks.sol')
+// const Distense = artifacts.require('./Distense.sol')
+const GitTool = artifacts.require('./GitTool.sol')
 const PullRequests = artifacts.require('./PullRequests.sol')
+const Tasks = artifacts.require('./Tasks.sol')
 
 
 module.exports = deployer => {
-  deployer.deploy(DIDToken)
-    .then(() => {
-    deployer.deploy(Distense)
-    })
-    .then(() => {
-      deployer.deploy(PullRequests, DIDToken.address)
-    })
-    .then(() => {
-      deployer.deploy(Tasks, DIDToken.address)
-    })
+  deployer.deploy(GitTool).then(() => {
+    return deployer.deploy(DIDToken)
+  }).then(() => {
+    return deployer.deploy(Tasks, DIDToken.address)
+  }).then(() => {
+    return deployer.deploy(PullRequests, DIDToken.address, Tasks.address)
+  })/*.then(() => {
+    return deployer.deploy(Distense, DIDToken.address, Tasks.address)
+  })*/
 }
