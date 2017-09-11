@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Grid, Header, Item, Message, List } from 'semantic-ui-react'
 import ReactMarkdown from 'react-markdown'
 
-import { fetchTask } from '../actions'
+import { fetchTask } from '../actions/tasks'
 import { getTask } from '../reducers/tasks'
 
 import Head from '../components/common/Head'

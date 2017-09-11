@@ -9,7 +9,7 @@ import ReactMarkdown from 'react-markdown'
 import slug from 'slug'
 
 import { getPendingTask } from '../reducers/tasks'
-import { createTask } from '../actions'
+import { createTask } from '../actions/tasks'
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import { specPlaceholder, tagsOptions } from '../shared'

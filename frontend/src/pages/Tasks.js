@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { Link } from 'react-router-dom'
 import { Table } from 'semantic-ui-react'
 
-import { fetchTasks } from '../actions'
+import { fetchTasks } from '../actions/tasks'
 import { getAllTasks } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
