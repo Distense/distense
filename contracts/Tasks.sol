@@ -16,10 +16,15 @@ contract Tasks {
     address createdBy;
     uint256 reward;
     address[] rewardVoters;
+    bool rewardPaid;
     mapping (address => uint256) rewardVotes;
   }
 
   mapping (string => Task) tasks;
+
+//  Does this happen at time of reward determination or at simple addTask or both
+  event LogNewProposal(address indexed taskId);
+  event LogNewTask(address indexed taskId, uint reward);
 
   function Tasks(address _DIDTokenAddress) {
     requiredDIDApprovalThreshold = 40;
@@ -30,6 +35,8 @@ contract Tasks {
     tasks[_ipfsHash].createdBy = msg.sender;
     tasks[_ipfsHash].reward = 0;
     taskIds.push(_ipfsHash);
+    LogAddTask(_ipfsHash);
+    return true;
   }
 
   function taskExists(string _ipfsHash) public constant returns (bool) {
@@ -50,7 +57,7 @@ contract Tasks {
 
     //  If DID threshold has been reached go ahead and determine the reward for the task
     bool enoughDIDVoted = enoughDIDVotedOnTask(_ipfsHash);
-    if (enoughDIDVoted) {
+    if (enoughDIDVoted || _task.rewardVoters.length === 100) {
       determineReward(_ipfsHash);
     }
 
@@ -82,17 +89,17 @@ contract Tasks {
     return tasks[_ipfsHash].reward;
   }
 
-  function determineReward(string _ipfsHash) public constant returns (uint256) {
-    require(enoughDIDVotedOnTask(_ipfsHash));
+  function determineReward(string _taskId) public constant returns (uint256) {
+    require(enoughDIDVotedOnTask(_taskId));
 
-    Task _task = tasks[_ipfsHash];
+    Task _task = tasks[_taskId];
 
-    uint256 _numDIDVoted = numDIDVotedOnTask(_ipfsHash);
+    uint256 _numDIDVoted = numDIDVotedOnTask(_taskId);
     uint256 _sum = 0;
     address _voter;
 
-//    Could do something here to randomly select an index based on numVoters in case duration of proposal affects vote
-    for (uint16 i = 0; i < 100; i++) {
+//    v2 TODO Fixed length rewardVoters array
+    for (uint16 i = 0; i <= 100; i++) {
       _voter = _task.rewardVoters[i];
       uint rewardVote = _task.rewardVotes[_voter] * 100;
       uint voterDIDBalance = didToken.balances(_voter) * 100;
@@ -101,6 +108,8 @@ contract Tasks {
     }
 
     _task.reward = _sum;
+    _task.rewardPaid = false;
+    LogRewardDetermined(_taskId, _sum);
     return _sum;
   }
 

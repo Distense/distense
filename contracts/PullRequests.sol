@@ -13,9 +13,9 @@ contract PullRequests is Approvable {
   Tasks tasksContract;
   address public tasksAddress;
 
-struct PullRequest {
+  struct PullRequest {
     address createdBy;
-    string taskHash;
+    string taskId;
     string repoName;
     string gitRef;
     address[] approvalVoters;
@@ -25,15 +25,16 @@ struct PullRequest {
   string[] public pullRequestIds;
   mapping (string => PullRequest) pullRequests;
 
+  event LogNewContribution(address indexed taskId, uint reward);
 
   function PullRequests (address _DIDTokenAddress, address _TasksAddress) {
     DIDToken didToken = DIDToken(_DIDTokenAddress);
     Tasks tasksContract = Tasks(_TasksAddress);
   }
 
-  function submitPullRequest(string _id, string _taskId) external returns (bool) {
-    pullRequests[_id].createdBy = msg.sender;
-    pullRequestIds.push(_id);
+  function submitPullRequest(string _prId, string _taskId) external returns (bool) {
+    pullRequests[_prId].createdBy = msg.sender;
+    pullRequestIds.push(_prId);
   }
 
    function submitterVotedTask(string _taskId) public constant returns (bool) {
@@ -44,8 +45,8 @@ struct PullRequest {
     return pullRequestIds.length;
   }
 
-   function voteOnApproval(string _id, bool _approve) external {
-     PullRequest _pr = pullRequests[_id];
+   function voteOnApproval(string _prId, bool _approve) external {
+     PullRequest _pr = pullRequests[_prId];
 
 //     require(!approved(_id)); // TODO wondering if you should be allowed to vote after approval; could be useful information
 //     Task _task = Task(_id);
@@ -53,8 +54,13 @@ struct PullRequest {
 //     _task.rewardVoters.push(msg.sender);
    }
 
-  function numDIDApproved(string _id) public constant returns (uint256) {
-    PullRequest _pr = pullRequests[_id];
+  function approvePullRequest(_taskId, _prId) internal returns (bool) {
+    LogNewContribution(_taskId, _prId);
+    return percentDIDApproved(_id) >= Tasks.;
+  }
+
+  function numDIDApproved(string _prId) public constant returns (uint256) {
+    PullRequest _pr = pullRequests[_prId];
     uint256 _numDIDApproved = 0;
     address _voter;
 
@@ -71,10 +77,6 @@ struct PullRequest {
   function percentDIDApproved(string _id) public constant returns (uint256) {
     return (numDIDApproved(_id) * 100) / (didToken.totalSupply() * 100);
   }
-
-//   function approved(string _id) public constant returns (bool) {
-//     return percentDIDApproved(_id) >= Tasks.;
-//   }
 
 //  TODO what is this for????
 //  modifier voterNotVoted(string _taskId) {
