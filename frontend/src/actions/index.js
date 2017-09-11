@@ -25,13 +25,11 @@ export const selectAddress = address => dispatch => {
 export const getAllAccounts = () => (dispatch, getState) => {
   const { selectedAddress } = getState()
 
-  // web3 may not exist at all here
   web3.eth.getAccounts((err, accounts) => {
-    if (!err && accounts.length)
-      dispatch(receiveAccountsAction(accounts.map(address => ({ address }))))
+    dispatch(receiveAccountsAction(accounts.map(address => ({ address }))))
   })
 
-  if (web3.isConnected() && !selectedAddress) {
+  if (!selectedAddress) {
     web3.eth.getCoinbase((err, coinbase) => {
       dispatch(selectAddressAction(coinbase))
     })
@@ -102,9 +100,10 @@ const submitTask = task => ({
   task
 })
 
-export const createTask = ({ title, tags, spec }) => async (dispatch, getState) => {
+
+export const createTask = ({ title, tags, issueURL, spec }) => async (dispatch, getState) => {
   const ipfs = await ipfsReady
-  
+
   const { addTask } = await contracts.Tasks
   const { selectedAddress } = getState()
 
