@@ -100,8 +100,10 @@ const submitTask = task => ({
   task
 })
 
+
 export const createTask = ({ title, tags, issueURL, spec }) => async (dispatch, getState) => {
   const ipfs = await ipfsReady
+
   const { addTask } = await contracts.Tasks
   const { selectedAddress } = getState()
 
