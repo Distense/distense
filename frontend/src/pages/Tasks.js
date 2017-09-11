@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { fetchTasks } from '../actions'
+import { fetchTasks } from '../actions/tasks'
 import { getAllTasks } from '../reducers/tasks'
 
 import Head from '../components/common/Head'

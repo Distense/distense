@@ -12,7 +12,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 import registerServiceWorker from './registerServiceWorker'
 import reducers from './reducers'
-import { getAllAccounts } from './actions'
+import { getAllAccounts } from './actions/accounts'
 
 import Home from './pages/Home'
 import About from './pages/About'
