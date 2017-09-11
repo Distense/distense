@@ -91,8 +91,8 @@ class Home extends Component {
                 </form>
               }
               <div className="overview">
-                <a target="_blank" href="../public/Distense-Overview-8-17-17.pdf" download>
-                  <h2 className="underlined">One Page Overview</h2>
+                <a target="_blank" href="../public/Distense-Overview-8-17-17.pdf?pdf=distense-overview" download>
+                  <h2 className="underlined">Overview</h2>
                 </a>
               </div>
             </div>
