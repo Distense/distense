@@ -32,7 +32,6 @@
     "ms": "^2.0.0",
     "multihashes": "^0.4.8",
     "object-assign": "4.1.1",
-    "orbit-db": "^0.17.3",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
     "promise": "8.0.1",
