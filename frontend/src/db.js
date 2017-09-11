@@ -35,7 +35,6 @@ export default new Promise((resolve, reject) => {
     ipfs.swarm.connect('/ip4/165.227.28.206/tcp/9999/ws/ipfs/QmSX1Q4rYtSpBXbSs4ZXnw4kyCwHBpS33siSUpiBJwTHtn', (err) => {
       if (err) reject(err)
       else {
-        console.log(`Connected`);
         resolve(ipfs)
       }
     })

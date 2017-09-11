@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Grid, Header, Item, Label, Message, List } from 'semantic-ui-react'
+import { Form, Grid, Header, Item, Message, List } from 'semantic-ui-react'
 import ReactMarkdown from 'react-markdown'
 
 import { fetchTask } from '../actions'
@@ -8,6 +8,7 @@ import { getTask } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
+import Tags from '../components/common/Tags'
 
 //  Default for now
 const TaskStatusMessage = ({ task }) => (
@@ -26,11 +27,6 @@ const TaskStatusMessage = ({ task }) => (
 )
 
 class Task extends Component {
-  constructor(props) {
-    super(props)
-    this.createTagsList = this.createTagsList.bind(this)
-  }
-
   componentWillMount() {
     const {
       fetchTask, match: {
@@ -38,17 +34,6 @@ class Task extends Component {
       }
     } = this.props
     fetchTask(id)
-  }
-
-  createTagsList() {
-    return this.props.task.tags.map((tag) => {
-      return <Label
-        size='tiny'
-        key={tag}
-      >
-        {tag}
-      </Label>
-    })
   }
 
   render() {
@@ -60,32 +45,31 @@ class Task extends Component {
         <div className='task'>
           {task ? (
             <Grid divided='vertically'>
-              <Grid.Row
-                columns={2}
-              >
-                <Grid.Column
-                >
-                  <Header style={{textDecoration: 'underline'}} as='h2'>{task.title}</Header>
-                  <Item>
-                    <List
-                      horizontal
-                      bulleted
-                    >
-                      Tags: {this.createTagsList()}
-                    </List>
-                  </Item>
-                  <Item>
-                    Issue url:
-                    <a target='_blank' href={task.issueURL}>
-                      {task.issueURL}
-                    </a>
-                  </Item>
-                  <Item as='p'>
-                    Created: {new Date(task.createdAt).toDateString()}
-                  </Item>
+              <Grid.Row columns={2}>
+                <Grid.Column>
+                  <Item.Content>
+                    <Header style={{ textDecoration: 'underline' }} as='h2'>{task.title}</Header>
+                    <Item>
+                      <List
+                        horizontal
+                        bulleted
+                      >
+                        Tags: <Tags tags={task.tags}/>
+                      </List>
+                    </Item>
+                    <Item>
+                      Issue URL:
+                      <a className='' target='_blank' href={task.issueURL}>
+                        {task.issueURL}
+                      </a>
+                    </Item>
+                    <Item.Meta>
+                      Created: {new Date(task.createdAt).toDateString()}
+                    </Item.Meta>
+                  </Item.Content>
                 </Grid.Column>
                 <Grid.Column>
-                  <TaskStatusMessage />
+                  <TaskStatusMessage/>
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
