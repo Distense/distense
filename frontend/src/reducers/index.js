@@ -3,11 +3,22 @@ import { combineReducers } from 'redux'
 import accounts from './accounts'
 import tasks from './tasks'
 
-export const SELECT_ADDRESS = 'SELECT_ADDRESS'
+export const SET_ADDRESS = 'SET_ADDRESS'
+export const SET_ADDRESS_BALANCE = 'SET_ADDRESS_BALANCE'
 
-const selectedAddress = (state = null, action) => {
+
+const setAddress = (state = null, action) => {
   switch (action.type) {
-    case SELECT_ADDRESS:
+    case SET_ADDRESS:
+      return action.address
+    default:
+      return state
+  }
+}
+
+const setAddressBalance = (state = null, action) => {
+  switch (action.type) {
+    case SET_ADDRESS_BALANCE:
       return action.address
     default:
       return state
@@ -15,7 +26,8 @@ const selectedAddress = (state = null, action) => {
 }
 
 export default combineReducers({
-  selectedAddress,
+  setAddress,
+  setAddressBalance,
   accounts,
-  tasks,
+  tasks
 })
