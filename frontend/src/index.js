@@ -16,6 +16,7 @@ import { getAllAccounts } from './actions/accounts'
 
 import Home from './pages/Home'
 import About from './pages/About'
+import Landing from './pages/Landing'
 import CreateTask from './pages/CreateTask'
 import Tasks from './pages/Tasks'
 import Task from './pages/Task'
@@ -30,19 +31,19 @@ store.dispatch(getAllAccounts())
 const Root = () => (
   <Router>
     <Switch>
-      <Route exact path='/' component={Home} />
-      <Route path='/about' component={About} />
-      <Route path='/tasks/:title/:id' component={Task} />
-      <Route path='/tasks/create' component={CreateTask} />
-      <Route path='/tasks' component={Tasks} />
+      <Route exact path='/' component={Home}/>
+      <Route path='/about' component={About}/>
+      <Route path='/tasks/:title/:id' component={Task}/>
+      <Route path='/tasks/create' component={CreateTask}/>
+      <Route path='/tasks' component={Tasks}/>
     </Switch>
   </Router>
 )
 
 ReactDOM.render(
   <Provider store={store}>
-    <Root />
+    <Root/>
   </Provider>,
-document.getElementById('root'))
+  document.getElementById('root'))
 
 registerServiceWorker()

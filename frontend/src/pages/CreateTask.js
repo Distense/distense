@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+<<<<<<< HEAD
 import CodeMirror from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/markdown/markdown'
@@ -10,6 +11,16 @@ import slug from 'slug'
 
 import { getPendingTask } from '../reducers/tasks'
 import { createTask } from '../actions/tasks'
+=======
+import Autocomplete from 'react-autocomplete'
+import IPFS from 'ipfs'
+import classNames from 'classnames'
+import { Buffer } from 'safe-buffer'
+
+import web3 from '../web3'
+import * as contracts from '../contracts'
+
+>>>>>>> landing
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import { specPlaceholder, tagsOptions } from '../shared'
@@ -34,10 +45,23 @@ class CreateTask extends Component {
     this.onChangeTags = this.onChangeTags.bind(this)
   }
 
+<<<<<<< HEAD
   onChangeTitle = ({ target: { value } }) => {
     //  TODO replace '## Task Title Goes Here' in taskSpec with the title value
     if (value.length <= 50)
       this.setState({ title: value })
+=======
+  async componentWillMount() {
+
+    this.node = new IPFS({
+      repo: String(Math.random() + Date.now())
+      })
+
+    this.node.on('ready', () => {
+      console.log('IPFS ready')
+    })
+
+>>>>>>> landing
   }
 
   onChangeIssueURL = ({ target: { value } }) => {
