@@ -10,7 +10,6 @@ import {
   Input,
   List,
   Menu,
-  Message,
   Segment,
 } from 'semantic-ui-react'
 
@@ -72,12 +71,8 @@ class Home extends Component {
           <Container>
             <Menu inverted pointing secondary size="large">
               <Menu.Item position="left">Home</Menu.Item>
-              <Menu.Item to="/tasks/create" as="a">
-                Propose
-              </Menu.Item>
-              <Menu.Item to="/tasks" as="a">
-                View
-              </Menu.Item>
+              <Menu.Item as="a">Propose</Menu.Item>
+              <Menu.Item as="a">View</Menu.Item>
               <Menu.Item as="a">Submit</Menu.Item>
               <Menu.Item as="a">Approve</Menu.Item>
               <Menu.Item position="right">
@@ -86,7 +81,7 @@ class Home extends Component {
             </Menu>
           </Container>
 
-          <Container text textAlign="center">
+          <Container text>
             <Header
               as="h1"
               content="Distense"
@@ -100,52 +95,31 @@ class Home extends Component {
             />
             <Header
               as="h2"
-              className="inconsolata"
               inverted
               style={{
                 fontSize: '1.7em',
                 fontWeight: 'normal',
               }}
             >
-              A decentralized code-cooperative anyone can work for
+              A decentralized code-cooperative that anyone can work for
             </Header>
-            <Grid>
-              <Grid.Row centered>
-                <Grid.Column width={7}>
-                  {emailSubmitSuccess ? (
-                    <Message>
-                      <Message.Header>We'll keep you updated!</Message.Header>
-                    </Message>
-                  ) : (
-                    <Form size="huge" onSubmit={this.onSubmitEmail}>
-                      <Form.Field>
-                        <Input
-                          className="email-subscribe"
-                          icon="email"
-                          type="text"
-                          placeholder="Get email updates"
-                        />
-                      </Form.Field>
-                    </Form>
-                  )}
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row centered>
-                <Grid.Column textAlign="center" width={8}>
-                  <Button
-                    target="_blank"
-                    href="../public/Distense-Overview-8-17-17.pdf?pdf=distense-overview"
-                    download
-                    color="green"
-                    size="huge"
-                  >
-                    <Header inverted={true} as="h3">
-                      One Page Overview&nbsp;
-                    </Header>
-                  </Button>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+            <Button primary size="large">
+              <Header as="h2" className="underlined">
+                <a
+                  target="_blank"
+                  href="../public/Distense-Overview-8-17-17.pdf?pdf=distense-overview"
+                  download
+                >
+                  One Page Overview
+                </a>
+              </Header>
+              <Icon name="down arrow" />
+            </Button>
+            <Grid.Row>
+              <Form.Group onSubmit={this.onSubmitEmail}>
+                <Input icon="email" type="text" placeholder="Stay updated" />
+              </Form.Group>
+            </Grid.Row>
           </Container>
         </Segment>
 
@@ -169,7 +143,6 @@ class Home extends Component {
             <Button
               style={{ fontFamily: 'Inconsolata !important' }}
               size="huge"
-              href="/howitworks"
             >
               How it works
             </Button>
@@ -182,7 +155,7 @@ class Home extends Component {
               Modern work is broken
             </Header>
             <Grid divided inverted stackable>
-              <Grid.Row className="landing-work-broken" textAlign="center">
+              <Grid.Row textAlign="center">
                 <Grid.Column textAlign="right" width={8}>
                   <List floated="right" relaxed={true}>
                     <List.Item>
@@ -216,13 +189,42 @@ class Home extends Component {
               Let's rethink it from the ground up
             </Header>
             <p style={{ fontSize: '1.33em' }}>
-              Work on a per-task basis, from anywhere, whenever. Govern the
-              organization you work for. Rewards for contributing are issued
+              Work is done on a per-task basis, from anywhere, whenever. Govern
+              the organization you work for. Rewards for contributing are issued
               immediately after completing work by a smart contract; not maybe
-              in a few weeks by a human.
+              in a few weeks by a fallible human.
             </p>
           </Container>
         </Segment>
+
+        {/*<Segment style={{ padding: '7em 0em' }} textAlign="center" vertical>*/}
+        {/*<Container text>*/}
+        {/*<Header as="h3" style={{ fontSize: '2em' }}>*/}
+        {/*Breaking The Grid, Grabs Your Attention*/}
+        {/*</Header>*/}
+        {/*<p style={{ fontSize: '1.33em' }} />*/}
+        {/*<Button as="a" size="large">*/}
+        {/*Read More*/}
+        {/*</Button>*/}
+        {/*/!*<Divider*!/*/}
+        {/*/!*as="h4"*!/*/}
+        {/*/!*className="header"*!/*/}
+        {/*/!*horizontal*!/*/}
+        {/*/!*style={{ margin: '3em 0em', textTransform: 'uppercase' }}*!/*/}
+        {/*/!*>*!/*/}
+        {/*/!*<a href="#">Case Studies</a>*!/*/}
+        {/*/!*</Divider>*!/*/}
+        {/*<Header as="h3" style={{ fontSize: '2em' }}>*/}
+        {/*Did We Tell You About Our Bananas?*/}
+        {/*</Header>*/}
+        {/*<p style={{ fontSize: '1.33em' }}>*/}
+        {/*Yes I know you probably disregarded the earlier boasts as*/}
+        {/*non-sequitur filler content, but its really true. It took years of*/}
+        {/*gene splicing and combinatory DNA research, but our bananas can*/}
+        {/*really dance.*/}
+        {/*</p>*/}
+        {/*</Container>*/}
+        {/*</Segment>*/}
 
         <Segment inverted vertical style={{ padding: '4em 0em' }}>
           <Container>
@@ -239,6 +241,7 @@ class Home extends Component {
                     >
                       Contact Us
                     </List.Item>
+                    {/*<List.Item as="a">Gazebo Plans</List.Item>*/}
                   </List>
                 </Grid.Column>
                 <Grid.Column width={3}>
@@ -250,30 +253,24 @@ class Home extends Component {
                     <List.Item as="a">Favorite X-Men</List.Item>
                   </List>
                 </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column width={3}>
+                <Grid.Column width={7}>
                   <Header as="h4" inverted>
-                    Get updates
+                    Footer Header
                   </Header>
-                  <Form.Group onSubmit={this.onSubmitEmail}>
-                    <Input
-                      icon="email"
-                      type="text"
-                      placeholder="Stay updated"
-                    />
-                  </Form.Group>
+                  <p>
+                    Extra space for a call to action inside the footer that
+                    could help re-engage users.
+                  </p>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
           </Container>
         </Segment>
         {/*language=CSS*/}
-        <style global jsx>{`
+        <style jsx>{`
           h2.inconsolata {
             font-family: 'Inconsolata' !important;
           }
-
           .email-form,
           .email-form-success {
             margin-top: 3rem;
@@ -283,10 +280,6 @@ class Home extends Component {
             font-size: 1.2rem;
             color: #f5eec5;
             padding: 1rem 0;
-          }
-
-          .landing-work-broken .item .content {
-            font-size: 1.33em;
           }
         `}</style>
       </div>
