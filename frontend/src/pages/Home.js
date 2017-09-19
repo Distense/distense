@@ -41,6 +41,7 @@ class Home extends Component {
   onSubmitEmail = e => {
     e.preventDefault()
 
+    console.log(`asdljfhsalkdjf`)
     this.setState({
       emailSubmitSuccess: true,
     })
@@ -70,7 +71,13 @@ class Home extends Component {
           vertical
         >
           <Container>
-            <Menu inverted pointing secondary size="large">
+            <Menu
+              className="inconsolata"
+              inverted
+              pointing
+              secondary
+              size="large"
+            >
               <Menu.Item position="left">Home</Menu.Item>
               <Menu.Item to="/tasks/create" as="a">
                 Propose
@@ -80,7 +87,7 @@ class Home extends Component {
               </Menu.Item>
               <Menu.Item as="a">Submit</Menu.Item>
               <Menu.Item as="a">Approve</Menu.Item>
-              <Menu.Item position="right">
+              <Menu.Item className="text-small" position="right">
                 18330 Total DID Outstanding
               </Menu.Item>
             </Menu>
@@ -114,35 +121,30 @@ class Home extends Component {
                 <Grid.Column width={7}>
                   {emailSubmitSuccess ? (
                     <Message>
-                      <Message.Header>We'll keep you updated!</Message.Header>
+                      <Message.Header>
+                        Awesome, we'll keep you updated!
+                      </Message.Header>
                     </Message>
                   ) : (
-                    <Form size="huge" onSubmit={this.onSubmitEmail}>
-                      <Form.Field>
-                        <Input
+                    <Form size="large" onSubmit={this.onSubmitEmail}>
+                      <Form.Group>
+                        <Form.Input
                           className="email-subscribe"
                           icon="email"
                           type="text"
-                          placeholder="Get email updates"
+                          placeholder="Get Email Updates"
                         />
-                      </Form.Field>
+                        <Form.Field
+                          size="large"
+                          inverted
+                          color="green"
+                          control={Button}
+                        >
+                          Submit
+                        </Form.Field>
+                      </Form.Group>
                     </Form>
                   )}
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row centered>
-                <Grid.Column textAlign="center" width={8}>
-                  <Button
-                    target="_blank"
-                    href="../public/Distense-Overview-8-17-17.pdf?pdf=distense-overview"
-                    download
-                    color="green"
-                    size="huge"
-                  >
-                    <Header inverted={true} as="h3">
-                      One Page Overview&nbsp;
-                    </Header>
-                  </Button>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
@@ -212,14 +214,13 @@ class Home extends Component {
                 </Grid.Column>
               </Grid.Row>
             </Grid>
-            <Header as="h3" style={{ marginTop: '45px', fontSize: '1.7em' }}>
-              Let's rethink it from the ground up
+            <Header as="h3" style={{ marginTop: '1.9rem', fontSize: '1.7em' }}>
+              Let's fix it together
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               Work on a per-task basis, from anywhere, whenever. Govern the
-              organization you work for. Rewards for contributing are issued
-              immediately after completing work by a smart contract; not maybe
-              in a few weeks by a human.
+              organization you work for. Get your reward issued by a smart
+              contract immediately; not maybe in a few weeks by a human.
             </p>
           </Container>
         </Segment>
@@ -250,19 +251,22 @@ class Home extends Component {
                     <List.Item as="a">Favorite X-Men</List.Item>
                   </List>
                 </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column width={3}>
+                <Grid.Column width={7}>
                   <Header as="h4" inverted>
                     Get updates
                   </Header>
-                  <Form.Group onSubmit={this.onSubmitEmail}>
-                    <Input
-                      icon="email"
-                      type="text"
-                      placeholder="Stay updated"
-                    />
-                  </Form.Group>
+                  <Grid.Column width={8}>
+                    <Form size="medium" onSubmit={this.onSubmitEmail}>
+                      <Form.Field>
+                        <Input
+                          className="footer-email-subscribe"
+                          icon="email"
+                          type="text"
+                          placeholder="Get Email Updates"
+                        />
+                      </Form.Field>
+                    </Form>
+                  </Grid.Column>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
@@ -270,7 +274,14 @@ class Home extends Component {
         </Segment>
         {/*language=CSS*/}
         <style global jsx>{`
-          h2.inconsolata {
+          .landing-ctas {
+            font-family: 'Helvetica-light', sans-serif !important;
+          }
+
+          .footer-email-subscribe {
+            width: 60% !important;
+          }
+          .inconsolata {
             font-family: 'Inconsolata' !important;
           }
 
@@ -287,6 +298,10 @@ class Home extends Component {
 
           .landing-work-broken .item .content {
             font-size: 1.33em;
+          }
+
+          .text-small {
+            font-size: 0.8rem;
           }
         `}</style>
       </div>
