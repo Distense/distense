@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Button,
   Container,
@@ -22,7 +23,7 @@ class Home extends Component {
     super(props)
     this.state = {
       email: '',
-      emailSubmitSuccess: false,
+      emailFocused: false,
     }
   }
 
@@ -61,6 +62,31 @@ class Home extends Component {
           }}
           vertical
         >
+          <Container textAlign="center">
+            <Menu
+              className="inconsolata"
+              inverted
+              pointing
+              secondary
+              size="large"
+            >
+              <Menu.Item position="left">Home</Menu.Item>
+              <Menu.Item to="/tasks/create" as={Link}>
+                Propose
+              </Menu.Item>
+              <Menu.Item to="/tasks" as={Link}>
+                View
+              </Menu.Item>
+              <Menu.Item to="/tasksTODO" as={Link}>
+                Submit
+              </Menu.Item>
+              <Menu.Item to="/tasksTODO" as={Link}>
+                Approve
+              </Menu.Item>
+              <Menu.Item position="right">18330 Total DID</Menu.Item>
+            </Menu>
+          </Container>
+
           <Container text textAlign="center">
             <Header
               as="h1"
@@ -101,14 +127,6 @@ class Home extends Component {
                           placeholder="Get Email Updates"
                           value={email}
                         />
-                        {/*<Form.Field*/}
-                        {/*size="large"*/}
-                        {/*inverted*/}
-                        {/*color="green"*/}
-                        {/*control={Button}*/}
-                        {/*>*/}
-                        {/*Submit*/}
-                        {/*</Form.Field>*/}
                       </Form.Group>
                     </Form>
                   )}
@@ -252,7 +270,6 @@ class Home extends Component {
                         />
                       </Form.Field>
                     </Form>
-                    © {new Date().getFullYear()} Distense
                   </Grid.Column>
                 </Grid.Column>
               </Grid.Row>
