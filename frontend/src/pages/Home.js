@@ -22,16 +22,8 @@ class Home extends Component {
     super(props)
     this.state = {
       email: '',
-      emailFocused: false,
+      emailSubmitSuccess: false,
     }
-  }
-
-  onFocusEmail = e => {
-    this.setState({ emailFocused: true })
-  }
-
-  onBlurEmail = e => {
-    this.setState({ emailFocused: false })
   }
 
   onChangeEmail = ({ target: { value: email } }) => {
@@ -41,7 +33,6 @@ class Home extends Component {
   onSubmitEmail = e => {
     e.preventDefault()
 
-    console.log(`asdljfhsalkdjf`)
     this.setState({
       emailSubmitSuccess: true,
     })
@@ -56,7 +47,7 @@ class Home extends Component {
   }
 
   render() {
-    const { email, emailFocused, emailSubmitSuccess } = this.state
+    const { email, emailSubmitSuccess } = this.state
 
     return (
       <div>
@@ -70,29 +61,6 @@ class Home extends Component {
           }}
           vertical
         >
-          <Container>
-            <Menu
-              className="inconsolata"
-              inverted
-              pointing
-              secondary
-              size="large"
-            >
-              <Menu.Item position="left">Home</Menu.Item>
-              <Menu.Item to="/tasks/create" as="a">
-                Propose
-              </Menu.Item>
-              <Menu.Item to="/tasks" as="a">
-                View
-              </Menu.Item>
-              <Menu.Item as="a">Submit</Menu.Item>
-              <Menu.Item as="a">Approve</Menu.Item>
-              <Menu.Item className="text-small" position="right">
-                18330 Total DID Outstanding
-              </Menu.Item>
-            </Menu>
-          </Container>
-
           <Container text textAlign="center">
             <Header
               as="h1"
@@ -114,67 +82,39 @@ class Home extends Component {
                 fontWeight: 'normal',
               }}
             >
-              A decentralized code-cooperative anyone can work for
+              A decentralized code-cooperative
             </Header>
-            <Grid>
+            <Grid centered>
               <Grid.Row centered>
-                <Grid.Column width={7}>
+                <Grid.Column textAlign="center" width={7}>
                   {emailSubmitSuccess ? (
                     <Message>
-                      <Message.Header>
-                        Awesome, we'll keep you updated!
-                      </Message.Header>
+                      <Message.Header>We'll keep you updated!</Message.Header>
                     </Message>
                   ) : (
-                    <Form size="large" onSubmit={this.onSubmitEmail}>
+                    <Form size="huge" onSubmit={this.onSubmitEmail}>
                       <Form.Group>
                         <Form.Input
                           className="email-subscribe"
                           icon="email"
                           type="text"
                           placeholder="Get Email Updates"
+                          value={email}
                         />
-                        <Form.Field
-                          size="large"
-                          inverted
-                          color="green"
-                          control={Button}
-                        >
-                          Submit
-                        </Form.Field>
+                        {/*<Form.Field*/}
+                        {/*size="large"*/}
+                        {/*inverted*/}
+                        {/*color="green"*/}
+                        {/*control={Button}*/}
+                        {/*>*/}
+                        {/*Submit*/}
+                        {/*</Form.Field>*/}
                       </Form.Group>
                     </Form>
                   )}
                 </Grid.Column>
               </Grid.Row>
             </Grid>
-          </Container>
-        </Segment>
-
-        <Segment style={{ padding: '8em 0em' }} textAlign="center" vertical>
-          <Container text>
-            <Header as="h3" style={{ fontSize: '1.7em' }}>
-              Distense is a meritocracy for the future
-            </Header>
-            <p style={{ fontSize: '1.33em' }}>
-              If Ethereum is law, and Urbit is land, Distense is life. No
-              executives or overlords. Decisions are made by past contributors.
-            </p>
-            <Header as="h3" style={{ fontSize: '1.7em' }}>
-              Only contributors receive DID, an Ethereum token
-            </Header>
-            <p style={{ fontSize: '1.33em' }}>
-              Our DID token gives the holder the right to vote and approve work.
-              Two DID == two votes. DID are exchangeable into ether. No ICO --
-              only contributors receive DID.
-            </p>
-            <Button
-              style={{ fontFamily: 'Inconsolata !important' }}
-              size="huge"
-              href="/howitworks"
-            >
-              How it works
-            </Button>
           </Container>
         </Segment>
 
@@ -214,8 +154,12 @@ class Home extends Component {
                 </Grid.Column>
               </Grid.Row>
             </Grid>
-            <Header as="h3" style={{ marginTop: '1.9rem', fontSize: '1.7em' }}>
-              Let's fix it together
+            <Header
+              className="landing-header"
+              as="h3"
+              style={{ fontSize: '1.7em' }}
+            >
+              Let's fix it, together
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               Work on a per-task basis, from anywhere, whenever. Govern the
@@ -225,14 +169,65 @@ class Home extends Component {
           </Container>
         </Segment>
 
+        <Segment style={{ padding: '8em 0em' }} textAlign="center" vertical>
+          <Container text>
+            <Header as="h3" style={{ fontSize: '1.7em' }}>
+              Distense is a meritocracy for the future
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              If Ethereum is law, and Urbit is land, Distense is life. No
+              executives or overlords. Decisions are made by past contributors.
+            </p>
+            <Header
+              className="landing-header"
+              as="h3"
+              style={{ fontSize: '1.7em' }}
+            >
+              Only contributors receive DID, an Ethereum token
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              Our DID token gives the holder the right to vote and approve work.
+              Two DID == two votes. DID are exchangeable into ether. No ICO --
+              only contributors receive DID.
+            </p>
+            {/*<Button*/}
+            {/*style={{ fontFamily: 'Inconsolata !important' }}*/}
+            {/*size="huge"*/}
+            {/*href="/howitworks"*/}
+            {/*>*/}
+            {/*How it works*/}
+            {/*</Button>*/}
+          </Container>
+        </Segment>
+
         <Segment inverted vertical style={{ padding: '4em 0em' }}>
           <Container>
             <Grid divided inverted stackable>
               <Grid.Row>
-                <Grid.Column width={3}>
+                <Grid.Column textAlign="right" width={8}>
                   <Header inverted as="h4" content="About" />
                   <List link inverted>
-                    <List.Item as="a">Sitemap</List.Item>
+                    <List.Item
+                      as="a"
+                      target="_blank"
+                      href="https://twitter.com/distenseorg"
+                    >
+                      @DistenseOrg
+                    </List.Item>
+                    <List.Item
+                      as="a"
+                      target="_blank"
+                      href="https://github.com/Distense/distense"
+                    >
+                      Github
+                    </List.Item>
+                    <List.Item
+                      as="a"
+                      href="mailto:john@disten.se?Subject=Distense Slack Invite"
+                      target="_top"
+                    >
+                      Slack
+                    </List.Item>
                     <List.Item
                       as="a"
                       href="mailto:team@disten.se?Subject=Distense"
@@ -242,16 +237,7 @@ class Home extends Component {
                     </List.Item>
                   </List>
                 </Grid.Column>
-                <Grid.Column width={3}>
-                  <Header inverted as="h4" content="Services" />
-                  <List link inverted>
-                    <List.Item as="a">Banana Pre-Order</List.Item>
-                    <List.Item as="a">DNA FAQ</List.Item>
-                    <List.Item as="a">How To Access</List.Item>
-                    <List.Item as="a">Favorite X-Men</List.Item>
-                  </List>
-                </Grid.Column>
-                <Grid.Column width={7}>
+                <Grid.Column textAlign="left" width={8}>
                   <Header as="h4" inverted>
                     Get updates
                   </Header>
@@ -266,6 +252,7 @@ class Home extends Component {
                         />
                       </Form.Field>
                     </Form>
+                    © {new Date().getFullYear()} Distense
                   </Grid.Column>
                 </Grid.Column>
               </Grid.Row>
@@ -274,15 +261,20 @@ class Home extends Component {
         </Segment>
         {/*language=CSS*/}
         <style global jsx>{`
-          .landing-ctas {
-            font-family: 'Helvetica-light', sans-serif !important;
+          .footer-email-subscribe {
+            width: 50% !important;
           }
 
-          .footer-email-subscribe {
-            width: 60% !important;
+          .email-subscribe input {
+            text-align: center !important;
           }
+
           .inconsolata {
-            font-family: 'Inconsolata' !important;
+            font-family: 'Inconsolata', sans-serif !important;
+          }
+
+          .landing-header {
+            margin-top: 4rem !important;
           }
 
           .email-form,
@@ -298,10 +290,6 @@ class Home extends Component {
 
           .landing-work-broken .item .content {
             font-size: 1.33em;
-          }
-
-          .text-small {
-            font-size: 0.8rem;
           }
         `}</style>
       </div>
