@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Button,
   Container,
-  Divider,
   Form,
   Grid,
   Header,
-  Icon,
   Input,
   List,
   Menu,
@@ -16,7 +13,6 @@ import {
 } from 'semantic-ui-react'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 
 class Home extends Component {
   constructor(props) {
@@ -58,19 +54,15 @@ class Home extends Component {
           textAlign="center"
           style={{
             minHeight: 700,
-            padding: '1em 0em',
+            padding: '0em',
           }}
           vertical
         >
-          <Container textAlign="center">
-            <Menu
-              className="inconsolata"
-              inverted
-              pointing
-              secondary
-              size="large"
-            >
-              <Menu.Item position="left">Home</Menu.Item>
+          <Menu className="inconsolata" inverted size="large">
+            <Container textAlign="center">
+              <Menu.Item to="/" as={Link} position="left">
+                Distense
+              </Menu.Item>
               <Menu.Item to="/tasks/create" as={Link}>
                 Propose
               </Menu.Item>
@@ -84,8 +76,8 @@ class Home extends Component {
                 Approve
               </Menu.Item>
               <Menu.Item position="right">18330 Total DID</Menu.Item>
-            </Menu>
-          </Container>
+            </Container>
+          </Menu>
 
           <Container text textAlign="center">
             <Header
@@ -115,7 +107,7 @@ class Home extends Component {
                 <Grid.Column textAlign="center" width={7}>
                   {emailSubmitSuccess ? (
                     <Message>
-                      <Message.Header>We'll keep you updated!</Message.Header>
+                      <Message.Content>We'll keep you updated!</Message.Content>
                     </Message>
                   ) : (
                     <Form size="huge" onSubmit={this.onSubmitEmail}>
@@ -126,6 +118,7 @@ class Home extends Component {
                           type="text"
                           placeholder="Get Email Updates"
                           value={email}
+                          onChange={this.onChangeEmail}
                         />
                       </Form.Group>
                     </Form>
@@ -182,7 +175,7 @@ class Home extends Component {
             <p style={{ fontSize: '1.33em' }}>
               Work on a per-task basis, from anywhere, whenever. Govern the
               organization you work for. Get your reward issued by a smart
-              contract immediately; not maybe in a few weeks by a human.
+              contract immediately, not maybe in a few weeks... by a human.
             </p>
           </Container>
         </Segment>
@@ -244,14 +237,14 @@ class Home extends Component {
                       href="mailto:john@disten.se?Subject=Distense Slack Invite"
                       target="_top"
                     >
-                      Slack
+                      Slack invite
                     </List.Item>
                     <List.Item
                       as="a"
                       href="mailto:team@disten.se?Subject=Distense"
                       target="_top"
                     >
-                      Contact Us
+                      Email
                     </List.Item>
                   </List>
                 </Grid.Column>
@@ -260,11 +253,12 @@ class Home extends Component {
                     Get updates
                   </Header>
                   <Grid.Column width={8}>
-                    <Form size="medium" onSubmit={this.onSubmitEmail}>
+                    <Form size="large" onSubmit={this.onSubmitEmail}>
                       <Form.Field>
                         <Input
                           className="footer-email-subscribe"
-                          icon="email"
+                          icon="mail"
+                          iconPosition="left"
                           type="text"
                           placeholder="Get Email Updates"
                         />
