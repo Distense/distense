@@ -5,6 +5,7 @@ import {
   Form,
   Grid,
   Header,
+  Image,
   Input,
   List,
   Menu,
@@ -19,7 +20,8 @@ class Home extends Component {
     super(props)
     this.state = {
       email: '',
-      emailFocused: false,
+      emailSubmitSuccess: false,
+      footerSubmitSuccess: false,
     }
   }
 
@@ -30,9 +32,16 @@ class Home extends Component {
   onSubmitEmail = e => {
     e.preventDefault()
 
-    this.setState({
-      emailSubmitSuccess: true,
-    })
+    const name = e.target[0].name
+    if (name && name === 'footerEmail') {
+      this.setState({
+        footerSubmitSuccess: true,
+      })
+    } else {
+      this.setState({
+        emailSubmitSuccess: true,
+      })
+    }
 
     fetch(
       'https://xe6au48aog.execute-api.us-west-2.amazonaws.com/prod/mailchimpLambda',
@@ -44,7 +53,7 @@ class Home extends Component {
   }
 
   render() {
-    const { email, emailSubmitSuccess } = this.state
+    const { email, emailSubmitSuccess, footerSubmitSuccess } = this.state
 
     return (
       <div>
@@ -53,28 +62,28 @@ class Home extends Component {
           inverted
           textAlign="center"
           style={{
-            minHeight: 700,
+            minHeight: '700px',
             padding: '0em',
           }}
           vertical
         >
-          <Menu className="inconsolata" inverted size="large">
+          <Menu borderless className="inconsolata" inverted size="large">
             <Container textAlign="center">
-              <Menu.Item to="/" as={Link} position="left">
+              <Menu.Item fixed="top" to="/" as={Link} position="left">
                 Distense
               </Menu.Item>
-              <Menu.Item to="/tasks/create" as={Link}>
-                Propose
-              </Menu.Item>
-              <Menu.Item to="/tasks" as={Link}>
-                View
-              </Menu.Item>
-              <Menu.Item to="/tasksTODO" as={Link}>
-                Submit
-              </Menu.Item>
-              <Menu.Item to="/tasksTODO" as={Link}>
-                Approve
-              </Menu.Item>
+              {/*<Menu.Item to="/tasks/create" as={Link}>*/}
+              {/*Propose*/}
+              {/*</Menu.Item>*/}
+              {/*<Menu.Item to="/tasks" as={Link}>*/}
+              {/*View*/}
+              {/*</Menu.Item>*/}
+              {/*<Menu.Item to="/tasksTODO" as={Link}>*/}
+              {/*Submit*/}
+              {/*</Menu.Item>*/}
+              {/*<Menu.Item to="/tasksTODO" as={Link}>*/}
+              {/*Approve*/}
+              {/*</Menu.Item>*/}
               <Menu.Item position="right">18330 Total DID</Menu.Item>
             </Container>
           </Menu>
@@ -102,29 +111,30 @@ class Home extends Component {
             >
               A decentralized code-cooperative
             </Header>
-            <Grid centered>
-              <Grid.Row centered>
-                <Grid.Column textAlign="center" width={7}>
-                  {emailSubmitSuccess ? (
-                    <Message>
-                      <Message.Content>We'll keep you updated!</Message.Content>
-                    </Message>
-                  ) : (
-                    <Form size="huge" onSubmit={this.onSubmitEmail}>
-                      <Form.Group>
-                        <Form.Input
-                          className="email-subscribe"
-                          icon="email"
-                          type="text"
-                          placeholder="Get Email Updates"
-                          value={email}
-                          onChange={this.onChangeEmail}
-                        />
-                      </Form.Group>
-                    </Form>
-                  )}
-                </Grid.Column>
-              </Grid.Row>
+            <Grid
+              style={{
+                marginTop: '2.8em',
+              }}
+              centered
+              inverted
+              columns="1"
+            >
+              {emailSubmitSuccess ? (
+                <span>We'll keep you updated!</span>
+              ) : (
+                <Form size="large" onSubmit={this.onSubmitEmail}>
+                  <Form.Group>
+                    <Form.Input
+                      className="email-subscribe"
+                      icon="email"
+                      type="text"
+                      placeholder="Get Email Updates"
+                      value={email}
+                      onChange={this.onChangeEmail}
+                    />
+                  </Form.Group>
+                </Form>
+              )}
             </Grid>
           </Container>
         </Segment>
@@ -211,7 +221,7 @@ class Home extends Component {
           </Container>
         </Segment>
 
-        <Segment inverted vertical style={{ padding: '4em 0em' }}>
+        <Segment inverted vertical style={{ padding: '3em 0em' }}>
           <Container>
             <Grid divided inverted stackable>
               <Grid.Row>
@@ -250,20 +260,25 @@ class Home extends Component {
                 </Grid.Column>
                 <Grid.Column textAlign="left" width={8}>
                   <Header as="h4" inverted>
-                    Get updates
+                    Stay updated
                   </Header>
                   <Grid.Column width={8}>
-                    <Form size="large" onSubmit={this.onSubmitEmail}>
-                      <Form.Field>
-                        <Input
-                          className="footer-email-subscribe"
-                          icon="mail"
-                          iconPosition="left"
-                          type="text"
-                          placeholder="Get Email Updates"
-                        />
-                      </Form.Field>
-                    </Form>
+                    {footerSubmitSuccess ? (
+                      <span>We'll keep you updated!</span>
+                    ) : (
+                      <Form size="large" onSubmit={this.onSubmitEmail}>
+                        <Form.Field>
+                          <Input
+                            className="footer-email-subscribe"
+                            icon="mail"
+                            iconPosition="left"
+                            name="footerEmail"
+                            placeholder="email"
+                            type="text"
+                          />
+                        </Form.Field>
+                      </Form>
+                    )}
                   </Grid.Column>
                 </Grid.Column>
               </Grid.Row>

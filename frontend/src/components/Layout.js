@@ -1,16 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {
-  Container,
-  Divider,
-  Form,
-  Grid,
-  Header,
-  Input,
-  List,
-  Menu,
-  Segment,
-} from 'semantic-ui-react'
+import { Container, Divider, Menu, Segment } from 'semantic-ui-react'
 
 export default ({ children, title }) => (
   <div>
@@ -22,7 +12,13 @@ export default ({ children, title }) => (
       }}
       vertical
     >
-      <Menu fixed="top" className="inconsolata" inverted size="large">
+      <Menu
+        borderless
+        fixed="top"
+        className="inconsolata"
+        inverted
+        size="large"
+      >
         <Container textAlign="center">
           <Menu.Item to="/" as={Link} position="left">
             Distense
