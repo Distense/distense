@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Divider, Menu, Segment } from 'semantic-ui-react'
 
+import AccountStatus from './AccountStatus'
+
 export default ({ children, title }) => (
   <div>
     <Segment
@@ -36,6 +38,7 @@ export default ({ children, title }) => (
             Approve
           </Menu.Item>
           <Menu.Item position="right">18330 Total DID</Menu.Item>
+          <AccountStatus />
         </Container>
       </Menu>
     </Segment>

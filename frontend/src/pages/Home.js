@@ -5,13 +5,13 @@ import {
   Form,
   Grid,
   Header,
-  Image,
   Input,
   List,
   Menu,
   Segment,
 } from 'semantic-ui-react'
 
+import AccountStatus from '../components/AccountStatus'
 import Head from '../components/common/Head'
 
 class Home extends Component {
@@ -68,22 +68,23 @@ class Home extends Component {
         >
           <Menu borderless className="inconsolata" inverted size="large">
             <Container textAlign="center">
-              <Menu.Item fixed="top" to="/" as={Link} position="left">
+              <Menu.Item to="/" as={Link} position="left">
                 Distense
               </Menu.Item>
-              {/*<Menu.Item to="/tasks/create" as={Link}>*/}
-              {/*Propose*/}
-              {/*</Menu.Item>*/}
-              {/*<Menu.Item to="/tasks" as={Link}>*/}
-              {/*View*/}
-              {/*</Menu.Item>*/}
-              {/*<Menu.Item to="/tasksTODO" as={Link}>*/}
-              {/*Submit*/}
-              {/*</Menu.Item>*/}
-              {/*<Menu.Item to="/tasksTODO" as={Link}>*/}
-              {/*Approve*/}
-              {/*</Menu.Item>*/}
+              <Menu.Item to="/tasks/create" as={Link}>
+                Propose
+              </Menu.Item>
+              <Menu.Item to="/tasks" as={Link}>
+                View
+              </Menu.Item>
+              <Menu.Item to="/tasksTODO" as={Link}>
+                Submit
+              </Menu.Item>
+              <Menu.Item to="/tasksTODO" as={Link}>
+                Approve
+              </Menu.Item>
               <Menu.Item position="right">18330 Total DID</Menu.Item>
+              <AccountStatus />
             </Container>
           </Menu>
 
@@ -95,7 +96,6 @@ class Home extends Component {
               inverted
               style={{
                 fontSize: '4em',
-                // fontWeight: 'semi-bold',
                 marginBottom: 0,
                 marginTop: '3em',
               }}
@@ -126,7 +126,7 @@ class Home extends Component {
                   <Form.Group>
                     <Form.Input
                       className="email-subscribe"
-                      icon="email"
+                      icon="mail"
                       type="text"
                       placeholder="Get Email Updates"
                       value={email}
