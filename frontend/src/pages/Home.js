@@ -1,160 +1,310 @@
 import React, { Component } from 'react'
-import Icon from 'react-fontawesome'
-import { Motion, spring } from 'react-motion'
-import windowSize from 'react-window-size'
+import { Link } from 'react-router-dom'
+import {
+  Container,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Input,
+  List,
+  Menu,
+  Segment,
+} from 'semantic-ui-react'
 
-import scrollPosition from '../components/scrollPosition'
 import Head from '../components/common/Head'
-import Sky from '../components/Sky'
-
-const heroTop = (height, top) => Math.max(0, (height / 3) * (1 - (top / height)))
 
 class Home extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
       email: '',
-      emailFocused: false
+      emailSubmitSuccess: false,
+      footerSubmitSuccess: false,
     }
-  }
-
-  onFocusEmail = (e) => {
-    this.setState({ emailFocused: true })
-  }
-
-  onBlurEmail = (e) => {
-    this.setState({ emailFocused: false })
   }
 
   onChangeEmail = ({ target: { value: email } }) => {
     this.setState({ email })
   }
 
-  onSubmitEmail = (e) => {
+  onSubmitEmail = e => {
     e.preventDefault()
 
-    this.setState({
-      emailSubmitSuccess: true
-    })
+    const name = e.target[0].name
+    if (name && name === 'footerEmail') {
+      this.setState({
+        footerSubmitSuccess: true,
+      })
+    } else {
+      this.setState({
+        emailSubmitSuccess: true,
+      })
+    }
 
-    fetch('https://xe6au48aog.execute-api.us-west-2.amazonaws.com/prod/mailchimpLambda', {
-      method: 'POST',
-      body: JSON.stringify({ email: this.state.email })
-    })
+    fetch(
+      'https://xe6au48aog.execute-api.us-west-2.amazonaws.com/prod/mailchimpLambda',
+      {
+        method: 'POST',
+        body: JSON.stringify({ email: this.state.email }),
+      }
+    )
   }
 
   render() {
-    const { windowWidth, windowHeight } = this.props
-    const { email, emailFocused, emailSubmitSuccess } = this.state
-    const percentOfDay = emailSubmitSuccess ? 0.9 : (email || emailFocused ? 0.98 : 1)
+    const { email, emailSubmitSuccess, footerSubmitSuccess } = this.state
 
     return (
-      <div className='container'>
-        <Head />
+      <div>
+        <Head title="Home" />
+        <Segment
+          inverted
+          textAlign="center"
+          style={{
+            minHeight: '700px',
+            padding: '0em',
+          }}
+          vertical
+        >
+          <Menu borderless className="inconsolata" inverted size="large">
+            <Container textAlign="center">
+              <Menu.Item fixed="top" to="/" as={Link} position="left">
+                Distense
+              </Menu.Item>
+              {/*<Menu.Item to="/tasks/create" as={Link}>*/}
+              {/*Propose*/}
+              {/*</Menu.Item>*/}
+              {/*<Menu.Item to="/tasks" as={Link}>*/}
+              {/*View*/}
+              {/*</Menu.Item>*/}
+              {/*<Menu.Item to="/tasksTODO" as={Link}>*/}
+              {/*Submit*/}
+              {/*</Menu.Item>*/}
+              {/*<Menu.Item to="/tasksTODO" as={Link}>*/}
+              {/*Approve*/}
+              {/*</Menu.Item>*/}
+              <Menu.Item position="right">18330 Total DID</Menu.Item>
+            </Container>
+          </Menu>
 
-        <div className='sky'>
-          <Motion style={{ percentOfDay: spring(percentOfDay) }}>
-            {({ percentOfDay }) =>
-              <Sky
-                width={windowWidth}
-                height={windowHeight}
-                percentOfDay={percentOfDay}
-              />
-            }
-          </Motion>
-        </div>
+          <Container text>
+            <Header
+              as="h1"
+              className="inconsolata"
+              content="Distense"
+              inverted
+              style={{
+                fontSize: '4em',
+                // fontWeight: 'semi-bold',
+                marginBottom: 0,
+                marginTop: '3em',
+              }}
+            />
+            <Header
+              as="h2"
+              className="inconsolata"
+              inverted
+              style={{
+                fontSize: '1.7em',
+                fontWeight: 'normal',
+              }}
+            >
+              A decentralized code-cooperative
+            </Header>
+            <Grid
+              style={{
+                marginTop: '2.8em',
+              }}
+              centered
+              inverted
+              columns="1"
+            >
+              {emailSubmitSuccess ? (
+                <span>We'll keep you updated!</span>
+              ) : (
+                <Form size="large" onSubmit={this.onSubmitEmail}>
+                  <Form.Group>
+                    <Form.Input
+                      className="email-subscribe"
+                      icon="email"
+                      type="text"
+                      placeholder="Get Email Updates"
+                      value={email}
+                      onChange={this.onChangeEmail}
+                    />
+                  </Form.Group>
+                </Form>
+              )}
+            </Grid>
+          </Container>
+        </Segment>
 
-        <header className='hero' style={{ top: `${heroTop(windowHeight, scrollPosition)}px` }}>
-          <div className='header-inner max-width'>
-            <div>
-              <h1>Distense</h1>
-              <h2>A decentralized, for-profit code cooperative</h2>
-              {emailSubmitSuccess ?
-                <div className='email-form-success'>
-                  Thanks, we'll update you soon!
-                </div>
-                :
-                <form className='email-form' onSubmit={this.onSubmitEmail}>
-                  <input
-                    ref={i => this.input = i}
-                    type='email'
-                    placeholder='Email me updates'
-                    value={email}
-                    onFocus={this.onFocusEmail}
-                    onBlur={this.onBlurEmail}
-                    onChange={this.onChangeEmail}
-                  />
-                  <button type='submit' className={email && 'show'} disabled={!email}>
-                    <Icon name={emailSubmitSuccess ? 'check' : 'chevron-right'}/>
-                  </button>
-                </form>
-              }
-              <div className="overview">
-                <a target="_blank" href="../public/Distense-Overview-8-17-17.pdf?pdf=distense-overview" download>
-                  <h2 className="underlined">Overview</h2>
-                </a>
-              </div>
-            </div>
-          </div>
-        </header>
+        <Segment style={{ padding: '7em 0em' }} textAlign="center" vertical>
+          <Container text>
+            <Header as="h3" style={{ fontSize: '1.7em' }}>
+              Modern work is broken
+            </Header>
+            <Grid divided inverted stackable>
+              <Grid.Row className="landing-work-broken" textAlign="center">
+                <Grid.Column textAlign="right" width={8}>
+                  <List floated="right" relaxed={true}>
+                    <List.Item>
+                      <List.Icon name="rupee" />
+                      <List.Icon name="usd" />
+                      <List.Icon name="eur" />
+                      <List.Content>Wealth Inequality</List.Content>
+                    </List.Item>
+                    <List.Item>
+                      <List.Icon name="frown" />
+                      <List.Content>Harrassment and biases</List.Content>
+                    </List.Item>
+                  </List>
+                </Grid.Column>
+                <Grid.Column width={8}>
+                  <List relaxed={true}>
+                    <List.Item>
+                      <List.Icon name="drivers license" />
+                      <List.Content>Nationality Requirements</List.Content>
+                    </List.Item>
+                    <List.Item>
+                      <List.Icon name="group" />
+                      <List.Icon name="wait" />
+                      <List.Content>Commutes and bosses</List.Content>
+                    </List.Item>
+                  </List>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+            <Header
+              className="landing-header"
+              as="h3"
+              style={{ fontSize: '1.7em' }}
+            >
+              Let's fix it, together
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              Work on a per-task basis, from anywhere, whenever. Govern the
+              organization you work for. Get your reward issued by a smart
+              contract immediately, not maybe in a few weeks... by a human.
+            </p>
+          </Container>
+        </Segment>
 
-        <div className='content'>
-          <header style={{ top: `${heroTop(windowHeight, scrollPosition)}px` }}>
-            <div className='header-inner max-width'>
-              <h1 className='logo'>D</h1>
-              <h1 style={{ visibility: 'hidden' }}>D</h1>
-            </div>
-          </header>
+        <Segment style={{ padding: '8em 0em' }} textAlign="center" vertical>
+          <Container text>
+            <Header as="h3" style={{ fontSize: '1.7em' }}>
+              Distense is a meritocracy for the future
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              If Ethereum is law, and Urbit is land, Distense is life. No
+              executives or overlords. Decisions are made by past contributors.
+            </p>
+            <Header
+              className="landing-header"
+              as="h3"
+              style={{ fontSize: '1.7em' }}
+            >
+              Only contributors receive DID, an Ethereum token
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              Our DID token gives the holder the right to vote and approve work.
+              Two DID == two votes. DID are exchangeable into ether. No ICO --
+              only contributors receive DID.
+            </p>
+            {/*<Button*/}
+            {/*style={{ fontFamily: 'Inconsolata !important' }}*/}
+            {/*size="huge"*/}
+            {/*href="/howitworks"*/}
+            {/*>*/}
+            {/*How it works*/}
+            {/*</Button>*/}
+          </Container>
+        </Segment>
 
-          <div className='max-width'>
-
-          </div>
-        </div>
-
-        <style jsx>{`
-          .container {
-            padding-top: 100vh;
+        <Segment inverted vertical style={{ padding: '3em 0em' }}>
+          <Container>
+            <Grid divided inverted stackable>
+              <Grid.Row>
+                <Grid.Column textAlign="right" width={8}>
+                  <Header inverted as="h4" content="About" />
+                  <List link inverted>
+                    <List.Item
+                      as="a"
+                      target="_blank"
+                      href="https://twitter.com/distenseorg"
+                    >
+                      @DistenseOrg
+                    </List.Item>
+                    <List.Item
+                      as="a"
+                      target="_blank"
+                      href="https://github.com/Distense/distense"
+                    >
+                      Github
+                    </List.Item>
+                    <List.Item
+                      as="a"
+                      href="mailto:john@disten.se?Subject=Distense Slack Invite"
+                      target="_top"
+                    >
+                      Slack invite
+                    </List.Item>
+                    <List.Item
+                      as="a"
+                      href="mailto:team@disten.se?Subject=Distense"
+                      target="_top"
+                    >
+                      Email
+                    </List.Item>
+                  </List>
+                </Grid.Column>
+                <Grid.Column textAlign="left" width={8}>
+                  <Header as="h4" inverted>
+                    Stay updated
+                  </Header>
+                  <Grid.Column width={8}>
+                    {footerSubmitSuccess ? (
+                      <span>We'll keep you updated!</span>
+                    ) : (
+                      <Form size="large" onSubmit={this.onSubmitEmail}>
+                        <Form.Field>
+                          <Input
+                            className="footer-email-subscribe"
+                            icon="mail"
+                            iconPosition="left"
+                            name="footerEmail"
+                            placeholder="email"
+                            type="text"
+                          />
+                        </Form.Field>
+                      </Form>
+                    )}
+                  </Grid.Column>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Container>
+        </Segment>
+        {/*language=CSS*/}
+        <style global jsx>{`
+          .footer-email-subscribe {
+            width: 50% !important;
           }
 
-          .show {
-            opacity: 1;
+          .email-subscribe input {
+            text-align: center !important;
           }
 
-          .underlined {
-            text-decoration: underline;
+          .inconsolata {
+            font-family: 'Inconsolata', sans-serif !important;
           }
 
-          .overview {
-            margin-top: 2rem;
+          .landing-header {
+            margin-top: 4rem !important;
           }
 
-          .max-width {
-            width: 100%;
-            max-width: 80rem;
-            margin: 0 auto;
-            padding: 0 2rem;
-          }
-
-          header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-          }
-
-          .header-inner {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-          }
-
-          .hero {
-            top: 30vh;
-          }
-
-          .email-form, .email-form-success {
+          .email-form,
+          .email-form-success {
             margin-top: 3rem;
           }
 
@@ -164,97 +314,8 @@ class Home extends Component {
             padding: 1rem 0;
           }
 
-          nav {
-            display: flex;
-            flex-direction: row;
-          }
-
-          nav a {
-            color: white;
-          }
-
-          .content nav a {
-            color: black;
-          }
-
-          .logo {
-            position: absolute;
-          }
-
-          .content {
-            display: none;
-            position: absolute;
-            background: white;
-            width: 100vw;
-            height: 200vh;
-            padding: 1rem;
-            overflow: hidden;
-            clip: rect(auto, auto, auto, auto);
-          }
-
-          .sky {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #151E2A;
-          }
-
-          h1 {
-            font-size: 3rem;
-          }
-
-          h2 {
-            font-size: 1.5rem;
-          }
-
-          .hero h1 {
-            color: white;
-          }
-
-          .hero h2 {
-            color: rgba(255, 255, 255, 0.4)
-          }
-
-          form {
-            position: relative;
-            display: flex;
-          }
-
-          input {
-            flex: 1;
-            font-size: 1.2rem;
-            padding: 1rem 0;
-            background: none;
-            border: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-            color: #fff;
-          }
-
-          input:hover {
-            border-bottom-color: rgba(255, 255, 255, 0.7);
-          }
-
-          input:focus {
-            border-bottom-color: #fff;
-          }
-
-          input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-          }
-
-          button {
-            position: absolute;
-            right: 0;
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.4);
-            height: 100%;
-            opacity: 0;
-          }
-
-          button:hover {
-            color: #fff;
+          .landing-work-broken .item .content {
+            font-size: 1.33em;
           }
         `}</style>
       </div>
@@ -262,4 +323,4 @@ class Home extends Component {
   }
 }
 
-export default windowSize(scrollPosition(Home))
+export default Home

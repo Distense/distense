@@ -8,8 +8,8 @@
   <link rel='shortcut icon' href='%PUBLIC_URL%/public/favicon.png'>
   <title>Distense</title>
   <link href='//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'/>
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
   <link href='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css' rel='stylesheet'/>
-  <link href='//fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'/>
   <script>
     if (window.location.hostname.indexOf('disten.se') > -1) {
       window.ga = window.ga || function () {
@@ -29,13 +29,19 @@
     body {
       margin: 0;
       background: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont, sans-serif !important;
     }
+
+    /* TODO setup proper semantic ui overriding */
+    .ui.text.container, .button {
+      font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
 
     h1, h2, h3, h4 {
       font-weight: normal;
       margin: 0;
-      font-family: Quicksand
+      font-family: 'Helvetica-light', sans-serif !important;
     }
 
     hr {
@@ -69,6 +75,11 @@
       cursor: pointer;
       transition: all 0.3s;
       padding: 0;
+    }
+
+    .email-subscribe > input {
+      text-align: center !important;
+      font-size: 1.5rem;
     }
   </style>
 </head>

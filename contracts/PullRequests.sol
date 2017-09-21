@@ -25,7 +25,7 @@ contract PullRequests is Approvable {
   string[] public pullRequestIds;
   mapping (string => PullRequest) pullRequests;
 
-  event LogNewContribution(address indexed taskId, uint reward);
+  event LogApprovedPullRequest(string indexed taskId, string _prId);
 
   function PullRequests (address _DIDTokenAddress, address _TasksAddress) {
     DIDToken didToken = DIDToken(_DIDTokenAddress);
@@ -54,9 +54,8 @@ contract PullRequests is Approvable {
 //     _task.rewardVoters.push(msg.sender);
    }
 
-  function approvePullRequest(_taskId, _prId) internal returns (bool) {
-    LogNewContribution(_taskId, _prId);
-    return percentDIDApproved(_id) >= Tasks.;
+  function approvePullRequest(string _taskId, string _prId) internal returns (bool) {
+    LogApprovedPullRequest(_taskId, _prId);
   }
 
   function numDIDApproved(string _prId) public constant returns (uint256) {
