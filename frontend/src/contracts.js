@@ -1,6 +1,4 @@
-import {
-  selectContractInstance
-} from './web3'
+import { selectContractInstance } from './web3'
 
 import TasksArtifact from './contracts/Tasks.json'
 

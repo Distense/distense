@@ -1,4 +1,3 @@
-
 export const tagsOptions = [
   'Contracts',
   'Contract Tests',
@@ -28,7 +27,7 @@ export const tagsOptions = [
   'Social Media',
   'Solidity',
   'Tasks Contract',
-  'Voting DApp'
+  'Voting DApp',
 ]
 
 export const specPlaceholder = `

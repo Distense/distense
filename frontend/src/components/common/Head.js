@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 
 export default ({ title, children }) => (
   <Helmet>
-    <title>{ title ? `${title} - Distense` : 'Distense' }</title>
+    <title>{title ? `${title} - Distense` : 'Distense'}</title>
     {children}
   </Helmet>
 )
