@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Divider, Menu, Segment } from 'semantic-ui-react'
+import { Container, Menu, Segment } from 'semantic-ui-react'
 
-import AccountStatus from './AccountStatus'
+import HasWeb3 from './common/HasWeb3'
+import EthereumAuthenticated from './common/EthereumAuthenticated'
 
 export default ({ children, title }) => (
   <div>
@@ -10,7 +11,7 @@ export default ({ children, title }) => (
       inverted
       textAlign="center"
       style={{
-        padding: '.8em 0em',
+        padding: '.8em 0em'
       }}
       vertical
     >
@@ -31,14 +32,13 @@ export default ({ children, title }) => (
           <Menu.Item to="/tasks" as={Link}>
             View
           </Menu.Item>
-          <Menu.Item to="/tasksTODO" as={Link}>
+          <Menu.Item to="/pullrequests/submit" as={Link}>
             Submit
           </Menu.Item>
-          <Menu.Item to="/tasksTODO" as={Link}>
+          <Menu.Item to="/pullrequests" as={Link}>
             Approve
           </Menu.Item>
           <Menu.Item position="right">18330 Total DID</Menu.Item>
-          <AccountStatus />
         </Container>
       </Menu>
     </Segment>
@@ -46,10 +46,13 @@ export default ({ children, title }) => (
     <Container style={{ marginTop: '4em' }}>{children}</Container>
 
     <Segment vertical style={{ margin: '3em 0em 0em', padding: '5em 0em' }}>
-      <Container>
-        <Divider />
-        © {new Date().getFullYear()} Distense
-      </Container>
+      <Menu borderless fixed="bottom">
+        <Container>
+          <Menu.Item>© {new Date().getFullYear()} Distense</Menu.Item>
+          <HasWeb3 />
+          <EthereumAuthenticated />
+        </Container>
+      </Menu>
     </Segment>
     {/*language=CSS*/}
     <style global jsx>{`
