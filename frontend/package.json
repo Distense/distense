@@ -27,7 +27,7 @@
     "file-loader": "0.11.2",
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
-    "ipfs": "^0.25.1",
+    "ipfs": "^0.25.4",
     "jest": "20.0.4",
     "ms": "^2.0.0",
     "multihashes": "^0.4.8",
@@ -115,5 +115,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "prettier-eslint": "^8.1.0"
   }
 }

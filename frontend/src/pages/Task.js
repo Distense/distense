@@ -13,26 +13,15 @@ import Tags from '../components/common/Tags'
 //  Default for now
 const TaskStatusMessage = ({ task }) => (
   <Message>
-    <Message.Header>
-      Proposal
-    </Message.Header>
-    <p>
-      This task is in the proposal stage.
-    </p>
-    <Form.Input
-      type='text'
-      placeholder='Enter task reward'
-    />
+    <Message.Header>Proposal</Message.Header>
+    <p>This task is in the proposal stage.</p>
+    <Form.Input type="text" placeholder="Enter task reward" />
   </Message>
 )
 
 class Task extends Component {
   componentWillMount() {
-    const {
-      fetchTask, match: {
-        params: { id }
-      }
-    } = this.props
+    const { fetchTask, match: { params: { id } } } = this.props
     fetchTask(id)
   }
 
@@ -41,25 +30,24 @@ class Task extends Component {
 
     return (
       <Layout>
-        <Head title='Task'/>
-        <div className='task'>
+        <Head title="Task" />
+        <div className="task">
           {task ? (
-            <Grid divided='vertically'>
+            <Grid divided="vertically">
               <Grid.Row columns={2}>
                 <Grid.Column>
                   <Item.Content>
-                    <Header style={{ textDecoration: 'underline' }} as='h2'>{task.title}</Header>
+                    <Header style={{ textDecoration: 'underline' }} as="h2">
+                      {task.title}
+                    </Header>
                     <Item>
-                      <List
-                        horizontal
-                        bulleted
-                      >
-                        Tags: <Tags tags={task.tags}/>
+                      <List horizontal bulleted>
+                        Tags: <Tags tags={task.tags} />
                       </List>
                     </Item>
                     <Item>
                       Issue URL:
-                      <a className='' target='_blank' href={task.issueURL}>
+                      <a className="" target="_blank" href={task.issueURL}>
                         {task.issueURL}
                       </a>
                     </Item>
@@ -69,17 +57,18 @@ class Task extends Component {
                   </Item.Content>
                 </Grid.Column>
                 <Grid.Column>
-                  <TaskStatusMessage/>
+                  <TaskStatusMessage />
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column>
-                  <ReactMarkdown source={task.spec}/>
+                  <ReactMarkdown source={task.spec} />
                 </Grid.Column>
               </Grid.Row>
             </Grid>
-          ) : 'Loading task...'
-          }
+          ) : (
+            'Loading task...'
+          )}
         </div>
       </Layout>
     )
@@ -87,11 +76,11 @@ class Task extends Component {
 }
 
 const mapStateToProps = (state, { match: { params: { id } } }) => ({
-  task: getTask(state, id)
+  task: getTask(state, id),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchTask: id => dispatch(fetchTask(id))
+  fetchTask: id => dispatch(fetchTask(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task)

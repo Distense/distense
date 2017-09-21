@@ -15,21 +15,25 @@ const taskById = (state = {}, action) => {
         ...(action.tasks || []).reduce((obj, task) => {
           obj[task._id] = task
           return obj
-        }, {})
+        }, {}),
       }
     case RECEIVE_TASK:
-      return action.task ? {
-        ...state,
-        [action.task._id]: action.task
-      } : state
+      return action.task
+        ? {
+            ...state,
+            [action.task._id]: action.task,
+          }
+        : state
     case SUBMIT_TASK:
-      return action.task ? {
-        ...state,
-        [action.task._id]: {
-          ...action.task,
-          _submitting: true
-        }
-      } : state
+      return action.task
+        ? {
+            ...state,
+            [action.task._id]: {
+              ...action.task,
+              _submitting: true,
+            },
+          }
+        : state
     default:
       return state
   }
@@ -67,12 +71,12 @@ export default combineReducers({
   pendingTaskId,
 })
 
-export const getTask = ({ tasks: { taskById }}, _id) => taskById[_id]
+export const getTask = ({ tasks: { taskById } }, _id) => taskById[_id]
 
-export const getAllTasks = (state) => {
+export const getAllTasks = state => {
   return state.tasks.tasks.map(_id => getTask(state, _id))
 }
 
-export const getPendingTask = (state) => {
+export const getPendingTask = state => {
   return getTask(state, state.tasks.pendingTaskId)
 }

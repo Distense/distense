@@ -11,18 +11,13 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
 
-
 const Task = ({ task }) => (
   <Table.Row key={task._id}>
     <Table.Cell>
-      <Link
-        to={`/tasks/${task.title}/${task._id}`}
-      >
-        {task.title}
-      </Link>
+      <Link to={`/tasks/${task.title}/${task._id}`}>{task.title}</Link>
     </Table.Cell>
     <Table.Cell singleLine>
-      <Tags tags={task.tags}/>
+      <Tags tags={task.tags} />
     </Table.Cell>
     <Table.Cell>
       Task
@@ -32,10 +27,7 @@ const Task = ({ task }) => (
       100
       {/*{task.reward}*/}
     </Table.Cell>
-    <Table.Cell
-      collapsing
-      textAlign='right'
-    >
+    <Table.Cell collapsing textAlign="right">
       {task.createdAt.toDateString()}
     </Table.Cell>
   </Table.Row>
@@ -47,7 +39,7 @@ class Tasks extends Component {
     this.state = {
       column: null,
       tasks: this.props.tasks || [],
-      direction: null
+      direction: null,
     }
     this.handleSort = this.handleSort.bind(this)
   }
@@ -56,7 +48,7 @@ class Tasks extends Component {
     //  Not sure why tasks: this.props.tasks || [], above doesn't accomplish this
     setTimeout(() => {
       this.setState({
-        tasks: this.props.tasks
+        tasks: this.props.tasks,
       })
     }, 3000)
   }
@@ -68,14 +60,14 @@ class Tasks extends Component {
       this.setState({
         column: clickedColumn,
         tasks: _.sortBy(tasks, [clickedColumn]),
-        direction: 'ascending'
+        direction: 'ascending',
       })
       return
     }
 
     this.setState({
       tasks: tasks.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending'
+      direction: direction === 'ascending' ? 'descending' : 'ascending',
     })
   }
 
@@ -88,11 +80,8 @@ class Tasks extends Component {
 
     return (
       <Layout>
-        <Head title='Available Tasks'/>
-        <Table
-          sortable
-          striped
-        >
+        <Head title="Available Tasks" />
+        <Table sortable striped>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell
@@ -128,28 +117,24 @@ class Tasks extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {tasks.length ?
-              tasks.map(task => (
-                <Task
-                  key={task._id}
-                  task={task}
-                />
-              )) : <Table.Cell>
-                Loading tasks...
-              </Table.Cell>
-            }
+            {tasks.length ? (
+              tasks.map(task => <Task key={task._id} task={task} />)
+            ) : (
+              <Table.Cell>Loading tasks...</Table.Cell>
+            )}
           </Table.Body>
         </Table>
-      </Layout>)
+      </Layout>
+    )
   }
 }
 
 const mapStateToProps = state => ({
-  tasks: getAllTasks(state)
+  tasks: getAllTasks(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchTasks: () => dispatch(fetchTasks())
+  fetchTasks: () => dispatch(fetchTasks()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasks)

@@ -8,7 +8,6 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 import registerServiceWorker from './registerServiceWorker'
 import reducers from './reducers'
-import { getAllAccounts } from './actions/accounts'
 
 import Home from './pages/Home'
 import CreateTask from './pages/CreateTask'
@@ -16,8 +15,6 @@ import Tasks from './pages/Tasks'
 import Task from './pages/Task'
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
-
-// store.dispatch(getAllAccounts())
 
 const Root = () => (
   <Router>
