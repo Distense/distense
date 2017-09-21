@@ -1,119 +1,89 @@
-import React, { Component } from 'react'
-<<<<<<< HEAD
-import CodeMirror from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/mode/markdown/markdown'
-import { Button, Dropdown, Input, Form, Grid, Header } from 'semantic-ui-react'
-import { connect } from 'react-redux'
-import { Redirect } from 'react-router'
-import ReactMarkdown from 'react-markdown'
-import slug from 'slug'
+import React, { Component } from 'react';
+import CodeMirror from 'react-codemirror2';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/mode/markdown/markdown';
+import { Button, Dropdown, Input, Form, Grid, Header } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
+import ReactMarkdown from 'react-markdown';
+import slug from 'slug';
 
-import { getPendingTask } from '../reducers/tasks'
-import { createTask } from '../actions/tasks'
-=======
-import Autocomplete from 'react-autocomplete'
-import IPFS from 'ipfs'
-import classNames from 'classnames'
-import { Buffer } from 'safe-buffer'
+import { getPendingTask } from '../reducers/tasks';
+import { createTask } from '../actions/tasks';
 
-import web3 from '../web3'
-import * as contracts from '../contracts'
+import Head from '../components/common/Head';
+import Layout from '../components/Layout';
+import { specPlaceholder, tagsOptions } from '../shared';
 
->>>>>>> landing
-import Head from '../components/common/Head'
-import Layout from '../components/Layout'
-import { specPlaceholder, tagsOptions } from '../shared'
-
-const taskUrl = ({ title, _id }) => `/tasks/${slug(title)}/${_id}`
+const taskUrl = ({ title, _id }) => `/tasks/${slug(title)}/${_id}`;
 
 const tagOption = tag => {
-  const value = slug(tag)
-  return { text: tag, key: value, value }
-}
+  const value = slug(tag);
+  return { text: tag, key: value, value };
+};
 
 class CreateTask extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       title: '',
       tags: [],
       issueURL: '',
-      spec: specPlaceholder  // TODO make title of spec match title value
-    }
+      spec: specPlaceholder // TODO make title of spec match title value
+    };
 
-    this.onChangeTags = this.onChangeTags.bind(this)
+    this.onChangeTags = this.onChangeTags.bind(this);
   }
 
-<<<<<<< HEAD
   onChangeTitle = ({ target: { value } }) => {
     //  TODO replace '## Task Title Goes Here' in taskSpec with the title value
-    if (value.length <= 50)
-      this.setState({ title: value })
-=======
-  async componentWillMount() {
-
-    this.node = new IPFS({
-      repo: String(Math.random() + Date.now())
-      })
-
-    this.node.on('ready', () => {
-      console.log('IPFS ready')
-    })
-
->>>>>>> landing
-  }
+    if (value.length <= 50) this.setState({ title: value });
+  };
 
   onChangeIssueURL = ({ target: { value } }) => {
     //  TODO url validation
-    this.setState({ issueURL: value })
-  }
+    this.setState({ issueURL: value });
+  };
 
   onChangeTags(e, data) {
-    const tags = data.value
-    if (tags.length < 6)
-      this.setState({ tags })
+    const tags = data.value;
+    if (tags.length < 6) this.setState({ tags });
   }
 
   onChangeSpec = (editor, metadata, value) => {
-    this.setState({ spec: value })
-  }
+    this.setState({ spec: value });
+  };
 
-  onSubmit = async (e) => {
-    e.preventDefault()
-    const { title, tags, issueURL, spec } = this.state
-    this.props.createTask({ title, tags, issueURL, spec })
-  }
+  onSubmit = async e => {
+    e.preventDefault();
+    const { title, tags, issueURL, spec } = this.state;
+    this.props.createTask({ title, tags, issueURL, spec });
+  };
 
   render() {
-    const { pendingTask } = this.props
-    const {
-      title,
-      tags,
-      issueURL,
-      spec
-    } = this.state
+    const { pendingTask } = this.props;
+    const { title, tags, issueURL, spec } = this.state;
 
     if (pendingTask) {
       //  TODO probably redirect to /tasks
       //  This does not allow navigating to /tasks
       //  then navigating to CreateTask while !!pendingTask
-      return <Redirect to={taskUrl(pendingTask)}/>
+      return <Redirect to={taskUrl(pendingTask)} />;
     }
 
     return (
       <Layout>
-        <Head title='Create Task'/>
+        <Head title="Create Task" />
         <Grid.Column>
           <Form onSubmit={this.onSubmit}>
-            <Header as='h1'>Create Task</Header>
+            <Header as="h1">Create Task</Header>
             <Form.Field>
               <input
-                type='text'
-                placeholder='Title'
+                type="text"
+                placeholder="Title"
                 onChange={this.onChangeTitle}
-                className=''
-                name='title'
+                className=""
+                name="title"
                 value={title}
               />
             </Form.Field>
@@ -123,7 +93,7 @@ class CreateTask extends Component {
                 multiple
                 onChange={this.onChangeTags}
                 options={tagsOptions.map(tagOption)}
-                placeholder='Tags'
+                placeholder="Tags"
                 search
                 selection
                 scrolling
@@ -133,15 +103,14 @@ class CreateTask extends Component {
             <Form.Field>
               <Input
                 onChange={this.onChangeIssueURL}
-                placeholder='Github Issue URL'
+                placeholder="Github Issue URL"
                 value={issueURL}
               />
             </Form.Field>
-            <Form.Field className='fields fields-margin-fix'>
-              <Form.Field
-                width='8'
-              >
-                <CodeMirror value={spec}
+            <Form.Field className="fields fields-margin-fix">
+              <Form.Field width="8">
+                <CodeMirror
+                  value={spec}
                   options={{
                     cursorBlinkRate: 650,
                     lineNumbers: true,
@@ -153,35 +122,28 @@ class CreateTask extends Component {
                   onValueChange={this.onChangeSpec}
                 />
               </Form.Field>
-              <Form.Field
-                className='react-markdown'
-                width='8'
-              >
-                <ReactMarkdown source={spec}/>
+              <Form.Field className="react-markdown" width="8">
+                <ReactMarkdown source={spec} />
               </Form.Field>
             </Form.Field>
-            <Button
-              size='large'
-              color='green'
-              type='submit'
-            >
+            <Button size="large" color="green" type="submit">
               Submit
             </Button>
           </Form>
         </Grid.Column>
 
-        { /*language=CSS*/ }
+        {/*language=CSS*/}
         <style global jsx>{`
-
-          .react-codemirror2, .react-markdown {
-            border: 1px solid rgba(34, 36, 38, .15);
-            border-radius: .28571429rem;
+          .react-codemirror2,
+          .react-markdown {
+            border: 1px solid rgba(34, 36, 38, 0.15);
+            border-radius: 0.28571429rem;
           }
 
           .react-codemirror2 {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
-            margin-right: -.5rem;
+            margin-right: -0.5rem;
           }
 
           .react-markdown {
@@ -192,7 +154,7 @@ class CreateTask extends Component {
           }
 
           .fields-margin-fix {
-            margin: 0 -.5em 1em !important;
+            margin: 0 -0.5em 1em !important;
           }
 
           .CodeMirror {
@@ -212,21 +174,20 @@ class CreateTask extends Component {
           }
 
           .CodeMirror-cursor {
-            border-left: .5rem solid #ccc;
+            border-left: 0.5rem solid #ccc;
           }
-
         `}</style>
       </Layout>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   pendingTask: getPendingTask(state)
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   createTask: task => dispatch(createTask(task))
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTask)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTask);

@@ -9,7 +9,6 @@ import {
   Input,
   List,
   Menu,
-  Message,
   Segment,
 } from 'semantic-ui-react'
 
@@ -88,14 +87,15 @@ class Home extends Component {
             </Container>
           </Menu>
 
-          <Container text textAlign="center">
+          <Container text>
             <Header
               as="h1"
+              className="inconsolata"
               content="Distense"
               inverted
               style={{
                 fontSize: '4em',
-                fontWeight: 'normal',
+                // fontWeight: 'semi-bold',
                 marginBottom: 0,
                 marginTop: '3em',
               }}
