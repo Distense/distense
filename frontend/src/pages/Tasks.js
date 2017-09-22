@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import { Link } from 'react-router-dom'
-import { Table } from 'semantic-ui-react'
+import { Button, Table } from 'semantic-ui-react'
 
 import { fetchTasks } from '../actions/tasks'
 import { getAllTasks } from '../reducers/tasks'
@@ -11,46 +11,21 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
 
-const Task = ({ task }) => (
-  <Table.Row key={task._id}>
-    <Table.Cell>
-      <Link to={`/tasks/${task.title}/${task._id}`}>{task.title}</Link>
-    </Table.Cell>
-    <Table.Cell singleLine>
-      <Tags tags={task.tags} />
-    </Table.Cell>
-    <Table.Cell>
-      Task
-      {/*{task.status}*/}
-    </Table.Cell>
-    <Table.Cell>
-      100
-      {/*{task.reward}*/}
-    </Table.Cell>
-    <Table.Cell collapsing textAlign="right">
-      {task.createdAt.toDateString()}
-    </Table.Cell>
-  </Table.Row>
-)
-
 class Tasks extends Component {
   constructor(props) {
     super(props)
     this.state = {
       column: null,
       tasks: this.props.tasks || [],
-      direction: null,
+      direction: null
     }
     this.handleSort = this.handleSort.bind(this)
   }
 
   componentDidMount() {
-    //  Not sure why tasks: this.props.tasks || [], above doesn't accomplish this
-    setTimeout(() => {
-      this.setState({
-        tasks: this.props.tasks,
-      })
-    }, 3000)
+    this.setState({
+      tasks: this.props.tasks
+    })
   }
 
   handleSort = clickedColumn => () => {
@@ -60,14 +35,14 @@ class Tasks extends Component {
       this.setState({
         column: clickedColumn,
         tasks: _.sortBy(tasks, [clickedColumn]),
-        direction: 'ascending',
+        direction: 'ascending'
       })
       return
     }
 
     this.setState({
       tasks: tasks.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending',
+      direction: direction === 'ascending' ? 'descending' : 'ascending'
     })
   }
 
@@ -114,6 +89,7 @@ class Tasks extends Component {
               >
                 Created
               </Table.HeaderCell>
+              <Table.HeaderCell>Submit</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -129,12 +105,42 @@ class Tasks extends Component {
   }
 }
 
+const Task = ({ task }) => (
+  <Table.Row key={task._id}>
+    <Table.Cell>
+      <Link to={`/tasks/${task.title}/${task._id}`}>{task.title}</Link>
+    </Table.Cell>
+    <Table.Cell singleLine>
+      <Tags tags={task.tags} />
+    </Table.Cell>
+    <Table.Cell>Task</Table.Cell>
+    <Table.Cell>100</Table.Cell>
+    <Table.Cell collapsing textAlign="right">
+      {task.createdAt.toDateString()}
+    </Table.Cell>
+    <Table.Cell>
+      <Button
+        basic
+        color="green"
+        compact={true}
+        floated="right"
+        fluid={true}
+        size="mini"
+      >
+        <Link to={`/pullrequests/create/${task.title}/${task._id}`}>
+          Submit
+        </Link>
+      </Button>
+    </Table.Cell>
+  </Table.Row>
+)
+
 const mapStateToProps = state => ({
-  tasks: getAllTasks(state),
+  tasks: getAllTasks(state)
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchTasks: () => dispatch(fetchTasks()),
+  fetchTasks: () => dispatch(fetchTasks())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasks)

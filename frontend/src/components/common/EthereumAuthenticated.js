@@ -1,22 +1,46 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import { Icon, Menu } from 'semantic-ui-react'
 import web3 from '../../web3'
 import EthereumSVGIcon from './EthereumSVGIcon'
+import { getCoinbase } from '../../reducers/accounts'
 
-export default class EthereumAuthenticated extends Component {
+class EthereumAuthenticated extends Component {
   render() {
-    // isConnected() changes in an upcoming new version of web3
+    const { coinbase } = this.props
 
+    const displayAddress =
+      coinbase.substring(2, 4) + '...' + coinbase.substring(40, 42)
     let color
     let icon
-    web3 && web3.eth.coinbase
-      ? ((color = 'green'), (icon = 'checkmark'))
-      : ((color = 'red'), (icon = 'x'))
+    let title
+    web3 && displayAddress
+      ? ((color = 'green'),
+        (icon = 'checkmark'),
+        (title = 'Unlocked Ethereum account'))
+      : ((color = 'red'), (icon = 'x'), (title = 'No Ethereum account'))
     return (
-      <Menu.Item>
-        <EthereumSVGIcon width="15" height="15" />
-        <Icon color={color} name={icon} />
-      </Menu.Item>
+      <span>
+        <Menu.Item fitted title={title}>
+          <Menu.Item content={displayAddress} className="address" />
+          <EthereumSVGIcon width="20" height="20" />
+          <Icon color={color} name={icon} />
+        </Menu.Item>
+        {/*language=CSS*/}
+        <style>{`
+          .address {
+            background: lightgray;
+
+          }
+    `}</style>
+      </span>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  coinbase: getCoinbase(state.accounts)
+})
+
+export default connect(mapStateToProps)(EthereumAuthenticated)

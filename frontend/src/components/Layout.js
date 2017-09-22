@@ -46,7 +46,7 @@ export default ({ children, title }) => (
     <Container style={{ marginTop: '4em' }}>{children}</Container>
 
     <Segment vertical style={{ margin: '3em 0em 0em', padding: '5em 0em' }}>
-      <Menu borderless fixed="bottom">
+      <Menu className="inconsolata" borderless fixed="bottom">
         <Container>
           <Menu.Item>© {new Date().getFullYear()} Distense</Menu.Item>
           <HasWeb3 />

@@ -8,10 +8,10 @@ import {
   Input,
   List,
   Menu,
-  Segment,
+  Segment
 } from 'semantic-ui-react'
 
-import AccountStatus from '../components/AccountStatus'
+import HasWeb3 from '../components/common/HasWeb3'
 import Head from '../components/common/Head'
 
 class Home extends Component {
@@ -20,7 +20,7 @@ class Home extends Component {
     this.state = {
       email: '',
       emailSubmitSuccess: false,
-      footerSubmitSuccess: false,
+      footerSubmitSuccess: false
     }
   }
 
@@ -34,11 +34,11 @@ class Home extends Component {
     const name = e.target[0].name
     if (name && name === 'footerEmail') {
       this.setState({
-        footerSubmitSuccess: true,
+        footerSubmitSuccess: true
       })
     } else {
       this.setState({
-        emailSubmitSuccess: true,
+        emailSubmitSuccess: true
       })
     }
 
@@ -46,7 +46,7 @@ class Home extends Component {
       'https://xe6au48aog.execute-api.us-west-2.amazonaws.com/prod/mailchimpLambda',
       {
         method: 'POST',
-        body: JSON.stringify({ email: this.state.email }),
+        body: JSON.stringify({ email: this.state.email })
       }
     )
   }
@@ -62,7 +62,7 @@ class Home extends Component {
           textAlign="center"
           style={{
             minHeight: '700px',
-            padding: '0em',
+            padding: '0em'
           }}
           vertical
         >
@@ -84,7 +84,6 @@ class Home extends Component {
                 Approve
               </Menu.Item>
               <Menu.Item position="right">18330 Total DID</Menu.Item>
-              <AccountStatus />
             </Container>
           </Menu>
 
@@ -97,7 +96,7 @@ class Home extends Component {
               style={{
                 fontSize: '4em',
                 marginBottom: 0,
-                marginTop: '3em',
+                marginTop: '3em'
               }}
             />
             <Header
@@ -106,14 +105,14 @@ class Home extends Component {
               inverted
               style={{
                 fontSize: '1.7em',
-                fontWeight: 'normal',
+                fontWeight: 'normal'
               }}
             >
               A decentralized code-cooperative
             </Header>
             <Grid
               style={{
-                marginTop: '2.8em',
+                marginTop: '2.8em'
               }}
               centered
               inverted

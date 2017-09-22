@@ -1,74 +1,75 @@
-import React, { Component } from 'react';
-import CodeMirror from 'react-codemirror2';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/mode/markdown/markdown';
-import { Button, Dropdown, Input, Form, Grid, Header } from 'semantic-ui-react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
-import ReactMarkdown from 'react-markdown';
-import slug from 'slug';
+import React, { Component } from 'react'
+import CodeMirror from 'react-codemirror2'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/mode/markdown/markdown'
+import { Button, Dropdown, Input, Form, Grid, Header } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
+import ReactMarkdown from 'react-markdown'
+import slug from 'slug'
 
-import { getPendingTask } from '../reducers/tasks';
-import { createTask } from '../actions/tasks';
+import { getPendingTask } from '../reducers/tasks'
+import { createTask } from '../actions/tasks'
 
-import Head from '../components/common/Head';
-import Layout from '../components/Layout';
-import { specPlaceholder, tagsOptions } from '../shared';
+import Head from '../components/common/Head'
+import Layout from '../components/Layout'
+import { specPlaceholder, tagsOptions } from '../shared'
 
-const taskUrl = ({ title, _id }) => `/tasks/${slug(title)}/${_id}`;
+const taskUrl = ({ title, _id }) => `/tasks/${slug(title)}/${_id}`
 
 const tagOption = tag => {
-  const value = slug(tag);
-  return { text: tag, key: value, value };
-};
+  const value = slug(tag)
+  return { text: tag, key: value, value }
+}
 
 class CreateTask extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       title: '',
       tags: [],
       issueURL: '',
       spec: specPlaceholder // TODO make title of spec match title value
-    };
+    }
 
-    this.onChangeTags = this.onChangeTags.bind(this);
+    this.onChangeTags = this.onChangeTags.bind(this)
   }
 
   onChangeTitle = ({ target: { value } }) => {
     //  TODO replace '## Task Title Goes Here' in taskSpec with the title value
-    if (value.length <= 50) this.setState({ title: value });
-  };
+    if (value.length <= 50) this.setState({ title: value })
+  }
 
   onChangeIssueURL = ({ target: { value } }) => {
     //  TODO url validation
-    this.setState({ issueURL: value });
-  };
+    this.setState({ issueURL: value })
+  }
 
   onChangeTags(e, data) {
-    const tags = data.value;
-    if (tags.length < 6) this.setState({ tags });
+    const tags = data.value
+    if (tags.length < 6) this.setState({ tags })
   }
 
   onChangeSpec = (editor, metadata, value) => {
-    this.setState({ spec: value });
-  };
+    this.setState({ spec: value })
+  }
 
   onSubmit = async e => {
-    e.preventDefault();
-    const { title, tags, issueURL, spec } = this.state;
-    this.props.createTask({ title, tags, issueURL, spec });
-  };
+    e.preventDefault()
+    console.log(`Submitting`)
+    const { title, tags, issueURL, spec } = this.state
+    this.props.createTask({ title, tags, issueURL, spec })
+  }
 
   render() {
-    const { pendingTask } = this.props;
-    const { title, tags, issueURL, spec } = this.state;
+    const { pendingTask } = this.props
+    const { title, tags, issueURL, spec } = this.state
 
     if (pendingTask) {
       //  TODO probably redirect to /tasks
       //  This does not allow navigating to /tasks
       //  then navigating to CreateTask while !!pendingTask
-      return <Redirect to={taskUrl(pendingTask)} />;
+      return <Redirect to={taskUrl(pendingTask)} />
     }
 
     return (
@@ -178,16 +179,16 @@ class CreateTask extends Component {
           }
         `}</style>
       </Layout>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
-  pendingTask: getPendingTask(state)
-});
+  // pendingTask: getPendingTask(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   createTask: task => dispatch(createTask(task))
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTask);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTask)
