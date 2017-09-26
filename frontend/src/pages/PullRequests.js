@@ -4,6 +4,8 @@ import _ from 'lodash'
 import { Link } from 'react-router-dom'
 import { Button, Table } from 'semantic-ui-react'
 
+import { fetchTask, selectTask } from '../actions/tasks'
+import { getSelectedTask } from '../reducers/tasks'
 import { fetchPullRequests } from '../actions/pullRequests'
 import { getAllPullRequests } from '../reducers/pullRequests'
 
@@ -16,17 +18,15 @@ class PullRequests extends Component {
     this.state = {
       column: null,
       pullRequests: this.props.pullRequests || [],
-      direction: null,
+      direction: null
     }
     this.handleSort = this.handleSort.bind(this)
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        pullRequests: this.props.pullRequests,
-      })
-    }, 3000)
+    this.setState({
+      pullRequests: this.props.pullRequests
+    })
   }
 
   handleSort = clickedColumn => () => {
@@ -36,14 +36,14 @@ class PullRequests extends Component {
       this.setState({
         column: clickedColumn,
         pullRequests: _.sortBy(pullRequests, [clickedColumn]),
-        direction: 'ascending',
+        direction: 'ascending'
       })
       return
     }
 
     this.setState({
       pullRequests: pullRequests.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending',
+      direction: direction === 'ascending' ? 'descending' : 'ascending'
     })
   }
 
@@ -64,13 +64,7 @@ class PullRequests extends Component {
                 sorted={column === 'title' ? direction : null}
                 onClick={this.handleSort('title')}
               >
-                Title
-              </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === 'Tags' ? direction : null}
-                onClick={this.handleSort('tags')}
-              >
-                Tags
+                Task Title
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Status' ? direction : null}
@@ -84,7 +78,7 @@ class PullRequests extends Component {
               >
                 Reward
               </Table.HeaderCell>
-              <Table.HeaderCell>Approve</Table.HeaderCell>
+              <Table.HeaderCell>Review</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -105,26 +99,10 @@ class PullRequests extends Component {
   }
 }
 
-const PullRequestListItem = ({ pullRequest }) => (
+const PullRequestListItem = ({ pullRequest, task }) => (
   <Table.Row key={pullRequest._id}>
-    <Table.Cell>
-      <Link to={`/pullRequests/${pullRequest.title}/${pullRequest._id}`}>
-        Some title
-        {/*{pullRequest.title}*/}
-      </Link>
-    </Table.Cell>
-    <Table.Cell singleLine>
-      Tags
-      {/*<Tags tags={pullRequest.tags}/>*/}
-    </Table.Cell>
-    <Table.Cell>
-      100
-      {/*{pullRequest.reward}*/}
-    </Table.Cell>
-    <Table.Cell>
-      Github url
-      {/*{pullRequest.reward}*/}
-    </Table.Cell>
+    <Table.Cell>{task.title}</Table.Cell>
+    <Table.Cell>{pullRequest.url}</Table.Cell>
     <Table.Cell>
       <Button
         basic
@@ -133,10 +111,10 @@ const PullRequestListItem = ({ pullRequest }) => (
         floated="right"
         fluid={true}
         size="mini"
+        to={`/pullrequests/${pullRequest._id}`}
+        as={Link}
       >
-        <Link to={`/pullrequests/${pullRequest.title}/${pullRequest._taskId}`}>
-          Review
-        </Link>
+        Review PR
       </Button>
     </Table.Cell>
   </Table.Row>
@@ -144,10 +122,13 @@ const PullRequestListItem = ({ pullRequest }) => (
 
 const mapStateToProps = state => ({
   pullRequests: getAllPullRequests(state),
+  task: getSelectedTask(state)
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPullRequests: () => dispatch(fetchPullRequests()),
+  fetchTask: id => dispatch(fetchTask(id)),
+  selectTask: taskId => dispatch(selectTask(taskId)),
+  fetchPullRequests: () => dispatch(fetchPullRequests())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequests)

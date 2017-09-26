@@ -15,8 +15,6 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import { specPlaceholder, tagsOptions } from '../shared'
 
-const taskUrl = ({ title, _id }) => `/tasks/${slug(title)}/${_id}`
-
 const tagOption = tag => {
   const value = slug(tag)
   return { text: tag, key: value, value }
@@ -56,7 +54,6 @@ class CreateTask extends Component {
 
   onSubmit = async e => {
     e.preventDefault()
-    console.log(`Submitting`)
     const { title, tags, issueURL, spec } = this.state
     this.props.createTask({ title, tags, issueURL, spec })
   }
@@ -69,7 +66,7 @@ class CreateTask extends Component {
       //  TODO probably redirect to /tasks
       //  This does not allow navigating to /tasks
       //  then navigating to CreateTask while !!pendingTask
-      return <Redirect to={taskUrl(pendingTask)} />
+      return <Redirect to="/tasks" />
     }
 
     return (
@@ -184,7 +181,7 @@ class CreateTask extends Component {
 }
 
 const mapStateToProps = state => ({
-  // pendingTask: getPendingTask(state)
+  pendingTask: getPendingTask(state)
 })
 
 const mapDispatchToProps = dispatch => ({

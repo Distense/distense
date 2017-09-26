@@ -8,13 +8,13 @@ export default class HasWeb3 extends Component {
     let icon
     let title
     // isConnected() changes in an upcoming new version of web3
-    web3 && web3.isConnected()
+    web3 && web3.isConnected() // eslint-disable-line no-unused-expressions
       ? ((color = 'green'),
         (icon = 'checkmark'),
         (title = 'Found web3 library'))
       : ((color = 'red'), (icon = 'x'), (title = 'Web3 library not found'))
     return (
-      <Menu.Item title={title} fitted position="right">
+      <Menu.Item title={title} fitted>
         web3<Icon color={color} name={icon} />
       </Menu.Item>
     )

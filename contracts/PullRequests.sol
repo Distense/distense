@@ -41,6 +41,10 @@ contract PullRequests is Approvable {
 //    TODO
    }
 
+  function pullRequestExists(string _ipfsHash) public constant returns (bool) {
+    return pullRequestIds.contains(_ipfsHash);
+  }
+
   function getNumPullRequests() public constant returns (uint) {
     return pullRequestIds.length;
   }

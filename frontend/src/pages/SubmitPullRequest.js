@@ -2,36 +2,29 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Divider, Form, Grid, Input, Header } from 'semantic-ui-react'
 
-import { fetchTask } from '../actions/tasks'
-import { getTask } from '../reducers/tasks'
+import { fetchTask, selectTask } from '../actions/tasks'
+import { getSelectedTask } from '../reducers/tasks'
 import { createPullRequest } from '../actions/pullRequests'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 
-class SubmitWork extends Component {
+class SubmitPullRequest extends Component {
   constructor(props) {
     super(props)
     this.state = {
       taskId: '',
-      pullRequestURL: '',
+      pullRequestURL: ''
     }
     this.onSubmit = this.onSubmit.bind(this)
-  }
-
-  componentWillMount() {
-    // const {
-    //   fetchTask, match: {
-    //     params: { id }
-    //   }
-    // } = this.props
-    // fetchTask(id)
   }
 
   onChangeTaskId = ({ target: { value } }) => {
     this.setState({ taskId: value })
     // Don't fetch the task for previewing until we've at least got enough bytes to be a complete ipfs hash
-    if (value.length >= 32) this.props.fetchTask(value)
+    if (value.length >= 32) {
+      this.props.selectTask(value)
+    }
   }
 
   onChangeURL = ({ target: { value } }) => {
@@ -47,7 +40,7 @@ class SubmitWork extends Component {
 
   render() {
     const { task } = this.props
-    const { taskId, pullRequestURL } = this.state
+    const { selectedTaskId, pullRequestURL } = this.state
 
     return (
       <Layout>
@@ -55,20 +48,20 @@ class SubmitWork extends Component {
         <div className="task">
           <Grid.Row columns={1}>
             <Form onSubmit={this.onSubmit}>
-              <Header as="h1">Submit Task</Header>
+              <Header as="h1">Submit Pull Request</Header>
               <Form.Field required>
                 <Input
                   type="text"
                   placeholder="Task Id"
                   onChange={this.onChangeTaskId}
                   name="id"
-                  value={taskId}
+                  value={selectedTaskId}
                 />
               </Form.Field>
               <Form.Field required>
                 <input
                   type="text"
-                  placeholder="URL to commit or pull request"
+                  placeholder="Pull request URL"
                   onChange={this.onChangeURL}
                   name="url"
                   value={pullRequestURL}
@@ -95,12 +88,13 @@ class SubmitWork extends Component {
 }
 
 const mapStateToProps = state => ({
-  task: getTask(state),
+  task: getSelectedTask(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchTask: id => dispatch(fetchTask(id)),
   createPullRequest: taskId => dispatch(createPullRequest(taskId)),
+  selectTask: taskId => dispatch(selectTask(taskId))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubmitWork)
+export default connect(mapStateToProps, mapDispatchToProps)(SubmitPullRequest)

@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import { combineReducers } from 'redux'
 
-export const REQUEST_PULLREQUESTS = 'REQUEST_PULLREQUESTS'
-export const RECEIVE_PULLREQUESTS = 'RECEIVE_PULLREQUESTS'
-export const REQUEST_PULLREQUEST = 'REQUEST_PULLREQUEST'
-export const RECEIVE_PULLREQUEST = 'RECEIVE_PULLREQUEST'
-export const SUBMIT_PULLREQUEST = 'SUBMIT_PULLREQUEST'
+import {
+  RECEIVE_PULLREQUESTS,
+  RECEIVE_PULLREQUEST,
+  SUBMIT_PULLREQUEST
+} from '../constants/constants'
 
 const pullRequestById = (state = {}, action) => {
   switch (action.type) {
@@ -15,13 +15,13 @@ const pullRequestById = (state = {}, action) => {
         ...(action.pullRequests || []).reduce((obj, pullRequest) => {
           obj[pullRequest._id] = pullRequest
           return obj
-        }, {}),
+        }, {})
       }
     case RECEIVE_PULLREQUEST:
       return action.pullRequest
         ? {
             ...state,
-            [action.pullRequest._id]: action.pullRequest,
+            [action.pullRequest._id]: action.pullRequest
           }
         : state
     case SUBMIT_PULLREQUEST:
@@ -30,8 +30,8 @@ const pullRequestById = (state = {}, action) => {
             ...state,
             [action.pullRequest._id]: {
               ...action.pullRequest,
-              _submitting: true,
-            },
+              _submitting: true
+            }
           }
         : state
     default:
@@ -70,7 +70,7 @@ const pendingPullRequestId = (state = null, action) => {
 export default combineReducers({
   pullRequestById,
   pullRequests,
-  pendingPullRequestId,
+  pendingPullRequestId
 })
 
 export const getPullRequest = ({ pullRequests: { pullRequestById } }, _id) =>

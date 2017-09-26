@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 import { Grid, Header, List, Item } from 'semantic-ui-react'
 import ReactMarkdown from 'react-markdown'
 
@@ -11,7 +12,6 @@ import { getTask } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
-import Tags from '../components/common/Tags'
 
 class PullRequest extends Component {
   constructor(props) {
@@ -20,14 +20,26 @@ class PullRequest extends Component {
     this.handleSort = this.handleSort.bind(this)
   }
 
+  handleSort = clickedColumn => () => {
+    const { column, tasks, direction } = this.state
+
+    if (column !== clickedColumn) {
+      this.setState({
+        column: clickedColumn,
+        tasks: _.sortBy(tasks, [clickedColumn]),
+        direction: 'ascending'
+      })
+      return
+    }
+
+    this.setState({
+      tasks: tasks.reverse(),
+      direction: direction === 'ascending' ? 'descending' : 'ascending'
+    })
+  }
+
   componentWillMount() {
-    const {
-      fetchTask,
-      match: { params: { taskId } },
-      fetchPullRequest,
-      match: { params: { prId } },
-    } = this.props
-    fetchTask(taskId) // Fetch task to populate task details; PR just has PR ID and taskId
+    const { fetchPullRequest, match: { params: { prId } } } = this.props
     fetchPullRequest(prId)
   }
 
@@ -46,11 +58,6 @@ class PullRequest extends Component {
                     <Header style={{ textDecoration: 'underline' }} as="h2">
                       {pullRequest.title}
                     </Header>
-                    <Item>
-                      <List horizontal bulleted>
-                        Tags: <Tags tags={pullRequest.tags} />
-                      </List>
-                    </Item>
                     <Item>
                       Pull Request URL:
                       <a className="" target="_blank" href={pullRequest.url}>
@@ -81,12 +88,12 @@ class PullRequest extends Component {
 
 const mapStateToProps = (state, { match: { params: { id } } }) => ({
   pullRequest: getPullRequest(state, id),
-  task: getTask(state, id),
+  task: getTask(state, id)
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchPullRequest: id => dispatch(fetchPullRequest(id)),
-  fetchTask: id => dispatch(fetchTask(id)),
+  fetchTask: id => dispatch(fetchTask(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequest)

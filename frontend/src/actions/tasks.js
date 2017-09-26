@@ -4,12 +4,25 @@ import ipfsReady, { getIPFSDagDetail } from '../db'
 import * as contracts from '../contracts'
 
 import {
+  submitIPFSHash,
+  receiveIPFSHash,
+  requestIPFSNode,
+  receiveIPFSNode
+} from './ipfs'
+
+import { setDefaultStatus } from './status'
+
+import {
   REQUEST_TASKS,
   RECEIVE_TASKS,
   REQUEST_TASK,
   RECEIVE_TASK,
-  SUBMIT_TASK
-} from '../reducers/tasks'
+  SET_NUM_TASKS,
+  SELECT_TASK,
+  SUBMIT_TASK,
+  REQUEST_TASKS_INSTANCE,
+  RECEIVE_TASKS_INSTANCE
+} from '../constants/constants'
 
 const requestTasks = () => ({
   type: REQUEST_TASKS
@@ -30,6 +43,24 @@ const receiveTask = task => ({
   task
 })
 
+export const selectTask = id => ({
+  type: SELECT_TASK,
+  id
+})
+
+export const requestTasksInstance = () => ({
+  type: REQUEST_TASKS_INSTANCE
+})
+
+export const receiveTasksInstance = () => ({
+  type: RECEIVE_TASKS_INSTANCE
+})
+
+export const setNumTasks = numTasks => ({
+  type: SET_NUM_TASKS,
+  numTasks
+})
+
 const getTaskByIndex = async index => {
   const { taskIds } = await contracts.Tasks
   const id = await taskIds(index)
@@ -43,7 +74,6 @@ const getTaskByID = async id => {
 
   await ipfsReady
 
-  // TODO obviously clean this up because for some reason .value does not work here
   const ipfsValue = await getIPFSDagDetail(id)
   const task = ipfsValue.value
   task._id = id
@@ -52,14 +82,16 @@ const getTaskByID = async id => {
 }
 
 export const fetchTasks = () => async (dispatch, getState) => {
-  dispatch(requestTasks())
-
   // Have to get numTasks from chain to know how many to query by index
+  dispatch(requestTasksInstance())
   const { getNumTasks } = await contracts.Tasks
+  dispatch(receiveTasksInstance())
   const numTasks = +await getNumTasks()
+  dispatch(setNumTasks(numTasks))
+  dispatch(requestTasks())
   const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
-
   dispatch(receiveTasks(tasks.filter(_.identity)))
+  dispatch(setDefaultStatus())
 }
 
 export const fetchTask = id => async (dispatch, getState) => {
@@ -79,12 +111,15 @@ export const createTask = ({ title, tags, issueURL, spec }) => async (
   dispatch,
   getState
 ) => {
+  dispatch(requestIPFSNode())
   const ipfs = await ipfsReady // await ipfs browser node instantiation and remote node connection
+  dispatch(receiveIPFSNode())
 
+  dispatch(requestTasksInstance())
   const { addTask } = await contracts.Tasks // Get Tasks contract instance
-  const { coinbase } = getState()
+  dispatch(receiveTasksInstance())
+  const { coinbase } = getState().accounts
 
-  console.log(`address: ${coinbase}`)
   const task = {
     title,
     tags,
@@ -94,20 +129,21 @@ export const createTask = ({ title, tags, issueURL, spec }) => async (
     createdBy: coinbase
   }
 
-  // Add task to IPFS.
-  // Use ipfs.dag.put instead of ipfs.files.add because task is object/dag node not a file
+  // Add task to IPFS.  Use ipfs.dag.put instead of ipfs.files.add
+  // because task is object/dag node and not a file
+  dispatch(submitIPFSHash())
   const hash = await ipfs.dag.put(task, {
     format: 'dag-cbor',
     hashAlg: 'sha2-256'
   })
   task._id = hash.toBaseEncodedString()
-
-  dispatch(submitTask(task))
+  dispatch(receiveIPFSHash())
 
   //  Add task IPFS hash to blockchain
+  dispatch(submitTask(task))
   await addTask(task._id, { from: task.createdBy })
-
   dispatch(receiveTask(task))
+  dispatch(setDefaultStatus())
 
   return task
 }

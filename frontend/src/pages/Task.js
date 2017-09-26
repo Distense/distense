@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Grid, Header, Item, Message, List } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Button, Form, Grid, Header, Item, Message } from 'semantic-ui-react'
 import ReactMarkdown from 'react-markdown'
 
 import { fetchTask } from '../actions/tasks'
@@ -36,25 +37,36 @@ class Task extends Component {
             <Grid divided="vertically">
               <Grid.Row columns={2}>
                 <Grid.Column>
-                  <Item.Content>
-                    <Header style={{ textDecoration: 'underline' }} as="h2">
-                      {task.title}
-                    </Header>
-                    <Item>
-                      <List horizontal bulleted>
+                  <Item>
+                    <Item.Content>
+                      <Header style={{ textDecoration: 'underline' }} as="h2">
+                        {task.title}
+                      </Header>
+                      <Item.Description>
                         Tags: <Tags tags={task.tags} />
-                      </List>
-                    </Item>
-                    <Item>
-                      Issue URL:
-                      <a className="" target="_blank" href={task.issueURL}>
-                        {task.issueURL}
-                      </a>
-                    </Item>
-                    <Item.Meta>
-                      Created: {new Date(task.createdAt).toDateString()}
-                    </Item.Meta>
-                  </Item.Content>
+                      </Item.Description>
+                      <Item.Description>
+                        Issue URL:
+                        <a className="" target="_blank" href={task.issueURL}>
+                          {task.issueURL}
+                        </a>
+                      </Item.Description>
+                      <Item.Meta>
+                        Created: {new Date(task.createdAt).toDateString()}
+                      </Item.Meta>
+                      <Item.Extra>
+                        <Button
+                          as={Link}
+                          to={`/pullrequests/submit/${task.title}/${task._id}`}
+                          color="green"
+                          compact
+                          size="large"
+                        >
+                          Submit
+                        </Button>
+                      </Item.Extra>
+                    </Item.Content>
+                  </Item>
                 </Grid.Column>
                 <Grid.Column>
                   <TaskStatusMessage />
@@ -76,11 +88,11 @@ class Task extends Component {
 }
 
 const mapStateToProps = (state, { match: { params: { id } } }) => ({
-  task: getTask(state, id),
+  task: getTask(state, id)
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchTask: id => dispatch(fetchTask(id)),
+  fetchTask: id => dispatch(fetchTask(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task)

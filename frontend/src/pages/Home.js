@@ -11,7 +11,7 @@ import {
   Segment
 } from 'semantic-ui-react'
 
-import HasWeb3 from '../components/common/HasWeb3'
+// import HasWeb3 from '../components/common/HasWeb3'
 import Head from '../components/common/Head'
 
 class Home extends Component {
@@ -77,10 +77,10 @@ class Home extends Component {
               <Menu.Item to="/tasks" as={Link}>
                 View
               </Menu.Item>
-              <Menu.Item to="/tasksTODO" as={Link}>
+              <Menu.Item to="/pullrequests/submit" as={Link}>
                 Submit
               </Menu.Item>
-              <Menu.Item to="/tasksTODO" as={Link}>
+              <Menu.Item to="/pullrequests" as={Link}>
                 Approve
               </Menu.Item>
               <Menu.Item position="right">18330 Total DID</Menu.Item>

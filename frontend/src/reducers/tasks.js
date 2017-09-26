@@ -1,11 +1,13 @@
 import _ from 'lodash'
 import { combineReducers } from 'redux'
 
-export const REQUEST_TASKS = 'REQUEST_TASKS'
-export const RECEIVE_TASKS = 'RECEIVE_TASKS'
-export const REQUEST_TASK = 'REQUEST_TASK'
-export const RECEIVE_TASK = 'RECEIVE_TASK'
-export const SUBMIT_TASK = 'SUBMIT_TASK'
+import {
+  RECEIVE_TASKS,
+  RECEIVE_TASK,
+  SELECT_TASK,
+  SET_NUM_TASKS,
+  SUBMIT_TASK
+} from '../constants/constants'
 
 const taskById = (state = {}, action) => {
   switch (action.type) {
@@ -15,13 +17,13 @@ const taskById = (state = {}, action) => {
         ...(action.tasks || []).reduce((obj, task) => {
           obj[task._id] = task
           return obj
-        }, {}),
+        }, {})
       }
     case RECEIVE_TASK:
       return action.task
         ? {
             ...state,
-            [action.task._id]: action.task,
+            [action.task._id]: action.task
           }
         : state
     case SUBMIT_TASK:
@@ -30,8 +32,8 @@ const taskById = (state = {}, action) => {
             ...state,
             [action.task._id]: {
               ...action.task,
-              _submitting: true,
-            },
+              _submitting: true
+            }
           }
         : state
     default:
@@ -54,6 +56,24 @@ const tasks = (state = [], action) => {
   }
 }
 
+const numTasks = (state = 0, action) => {
+  switch (action.type) {
+    case SET_NUM_TASKS:
+      return action.numTasks
+    default:
+      return state
+  }
+}
+
+const selectedTask = (state = null, action) => {
+  switch (action.type) {
+    case SELECT_TASK:
+      return action.id
+    default:
+      return state
+  }
+}
+
 const pendingTaskId = (state = null, action) => {
   switch (action.type) {
     case SUBMIT_TASK:
@@ -66,9 +86,11 @@ const pendingTaskId = (state = null, action) => {
 }
 
 export default combineReducers({
+  numTasks,
   taskById,
   tasks,
   pendingTaskId,
+  selectedTask
 })
 
 export const getTask = ({ tasks: { taskById } }, _id) => taskById[_id]
@@ -77,6 +99,14 @@ export const getAllTasks = state => {
   return state.tasks.tasks.map(_id => getTask(state, _id))
 }
 
+export const getNumTasks = state => {
+  return state.tasks.numTasks
+}
+
 export const getPendingTask = state => {
   return getTask(state, state.tasks.pendingTaskId)
+}
+
+export const getSelectedTask = state => {
+  return getTask(state, state.tasks.selectedTask)
 }

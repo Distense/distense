@@ -3,14 +3,11 @@ const wrtc = require('wrtc') // or require('electron-webrtc')()
 const WStar = require('libp2p-webrtc-star')
 const wstar = new WStar({ wrtc: wrtc })
 
-
 export const ipfs = new IPFS({
   repo: 'distense',
   config: {
     Addresses: {
-      Swarm: [
-        '/dns4/star-signal.cloud.ipfs.team/wss/p2p-webrtc-star'
-      ],
+      Swarm: ['/dns4/star-signal.cloud.ipfs.team/wss/p2p-webrtc-star'],
       API: '',
       Gateway: ''
     },
@@ -33,16 +30,17 @@ export const ipfs = new IPFS({
   }
 })
 
-
 export default new Promise((resolve, reject) => {
   ipfs.on('ready', () => {
-    ipfs.swarm.connect('/ip4/165.227.28.206/tcp/9999/ws/ipfs/QmSX1Q4rYtSpBXbSs4ZXnw4kyCwHBpS33siSUpiBJwTHtn', (err) => {
-      if (err) reject(err)
-      else {
-        console.log(`Connected to remote WS IPFS node`);
-        resolve(ipfs)
+    ipfs.swarm.connect(
+      '/ip4/165.227.28.206/tcp/9999/ws/ipfs/QmSX1Q4rYtSpBXbSs4ZXnw4kyCwHBpS33siSUpiBJwTHtn',
+      err => {
+        if (err) reject(err)
+        else {
+          resolve(ipfs)
+        }
       }
-    })
+    )
   })
 })
 

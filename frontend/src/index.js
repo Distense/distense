@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
 
 import registerServiceWorker from './registerServiceWorker'
 import reducers from './reducers'
-import { getCoinbase } from './actions/accounts'
+import { getCoinbase } from './actions/web3'
 
 import Home from './pages/Home'
 import CreateTask from './pages/CreateTask'
@@ -30,7 +30,7 @@ const Root = () => (
       <Route path="/tasks/create" component={CreateTask} />
       <Route path="/tasks" component={Tasks} />
       <Route exact path="/pullrequests/submit" component={SubmitPullRequest} />
-      <Route path="/pullrequests/:title/:id" component={PullRequest} />
+      <Route path="/pullrequests/:id" component={PullRequest} />
       <Route path="/pullrequests" component={PullRequests} />
     </Switch>
   </Router>

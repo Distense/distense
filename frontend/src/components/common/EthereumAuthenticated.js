@@ -4,18 +4,17 @@ import { connect } from 'react-redux'
 import { Icon, Menu } from 'semantic-ui-react'
 import web3 from '../../web3'
 import EthereumSVGIcon from './EthereumSVGIcon'
-import { getCoinbase } from '../../reducers/accounts'
+import { getAccount } from '../../reducers/accounts'
 
 class EthereumAuthenticated extends Component {
   render() {
-    const { coinbase } = this.props
+    const { coinbase } = this.props.account
 
-    const displayAddress =
-      coinbase.substring(2, 4) + '...' + coinbase.substring(40, 42)
     let color
     let icon
     let title
-    web3 && displayAddress
+    /* eslint-disable no-unused-expressions */
+    web3 && coinbase
       ? ((color = 'green'),
         (icon = 'checkmark'),
         (title = 'Unlocked Ethereum account'))
@@ -23,9 +22,11 @@ class EthereumAuthenticated extends Component {
     return (
       <span>
         <Menu.Item fitted title={title}>
-          <Menu.Item content={displayAddress} className="address" />
           <EthereumSVGIcon width="20" height="20" />
           <Icon color={color} name={icon} />
+          {coinbase && (
+            <Menu.Item color="grey" content={coinbase} className="address" />
+          )}
         </Menu.Item>
         {/*language=CSS*/}
         <style>{`
@@ -40,7 +41,7 @@ class EthereumAuthenticated extends Component {
 }
 
 const mapStateToProps = state => ({
-  coinbase: getCoinbase(state.accounts)
+  account: getAccount(state.accounts)
 })
 
 export default connect(mapStateToProps)(EthereumAuthenticated)
