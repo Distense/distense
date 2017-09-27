@@ -183,8 +183,8 @@ class Home extends Component {
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               Work on a per-task basis, from anywhere, whenever. Govern the
-              organization you work for. Get your reward issued by a smart
-              contract immediately, not maybe in a few weeks... by a human.
+              organization you work for. Receive your reward immediately, not
+              maybe in a few weeks by a human.
             </p>
           </Container>
         </Segment>
@@ -207,16 +207,9 @@ class Home extends Component {
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               Our DID token gives the holder the right to vote and approve work.
-              Two DID == two votes. DID are exchangeable into ether. No ICO --
-              only contributors receive DID.
+              Two DID == two votes. DID may be exchanged into ether. There's no
+              ICO -- only contributors receive DID and invest in Distense.
             </p>
-            {/*<Button*/}
-            {/*style={{ fontFamily: 'Inconsolata !important' }}*/}
-            {/*size="huge"*/}
-            {/*href="/howitworks"*/}
-            {/*>*/}
-            {/*How it works*/}
-            {/*</Button>*/}
           </Container>
         </Segment>
 
