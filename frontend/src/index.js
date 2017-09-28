@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 import registerServiceWorker from './registerServiceWorker'
 import reducers from './reducers'
-import { getCoinbase } from './actions/web3'
+import { selectWeb3AccountInfo } from './actions/web3'
 
 import Home from './pages/Home'
 import CreateTask from './pages/CreateTask'
@@ -20,7 +20,7 @@ import PullRequest from './pages/PullRequest'
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
 
-store.dispatch(getCoinbase())
+store.dispatch(selectWeb3AccountInfo())
 
 const Root = () => (
   <Router>
@@ -28,10 +28,10 @@ const Root = () => (
       <Route exact path="/" component={Home} />
       <Route path="/tasks/:title/:id" component={Task} />
       <Route path="/tasks/create" component={CreateTask} />
-      <Route path="/tasks" component={Tasks} />
-      <Route exact path="/pullrequests/submit" component={SubmitPullRequest} />
-      <Route path="/pullrequests/:id" component={PullRequest} />
-      <Route path="/pullrequests" component={PullRequests} />
+      <Route exact path="/tasks" component={Tasks} />
+      <Route path="/pullrequests/submit/:id?" component={SubmitPullRequest} />
+      <Route exact path="/pullrequests/:id" component={PullRequest} />
+      <Route exact path="/pullrequests" component={PullRequests} />
     </Switch>
   </Router>
 )

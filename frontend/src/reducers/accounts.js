@@ -55,6 +55,5 @@ export default combineReducers({
 })
 
 export const getAccounts = state => state.accounts
-
-export const getAccount = state => state.account
+export const getAccount = state => state.accounts.account.coinbase
 export const getETHBalance = state => state.account

@@ -23,6 +23,8 @@ import {
   receiveIPFSNode
 } from './ipfs'
 
+import * as contracts from '../contracts'
+
 const requestPullRequests = () => ({
   type: REQUEST_PULLREQUESTS
 })
@@ -86,9 +88,11 @@ export const fetchPullRequests = () => async (dispatch, getState) => {
   dispatch(requestPullRequests())
 
   // Have to get numPRs from chain to know how many to query by index
+  dispatch(requestPullRequestsInstance())
   const { getNumPullRequests } = await PullRequests
+  dispatch(receivePullRequestsInstance())
   const numPRs = +await getNumPullRequests()
-  dispatch(setNumPullRequests())
+  dispatch(setNumPullRequests(numPRs))
   const pullRequests = await Promise.all(
     _.range(numPRs).map(getPullRequestByIndex)
   )
@@ -103,7 +107,7 @@ export const fetchPullRequest = id => async (dispatch, getState) => {
   dispatch(receivePullRequest(pullRequest))
 }
 
-export const createPullRequest = ({ taskId, url }) => async (
+export const createPullRequest = ({ taskId, prURL }) => async (
   dispatch,
   getState
 ) => {
@@ -112,13 +116,13 @@ export const createPullRequest = ({ taskId, url }) => async (
   dispatch(receiveIPFSNode())
 
   dispatch(requestPullRequestsInstance())
-  const { submitPullRequest } = await PullRequests
+  const { submitPullRequest } = await contracts.PullRequests
   dispatch(receivePullRequestsInstance())
   const { coinbase } = getState().accounts.account
 
   const pullRequest = {
     taskId, // id of task one is submitting pull request for
-    url, // url pointing to Github pr of completed work
+    prURL, // url pointing to Github pr of completed work
     createdAt: new Date(),
     createdBy: coinbase
   }

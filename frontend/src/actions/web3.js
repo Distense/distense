@@ -1,12 +1,12 @@
 import web3 from '../web3'
 
 import {
-  REQUEST_WEB3_DATUM,
-  RECEIVE_WEB3_DATUM,
   RECEIVE_ACCOUNT_DATUM,
   REQUEST_ACCOUNT_DATUM,
   RECEIVE_ACCOUNTS,
-  SELECT_ADDRESS
+  SELECT_ADDRESS,
+  RECEIVE_HAS_WEB3,
+  RECEIVE_IS_CONNECTED
 } from '../constants/constants'
 
 const receiveAccountsAction = accounts => ({
@@ -19,16 +19,12 @@ const selectAddressAction = address => ({
   address
 })
 
-const requestWeb3Datum = (address, datum) => ({
-  type: REQUEST_WEB3_DATUM,
-  address,
-  datum
+const receiveHasWeb3 = () => ({
+  type: RECEIVE_HAS_WEB3
 })
 
-const receiveWeb3Datum = (address, datum) => ({
-  type: RECEIVE_WEB3_DATUM,
-  address,
-  datum
+const receiveIsConnected = () => ({
+  type: RECEIVE_IS_CONNECTED
 })
 
 const requestAccountDatum = (address, datum) => ({
@@ -47,12 +43,6 @@ export const selectAddress = address => dispatch => {
   dispatch(selectAddressAction(address))
 }
 
-  export const getCoinbase = () => dispatch => {
-    let coinbase = null
-    if (web3) coinbase = web3.eth.coinbase
-    dispatch(receiveAccountsAction([coinbase]))
-  }
-
 export const getEtherBalance = (address, datum) => dispatch => {
   dispatch(requestAccountDatum(address, datum))
   web3.eth.getBalance(address, (error, result) => {
@@ -62,4 +52,17 @@ export const getEtherBalance = (address, datum) => dispatch => {
       console.error(error)
     }
   })
+}
+
+export const selectWeb3AccountInfo = () => dispatch => {
+  const hasWeb3 = web3
+  let isConnected = false
+  let coinbase = null
+  if (hasWeb3) {
+    isConnected = web3.isConnected()
+    coinbase = web3.eth.coinbase
+  }
+  dispatch(receiveAccountsAction([coinbase]))
+  dispatch(receiveHasWeb3(hasWeb3))
+  dispatch(receiveIsConnected(isConnected))
 }

@@ -17,20 +17,32 @@ class Tasks extends Component {
     this.state = {
       column: null,
       tasks: this.props.tasks || [],
-      direction: null
+      direction: null,
+      loading: true
     }
     this.handleSort = this.handleSort.bind(this)
   }
 
+  componentWillMount() {
+    this.props.fetchTasks()
+  }
+
   componentDidMount() {
-    this.setState({
-      tasks: this.props.tasks
-    })
+    this.someTimeout = setTimeout(() => {
+      this.setState({
+        loading: false,
+        tasks: this.props.tasks
+      })
+    }, 3000)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.someTimeout)
   }
 
   handleSort = clickedColumn => () => {
-    const { column, tasks, direction } = this.state
-
+    const { column, /*tasks,*/ direction } = this.state
+    const { tasks } = this.props
     if (column !== clickedColumn) {
       this.setState({
         column: clickedColumn,
@@ -46,12 +58,9 @@ class Tasks extends Component {
     })
   }
 
-  componentWillMount() {
-    this.props.fetchTasks()
-  }
-
   render() {
-    const { column, tasks, direction } = this.state
+    const { column, direction, loading } = this.state
+    const { tasks } = this.props
 
     return (
       <Layout>
@@ -93,10 +102,16 @@ class Tasks extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {tasks.length ? (
-              tasks.map(task => <Task key={task._id} task={task} />)
+            {tasks.length > 0 ? (
+              tasks.map(task => <TasksListItem key={task._id} task={task} />)
+            ) : loading ? (
+              <Table.Cell as="tr">
+                <Table.Cell>Loading tasks...</Table.Cell>
+              </Table.Cell>
             ) : (
-              <Table.Cell>Loading tasks...</Table.Cell>
+              <Table.Cell as="tr">
+                <Table.Cell>No tasks</Table.Cell>
+              </Table.Cell>
             )}
           </Table.Body>
         </Table>
@@ -105,7 +120,7 @@ class Tasks extends Component {
   }
 }
 
-const Task = ({ task }) => (
+const TasksListItem = ({ task }) => (
   <Table.Row key={task._id}>
     <Table.Cell>
       <Link to={`/tasks/${task.title}/${task._id}`}>{task.title}</Link>
@@ -126,10 +141,11 @@ const Task = ({ task }) => (
         floated="right"
         fluid={true}
         size="mini"
+        as={Link}
+        title="Submit work for this task"
+        to={`/pullrequests/submit/${task._id}`}
       >
-        <Link to={`/pullrequests/create/${task.title}/${task._id}`}>
-          Submit
-        </Link>
+        Submit
       </Button>
     </Table.Cell>
   </Table.Row>

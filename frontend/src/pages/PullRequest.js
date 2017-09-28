@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import { Grid, Header, List, Item } from 'semantic-ui-react'
+import { Grid, Header, Item } from 'semantic-ui-react'
 import ReactMarkdown from 'react-markdown'
 
 import { fetchPullRequest } from '../actions/pullRequests'

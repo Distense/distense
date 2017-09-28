@@ -67,6 +67,14 @@ const status = (
       return Object.assign({}, state, {
         message: 'Requested IPFS hash'
       })
+    case actions.RECEIVE_HAS_WEB3:
+      return Object.assign({}, state, {
+        message: 'Found web3 instance'
+      })
+    case actions.RECEIVE_IS_CONNECTED:
+      return Object.assign({}, state, {
+        message: 'Connected to web3'
+      })
     case actions.REQUEST_TASKS_INSTANCE:
       return Object.assign({}, state, {
         message: 'Awaiting tasks contract'
@@ -74,6 +82,10 @@ const status = (
     case actions.RECEIVE_TASKS_INSTANCE:
       return Object.assign({}, state, {
         message: 'Received tasks contract'
+      })
+    case actions.CONFIRM_BLOCKCHAIN_ADDITION:
+      return Object.assign({}, state, {
+        message: 'Successful blockchain insertion'
       })
     //  TODO shouldn't all actions that don't set txSubmitted to be true cause txSubmitted to be false
     //  TODO if so why aren't they?
@@ -84,10 +96,12 @@ const status = (
       })
     case actions.SET_NUM_PULLREQUESTS:
       return Object.assign({}, state, {
+        message: `Found ${action.numPullRequests} pull requests`,
         numPullRequests: action.numPullRequests
       })
     case actions.SET_NUM_TASKS:
       return Object.assign({}, state, {
+        message: `Found ${action.numTasks} tasks`,
         numTasks: action.numTasks
       })
     default:
@@ -98,10 +112,3 @@ const status = (
 export default combineReducers({
   status
 })
-
-// export const getPullRequest = ({ pullRequests: { pullRequestById } }, _id) =>
-//   pullRequestById[_id]
-//
-// export const getAllPullRequests = state => {
-//   return state.pullRequests.pullRequests.map(_id => getPullRequest(state, _id))
-// }

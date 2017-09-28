@@ -13,10 +13,10 @@ import {
 import { setDefaultStatus } from './status'
 
 import {
-  REQUEST_TASKS,
-  RECEIVE_TASKS,
   REQUEST_TASK,
   RECEIVE_TASK,
+  REQUEST_TASKS,
+  RECEIVE_TASKS,
   SET_NUM_TASKS,
   SELECT_TASK,
   SUBMIT_TASK,
@@ -118,7 +118,7 @@ export const createTask = ({ title, tags, issueURL, spec }) => async (
   dispatch(requestTasksInstance())
   const { addTask } = await contracts.Tasks // Get Tasks contract instance
   dispatch(receiveTasksInstance())
-  const { coinbase } = getState().accounts
+  const { coinbase } = getState().account
 
   const task = {
     title,

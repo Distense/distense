@@ -4,8 +4,8 @@ import _ from 'lodash'
 import { Link } from 'react-router-dom'
 import { Button, Table } from 'semantic-ui-react'
 
-import { fetchTask, selectTask } from '../actions/tasks'
-import { getSelectedTask } from '../reducers/tasks'
+import { fetchTasks } from '../actions/tasks'
+import { getAllTasks } from '../reducers/tasks'
 import { fetchPullRequests } from '../actions/pullRequests'
 import { getAllPullRequests } from '../reducers/pullRequests'
 
@@ -17,15 +17,55 @@ class PullRequests extends Component {
     super(props)
     this.state = {
       column: null,
-      pullRequests: this.props.pullRequests || [],
+      loading: true,
+      pullRequests: [],
       direction: null
     }
     this.handleSort = this.handleSort.bind(this)
   }
 
+  componentWillMount() {
+    this.props.fetchPullRequests()
+    this.props.fetchTasks()
+  }
+
   componentDidMount() {
+    let TheFinalCountdown = 3600
+    const lightYearsToGo = 300
+    this.someInterval = setInterval(() => {
+      TheFinalCountdown -= lightYearsToGo
+      if (TheFinalCountdown <= 0)
+        this.setState({
+          loading: false
+        })
+      if (this.props.pullRequests.length > 0 && this.props.tasks.length > 0)
+        this.mapTasksToPullRequests(this.props.pullRequests, this.props.tasks)
+    }, lightYearsToGo)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.someInterval)
+  }
+
+  mapTasksToPullRequests(prs, tasks) {
+    const pullRequests = prs.map(pr => {
+      let pullRequest = pr
+      const task = _.find(tasks, { _id: pr.taskId })
+      if (task)
+        pullRequest = {
+          _id: pr._id,
+          createdAt: pr.createdAt,
+          issueURL: task.issueURL,
+          taskTitle: task.title,
+          taskId: task._id,
+          tags: task.tags,
+          prURL: pr.prURL
+        }
+      return pullRequest
+    })
     this.setState({
-      pullRequests: this.props.pullRequests
+      pullRequests,
+      loading: false
     })
   }
 
@@ -47,12 +87,8 @@ class PullRequests extends Component {
     })
   }
 
-  componentWillMount() {
-    this.props.fetchPullRequests()
-  }
-
   render() {
-    const { column, pullRequests, direction } = this.state
+    const { column, direction, loading, pullRequests } = this.state
 
     return (
       <Layout>
@@ -70,7 +106,7 @@ class PullRequests extends Component {
                 sorted={column === 'Status' ? direction : null}
                 onClick={this.handleSort('status')}
               >
-                Reviews
+                Status
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Reward' ? direction : null}
@@ -82,15 +118,21 @@ class PullRequests extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {pullRequests.length ? (
+            {pullRequests.length > 0 ? (
               pullRequests.map(pullRequest => (
                 <PullRequestListItem
                   key={pullRequest._id}
                   pullRequest={pullRequest}
                 />
               ))
+            ) : loading ? (
+              <Table.Cell as="tr">
+                <Table.Cell>Loading pull requests...</Table.Cell>
+              </Table.Cell>
             ) : (
-              <Table.Cell>Loading pull requests...</Table.Cell>
+              <Table.Cell as="tr">
+                <Table.Cell>No pull requests</Table.Cell>
+              </Table.Cell>
             )}
           </Table.Body>
         </Table>
@@ -99,10 +141,11 @@ class PullRequests extends Component {
   }
 }
 
-const PullRequestListItem = ({ pullRequest, task }) => (
+const PullRequestListItem = ({ pullRequest }) => (
   <Table.Row key={pullRequest._id}>
-    <Table.Cell>{task.title}</Table.Cell>
+    <Table.Cell>{pullRequest.taskTitle}</Table.Cell>
     <Table.Cell>{pullRequest.url}</Table.Cell>
+    <Table.Cell>100</Table.Cell>
     <Table.Cell>
       <Button
         basic
@@ -111,7 +154,9 @@ const PullRequestListItem = ({ pullRequest, task }) => (
         floated="right"
         fluid={true}
         size="mini"
-        to={`/pullrequests/${pullRequest._id}`}
+        // onClick={this.setSelected}
+        target="_blank"
+        to={`${pullRequest.url}`}
         as={Link}
       >
         Review PR
@@ -122,13 +167,12 @@ const PullRequestListItem = ({ pullRequest, task }) => (
 
 const mapStateToProps = state => ({
   pullRequests: getAllPullRequests(state),
-  task: getSelectedTask(state)
+  tasks: getAllTasks(state)
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchTask: id => dispatch(fetchTask(id)),
-  selectTask: taskId => dispatch(selectTask(taskId)),
-  fetchPullRequests: () => dispatch(fetchPullRequests())
+  fetchPullRequests: () => dispatch(fetchPullRequests()),
+  fetchTasks: () => dispatch(fetchTasks())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequests)

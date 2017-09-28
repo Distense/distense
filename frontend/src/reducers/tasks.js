@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { combineReducers } from 'redux'
+// import { createSelector } from 'reselect'
 
 import {
   RECEIVE_TASKS,
@@ -86,9 +87,9 @@ const pendingTaskId = (state = null, action) => {
 }
 
 export default combineReducers({
+  tasks,
   numTasks,
   taskById,
-  tasks,
   pendingTaskId,
   selectedTask
 })

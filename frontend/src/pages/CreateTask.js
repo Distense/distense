@@ -27,14 +27,14 @@ class CreateTask extends Component {
       title: '',
       tags: [],
       issueURL: '',
-      spec: specPlaceholder // TODO make title of spec match title value
+      redirect: false,
+      spec: specPlaceholder
     }
 
     this.onChangeTags = this.onChangeTags.bind(this)
   }
 
   onChangeTitle = ({ target: { value } }) => {
-    //  TODO replace '## Task Title Goes Here' in taskSpec with the title value
     if (value.length <= 50) this.setState({ title: value })
   }
 
@@ -56,18 +56,15 @@ class CreateTask extends Component {
     e.preventDefault()
     const { title, tags, issueURL, spec } = this.state
     this.props.createTask({ title, tags, issueURL, spec })
+    this.setState({
+      redirect: true
+    })
   }
 
   render() {
-    const { pendingTask } = this.props
-    const { title, tags, issueURL, spec } = this.state
+    const { title, tags, issueURL, redirect, spec } = this.state
 
-    if (pendingTask) {
-      //  TODO probably redirect to /tasks
-      //  This does not allow navigating to /tasks
-      //  then navigating to CreateTask while !!pendingTask
-      return <Redirect to="/tasks" />
-    }
+    if (redirect) return <Redirect to="/tasks" />
 
     return (
       <Layout>
@@ -76,7 +73,7 @@ class CreateTask extends Component {
           <Form onSubmit={this.onSubmit}>
             <Header as="h1">Create Task</Header>
             <Form.Field>
-              <input
+              <Input
                 type="text"
                 placeholder="Title"
                 onChange={this.onChangeTitle}

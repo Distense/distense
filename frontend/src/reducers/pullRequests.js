@@ -76,6 +76,10 @@ export default combineReducers({
 export const getPullRequest = ({ pullRequests: { pullRequestById } }, _id) =>
   pullRequestById[_id]
 
+export const getPendingPullRequest = state => {
+  return getPullRequest(state, state.pullRequests.pendingPullRequestId)
+}
+
 export const getAllPullRequests = state => {
   return state.pullRequests.pullRequests.map(_id => getPullRequest(state, _id))
 }

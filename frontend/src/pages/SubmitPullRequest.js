@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Divider, Form, Grid, Input, Header } from 'semantic-ui-react'
+import {
+  Button,
+  Divider,
+  Form,
+  Grid,
+  Input,
+  Header,
+  Message
+} from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
 
 import { fetchTask, selectTask } from '../actions/tasks'
 import { getSelectedTask } from '../reducers/tasks'
@@ -14,33 +23,55 @@ class SubmitPullRequest extends Component {
     super(props)
     this.state = {
       taskId: '',
-      pullRequestURL: ''
+      prURL: '',
+      redirect: false
     }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
+  componentDidMount() {
+    //  If taskId param exists prefill the input
+    const taskId = this.props.match.params.id
+    if (taskId) this.selectTask(taskId)
+  }
+
   onChangeTaskId = ({ target: { value } }) => {
-    this.setState({ taskId: value })
+    this.selectTask(value)
     // Don't fetch the task for previewing until we've at least got enough bytes to be a complete ipfs hash
-    if (value.length >= 32) {
-      this.props.selectTask(value)
+  }
+
+  selectTask(taskId) {
+    this.setState({ taskId: taskId })
+
+    //  Don't query for task until it is at least the length of an IPFS hash
+    if (taskId.length >= 32) {
+      this.props.selectTask(taskId)
     }
   }
 
   onChangeURL = ({ target: { value } }) => {
     //  TODO url validation
-    this.setState({ pullRequestURL: value })
+    this.setState({ prURL: value })
   }
 
   onSubmit = async e => {
     e.preventDefault()
-    const { taskId, pullRequestURL } = this.state
-    this.props.createPullRequest({ taskId, pullRequestURL })
+    const { taskId, prURL } = this.state
+    if (taskId && prURL) {
+      this.props.createPullRequest({ taskId, prURL })
+      this.setState({
+        redirect: true
+      })
+    }
   }
 
   render() {
     const { task } = this.props
-    const { selectedTaskId, pullRequestURL } = this.state
+    const { taskId, prURL, redirect } = this.state
+
+    if (redirect) {
+      return <Redirect to="/pullrequests" />
+    }
 
     return (
       <Layout>
@@ -51,20 +82,22 @@ class SubmitPullRequest extends Component {
               <Header as="h1">Submit Pull Request</Header>
               <Form.Field required>
                 <Input
+                  label="Pull request URL"
                   type="text"
-                  placeholder="Task Id"
-                  onChange={this.onChangeTaskId}
-                  name="id"
-                  value={selectedTaskId}
+                  placeholder=""
+                  onChange={this.onChangeURL}
+                  name="url"
+                  value={prURL}
                 />
               </Form.Field>
               <Form.Field required>
-                <input
+                <Input
+                  label="Task Id"
+                  name="id"
+                  onChange={this.onChangeTaskId}
+                  placeholder="hash"
                   type="text"
-                  placeholder="Pull request URL"
-                  onChange={this.onChangeURL}
-                  name="url"
-                  value={pullRequestURL}
+                  value={taskId}
                 />
               </Form.Field>
               <Button size="large" color="green" type="submit">
@@ -77,8 +110,10 @@ class SubmitPullRequest extends Component {
             // the right task
             <div>
               <Divider section />
-              <Header as="h2">{task.title}</Header>
-              <Header as="h3">{task._id}</Header>
+              <Header as="h3">Pull Request Task Verification</Header>
+              <Message>
+                <Message.Header>Title: {task.title}</Message.Header>
+              </Message>
             </div>
           )}
         </div>
