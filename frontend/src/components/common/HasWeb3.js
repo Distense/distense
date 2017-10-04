@@ -16,7 +16,7 @@ class HasWeb3 extends Component {
   }
 
   render() {
-    const { hasWeb3, isConnected } = this.props.web3
+    const { hasWeb3, isConnected } = this.props.user
     let color
     let icon
     let title
@@ -26,7 +26,7 @@ class HasWeb3 extends Component {
         (title = 'Found web3 library'))
       : ((color = 'red'), (icon = 'x'), (title = 'Web3 library not found'))
     return (
-      <Menu.Item title={title} fitted>
+      <Menu.Item title={title}>
         web3<Icon color={color} name={icon} />
       </Menu.Item>
     )
@@ -34,7 +34,7 @@ class HasWeb3 extends Component {
 }
 
 const mapStateToProps = state => ({
-  web3: state.web3.web3
+  user: state.user.user
 })
 
 export default connect(mapStateToProps)(HasWeb3)

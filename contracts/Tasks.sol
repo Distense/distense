@@ -8,7 +8,7 @@ contract Tasks {
 
   DIDToken didToken;
 
-  uint8 public requiredDIDApprovalThreshold;  // TODO this should be updatable based on voting.  This should decline over time
+  uint8 public requiredDIDApprovalThreshold;  // TODO this should be updatable based on voting.  This should likely decline over time
 
   string[] public taskIds;
 
@@ -21,13 +21,13 @@ contract Tasks {
   }
 
   mapping (string => Task) tasks;
-
 //  Does this happen at time of reward determination or at simple addTask or both
   event LogAddTask(string taskId);
+  event LogRewardVote(string taskId, uint256 reward);
   event LogRewardDetermined(string indexed taskId, uint256 _sum);
 
   function Tasks(address _DIDTokenAddress) {
-    requiredDIDApprovalThreshold = 40;
+    requiredDIDApprovalThreshold = 33;
     DIDToken didToken = DIDToken(_DIDTokenAddress);
   }
 
@@ -37,6 +37,11 @@ contract Tasks {
     taskIds.push(_ipfsHash);
     LogAddTask(_ipfsHash);
     return true;
+  }
+
+  function getTaskById(string _ipfsHash) public constant returns (address, uint256, uint256, bool) {
+    Task task = tasks[_ipfsHash];
+    return (task.createdBy, task.reward, task.rewardVoters.length, task.rewardPaid);
   }
 
   function taskExists(string _ipfsHash) public constant returns (bool) {
@@ -56,6 +61,9 @@ contract Tasks {
     _task.rewardVoters.push(msg.sender);
 
     //  If DID threshold has been reached go ahead and determine the reward for the task
+//    TODO  this function could hopefully be structured better;
+//    the below will consume quite a bit of gas
+//    if enoughDIDVoted, making the person who calls this the unlucky one who turns enoughDIDVoted to be true
     bool enoughDIDVoted = enoughDIDVotedOnTask(_ipfsHash);
     if (enoughDIDVoted || _task.rewardVoters.length == 100) {
       determineReward(_ipfsHash);
@@ -63,6 +71,7 @@ contract Tasks {
 
     return true;
   }
+
 
   function numDIDVotedOnTask(string _ipfsHash) public constant returns (uint256) {
     Task _task = tasks[_ipfsHash];

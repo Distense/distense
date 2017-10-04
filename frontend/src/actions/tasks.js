@@ -3,6 +3,8 @@ import _ from 'lodash'
 import ipfsReady, { getIPFSDagDetail } from '../db'
 import * as contracts from '../contracts'
 
+import { receiveUserNotAuthenticated } from './user'
+
 import {
   submitIPFSHash,
   receiveIPFSHash,
@@ -10,7 +12,7 @@ import {
   receiveIPFSNode
 } from './ipfs'
 
-import { setDefaultStatus } from './status'
+import { confirmPendingTx, createPendingTx, setDefaultStatus } from './status'
 
 import {
   REQUEST_TASK,
@@ -21,7 +23,9 @@ import {
   SELECT_TASK,
   SUBMIT_TASK,
   REQUEST_TASKS_INSTANCE,
-  RECEIVE_TASKS_INSTANCE
+  RECEIVE_TASKS_INSTANCE,
+  SUBMIT_REWARD_VOTE,
+  RECEIVE_REWARD_VOTE
 } from '../constants/constants'
 
 const requestTasks = () => ({
@@ -61,6 +65,15 @@ export const setNumTasks = numTasks => ({
   numTasks
 })
 
+const submitTask = task => ({
+  type: SUBMIT_TASK,
+  task
+})
+
+const submitVoteReward = reward => ({
+  type: SUBMIT_REWARD_VOTE
+})
+
 const getTaskByIndex = async index => {
   const { taskIds } = await contracts.Tasks
   const id = await taskIds(index)
@@ -68,17 +81,27 @@ const getTaskByIndex = async index => {
 }
 
 const getTaskByID = async id => {
-  // Check task id/hash is stored in blockchain
-  const { taskExists } = await contracts.Tasks // confirm task id/hash stored in blockchain
-  if (!await taskExists(id)) return
-
   await ipfsReady
+  const ipfsTask = await getIPFSDagDetail(id)
 
-  const ipfsValue = await getIPFSDagDetail(id)
-  const task = ipfsValue.value
-  task._id = id
+  // Get blockchain info like reward
+  const { getTaskById } = await contracts.Tasks //Get tasks mapping getter
+  const contractTask = await getTaskById(id)
 
-  return task
+  const reward = contractTask[1].c[0] // TODO there's
+  const numRewardVoters = contractTask[2].c[0]
+  const rewardPaid = contractTask[3]
+  const status =
+    reward === 0
+      ? 'PROPOSAL'
+      : reward > 0 && !rewardPaid ? 'TASK' : 'CONTRIBUTION'
+  return Object.assign({}, { _id: id }, ipfsTask.value, {
+    createdBy: contractTask[0],
+    reward: reward,
+    rewardPaid: rewardPaid,
+    numRewardVoters: numRewardVoters,
+    status: status
+  })
 }
 
 export const fetchTasks = () => async (dispatch, getState) => {
@@ -94,23 +117,23 @@ export const fetchTasks = () => async (dispatch, getState) => {
   dispatch(setDefaultStatus())
 }
 
-export const fetchTask = id => async (dispatch, getState) => {
+export const fetchTask = id => async dispatch => {
   dispatch(requestTask(id))
-
   const task = await getTaskByID(id)
-
   dispatch(receiveTask(task))
+  dispatch(setDefaultStatus())
 }
-
-const submitTask = task => ({
-  type: SUBMIT_TASK,
-  task
-})
 
 export const createTask = ({ title, tags, issueURL, spec }) => async (
   dispatch,
   getState
 ) => {
+  const coinbase = getState().user.accounts[0]
+  if (!coinbase) {
+    dispatch(receiveUserNotAuthenticated())
+    return
+  }
+
   dispatch(requestIPFSNode())
   const ipfs = await ipfsReady // await ipfs browser node instantiation and remote node connection
   dispatch(receiveIPFSNode())
@@ -118,7 +141,6 @@ export const createTask = ({ title, tags, issueURL, spec }) => async (
   dispatch(requestTasksInstance())
   const { addTask } = await contracts.Tasks // Get Tasks contract instance
   dispatch(receiveTasksInstance())
-  const { coinbase } = getState().account
 
   const task = {
     title,
@@ -146,4 +168,26 @@ export const createTask = ({ title, tags, issueURL, spec }) => async (
   dispatch(setDefaultStatus())
 
   return task
+}
+
+export const voteOnTaskReward = ({ taskId, reward }) => async (
+  dispatch,
+  getState
+) => {
+  const coinbase = getState().user.accounts[0]  // TODO betterize this
+  if (!coinbase) {
+    dispatch(receiveUserNotAuthenticated())
+    return
+  }
+  dispatch(requestTasksInstance())
+  const { voteOnReward } = await contracts.Tasks // Get callable function from Tasks contract instance
+  dispatch(receiveTasksInstance())
+
+  dispatch(submitVoteReward())
+  dispatch(createPendingTx())
+  const response = await voteOnReward(taskId, reward, { from: coinbase })
+  dispatch(confirmPendingTx())
+  dispatch(setDefaultStatus())
+  console.log(`${response}`);
+  return response.tx
 }

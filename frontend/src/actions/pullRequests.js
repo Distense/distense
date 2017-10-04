@@ -14,7 +14,7 @@ import {
   SUBMIT_PULLREQUEST
 } from '../constants/constants'
 
-import { setConfirmMessage, setDefaultStatus } from './status'
+import { setDefaultStatus } from './status'
 
 import {
   submitIPFSHash,
@@ -140,7 +140,6 @@ export const createPullRequest = ({ taskId, prURL }) => async (
   //  Add task IPFS hash to blockchain
   await submitPullRequest(pullRequest._id, taskId, { from: coinbase })
   dispatch(receivePullRequest(pullRequest))
-  dispatch(setConfirmMessage())
   dispatch(setDefaultStatus())
   return pullRequest
 }

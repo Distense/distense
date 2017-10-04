@@ -141,7 +141,7 @@ class Home extends Component {
         <Segment style={{ padding: '7em 0em' }} textAlign="center" vertical>
           <Container text>
             <Header as="h3" style={{ fontSize: '1.7em' }}>
-              Modern work is broken
+              Work is broken
             </Header>
             <Grid divided inverted stackable>
               <Grid.Row className="landing-work-broken" textAlign="center">

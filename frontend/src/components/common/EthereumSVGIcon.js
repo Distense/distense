@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const EthereumSVGIcon = (/*{ width, height }*/) => {
+export const EthereumSVGIcon = () => {
   return (
     <span>
       <svg
@@ -15,9 +15,8 @@ export const EthereumSVGIcon = (/*{ width, height }*/) => {
       {/*language=CSS*/}
       <style>{`
         .ether { fill: darkgray; }
-        /*.ether:hover { fill: darkgray; }*/
       `}</style>
-      </span>
+    </span>
   )
 }
 

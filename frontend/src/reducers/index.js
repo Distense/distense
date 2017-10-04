@@ -1,15 +1,13 @@
 import { combineReducers } from 'redux'
 
-import accounts from './accounts'
+import user from './user'
 import pullRequests from './pullRequests'
 import tasks from './tasks'
 import status from './status'
-import web3 from './web3'
 
 export default combineReducers({
-  accounts,
+  user,
   pullRequests,
   status,
-  tasks,
-  web3
+  tasks
 })

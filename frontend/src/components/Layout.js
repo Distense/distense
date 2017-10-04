@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Menu, Segment } from 'semantic-ui-react'
 
+// import UserTransactionsStatus from './common/UserTransactionsStatus'
 import HasWeb3 from './common/HasWeb3'
 import EthereumAuthenticated from './common/EthereumAuthenticated'
 import Status from './Status'
@@ -50,6 +51,7 @@ export default ({ children, title }) => (
       <Menu className="inconsolata" borderless fixed="bottom">
         <Container>
           <Menu.Item>© {new Date().getFullYear()} Distense</Menu.Item>
+          {/*<UserTransactionsStatus />*/}
           <Status />
           <HasWeb3 />
           <EthereumAuthenticated />

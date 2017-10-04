@@ -11,6 +11,7 @@ import { getAllPullRequests } from '../reducers/pullRequests'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
+import Tags from '../components/common/Tags'
 
 class PullRequests extends Component {
   constructor(props) {
@@ -55,10 +56,10 @@ class PullRequests extends Component {
         pullRequest = {
           _id: pr._id,
           createdAt: pr.createdAt,
-          issueURL: task.issueURL,
+          issueURL: task.issueURL ? task.issueURL : '',
           taskTitle: task.title,
           taskId: task._id,
-          tags: task.tags,
+          tags: task.tags.length > 0 ? task.tags : [],
           prURL: pr.prURL
         }
       return pullRequest
@@ -103,6 +104,12 @@ class PullRequests extends Component {
                 Task Title
               </Table.HeaderCell>
               <Table.HeaderCell
+                sorted={column === 'Tags' ? direction : null}
+                onClick={this.handleSort('tags')}
+              >
+                Tags
+              </Table.HeaderCell>
+              <Table.HeaderCell
                 sorted={column === 'Status' ? direction : null}
                 onClick={this.handleSort('status')}
               >
@@ -120,18 +127,21 @@ class PullRequests extends Component {
           <Table.Body>
             {pullRequests.length > 0 ? (
               pullRequests.map(pullRequest => (
-                <PullRequestListItem
-                  key={pullRequest._id}
-                  pullRequest={pullRequest}
-                />
+                <PullRequestsListItem key={pullRequest._id} pr={pullRequest} />
               ))
             ) : loading ? (
               <Table.Cell as="tr">
                 <Table.Cell>Loading pull requests...</Table.Cell>
+                <Table.Cell />
+                <Table.Cell />
+                <Table.Cell />
               </Table.Cell>
             ) : (
               <Table.Cell as="tr">
                 <Table.Cell>No pull requests</Table.Cell>
+                <Table.Cell />
+                <Table.Cell />
+                <Table.Cell />
               </Table.Cell>
             )}
           </Table.Body>
@@ -141,10 +151,13 @@ class PullRequests extends Component {
   }
 }
 
-const PullRequestListItem = ({ pullRequest }) => (
-  <Table.Row key={pullRequest._id}>
-    <Table.Cell>{pullRequest.taskTitle}</Table.Cell>
-    <Table.Cell>{pullRequest.url}</Table.Cell>
+const PullRequestsListItem = ({ pr }) => (
+  <Table.Row key={pr._id}>
+    <Table.Cell>{pr.taskTitle}</Table.Cell>
+    <Table.Cell>
+      <Tags tags={pr.tags} />
+    </Table.Cell>
+    <Table.Cell>{pr.url}</Table.Cell>
     <Table.Cell>100</Table.Cell>
     <Table.Cell>
       <Button
@@ -156,7 +169,7 @@ const PullRequestListItem = ({ pullRequest }) => (
         size="mini"
         // onClick={this.setSelected}
         target="_blank"
-        to={`${pullRequest.url}`}
+        to={`${pr.url}`}
         as={Link}
       >
         Review PR

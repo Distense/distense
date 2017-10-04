@@ -1,13 +1,14 @@
 import _ from 'lodash'
 import { combineReducers } from 'redux'
-// import { createSelector } from 'reselect'
 
 import {
   RECEIVE_TASKS,
   RECEIVE_TASK,
   SELECT_TASK,
   SET_NUM_TASKS,
-  SUBMIT_TASK
+  SUBMIT_TASK,
+  SUBMIT_REWARD_VOTE,
+  RECEIVE_REWARD_VOTE
 } from '../constants/constants'
 
 const taskById = (state = {}, action) => {
@@ -86,11 +87,23 @@ const pendingTaskId = (state = null, action) => {
   }
 }
 
+const pendingRewardVote = (state = null, action) => {
+  switch (action.type) {
+    case SUBMIT_REWARD_VOTE:
+      return true
+    case RECEIVE_REWARD_VOTE:
+      return false
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   tasks,
   numTasks,
   taskById,
   pendingTaskId,
+  pendingRewardVote,
   selectedTask
 })
 
@@ -105,9 +118,21 @@ export const getNumTasks = state => {
 }
 
 export const getPendingTask = state => {
+  return state.tasks.pendingRewardVote
+}
+export const getPendingRewardVote= state => {
   return getTask(state, state.tasks.pendingTaskId)
 }
 
 export const getSelectedTask = state => {
   return getTask(state, state.tasks.selectedTask)
+}
+
+export const getTaskWithReward = ({ tasks: { taskById } }, _id) => {
+  let task = taskById[_id]
+  return task
+}
+
+export const getAllTasksWithRewards = state => {
+  return state.tasks.tasks.map(_id => getTaskWithReward(state, _id))
 }

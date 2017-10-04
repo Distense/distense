@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { Button, Table } from 'semantic-ui-react'
 
 import { fetchTasks } from '../actions/tasks'
-import { getAllTasks } from '../reducers/tasks'
+import { getAllTasksWithRewards } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
@@ -62,7 +62,8 @@ class Tasks extends Component {
     const { column, direction, loading } = this.state
     const { tasks } = this.props
 
-    return (
+
+      return (
       <Layout>
         <Head title="Available Tasks" />
         <Table sortable striped>
@@ -91,6 +92,12 @@ class Tasks extends Component {
                 onClick={this.handleSort('reward')}
               >
                 Reward
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={column === 'numRewardVoters' ? direction : null}
+                onClick={this.handleSort('numRewardVoters')}
+              >
+                NumVoters
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Date' ? direction : null}
@@ -128,8 +135,9 @@ const TasksListItem = ({ task }) => (
     <Table.Cell singleLine>
       <Tags tags={task.tags} />
     </Table.Cell>
-    <Table.Cell>Task</Table.Cell>
-    <Table.Cell>100</Table.Cell>
+    <Table.Cell>{task.status}</Table.Cell>
+    <Table.Cell>{task.reward}</Table.Cell>
+    <Table.Cell>{task.numRewardVoters}</Table.Cell>
     <Table.Cell collapsing textAlign="right">
       {task.createdAt.toDateString()}
     </Table.Cell>
@@ -152,7 +160,7 @@ const TasksListItem = ({ task }) => (
 )
 
 const mapStateToProps = state => ({
-  tasks: getAllTasks(state)
+  tasks: getAllTasksWithRewards(state)
 })
 
 const mapDispatchToProps = dispatch => ({
