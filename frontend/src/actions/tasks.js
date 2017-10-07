@@ -1,8 +1,12 @@
 import _ from 'lodash'
+import bs58 from 'bs58'
+import web3 from 'web3'
+import web3Utils from 'web3-utils'
 
 import ipfsReady, { getIPFSDagDetail } from '../db'
 import * as contracts from '../contracts'
 
+import { deconstructIPFSHash, reconstructIPFSHash } from '../utils'
 import { receiveUserNotAuthenticated } from './user'
 
 import {
@@ -24,8 +28,7 @@ import {
   SUBMIT_TASK,
   REQUEST_TASKS_INSTANCE,
   RECEIVE_TASKS_INSTANCE,
-  SUBMIT_REWARD_VOTE,
-  RECEIVE_REWARD_VOTE
+  SUBMIT_REWARD_VOTE
 } from '../constants/constants'
 
 const requestTasks = () => ({
@@ -81,26 +84,31 @@ const getTaskByIndex = async index => {
 }
 
 const getTaskByID = async id => {
+  const ipfsHash = reconstructIPFSHash(id)
+
   await ipfsReady
-  const ipfsTask = await getIPFSDagDetail(id)
+  const ipfsTask = await getIPFSDagDetail(ipfsHash)
 
   // Get blockchain info like reward
   const { getTaskById } = await contracts.Tasks //Get tasks mapping getter
-  const contractTask = await getTaskById(id)
+  const contractTask = await getTaskById(ipfsHash)
 
+  const createdBy = contractTask[0]
   const reward = contractTask[1].c[0] // TODO there's
   const numRewardVoters = contractTask[2].c[0]
   const rewardPaid = contractTask[3]
+
   const status =
     reward === 0
       ? 'PROPOSAL'
       : reward > 0 && !rewardPaid ? 'TASK' : 'CONTRIBUTION'
-  return Object.assign({}, { _id: id }, ipfsTask.value, {
-    createdBy: contractTask[0],
-    reward: reward,
-    rewardPaid: rewardPaid,
-    numRewardVoters: numRewardVoters,
-    status: status
+
+  return Object.assign({}, { _id: ipfsHash }, ipfsTask.value, {
+    createdBy,
+    reward,
+    rewardPaid,
+    numRewardVoters,
+    status
   })
 }
 
@@ -151,19 +159,18 @@ export const createTask = ({ title, tags, issueURL, spec }) => async (
     createdBy: coinbase
   }
 
-  // Add task to IPFS.  Use ipfs.dag.put instead of ipfs.files.add
-  // because task is object/dag node and not a file
   dispatch(submitIPFSHash())
-  const hash = await ipfs.dag.put(task, {
+  const cid = await ipfs.dag.put(task, {
     format: 'dag-cbor',
     hashAlg: 'sha2-256'
   })
-  task._id = hash.toBaseEncodedString()
+  task._id = cid.toBaseEncodedString() // Get real IPFS hash 'zdpu...'
   dispatch(receiveIPFSHash())
-
+  const bytes32TaskId = deconstructIPFSHash(task._id)
+  task.bytes32TaskId = bytes32TaskId
   //  Add task IPFS hash to blockchain
   dispatch(submitTask(task))
-  await addTask(task._id, { from: task.createdBy })
+  await addTask(bytes32TaskId, { from: task.createdBy })
   dispatch(receiveTask(task))
   dispatch(setDefaultStatus())
 
@@ -174,7 +181,7 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
   dispatch,
   getState
 ) => {
-  const coinbase = getState().user.accounts[0]  // TODO betterize this
+  const coinbase = getState().user.accounts[0] // TODO betterize this
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
     return
@@ -185,9 +192,14 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
 
   dispatch(submitVoteReward())
   dispatch(createPendingTx())
-  const response = await voteOnReward(taskId, reward, { from: coinbase })
-  dispatch(confirmPendingTx())
+
+  let receipt
+  if (taskId && reward) {
+    receipt = await voteOnReward(taskId, reward, { from: coinbase })
+    if (receipt.tx) dispatch(confirmPendingTx())
+  } else {
+  }
+
   dispatch(setDefaultStatus())
-  console.log(`${response}`);
-  return response.tx
+  return receipt
 }

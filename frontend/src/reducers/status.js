@@ -120,7 +120,6 @@ const status = (
     case actions.CONFIRM_BLOCKCHAIN_TX:
       return Object.assign({}, state, {
         message: 'Successful blockchain tx'
-
       })
     case actions.RECEIVE_USER_NOT_AUTHENTICATED:
       return Object.assign({}, state, {
@@ -142,6 +141,10 @@ const status = (
       return Object.assign({}, state, {
         message: `Found ${action.numTasks} tasks`,
         numTasks: action.numTasks
+      })
+    case actions.RECEIVE_TOTALSUPPLY_DID:
+      return Object.assign({}, state, {
+        message: 'Awaiting total supply of DID'
       })
     default:
       return state
@@ -170,7 +173,32 @@ const txs = (
   }
 }
 
+const distense = (
+  state = {
+    totalSupplyDID: 0,
+    numTasks: 0,
+    numPullRequests: 0,
+    numContributors: 0,
+    numCountries: 0
+  },
+  action
+) => {
+  switch (action.type) {
+    case actions.RECEIVE_TOTALSUPPLY_DID:
+      return Object.assign({}, state, {
+        totalSupplyDID: action.totalSupplyDID
+      })
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
+  distense,
   status,
   txs
 })
+
+export const getTotalSupplyDID = state => {
+  return state.status.distense.totalSupplyDID
+}

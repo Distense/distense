@@ -16,4 +16,5 @@ contract Token {
     totalSupply = 0;
     decimals = 18;
   }
+
 }

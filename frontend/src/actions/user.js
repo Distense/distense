@@ -1,5 +1,7 @@
 import web3 from '../web3'
 
+import * as contracts from '../contracts'
+
 import {
   RECEIVE_ACCOUNT,
   SELECT_ADDRESS,
@@ -7,8 +9,11 @@ import {
   RECEIVE_IS_CONNECTED,
   RECEIVE_COINBASE,
   RECEIVE_ACCOUNT_TRANSACTIONS,
-  RECEIVE_USER_NOT_AUTHENTICATED
+  RECEIVE_USER_NOT_AUTHENTICATED,
+  RECEIVE_USER_NUM_DID
 } from '../constants/constants'
+
+import { setDefaultStatus } from './status'
 
 const receiveAccountAction = account => ({
   type: RECEIVE_ACCOUNT,
@@ -42,11 +47,23 @@ export const receiveUserNotAuthenticated = () => ({
   type: RECEIVE_USER_NOT_AUTHENTICATED
 })
 
+export const receiveAccountNumDID = numDID => ({
+  type: RECEIVE_USER_NUM_DID,
+  numDID
+})
+
 export const selectAddress = address => dispatch => {
   dispatch(selectAddressAction(address))
 }
 
-export const selectUserAccountInfo = () => dispatch => {
+const getNumDIDByAddress = async address => {
+  // Have to get numTasks from chain to know how many to query by index
+  const { balances } = await contracts.DidToken
+  const numDID = await balances(address)
+  return numDID
+}
+
+export const selectUserAccountInfo = () => async dispatch => {
   const hasWeb3 = web3
   let isConnected = false
   if (hasWeb3) {
@@ -55,8 +72,11 @@ export const selectUserAccountInfo = () => dispatch => {
     if (accounts.length)
       for (const account of accounts) {
         dispatch(receiveAccountAction(account))
+        const numDID = await getNumDIDByAddress(account)
+        dispatch(receiveAccountNumDID(numDID.toString()))
       }
   }
   dispatch(receiveHasWeb3(hasWeb3))
   dispatch(receiveIsConnected(isConnected))
+  dispatch(setDefaultStatus())
 }

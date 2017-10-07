@@ -16,12 +16,15 @@ contract DIDToken is Approvable, Token {
     symbol = 'DID';
   }
 
-  function issueDID(address _recipient, uint256 _numDID) external onlyApproved returns (bool) {
+  function issueDID(address _recipient, uint256 _numDID) external onlyApproved returns (uint256) {
     require(_recipient.isValid());
+    require(_numDID > 0);
+
     totalSupply = totalSupply.add(_numDID);
     balances[_recipient] = balances[_recipient].add(_numDID);
     LogIssueDID(_recipient, _numDID);
-    return true;
+
+    return totalSupply;
   }
 
 }

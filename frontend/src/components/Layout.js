@@ -2,9 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Menu, Segment } from 'semantic-ui-react'
 
-// import UserTransactionsStatus from './common/UserTransactionsStatus'
-import HasWeb3 from './common/HasWeb3'
 import EthereumAuthenticated from './common/EthereumAuthenticated'
+import GasEstimate from './common/GasEstimate'
+import NumberDIDOwned from './common/NumberDIDOwned'
+import HasWeb3 from './common/HasWeb3'
+import TotalDID from './common/TotalDID'
+
 import Status from './Status'
 
 export default ({ children, title }) => (
@@ -40,7 +43,7 @@ export default ({ children, title }) => (
           <Menu.Item to="/pullrequests" as={Link}>
             Approve
           </Menu.Item>
-          <Menu.Item position="right">18330 Total DID</Menu.Item>
+          <TotalDID />
         </Container>
       </Menu>
     </Segment>
@@ -53,6 +56,8 @@ export default ({ children, title }) => (
           <Menu.Item>© {new Date().getFullYear()} Distense</Menu.Item>
           {/*<UserTransactionsStatus />*/}
           <Status />
+          <NumberDIDOwned />
+          <GasEstimate />
           <HasWeb3 />
           <EthereumAuthenticated />
         </Container>

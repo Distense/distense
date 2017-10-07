@@ -3,26 +3,23 @@ import { Menu } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 class NumberDIDOwned extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentWillUpdate(nextProps) {
     return this.props.numDID !== nextProps.numDID
   }
 
   render() {
-    const { numDID } = this.props
+    let { numDID } = this.props
+
     return (
       <Menu.Item title="The number of DID the accounts available in web3 own">
-        numDID {numDID}
+        DID: {numDID}
       </Menu.Item>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  numDID: state.user.numDID
+  numDID: state.user.user.numDID
 })
 
 export default connect(mapStateToProps)(NumberDIDOwned)

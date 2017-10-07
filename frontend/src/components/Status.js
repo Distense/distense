@@ -4,7 +4,7 @@ import { Icon, Menu } from 'semantic-ui-react'
 
 import Blocktime from './Blocktime'
 
-function constructStatus(message) {
+const constructStatus = message => {
   let color
   let icon
   message === 'idle' // eslint-disable-line no-unused-expressions

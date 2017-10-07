@@ -9,6 +9,7 @@ import _ from 'lodash'
 // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 // }
 
+// const provider = new Web3.providers.HttpProvider('http://localhost:8545')
 const provider = new Web3.providers.HttpProvider('http://165.227.28.206:9000')
 
 const web3 = new Web3(provider)

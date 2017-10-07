@@ -120,7 +120,6 @@ class Task extends Component {
                       </Item.Meta>
                       <Item.Extra>
                         <Button
-                          disabled={disabled}
                           as={Link}
                           to={`/pullrequests/submit/${task._id}`}
                           color="green"

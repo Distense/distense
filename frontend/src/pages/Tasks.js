@@ -96,6 +96,7 @@ class Tasks extends Component {
               <Table.HeaderCell
                 sorted={column === 'numRewardVoters' ? direction : null}
                 onClick={this.handleSort('numRewardVoters')}
+                title="Number of people who have submitted reward votes"
               >
                 NumVoters
               </Table.HeaderCell>

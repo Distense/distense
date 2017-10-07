@@ -6,14 +6,16 @@ import {
   RECEIVE_ACCOUNTS,
   RECEIVE_ACCOUNT_UNLOCKED,
   RECEIVE_HAS_WEB3,
-  RECEIVE_IS_CONNECTED
+  RECEIVE_IS_CONNECTED,
+  RECEIVE_USER_NUM_DID
 } from '../constants/constants'
 
 const user = (
   state = {
     hasWeb3: false,
     isConnected: false,
-    accountUnlocked: false
+    accountUnlocked: false,
+    numDID: 0
   },
   action
 ) => {
@@ -29,6 +31,10 @@ const user = (
     case RECEIVE_ACCOUNT_UNLOCKED:
       return Object.assign({}, state, {
         accountUnlocked: action.accountUnlocked
+      })
+    case RECEIVE_USER_NUM_DID:
+      return Object.assign({}, state, {
+        numDID: action.numDID
       })
     default:
       return state
@@ -86,5 +92,6 @@ const selectTransactionInfo = tx => ({
 
 export const getAccounts = state => state.accounts
 export const getCoinbase = state => state.user.accounts[0]
-export const getCoinbase2 = () => user.accounts[0]
+
+// export const getUsersNumDID = state => state.user.accounts[0].map(address => )
 export const getETHBalance = state => state.account

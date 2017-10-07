@@ -13,6 +13,7 @@ import {
 
 // import HasWeb3 from '../components/common/HasWeb3'
 import Head from '../components/common/Head'
+import TotalDID from '../components/common/TotalDID'
 
 class Home extends Component {
   constructor(props) {
@@ -83,7 +84,8 @@ class Home extends Component {
               <Menu.Item to="/pullrequests" as={Link}>
                 Approve
               </Menu.Item>
-              <Menu.Item position="right">18330 Total DID</Menu.Item>
+              <TotalDID />
+              {/*<Menu.Item position="right">18330 Total DID</Menu.Item>*/}
             </Container>
           </Menu>
 
