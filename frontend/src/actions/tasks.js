@@ -1,12 +1,12 @@
 import _ from 'lodash'
-import bs58 from 'bs58'
-import web3 from 'web3'
-import web3Utils from 'web3-utils'
 
 import ipfsReady, { getIPFSDagDetail } from '../db'
 import * as contracts from '../contracts'
 
-import { deconstructIPFSHash, reconstructIPFSHash } from '../utils'
+import {
+  extractContentFromIPFSHashIntoBytes32Hex,
+  reconstructIPFSHash
+} from '../utils'
 import { receiveUserNotAuthenticated } from './user'
 
 import {
@@ -84,18 +84,19 @@ const getTaskByIndex = async index => {
 }
 
 const getTaskByID = async id => {
-  const ipfsHash = reconstructIPFSHash(id)
+  const ipfsHash = id.substr(0, 4) === 'zdpu' ? id : reconstructIPFSHash(id)
 
   await ipfsReady
   const ipfsTask = await getIPFSDagDetail(ipfsHash)
 
-  // Get blockchain info like reward
   const { getTaskById } = await contracts.Tasks //Get tasks mapping getter
-  const contractTask = await getTaskById(ipfsHash)
+  const taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(ipfsHash)
+  const contractTask = await getTaskById(taskIdBytes32)
 
   const createdBy = contractTask[0]
-  const reward = contractTask[1].c[0] // TODO there's
-  const numRewardVoters = contractTask[2].c[0]
+  const reward = contractTask[1].toNumber()
+  const numRewardVoters = contractTask[2].toNumber()
+  console.log(`numRewardVoters: ${numRewardVoters}`)
   const rewardPaid = contractTask[3]
 
   const status =
@@ -112,7 +113,7 @@ const getTaskByID = async id => {
   })
 }
 
-export const fetchTasks = () => async (dispatch, getState) => {
+export const fetchTasks = () => async dispatch => {
   // Have to get numTasks from chain to know how many to query by index
   dispatch(requestTasksInstance())
   const { getNumTasks } = await contracts.Tasks
@@ -166,11 +167,11 @@ export const createTask = ({ title, tags, issueURL, spec }) => async (
   })
   task._id = cid.toBaseEncodedString() // Get real IPFS hash 'zdpu...'
   dispatch(receiveIPFSHash())
-  const bytes32TaskId = deconstructIPFSHash(task._id)
+  const bytes32TaskId = extractContentFromIPFSHashIntoBytes32Hex(task._id)
   task.bytes32TaskId = bytes32TaskId
   //  Add task IPFS hash to blockchain
   dispatch(submitTask(task))
-  await addTask(bytes32TaskId, { from: task.createdBy })
+  await addTask(bytes32TaskId, { from: task.createdBy, gasPrice: 2000000000 })
   dispatch(receiveTask(task))
   dispatch(setDefaultStatus())
 
@@ -195,7 +196,11 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
 
   let receipt
   if (taskId && reward) {
-    receipt = await voteOnReward(taskId, reward, { from: coinbase })
+    const taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(taskId)
+    receipt = await voteOnReward(taskIdBytes32, reward, {
+      from: coinbase,
+      gasPrice: 1000000000 // 1gwei
+    })
     if (receipt.tx) dispatch(confirmPendingTx())
   } else {
   }

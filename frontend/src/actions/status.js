@@ -33,4 +33,5 @@ export const fetchTotalSupplyDID = () => async dispatch => {
   const { totalSupply } = await contracts.DidToken
   const totalSupplyDID = await totalSupply()
   dispatch(receiveTotalSupplyDID(totalSupplyDID.toString()))
+  dispatch(setDefaultStatus())
 }

@@ -29,7 +29,9 @@ class Status extends Component {
       <Menu.Item position="right">
         {status.message}
         <Icon color={s.color} name={s.icon} />
-        {status.txSubmitted && <Blocktime seconds="30" />}
+        {/* TODO because we set the gasPrice to so low our txs will actually take at least a few minutes
+        // {status.txSubmitted && <Blocktime seconds="30"
+         />}*/}
         {/*language=CSS*/}
         <style>{`
         .ui.menu .item > i.icon {

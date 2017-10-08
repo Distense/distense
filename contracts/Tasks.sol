@@ -6,6 +6,7 @@ import './DIDToken.sol';
 contract Tasks {
   using StringArrayUtils for string[];
 
+  address DIDTokenAddress;
   DIDToken didToken;
 
   uint8 public requiredDIDApprovalThreshold;  // TODO this should be updatable based on voting.  This should likely decline over time
@@ -17,18 +18,20 @@ contract Tasks {
     uint256 reward;
     address[] rewardVoters;
     bool rewardPaid;
+    uint256 pctDIDVoted;
     mapping (address => uint256) rewardVotes;
   }
 
   mapping (bytes32 => Task) tasks;
 //  Does this happen at time of reward determination or at simple addTask or both
   event LogAddTask(bytes32 taskId);
-  event LogRewardVote(bytes32 taskId, uint256 reward);
-  event LogRewardDetermined(bytes32 indexed taskId, uint256 _sum);
+  event LogRewardVote(bytes32 taskId, uint256 reward, uint256 pctDIDVoted);
+  event LogVoterBalance(uint256 voterBalance);
+  event LogRewardDetermined(bytes32 indexed taskId, uint256 sum);
 
   function Tasks(address _DIDTokenAddress) {
     requiredDIDApprovalThreshold = 33;
-    DIDToken didToken = DIDToken(_DIDTokenAddress);
+    DIDTokenAddress = _DIDTokenAddress;
   }
 
   function addTask(bytes32 _taskId) external returns (bool) {
@@ -40,9 +43,9 @@ contract Tasks {
     return true;
   }
 
-  function getTaskById(bytes32 _taskId) public constant returns (address, uint256, uint256, bool) {
+  function getTaskById(bytes32 _taskId) public constant returns (address, uint256, uint256, bool, uint256 pctDIDVoted) {
     Task task = tasks[_taskId];
-    return (task.createdBy, task.reward, task.rewardVoters.length, task.rewardPaid);
+    return (task.createdBy, task.reward, task.rewardVoters.length, task.rewardPaid, task.pctDIDVoted);
   }
 
   function taskExists(bytes32 _taskId) public constant returns (bool) {
@@ -55,8 +58,8 @@ contract Tasks {
 
   // Make sure voter hasn't voted and the reward for this task isn't set
   function voteOnReward(bytes32 _taskId, uint256 _reward)
-    hasDid()
     hasAsManyDIDAsRewardVote(msg.sender, _reward)
+    voterNotVotedOnTask(_taskId)
   external returns (bool) {
     require(!enoughDIDVotedOnTask(_taskId));
 
@@ -64,7 +67,9 @@ contract Tasks {
     _task.rewardVotes[msg.sender] = _reward;
     _task.rewardVoters.push(msg.sender);
 
-    LogRewardVote(_taskId, _reward);
+    uint256 _pctDIDVoted = percentDIDVoted(_taskId);
+    _task.pctDIDVoted = _pctDIDVoted;
+
     //  If DID threshold has been reached go ahead and determine the reward for the task
 //    TODO  this function could hopefully be structured better;
 //    the below will consume quite a bit of gas
@@ -73,7 +78,7 @@ contract Tasks {
     if (enoughDIDVoted || _task.rewardVoters.length == 100) {
       determineReward(_taskId);
     }
-
+    LogRewardVote(_taskId, _reward, _pctDIDVoted);
     return true;
   }
 
@@ -98,7 +103,7 @@ contract Tasks {
     return  numVoted / totalSupplyDID;
   }
 
-  function rewardDetermined(bytes32 _taskId) public constant returns (uint256) {
+  function getTaskReward(bytes32 _taskId) public constant returns (uint256) {
     return tasks[_taskId].reward;
   }
 
@@ -126,7 +131,7 @@ contract Tasks {
     return _sum;
   }
 
-  modifier notVoted(bytes32 _taskId) {
+  modifier voterNotVotedOnTask(bytes32 _taskId) {
     require(tasks[_taskId].rewardVotes[msg.sender] == 0);
     _;
   }
@@ -142,7 +147,9 @@ contract Tasks {
   }
 
   modifier hasAsManyDIDAsRewardVote(address voter, uint256 rewardVote) {
-    require(didToken.balances(voter) > rewardVote);
+    didToken = DIDToken(DIDTokenAddress);
+    uint256 voterBalance = didToken.balances(voter);
+    require(voterBalance > rewardVote);
     _;
   }
 
