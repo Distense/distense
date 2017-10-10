@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.15;
 
 import './AddressUtils.sol';
 
@@ -7,13 +7,8 @@ contract Approvable {
 
   mapping(address => bool) public approved;
 
-  function Approvable() {
+  function Approvable() public {
     approved[msg.sender] = true;
-  }
-
-  modifier onlyApproved() {
-    require(approved[msg.sender]);
-    _;
   }
 
   function approve(address _address) external onlyApproved {
@@ -24,5 +19,10 @@ contract Approvable {
   function revokeApproval(address _address) external onlyApproved {
     require(_address.isValid());
     approved[_address] = false;
+  }
+
+  modifier onlyApproved() {
+    require(approved[msg.sender]);
+    _;
   }
 }

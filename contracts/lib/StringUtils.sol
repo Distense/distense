@@ -24,7 +24,7 @@ library StringUtils {
   }
 
   /// @dev Compares two strings and returns true iff they are equal.
-  function equal(string _a, string _b) internal returns (bool) {
+  function equal (string _a, string _b) internal returns (bool) {
     return compare(_a, _b) == 0;
   }
 

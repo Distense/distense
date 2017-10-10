@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.17;
 
 import './lib/AddressUtils.sol';
 import './lib/StringUtils.sol';
@@ -44,7 +44,7 @@ contract GitTool is Ownable {
     }
   }
 
-  function addRepo(string _repoName) {
+  function addRepo(string _repoName) public{
     if (!repoNames.contains(_repoName)) {
       repoNames.push(_repoName);
     }
@@ -53,21 +53,21 @@ contract GitTool is Ownable {
     _addRepoOwner(_repoName, msg.sender);
   }
 
-  function removeRepo(string _repoName) repoExists(_repoName) {
+  function removeRepo(string _repoName) public repoExists(_repoName) {
     repos[_repoName].owners[msg.sender] = false;
   }
 
-  function addObject(string _repoName, string _gitHash, ObjectType _type, string _ipfsHash) repoExists(_repoName) {
+  function addObject(string _repoName, string _gitHash, ObjectType _type, string _ipfsHash) public repoExists(_repoName) {
     repos[_repoName].objects[_gitHash] = GitObject(_type, _ipfsHash);
   }
 
-  function getObject(string _repoName, string _gitHash) repoExists(_repoName) constant returns (ObjectType, string) {
-    GitObject _object = repos[_repoName].objects[_gitHash];
+  function getObject(string _repoName, string _gitHash) public repoExists(_repoName) view returns (ObjectType, string) {
+    GitObject memory _object = repos[_repoName].objects[_gitHash];
     require(!_object.ipfsHash.equal(""));
     return (_object.objectType, _object.ipfsHash);
   }
 
-  function setRef(string _repoName, address _refOwner, string _refName, string _gitHash) onlyRefOwner(_refOwner) repoExists(_repoName) {
+  function setRef(string _repoName, address _refOwner, string _refName, string _gitHash) public onlyRefOwner(_refOwner) repoExists(_repoName) {
     if (!repos[_repoName].refNames[_refOwner].contains(_refName)) {
       repos[_repoName].refNames[_refOwner].push(_refName);
     }
@@ -75,18 +75,18 @@ contract GitTool is Ownable {
     repos[_repoName].refs[_refName][_refOwner] = _gitHash;
   }
 
-  function removeRef(string _repoName, address _refOwner, string _refName) onlyRefOwner(_refOwner) repoExists(_repoName) {
+  function removeRef(string _repoName, address _refOwner, string _refName) public onlyRefOwner(_refOwner) repoExists(_repoName) {
     require(repos[_repoName].refNames[_refOwner].contains(_refName));
 
     repos[_repoName].refNames[_refOwner].remove(_refName);
   }
 
-  function getRef(string _repoName, address _refOwner, uint _index) repoExists(_repoName) constant returns (string, string) {
-    string _refName = repos[_repoName].refNames[_refOwner][_index];
+  function getRef(string _repoName, address _refOwner, uint _index) public repoExists(_repoName) view returns (string, string) {
+    string memory _refName = repos[_repoName].refNames[_refOwner][_index];
     return (_refName, repos[_repoName].refs[_refName][_refOwner]);
   }
 
-  function getRefCount(string _repoName, address _refOwner) repoExists(_repoName) constant returns (uint) {
+  function getRefCount(string _repoName, address _refOwner) repoExists(_repoName) public view returns (uint) {
     return repos[_repoName].refNames[_refOwner].length;
   }
 

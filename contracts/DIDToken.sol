@@ -1,9 +1,10 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.17;
 
 import './lib/Approvable.sol';
 import './lib/SafeMath.sol';
 import './lib/AddressUtils.sol';
 import './lib/Token.sol';
+
 
 contract DIDToken is Approvable, Token {
   using AddressUtils for address;
@@ -11,9 +12,9 @@ contract DIDToken is Approvable, Token {
 
   event LogIssueDID(address indexed to, uint256 numDID);
 
-  function DIDToken () {
-    name = 'Distense DID';
-    symbol = 'DID';
+  function DIDToken () internal {
+    name = "Distense DID";
+    symbol = "DID";
   }
 
   function issueDID(address _recipient, uint256 _numDID) external onlyApproved returns (uint256) {
