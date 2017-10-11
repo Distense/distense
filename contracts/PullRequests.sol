@@ -1,6 +1,7 @@
 pragma solidity ^0.4.17;
 
 import './lib/StringArrayUtils.sol';
+import './lib/Approvable.sol';
 import './DIDToken.sol';
 import './Tasks.sol';
 
@@ -27,7 +28,7 @@ contract PullRequests is Approvable {
 
   event LogApprovedPullRequest(string indexed taskId, string _prId);
 
-  function PullRequests (address _DIDTokenAddress, address _TasksAddress) internal {
+  function PullRequests (address _DIDTokenAddress, address _TasksAddress) public {
     didTokenAddress = _DIDTokenAddress;
     tasksAddress = _TasksAddress;
   }
@@ -81,9 +82,4 @@ contract PullRequests is Approvable {
     return (numDIDApproved(_id) * 100) / (didToken.totalSupply() * 100);
   }
 
-//  TODO what is this for????
-//  modifier voterNotVoted(string _taskId) {
-//    require(tasksContract.tasks(_taskId).rewardVotes[msg.sender] == 0);
-//    _;
-//  }
 }

@@ -6,18 +6,20 @@ import './lib/AddressUtils.sol';
 import './lib/Token.sol';
 
 
-contract DIDToken is Approvable, Token {
+contract DIDToken is Token {
   using AddressUtils for address;
   using SafeMath for uint256;
 
   event LogIssueDID(address indexed to, uint256 numDID);
 
-  function DIDToken () internal {
+  function DIDToken () public {
     name = "Distense DID";
     symbol = "DID";
+    totalSupply = 0;
+    decimals = 18;
   }
 
-  function issueDID(address _recipient, uint256 _numDID) external onlyApproved returns (uint256) {
+  function issueDID(address _recipient, uint256 _numDID) external returns (uint256) {
     require(_recipient.isValid());
     require(_numDID > 0);
 

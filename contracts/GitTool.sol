@@ -75,11 +75,10 @@ contract GitTool is Ownable {
     repos[_repoName].refs[_refName][_refOwner] = _gitHash;
   }
 
-  function removeRef(string _repoName, address _refOwner, string _refName) public onlyRefOwner(_refOwner) repoExists(_repoName) {
-    require(repos[_repoName].refNames[_refOwner].contains(_refName));
-
-    repos[_repoName].refNames[_refOwner].remove(_refName);
-  }
+//  function removeRef(string _repoName, address _refOwner, string _refName) public onlyRefOwner(_refOwner) repoExists(_repoName) {
+//    require(repos[_repoName].refNames[_refOwner].contains(_refName));
+//    repos[_repoName].refNames[_refOwner].remove(_refName);
+//  }
 
   function getRef(string _repoName, address _refOwner, uint _index) public repoExists(_repoName) view returns (string, string) {
     string memory _refName = repos[_repoName].refNames[_refOwner][_index];

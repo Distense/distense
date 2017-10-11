@@ -1,12 +1,10 @@
 pragma solidity ^0.4.17;
 
-import './lib/StringArrayUtils.sol';
 import './DIDToken.sol';
 import './Distense.sol';
 
 
 contract Tasks {
-  using StringArrayUtils for string[];
 
   address DIDTokenAddress;
   address DistenseAddress;
@@ -34,7 +32,7 @@ contract Tasks {
   event LogVoterBalance(uint256 voterBalance);
   event LogRewardDetermined(bytes32 indexed taskId, uint256 sum);
 
-  function Tasks(address _DIDTokenAddress, address _DistenseAddress) internal {
+  function Tasks(address _DIDTokenAddress, address _DistenseAddress) public {
     DIDTokenAddress = _DIDTokenAddress;
     DistenseAddress = _DistenseAddress;
   }
@@ -100,7 +98,7 @@ contract Tasks {
 
   function haveReachedProposalApprovalThreshold(bytes32 _taskId) public view returns (bool) {
     distense = Distense(DistenseAddress);
-    uint256 threshold = distense.getParameterValue(distense.proposalPctDIDApprovalTitle());
+    uint256 threshold = distense.determineParameterValue(distense.proposalPctDIDApprovalTitle());
     return percentDIDVoted(_taskId) >= threshold;
   }
 
@@ -123,7 +121,6 @@ contract Tasks {
     uint256 _sum = 0;
     address _voter;
 
-//    v2 TODO Fixed length rewardVoters array
     for (uint16 i = 0; i <= 100; i++) {
       _voter = _task.rewardVoters[i];
       uint rewardVote = _task.rewardVotes[_voter] * 100;
