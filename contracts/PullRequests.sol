@@ -1,6 +1,7 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.17;
 
 import './lib/StringArrayUtils.sol';
+import './lib/Approvable.sol';
 import './DIDToken.sol';
 import './Tasks.sol';
 
@@ -27,9 +28,9 @@ contract PullRequests is Approvable {
 
   event LogApprovedPullRequest(string indexed taskId, string _prId);
 
-  function PullRequests (address _DIDTokenAddress, address _TasksAddress) {
-    DIDToken didToken = DIDToken(_DIDTokenAddress);
-    Tasks tasksContract = Tasks(_TasksAddress);
+  function PullRequests (address _DIDTokenAddress, address _TasksAddress) public {
+    didTokenAddress = _DIDTokenAddress;
+    tasksAddress = _TasksAddress;
   }
 
   function submitPullRequest(string _prId, string _taskId) external returns (bool) {
@@ -37,16 +38,20 @@ contract PullRequests is Approvable {
     pullRequestIds.push(_prId);
   }
 
-   function submitterVotedTask(string _taskId) public constant returns (bool) {
+   function submitterVotedTask(string _taskId) public view returns (bool) {
 //    TODO
    }
 
-  function getNumPullRequests() public constant returns (uint) {
+  function pullRequestExists(string _ipfsHash) public view returns (bool) {
+    return pullRequestIds.contains(_ipfsHash);
+  }
+
+  function getNumPullRequests() public view returns (uint) {
     return pullRequestIds.length;
   }
 
    function voteOnApproval(string _prId, bool _approve) external {
-     PullRequest _pr = pullRequests[_prId];
+     PullRequest storage _pr = pullRequests[_prId];
 
 //     require(!approved(_id)); // TODO wondering if you should be allowed to vote after approval; could be useful information
 //     Task _task = Task(_id);
@@ -58,8 +63,8 @@ contract PullRequests is Approvable {
     LogApprovedPullRequest(_taskId, _prId);
   }
 
-  function numDIDApproved(string _prId) public constant returns (uint256) {
-    PullRequest _pr = pullRequests[_prId];
+  function numDIDApproved(string _prId) public view returns (uint256) {
+    PullRequest storage _pr = pullRequests[_prId];
     uint256 _numDIDApproved = 0;
     address _voter;
 
@@ -73,13 +78,8 @@ contract PullRequests is Approvable {
     return _numDIDApproved;
   }
 
-  function percentDIDApproved(string _id) public constant returns (uint256) {
+  function percentDIDApproved(string _id) public view returns (uint256) {
     return (numDIDApproved(_id) * 100) / (didToken.totalSupply() * 100);
   }
 
-//  TODO what is this for????
-//  modifier voterNotVoted(string _taskId) {
-//    require(tasksContract.tasks(_taskId).rewardVotes[msg.sender] == 0);
-//    _;
-//  }
 }

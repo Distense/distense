@@ -8,11 +8,12 @@ import {
   Input,
   List,
   Menu,
-  Segment,
+  Segment
 } from 'semantic-ui-react'
 
-import AccountStatus from '../components/AccountStatus'
+// import HasWeb3 from '../components/common/HasWeb3'
 import Head from '../components/common/Head'
+import TotalDID from '../components/common/TotalDID'
 
 class Home extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class Home extends Component {
     this.state = {
       email: '',
       emailSubmitSuccess: false,
-      footerSubmitSuccess: false,
+      footerSubmitSuccess: false
     }
   }
 
@@ -34,11 +35,11 @@ class Home extends Component {
     const name = e.target[0].name
     if (name && name === 'footerEmail') {
       this.setState({
-        footerSubmitSuccess: true,
+        footerSubmitSuccess: true
       })
     } else {
       this.setState({
-        emailSubmitSuccess: true,
+        emailSubmitSuccess: true
       })
     }
 
@@ -46,7 +47,7 @@ class Home extends Component {
       'https://xe6au48aog.execute-api.us-west-2.amazonaws.com/prod/mailchimpLambda',
       {
         method: 'POST',
-        body: JSON.stringify({ email: this.state.email }),
+        body: JSON.stringify({ email: this.state.email })
       }
     )
   }
@@ -62,7 +63,7 @@ class Home extends Component {
           textAlign="center"
           style={{
             minHeight: '700px',
-            padding: '0em',
+            padding: '0em'
           }}
           vertical
         >
@@ -77,14 +78,14 @@ class Home extends Component {
               <Menu.Item to="/tasks" as={Link}>
                 View
               </Menu.Item>
-              <Menu.Item to="/tasksTODO" as={Link}>
+              <Menu.Item to="/pullrequests/submit" as={Link}>
                 Submit
               </Menu.Item>
-              <Menu.Item to="/tasksTODO" as={Link}>
+              <Menu.Item to="/pullrequests" as={Link}>
                 Approve
               </Menu.Item>
-              <Menu.Item position="right">18330 Total DID</Menu.Item>
-              <AccountStatus />
+              <TotalDID />
+              {/*<Menu.Item position="right">18330 Total DID</Menu.Item>*/}
             </Container>
           </Menu>
 
@@ -97,7 +98,7 @@ class Home extends Component {
               style={{
                 fontSize: '4em',
                 marginBottom: 0,
-                marginTop: '3em',
+                marginTop: '3em'
               }}
             />
             <Header
@@ -106,14 +107,14 @@ class Home extends Component {
               inverted
               style={{
                 fontSize: '1.7em',
-                fontWeight: 'normal',
+                fontWeight: 'normal'
               }}
             >
               A decentralized code-cooperative
             </Header>
             <Grid
               style={{
-                marginTop: '2.8em',
+                marginTop: '2.8em'
               }}
               centered
               inverted
@@ -142,7 +143,7 @@ class Home extends Component {
         <Segment style={{ padding: '7em 0em' }} textAlign="center" vertical>
           <Container text>
             <Header as="h3" style={{ fontSize: '1.7em' }}>
-              Modern work is broken
+              Work is broken
             </Header>
             <Grid divided inverted stackable>
               <Grid.Row className="landing-work-broken" textAlign="center">
@@ -184,8 +185,8 @@ class Home extends Component {
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               Work on a per-task basis, from anywhere, whenever. Govern the
-              organization you work for. Get your reward issued by a smart
-              contract immediately, not maybe in a few weeks... by a human.
+              organization you work for. Receive your reward immediately, not
+              maybe in a few weeks by a human.
             </p>
           </Container>
         </Segment>
@@ -208,16 +209,9 @@ class Home extends Component {
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               Our DID token gives the holder the right to vote and approve work.
-              Two DID == two votes. DID are exchangeable into ether. No ICO --
-              only contributors receive DID.
+              Two DID == two votes. DID may be exchanged into ether. There's no
+              ICO -- only contributors receive DID and invest in Distense.
             </p>
-            {/*<Button*/}
-            {/*style={{ fontFamily: 'Inconsolata !important' }}*/}
-            {/*size="huge"*/}
-            {/*href="/howitworks"*/}
-            {/*>*/}
-            {/*How it works*/}
-            {/*</Button>*/}
           </Container>
         </Segment>
 

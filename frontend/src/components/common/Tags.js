@@ -7,10 +7,14 @@ export default class Tags extends Component {
     this.createTagsList = this.createTagsList.bind(this)
   }
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.tags !== nextProps.tags
+  }
+
   createTagsList() {
-    return this.props.tags.map((tag) => {
+    return this.props.tags.map(tag => {
       return (
-        <Label size='tiny' key={tag}>
+        <Label size="tiny" key={tag}>
           {tag}
         </Label>
       )
@@ -18,10 +22,8 @@ export default class Tags extends Component {
   }
 
   render() {
-    return (
-      <span>
-        {this.createTagsList()}
-      </span>
-    );
+    if (this.props.tags && this.props.tags.length > 0)
+      return <span>{this.createTagsList()}</span>
+    else return <span />
   }
 }

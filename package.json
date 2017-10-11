@@ -24,5 +24,8 @@
   "bin": {
     "distense": "./bin/distense",
     "git-remote-distense": "./bin/git-remote-distense"
+  },
+  "devDependencies": {
+    "solidity-coverage": "^0.2.5"
   }
 }

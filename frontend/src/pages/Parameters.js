@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import { Link } from 'react-router-dom'
 import { Button, Table } from 'semantic-ui-react'
+// import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import { fetchTasks } from '../actions/tasks'
 import { getAllTasksWithRewards } from '../reducers/tasks'
@@ -41,7 +42,7 @@ class Tasks extends Component {
   }
 
   handleSort = clickedColumn => () => {
-    const { column, /*tasks,*/ direction } = this.state
+    const { column, direction } = this.state
     const { tasks } = this.props
     if (column !== clickedColumn) {
       this.setState({
@@ -62,8 +63,7 @@ class Tasks extends Component {
     const { column, direction, loading } = this.state
     const { tasks } = this.props
 
-
-      return (
+    return (
       <Layout>
         <Head title="Available Tasks" />
         <Table sortable striped>
@@ -99,6 +99,13 @@ class Tasks extends Component {
                 title="Number of people who have submitted reward votes"
               >
                 NumVoters
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={column === 'numRewardVoters' ? direction : null}
+                onClick={this.handleSort('numRewardVoters')}
+                title="% of DID that have voted on a task."
+              >
+                % DID Voted
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Date' ? direction : null}
@@ -139,6 +146,7 @@ const TasksListItem = ({ task }) => (
     <Table.Cell>{task.status}</Table.Cell>
     <Table.Cell>{task.reward}</Table.Cell>
     <Table.Cell>{task.numRewardVoters}</Table.Cell>
+    <Table.Cell>{task.pctDIDVoted}%</Table.Cell>
     <Table.Cell collapsing textAlign="right">
       {task.createdAt.toDateString()}
     </Table.Cell>

@@ -4,7 +4,7 @@ library StringUtils {
   /// @dev Does a byte-by-byte lexicographical comparison of two strings.
   /// @return a negative number if `_a` is smaller, zero if they are equal
   /// and a positive numbe if `_b` is smaller.
-  function compare(string _a, string _b) internal returns (int) {
+  function compare(string _a, string _b) internal pure returns (int) {
     bytes memory a = bytes(_a);
     bytes memory b = bytes(_b);
     uint minLength = a.length;
@@ -24,12 +24,12 @@ library StringUtils {
   }
 
   /// @dev Compares two strings and returns true iff they are equal.
-  function equal(string _a, string _b) internal returns (bool) {
+  function equal (string _a, string _b) internal returns (bool) {
     return compare(_a, _b) == 0;
   }
 
   /// @dev Finds the index of the first occurrence of _needle in _haystack
-  function indexOf(string _haystack, string _needle) internal returns (int) {
+  function indexOf(string _haystack, string _needle) internal pure returns (int) {
     bytes memory h = bytes(_haystack);
     bytes memory n = bytes(_needle);
     if (h.length < 1 || n.length < 1 || (n.length > h.length)) 
@@ -56,7 +56,7 @@ library StringUtils {
     } 
   }
 
-  function concat(string _a, string _b, string _c, string _d, string _e) internal returns (string){
+  function concat(string _a, string _b, string _c, string _d, string _e) internal pure returns (string){
     bytes memory _ba = bytes(_a);
     bytes memory _bb = bytes(_b);
     bytes memory _bc = bytes(_c);

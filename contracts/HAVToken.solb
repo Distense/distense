@@ -2,7 +2,7 @@
 // Anyone can contribute
 
 // DRAFT -- LIKELY INSECURE
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.15;
 
 import './lib/Approvable.sol';
 import './lib/SafeMath.sol';
@@ -42,7 +42,7 @@ contract HAVToken is Approvable {
     require(rate > 0);
   }
 
-  function validSale() internal constant returns (bool) {
+  function validSale() internal view returns (bool) {
     bool withinCap = etherBal.add(msg.value) <= maxEther;
     return withinCap;
   }
@@ -82,7 +82,7 @@ contract HAVToken is Approvable {
     //    TODO wallet.transfer(msg.value);
   }
 
-  function approvePurchase() internal constant returns (bool) {
+  function approvePurchase() internal view returns (bool) {
     return msg.value != 0 && saleOn;
   }
 
@@ -90,7 +90,7 @@ contract HAVToken is Approvable {
     tradMkt = _tradMkt;
   }
 
-  function numberAvailableForSale() constant returns (uint256) {
+  function numberAvailableForSale() view returns (uint256) {
     return maxEther - etherBal;
   }
 

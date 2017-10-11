@@ -5,7 +5,7 @@ import './StringUtils.sol';
 library StringArrayUtils {
   using StringUtils for string;
 
-  function indexOf(string[] self, string value) internal constant returns (int) {
+  function indexOf(string[] self, string value) internal returns (int) {
     for (uint i = 0; i < self.length; i++) {
       if (self[i].equal(value)) {
         return int(i);
@@ -14,11 +14,11 @@ library StringArrayUtils {
     return -1;
   }
 
-  function contains(string[] self, string value) internal constant returns (bool) {
-    return indexOf(self, value) >= 0;
+  function contains(string[] _self, string _value) internal view returns (bool) {
+    return indexOf(_self, _value) >= 0;
   }
 
-  function remove(string[] self, uint index) internal {
+  function remove(string[] self, uint index) internal pure {
     require(index < self.length);
 
     for (uint i = index; i < self.length - 1; i++){
@@ -28,13 +28,13 @@ library StringArrayUtils {
     // self.length--;
   }
 
-  function remove(string[] self, string value) internal {
+//  function remove(string[] self, string value) internal {
     // remove(self, indexOf(self, value));
-  }
-
-//  function replace(string[] self, string oldValue, string newValue) internal {
-//    int index = self.indexOf(oldValue);
-//    self[index] = newValue;
 //  }
+
+  //  function replace(string[] self, string oldValue, string newValue) internal {
+  //    int index = self.indexOf(oldValue);
+  //    self[index] = newValue;
+  //  }
 
 }

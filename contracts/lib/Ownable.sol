@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.15;
 
 import './AddressUtils.sol';
 
@@ -7,7 +7,7 @@ contract Ownable {
 
   address public owner;
 
-  function Ownable() {
+  function Ownable() internal {
     owner = msg.sender;
   }
 
