@@ -6,8 +6,8 @@ import './Distense.sol';
 
 contract Tasks {
 
-  address DIDTokenAddress;
-  address DistenseAddress;
+  address public DIDTokenAddress;
+  address public DistenseAddress;
   
   DIDToken didToken;
   Distense distense;
@@ -35,7 +35,7 @@ contract Tasks {
     DistenseAddress = _DistenseAddress;
   }
 
-  function addTask(bytes32 _taskId) external returns (bool) {
+  function addTask(bytes32 _taskId) public hasRequiredNumDID(msg.sender, 0) returns (bool) {
     require(_taskId[0] != 0);
     tasks[_taskId].createdBy = msg.sender;
     tasks[_taskId].reward = 0;
@@ -59,7 +59,7 @@ contract Tasks {
 
   // Make sure voter hasn't voted and the reward for this task isn't set
   function voteOnReward(bytes32 _taskId, uint256 _reward)
-    hasAsManyDIDAsRewardVote(msg.sender, _reward)
+    hasRequiredNumDID(msg.sender, _reward)
     voterNotVotedOnTask(_taskId)
   external returns (bool) {
     require(!haveReachedProposalApprovalThreshold(_taskId));
@@ -138,15 +138,10 @@ contract Tasks {
     _;
   }
 
-  modifier hasDid() {
-    require(didToken.balances(msg.sender) > 0);
-    _;
-  }
-
-  modifier hasAsManyDIDAsRewardVote(address voter, uint256 rewardVote) {
+  modifier hasRequiredNumDID(address voter, uint256 num) {
     didToken = DIDToken(DIDTokenAddress);
-    uint256 voterBalance = didToken.balances(voter);
-    require(voterBalance > rewardVote);
+    uint256 balance = didToken.balances(voter);
+    require(balance > num);
     _;
   }
 

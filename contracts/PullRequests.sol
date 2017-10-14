@@ -9,10 +9,10 @@ contract PullRequests is Approvable {
   using StringArrayUtils for string[];
 
   DIDToken didToken;
-  address didTokenAddress;
+  address public DIDTokenAddress;
 
-  Tasks tasksContract;
-  address public tasksAddress;
+  Tasks tasks;
+  address public TasksAddress;
 
   struct PullRequest {
     address createdBy;
@@ -29,18 +29,14 @@ contract PullRequests is Approvable {
   event LogApprovedPullRequest(string indexed taskId, string _prId);
 
   function PullRequests (address _DIDTokenAddress, address _TasksAddress) public {
-    didTokenAddress = _DIDTokenAddress;
-    tasksAddress = _TasksAddress;
+    DIDTokenAddress = _DIDTokenAddress;
+    TasksAddress = _TasksAddress;
   }
 
   function submitPullRequest(string _prId, string _taskId) external returns (bool) {
     pullRequests[_prId].createdBy = msg.sender;
     pullRequestIds.push(_prId);
   }
-
-   function submitterVotedTask(string _taskId) public view returns (bool) {
-//    TODO
-   }
 
   function pullRequestExists(string _ipfsHash) public view returns (bool) {
     return pullRequestIds.contains(_ipfsHash);

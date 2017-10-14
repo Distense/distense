@@ -1,41 +1,62 @@
 const web3 = global.web3
 const Tasks = artifacts.require('Tasks')
 const DIDToken = artifacts.require('DIDToken')
+const Distense = artifacts.require('Distense')
 
 contract('Tasks', function(accounts) {
   beforeEach(async function() {
-    tasks = await Tasks.new()
+    didToken = await DIDToken.new()
+    distense = await Distense.new(didToken.address)
+    tasks = await Tasks.new(didToken.address, distense.address)
   })
 
-  it('should set the initial requiredDIDApprovalThreshold correctly', async function() {
-    assert.equal(
-      await tasks.requiredDIDApprovalThreshold(),
-      33,
-      'Initial DID approval threshold wrong'
+  it('should set the initial external addresses correctly', async function() {
+    const didAddress = await tasks.DIDTokenAddress.call()
+    assert.notEqual(didAddress, undefined, 'DIDTokenAddress not set')
+
+    const distenseAddress = await tasks.DistenseAddress()
+    assert.notEqual(distenseAddress, undefined, 'DistenseAddress not set')
+    // assert.equal(await tasks.getNumTasks(), 0, 'Initial numTasks should be 0')
+  })
+
+  it('should let those who own DID add tasks', async function() {
+    await didToken.issueDID(accounts[0], 1234)
+    //  addTask from default accounts[0]
+    await tasks.addTask(
+      '0x956761ab87f7b984dc438fb62e937c62aa3afe97740462295efa335ef7b75ec9'
     )
-    assert.equal(await tasks.getNumTasks(), 0, 'Initial numTasks should be 0')
-  })
-
-  it('should addTask()(s) correctly', async function() {
-    await tasks.addTask('32bytesofdata32bytesofdata123412')
-    let numTasks = await tasks.getNumTasks()
+    let numTasks = await tasks.getNumTasks.call()
     assert.equal(numTasks, 1, 'numTasks should be 1')
-
-    await tasks.addTask('not the same taskId as abovenope')
-    numTasks = await tasks.getNumTasks()
-    assert.equal(numTasks, 2, 'numTasks should be 2')
   })
 
-  it('should not add tasks with ipfsHashes that are empty strings', async function() {
-    await tasks.addTask('')
-    const numTasks = await tasks.getNumTasks()
-    console.log(`numTasks: ${numTasks}`)
-    assert.equal(
-      numTasks.toNumber(),
-      0,
-      'No task should be added when empty string passed'
-    )
+  it("should let those who don't own DID to add tasks", async function() {
+    let addError
+    try {
+      //contract throws error here
+      await tasks.addTask(
+        '0x856761ab87f7b123dc438fb62e937c62aa3afe97740462295efa335ef7b75ec9',
+        {
+          from: accounts[1] // accounts[1] has no DID
+        }
+      )
+    } catch (error) {
+      addError = error
+    }
+    assert.notEqual(addError, undefined, 'Error must be thrown')
+
+    numTasks = await tasks.getNumTasks.call()
+    assert.equal(numTasks, 0, 'numTasks should 0')
   })
+
+  // it('should not add tasks with ipfsHashes that are empty strings', async function() {
+  //   await tasks.addTask('')
+  //   const numTasks = await tasks.getNumTasks()
+  //   assert.equal(
+  //     numTasks.toNumber(),
+  //     0,
+  //     'No task should be added when empty string passed'
+  //   )
+  // })
 
   // it('should not add tasks with ipfsHashes or Ids less than 32 bytes', async function() {
   //   await tasks.addTask('31bytesisnotlongenoughasdffffff')
@@ -59,7 +80,7 @@ contract('Tasks', function(accounts) {
   //   )
   // })
 
-  it("should fire event 'LogAddTask' when addTask is called", async function() {
+  /*it("should fire event 'LogAddTask' when addTask is called", async function() {
     let LogAddTaskEventListener = tasks.LogAddTask()
 
     const taskId = 'somehashasdfasdfasdfasdfasdfas'
@@ -99,7 +120,7 @@ contract('Tasks', function(accounts) {
     assert.equal(eventArgs.taskId, voteArgs.taskId)
     assert.equal(eventArgs.reward, voteArgs.reward)
     assert.equal(addTaskLog.length, 1, 'should be 1 event')
-  })
+  })*/
 
   // it("should fire event 'LogRewardDetermined' when issueDID is called", async function() {
   //   let issueDIDEventListener = didToken.LogIssueDID()
