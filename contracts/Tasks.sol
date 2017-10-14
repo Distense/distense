@@ -12,8 +12,6 @@ contract Tasks {
   DIDToken didToken;
   Distense distense;
 
-  uint8 public requiredDIDApprovalThreshold;  // TODO this should be updatable based on voting.  This should likely decline over time
-
   bytes32[] public taskIds;
 
   struct Task {
@@ -98,7 +96,7 @@ contract Tasks {
 
   function haveReachedProposalApprovalThreshold(bytes32 _taskId) public view returns (bool) {
     distense = Distense(DistenseAddress);
-    uint256 threshold = distense.determineParameterValue(distense.proposalPctDIDApprovalTitle());
+    uint256 threshold = distense.getParameterValue(distense.proposalPctDIDApprovalTitle());
     return percentDIDVoted(_taskId) >= threshold;
   }
 

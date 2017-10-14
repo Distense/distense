@@ -63,21 +63,6 @@ contract HAVToken is Approvable {
     LogHAVSale(msg.sender, numWei, numHav);
   }
 
-  function issueHAVForDID(address _to, uint256 _num) internal returns (bool) {
-    // Prevent reentrancy -- SECURITY
-    DIDToken didToken = DIDToken(DIDAddress);
-    bool burntDID = didToken.burnDIDHAV(_to, _num);
-    if (burntDID) {
-      numHAV = numHAV.add(_num);
-      bals[_to] = bals[_to].add(_num);
-      LogSwapDIDForHAV(_to, _num);
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
   function forwardFunds() internal {
     //    TODO wallet.transfer(msg.value);
   }

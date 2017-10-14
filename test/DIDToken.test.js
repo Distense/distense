@@ -1,6 +1,56 @@
 const web3 = global.web3
 const DIDToken = artifacts.require('DIDToken')
 
+/*
+'use strict';
+const assertJump = require('./helpers/assertJump');
+
+var Ownable = artifacts.require('../contracts/ownership/Ownable.sol');
+
+contract('Ownable', function(accounts) {
+  let ownable;
+
+  beforeEach(async function() {
+    ownable = await Ownable.new();
+  });
+
+  it('should have an owner', async function() {
+    let owner = await ownable.owner();
+    assert.isTrue(owner !== 0);
+  });
+
+  it('changes owner after transfer', async function() {
+    let other = accounts[1];
+    await ownable.transferOwnership(other);
+    let owner = await ownable.owner();
+
+    assert.isTrue(owner === other);
+  });
+
+  it('should prevent non-owners from transfering', async function() {
+    const other = accounts[2];
+    const owner = await ownable.owner.call();
+    assert.isTrue(owner !== other);
+    try {
+      await ownable.transferOwnership(other, {from: other});
+      assert.fail('should have thrown before');
+    } catch(error) {
+      assertJump(error);
+    }
+  });
+
+  it('should guard ownership against stuck state', async function() {
+    let originalOwner = await ownable.owner();
+    try {
+      await ownable.transferOwnership(null, {from: originalOwner});
+      assert.fail();
+    } catch(error) {
+      assertJump(error);
+    }
+  });
+
+});
+ */
 contract('DIDToken', function(accounts) {
   beforeEach(async function() {
     didToken = await DIDToken.new()
@@ -85,23 +135,18 @@ contract('DIDToken', function(accounts) {
     )
   })
 
-  //  TODO -1 here
-  // it('should disallow an issueDID call for < 0', async function() {
-  //   let addError
-  //   try {
-  //     //contract throws error here
-  //     await didToken.issueDID(accounts[5], -1, {
-  //       from: accounts[0]
-  //     })
-  //   } catch (error) {
-  //     addError = error
-  //     console.log(`disallow an issueDID call for < 0 ERROR: ${addError}`);
-  //   }
-  //   assert.notEqual(addError, undefined, 'Error must be thrown')
-  //   assert.equal(
-  //     await didToken.totalSupply(),
-  //     0,
-  //     'No DID should have been issued'
-  //   )
-  // })
+  it('should correctly calculate the percentDID someone owns', async function() {
+    assert.equal(await didToken.totalSupply(), 0)
+    await didToken.issueDID(accounts[0], 200)
+    let percentDID = await didToken.percentDID(accounts[0])
+    assert.equal(percentDID.toString(), 100)
+
+    await didToken.issueDID(accounts[1], 100)
+    percentDID = await didToken.percentDID(accounts[1])
+    assert.equal(percentDID.toString(), 33)
+
+    await didToken.issueDID(accounts[1], 100)
+    percentDID = await didToken.percentDID(accounts[1])
+    assert.equal(percentDID.toString(), 50)
+  })
 })
