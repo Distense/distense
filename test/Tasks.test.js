@@ -2,6 +2,7 @@ const web3 = global.web3
 const Tasks = artifacts.require('Tasks')
 const DIDToken = artifacts.require('DIDToken')
 const Distense = artifacts.require('Distense')
+const assertJump = require('./helpers/assertJump')
 
 contract('Tasks', function(accounts) {
   beforeEach(async function() {
@@ -48,42 +49,71 @@ contract('Tasks', function(accounts) {
     assert.equal(numTasks, 0, 'numTasks should 0')
   })
 
-  // it('should not add tasks with ipfsHashes that are empty strings', async function() {
-  //   await tasks.addTask('')
-  //   const numTasks = await tasks.getNumTasks()
-  //   assert.equal(
-  //     numTasks.toNumber(),
-  //     0,
-  //     'No task should be added when empty string passed'
-  //   )
-  // })
+  it('should correctly determineReward()s', async function() {
 
-  // it('should not add tasks with ipfsHashes or Ids less than 32 bytes', async function() {
-  //   await tasks.addTask('31bytesisnotlongenoughasdffffff')
-  //   const numTasks = await tasks.getNumTasks()
-  //   assert.equal(
-  //     numTasks.toNumber(),
-  //     0,
-  //     'No task should be added when < 32 bytes passed'
-  //   )
-  // })
+    await didToken.issueDID(accounts[0], 101)
+    await didToken.issueDID(accounts[1], 101)
+    const task = {
+      taskId: '0x856761ab87f7b123dc438fb62e937c62aa3afe97740462295efa335ef7b75ec9',
+    }
 
-  // it('should not add tasks with ipfsHashes or Ids longer than 32 bytes', async function() {
-  //   await tasks.addTask(
-  //     'this is too many bytesthis is too many bytesthis is too many bytes'
-  //   )
-  //   const numTasks = await tasks.getNumTasks()
-  //   assert.equal(
-  //     numTasks.toNumber(),
-  //     0,
-  //     'No task should be added when > 32 bytes passed'
-  //   )
-  // })
+    let reward
+    try {
+      //contract throws error here
+      await tasks.addTask(
+        task.taskId
+      )
+      assert.equal(await tasks.taskExists(task.taskId), true)
 
-  /*it("should fire event 'LogAddTask' when addTask is called", async function() {
+      await tasks.voteOnReward(
+        task.taskId,
+        100, {
+          from: accounts[0]
+        }
+      )
+
+      await tasks.voteOnReward(
+        task.taskId,
+        100, {
+          from: accounts[1]
+        }
+      )
+
+      reward = await tasks.determineReward(task.taskId)
+    } catch (error) {
+      let determineReward = error
+    }
+
+    // assert.isOk(await tasks.haveReachedProposalApprovalThreshold.call(task.taskId), 'haveReachedProposalApprovalThreshold')
+    assert.equal(reward, 100, 'Reward should equal average of two votes')
+
+  })
+
+  it('should not add tasks with ipfsHashes that are empty strings', async function() {
+    let addError
+    try {
+      //contract throws error here
+      await tasks.addTask('')
+    } catch (error) {
+      addError = error
+    }
+    assert.notEqual(addError, undefined, 'Error must be thrown')
+
+    const numTasks = await tasks.getNumTasks.call()
+    assert.equal(
+      numTasks,
+      0,
+      'No task should be added when empty string passed'
+    )
+  })
+
+  /* EVENTS */
+  it("should fire event 'LogAddTask' when addTask is called", async function() {
     let LogAddTaskEventListener = tasks.LogAddTask()
 
-    const taskId = 'somehashasdfasdfasdfasdfasdfas'
+    await didToken.issueDID(accounts[0], 1)
+    const taskId =
+      '0x956761ab87f7b984dc438fb62e937c62aa3afe97740462295efa335ef7b75ec9'
     await tasks.addTask(taskId)
 
     let addTaskLog = await new Promise((resolve, reject) =>
@@ -93,49 +123,96 @@ contract('Tasks', function(accounts) {
     )
 
     let eventArgs = addTaskLog[0].args
-    assert.equal(web3.toAscii(eventArgs.taskId), taskId)
+    assert.equal(eventArgs.taskId, taskId)
     assert.equal(addTaskLog.length, 1, 'should be 1 event')
   })
 
-  it("should fire event 'LogRewardVote' when voteOnReward is called", async function() {
-    let LogRewardVoteEventListener = tasks.LogRewardVote()
-
-    const voteArgs = {
-      taskId: 'somehash',
-      reward: 1234
-    }
-    const didToken = await DIDToken.new()
-    didToken.issueDID(accounts[1], 1235)
-    await tasks.voteOnReward(voteArgs.taskId, voteArgs.reward, {
-      from: accounts[1]
-    })
-
-    let addTaskLog = await new Promise((resolve, reject) =>
-      LogRewardVoteEventListener.get(
-        (error, log) => (error ? reject(error) : resolve(log))
-      )
-    )
-
-    let eventArgs = addTaskLog[0].args
-    assert.equal(eventArgs.taskId, voteArgs.taskId)
-    assert.equal(eventArgs.reward, voteArgs.reward)
-    assert.equal(addTaskLog.length, 1, 'should be 1 event')
-  })*/
-
-  // it("should fire event 'LogRewardDetermined' when issueDID is called", async function() {
-  //   let issueDIDEventListener = didToken.LogIssueDID()
+  // it("should fire event 'LogRewardVote' when voteOnReward is called", async function() {
+  //   let LogRewardVoteEventListener = tasks.LogRewardVote()
   //
-  //   await didToken.issueDID(accounts[0], 1234)
+  //   const voteArgs = {
+  //     taskId:
+  //       '0x956761ab87f7b984dc438fb62e937c62aa3afe97740462295efa335ef7b75ec9',
+  //     reward: 1234
+  //   }
   //
-  //   let issueDIDLog = await new Promise((resolve, reject) =>
-  //     issueDIDEventListener.get(
+  //   didToken.issueDID(accounts[1], 1235)
+  //   await tasks.voteOnReward(voteArgs.taskId, voteArgs.reward, {
+  //     from: accounts[1]
+  //   })
+  //
+  //   let addTaskLog = await new Promise((resolve, reject) =>
+  //     LogRewardVoteEventListener.get(
   //       (error, log) => (error ? reject(error) : resolve(log))
   //     )
   //   )
   //
-  //   let eventArgs = issueDIDLog[0].args
-  //   assert.equal(eventArgs.to, accounts[0])
-  //   assert.equal(eventArgs.numDID, 1234)
-  //   assert.equal(issueDIDLog.length, 1, 'should be 1 event')
-  // })*/
+  //   let eventArgs = addTaskLog[0].args
+  //   assert.equal(eventArgs.taskId, voteArgs.taskId)
+  //   assert.equal(eventArgs.reward, voteArgs.reward)
+  //   assert.equal(addTaskLog.length, 1, 'should be 1 event')
+  // })
+
+  it("should not fire event 'LogRewardVote' when voteOnReward is called by someone who doesn't own enough DID", async function() {
+    let LogRewardVoteEventListener = tasks.LogRewardVote()
+    didToken.issueDID(accounts[1], 1235)
+
+    const voteArgs = {
+      taskId:
+        '0x956761ab87f7b984dc438fb62e937c62aa3afe97740462295efa335ef7b75ec9',
+      reward: 1236 // one more than 1235 issued to this account above
+    }
+
+    let addError
+    try {
+      //contract should throw error here
+      await tasks.addTask(
+        voteArgs.taskId
+      )
+      const taskExists = await tasks.taskExists.call(voteArgs.taskId)
+      assert.equal(taskExists, true)
+
+      await tasks.voteOnReward(voteArgs.taskId, voteArgs.reward, {
+        from: accounts[1]
+      })
+    } catch (error) {
+      addError = error
+    }
+    assert.notEqual(addError, undefined, 'Error must be thrown')
+    const numTasks = await tasks.getNumTasks.call()
+    assert.equal(
+      numTasks,
+      0,
+      'No task should be added when empty string passed'
+    )
+
+  })
+
+  // it("should fire event 'LogRewardDetermined'", async function() {
+  //   let LogRewardDeterminedEventListener = tasks.LogRewardDetermined()
+  //
+  //   const voteArgs = {
+  //     taskId:
+  //       '0x956761ab87f7b984dc438fb62e937c62aa3afe97740462295efa335ef7b75ec9',
+  //     reward: 1234
+  //   }
+  //
+  //   didToken.issueDID(accounts[1], 1235)
+  //   await tasks.determineReward(voteArgs.taskId, voteArgs.reward, {
+  //     from: accounts[1]
+  //   })
+  //
+  //   let addTaskLog = await new Promise((resolve, reject) =>
+  //     LogRewardDeterminedEventListener .get(
+  //       (error, log) => (error ? reject(error) : resolve(log))
+  //     )
+  //   )
+  //
+  //   let eventArgs = addTaskLog[0].args
+  //   assert.equal(eventArgs.taskId, voteArgs.taskId)
+  //   assert.equal(eventArgs.reward, voteArgs.reward)
+  //   assert.equal(addTaskLog.length, 1, 'should be 1 event')
+  //
+  // })
+
 })
