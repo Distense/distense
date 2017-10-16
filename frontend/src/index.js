@@ -17,6 +17,7 @@ import Task from './pages/Task'
 import SubmitPullRequest from './pages/SubmitPullRequest'
 import PullRequests from './pages/PullRequests'
 import PullRequest from './pages/PullRequest'
+import Parameters from './pages/Parameters'
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
 
@@ -32,6 +33,7 @@ const Root = () => (
       <Route path="/pullrequests/submit/:id?" component={SubmitPullRequest} />
       <Route exact path="/pullrequests/:id" component={PullRequest} />
       <Route exact path="/pullrequests" component={PullRequests} />
+      <Route exact path="/parameters" component={Parameters} />
     </Switch>
   </Router>
 )

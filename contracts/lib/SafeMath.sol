@@ -37,6 +37,23 @@ library SafeMath {
 
     // with rounding of last digit
     uint _quotient =  ((_numerator / denominator) + 5) / 10;
-    return (_quotient);
+    return _quotient;
   }
+
+  function max64(uint64 a, uint64 b) internal constant returns (uint64) {
+    return a >= b ? a : b;
+  }
+
+  function min64(uint64 a, uint64 b) internal constant returns (uint64) {
+    return a < b ? a : b;
+  }
+
+  function max256(uint256 a, uint256 b) internal constant returns (uint256) {
+    return a >= b ? a : b;
+  }
+
+  function min256(uint256 a, uint256 b) internal constant returns (uint256) {
+    return a < b ? a : b;
+  }
+
 }

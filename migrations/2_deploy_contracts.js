@@ -9,7 +9,7 @@ const SafeMathMock = artifacts.require('./SafeMathMock')
 module.exports = deployer => {
   deployer
     .deploy(SafeMath).then(() => {
-    deployer.link(SafeMath, [DIDToken, SafeMathMock])
+    deployer.link(SafeMath, [DIDToken, SafeMathMock, Tasks])
   })
     .then(() => {
       return deployer.deploy(DIDToken)
