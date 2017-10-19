@@ -56,6 +56,10 @@ const status = (
       return Object.assign({}, state, {
         message: 'Received tasks'
       })
+    case actions.RECEIVE_PARAMETERS:
+      return Object.assign({}, state, {
+        message: 'Received parameters'
+      })
     case actions.REQUEST_PULLREQUESTS_INSTANCE:
       return Object.assign({}, state, {
         message: 'Awaiting pull requests contract'

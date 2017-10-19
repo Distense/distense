@@ -14,6 +14,7 @@ contract Distense {
     that defines a system or sets the conditions of its operation".
   */
 
+  //  Titles are what uniquely define parameters, so query by titles when iterating with client
   bytes32[] public parameterTitles;
   struct Parameter {
     bytes32 title;
@@ -26,23 +27,29 @@ contract Distense {
   }
   mapping (bytes32 => Parameter) public parameters;
 
-  Parameter proposalPctDIDApprovalParameter;
+
+  Parameter public proposalPctDIDApprovalParameter;
   bytes32 public proposalPctDIDApprovalTitle = 'proposalPctDIDRequired';
 
-  Parameter pullRequestNumApprovalsParameter;
-  bytes32 public pullRequestNumApprovalsParameterTitle = 'pullRequestNumApprovalsRequired';
+
+  Parameter public pullRequestPctDIDParameter;
+  bytes32 public pullRequestPctDIDRequiredParameterTitle = 'pullRequestPctDIDRequired';
   uint256 public votingInterval;  // Period of time between when voters can update these Distense parameters
+
 
   Parameter votingIntervalParameter;
   bytes32 public votingIntervalParameterTitle = 'votingInterval';
 
+
   event LogParameterValueUpdate(bytes32 title, uint256 value);
+
 
   function Distense(address _DIDTokenAddress) public {
 
     DIDTokenAddress = _DIDTokenAddress;
 
-    // Launch Distense with some parameters
+
+    // Launch Distense with some votable parameters that can be later updated by contributors
     proposalPctDIDApprovalParameter = Parameter({
       title: proposalPctDIDApprovalTitle,
       value: 25
@@ -50,12 +57,12 @@ contract Distense {
     parameters[proposalPctDIDApprovalTitle] = proposalPctDIDApprovalParameter;
     parameterTitles.push(proposalPctDIDApprovalTitle);
 
-    pullRequestNumApprovalsParameter = Parameter({
-      title: pullRequestNumApprovalsParameterTitle,
+    pullRequestPctDIDParameter = Parameter({
+      title: pullRequestPctDIDRequiredParameterTitle,
       value: 1
     });
-    parameters[pullRequestNumApprovalsParameterTitle] = pullRequestNumApprovalsParameter;
-    parameterTitles.push(pullRequestNumApprovalsParameterTitle);
+    parameters[pullRequestPctDIDRequiredParameterTitle] = pullRequestPctDIDParameter;
+    parameterTitles.push(pullRequestPctDIDRequiredParameterTitle);
     
     votingIntervalParameter = Parameter({
       title: votingIntervalParameterTitle,
@@ -69,26 +76,28 @@ contract Distense {
   function getParameterValue(bytes32 _title) public view returns (uint256) {
      return parameters[_title].value; 
   }
-  
-  function voteOnParameter(bytes32 _title, uint256 _newValue) public /*longEnoughSinceVoted(msg.sender, _title, _newValue) */returns
+
+  function voteOnParameter(bytes32 _title, uint256 _newValue) public votingIntervalReached(msg.sender, _title) returns
     (uint256) {
 
-    Parameter storage parameter = parameters[_title];
-    address voter = msg.sender;
-    uint256 oldValue = parameter.value;
-    require(_newValue != oldValue); // Don't waste gas on mistakes.
-
+    assert(_newValue > 0);
+    assert(_newValue > 0);
     DIDToken didToken = DIDToken(DIDTokenAddress);
-    uint256 votersDIDPercent = didToken.percentDID(voter);
+    uint256 votersDIDPercent = didToken.percentDID(msg.sender);
     require (votersDIDPercent > 0);
-    uint256 valueDelta = _newValue - oldValue;
-    uint256 delta = votersDIDPercent * valueDelta;
-    parameter.value += delta;
-    assert(parameter.value != oldValue);
 
+    Parameter storage parameter = parameters[_title];
+    require (_newValue != parameter.value);
+
+    uint value = (_newValue * votersDIDPercent) / 100;
+    
+    parameter.value += value;
+    parameter.votes[msg.sender].lastVoted = now;
     LogParameterValueUpdate(_title, parameter.value);
     return parameter.value;
   }
+  
+  
 
   function getParameterByTitle(bytes32 _title) public view returns (bytes32, uint256) {
     Parameter memory param = parameters[_title];
@@ -102,7 +111,8 @@ contract Distense {
   modifier votingIntervalReached(address _voter, bytes32 _title) {
     Parameter storage parameter = parameters[_title];
     uint256 lastVotedOnParameter = parameter.votes[_voter].lastVoted;
-    require(now >= lastVotedOnParameter + votingInterval);
+    if (lastVotedOnParameter > 0)
+        require(now >= lastVotedOnParameter + votingInterval);
     _;
   }
 

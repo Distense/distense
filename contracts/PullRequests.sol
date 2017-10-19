@@ -1,81 +1,90 @@
 pragma solidity ^0.4.17;
 
-import './lib/StringArrayUtils.sol';
+
 import './lib/Approvable.sol';
 import './DIDToken.sol';
+import './Distense.sol';
 import './Tasks.sol';
 
+
 contract PullRequests is Approvable {
-  using StringArrayUtils for string[];
 
   DIDToken didToken;
   address public DIDTokenAddress;
+
+  Distense distense;
+  address public DistenseAddress;
 
   Tasks tasks;
   address public TasksAddress;
 
   struct PullRequest {
     address createdBy;
-    string taskId;
-    string repoName;
-    string gitRef;
-    address[] approvalVoters;
-    mapping (address => bool) approvalVotes;
+    bytes32 taskId;
+    uint256 pctDIDApproved;
+    mapping (address => Vote) votes;
   }
 
-  string[] public pullRequestIds;
-  mapping (string => PullRequest) pullRequests;
+  struct Vote {
+    address voter;
+    bool approves;
+  }
 
-  event LogApprovedPullRequest(string indexed taskId, string _prId);
+  bytes32[] public pullRequestIds;
 
-  function PullRequests (address _DIDTokenAddress, address _TasksAddress) public {
+  mapping (bytes32 => PullRequest) pullRequests;
+
+  event LogPullRequestApproval(bytes32 _prId, bytes32 indexed taskId);
+  event LogValue(uint256 value);
+  event LogPullRequestVote(bytes32 _prId);  // TODO what should be in this
+
+  function PullRequests(address _DIDTokenAddress, address _DistenseAddress, address _TasksAddress) public {
     DIDTokenAddress = _DIDTokenAddress;
+    DistenseAddress = _DistenseAddress;
     TasksAddress = _TasksAddress;
   }
 
-  function submitPullRequest(string _prId, string _taskId) external returns (bool) {
-    pullRequests[_prId].createdBy = msg.sender;
+  function submitPullRequest(bytes32 _prId, bytes32 _taskId) external returns (uint256) {
+    PullRequest memory pr = PullRequest(msg.sender, _taskId, 0);
+    //Write the struct to storage
+    pullRequests[_prId] = pr;
     pullRequestIds.push(_prId);
-  }
-
-  function pullRequestExists(string _ipfsHash) public view returns (bool) {
-    return pullRequestIds.contains(_ipfsHash);
-  }
-
-  function getNumPullRequests() public view returns (uint) {
     return pullRequestIds.length;
   }
 
-   function voteOnApproval(string _prId, bool _approve) external {
-     PullRequest storage _pr = pullRequests[_prId];
-
-//     require(!approved(_id)); // TODO wondering if you should be allowed to vote after approval; could be useful information
-//     Task _task = Task(_id);
-//     _task.rewardVotes[msg.sender] = _reward;
-//     _task.rewardVoters.push(msg.sender);
-   }
-
-  function approvePullRequest(string _taskId, string _prId) internal returns (bool) {
-    LogApprovedPullRequest(_taskId, _prId);
+  function getPullRequestById(bytes32 _prId) public view returns (address, bytes32) {
+    PullRequest memory pr = pullRequests[_prId];
+    return (pr.createdBy, pr.taskId);
   }
 
-  function numDIDApproved(string _prId) public view returns (uint256) {
-    PullRequest storage _pr = pullRequests[_prId];
-    uint256 _numDIDApproved = 0;
-    address _voter;
+  function getNumPullRequests() public view returns (uint256) {
+    return pullRequestIds.length;
+  }
 
-    for (uint256 i = 0; i < _pr.approvalVoters.length; i++) {
-      _voter = _pr.approvalVoters[i];
-      if (_pr.approvalVotes[_voter]) {
-        _numDIDApproved += didToken.balances(_voter);
-      }
+  function voteOnApproval(bytes32 _prId, bool _approve) external returns (bool) {
+    PullRequest storage _pr = pullRequests[_prId];
+
+    uint256 pctDIDOwned = didToken.percentDID(msg.sender);
+
+    if (!_approve) {
+      pctDIDOwned = -pctDIDOwned;
     }
 
-    return _numDIDApproved;
+    _pr.pctDIDApproved += pctDIDOwned;
+    LogPullRequestVote(_prId);
+    uint256 approvalValue = distense.getParameterValue(distense.pullRequestPctDIDRequiredParameterTitle());
+    if (_pr.pctDIDApproved > approvalValue) {
+      approvePullRequest(_pr.taskId, _prId, _pr.createdBy);
+    }
+
+    return true;
   }
 
-  function percentDIDApproved(string _id) public view returns (uint256) {
-    return (numDIDApproved(_id) * 100) / (didToken.totalSupply() * 100);
+  function approvePullRequest(bytes32 _taskId, bytes32 _prId, address contributor) internal returns (bool) {
+    LogPullRequestApproval(_taskId, _prId);
+    uint256 taskReward = tasks.getTaskReward(_taskId);
+    didToken.issueDID(contributor, taskReward);
+    return true;
   }
 
 }

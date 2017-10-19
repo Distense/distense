@@ -43,6 +43,15 @@ export default ({ children, title }) => (
           <Menu.Item to="/pullrequests" as={Link}>
             Approve
           </Menu.Item>
+          <Menu.Item
+            // style={{ textDecoration: 'underline' }}
+            color="blue"
+            link
+            as={Link}
+            to="/parameters"
+          >
+            Parameters
+          </Menu.Item>
           <TotalDID />
         </Container>
       </Menu>
@@ -54,7 +63,6 @@ export default ({ children, title }) => (
       <Menu className="inconsolata" borderless fixed="bottom">
         <Container>
           <Menu.Item>© {new Date().getFullYear()} Distense</Menu.Item>
-          {/*<UserTransactionsStatus />*/}
           <Status />
           <NumberDIDOwned />
           <GasEstimate />

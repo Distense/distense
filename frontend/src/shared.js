@@ -2,10 +2,8 @@ export const tagsOptions = [
   'Contracts',
   'Contract Tests',
   'Contributors',
-  'Code Review',
   'Copy Review',
-  'CSS',
-  'DApp Development',
+  'DApp Proposal',
   'Decisions',
   'Design',
   'Design Review',
@@ -18,16 +16,13 @@ export const tagsOptions = [
   'HTML',
   'Idea',
   'Issue/Task Management',
-  'Open Source',
+  'New Parameter',
   'Planning',
-  'ReactJS',
-  'Repo Contract',
+  'React',
   'Security',
   'Semantic UI',
-  'Social Media',
   'Solidity',
-  'Tasks Contract',
-  'Voting DApp',
+  'Tasks Contract'
 ]
 
 export const specPlaceholder = `

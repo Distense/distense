@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Icon, Menu } from 'semantic-ui-react'
 
-import Blocktime from './Blocktime'
-
 const constructStatus = message => {
   let color
   let icon

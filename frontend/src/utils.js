@@ -14,16 +14,3 @@ export const reconstructIPFSHash = taskIdBytes32 => {
   const hash = bs58.encode(bytes)
   return hash
 }
-
-/*
-export const deconstructIPFSHash = ipfsBaseEncodedString => {
-  const ipfsHashBytes = bs58.decode(ipfsBaseEncodedString)
-  const prefixBytes = ipfsHashBytes.slice(0, 4)
-  const contentBytes = ipfsHashBytes.slice(4)
-  const bytes32TaskId = web3Utils.bytesToHex(contentBytes)
-
-  let strippedBytes32 = bytes32TaskId.slice(2)
-  const bytes = Buffer.from(`82ddfdec${strippedBytes32}`, 'hex')
-  const hash = bs58.encode(bytes)
-  return hash
-}*/

@@ -15,16 +15,16 @@ contract Tasks {
   bytes32[] public taskIds;
 
   struct Task {
-    address createdBy;
-    uint256 reward;
-    address[] rewardVoters;
-    bool rewardPaid;
-    uint256 pctDIDVoted;
-    mapping (address => uint256) rewardVotes;
+  address createdBy;
+  uint256 reward;
+  address[] rewardVoters;
+  bool rewardPaid;
+  uint256 pctDIDVoted;
+  mapping (address => uint256) rewardVotes;
   }
 
   mapping (bytes32 => Task) tasks;
-//  Does this happen at time of reward determination or at simple addTask or both
+  //  Does this happen at time of reward determination or at simple addTask or both
   event LogAddTask(bytes32 taskId);
   event LogRewardVote(bytes32 taskId, uint256 reward, uint256 pctDIDVoted);
   event LogVoterBalance(uint256 voterBalance);
@@ -59,8 +59,8 @@ contract Tasks {
 
   // Make sure voter hasn't voted and the reward for this task isn't set
   function voteOnReward(bytes32 _taskId, uint256 _reward)
-//    hasRequiredNumDID(msg.sender, _reward)
-    voterNotVotedOnTask(_taskId)
+    //    hasRequiredNumDID(msg.sender, _reward)
+  voterNotVotedOnTask(_taskId)
   external returns (bool) {
     require(!haveReachedProposalApprovalThreshold(_taskId));
 
@@ -72,9 +72,9 @@ contract Tasks {
     _task.pctDIDVoted = _pctDIDVoted;
 
     //  If DID threshold has been reached go ahead and determine the reward for the task
-//    TODO  this function could hopefully be structured better;
-//    the below will consume quite a bit of gas
-//    if enoughDIDVoted, making the person who calls this the unlucky one who turns enoughDIDVoted to be true
+    //    TODO  this function could hopefully be structured better;
+    //    the below will consume quite a bit of gas
+    //    if enoughDIDVoted, making the person who calls this the unlucky one who turns enoughDIDVoted to be true
     bool enoughDIDVoted = haveReachedProposalApprovalThreshold(_taskId);
     if (enoughDIDVoted || _task.rewardVoters.length == 100) {
       determineReward(_taskId);

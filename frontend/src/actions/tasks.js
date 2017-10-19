@@ -100,7 +100,7 @@ const getTaskByID = async id => {
   const pctDIDVoted = contractTask[4].toString()
 
   const status =
-    reward === "0"
+    reward === '0'
       ? 'PROPOSAL'
       : reward > 0 && !rewardPaid ? 'TASK' : 'CONTRIBUTION'
 

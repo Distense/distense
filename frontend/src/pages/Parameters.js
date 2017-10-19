@@ -12,7 +12,10 @@ class Parameters extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      parameters: this.props.parameters || []
+      parameters: this.props.parameters || [],
+      proposalPctDIDRequired: '',
+      pullRequestPctDIDRequired: '',
+      votingInterval: ''
     }
   }
 
@@ -33,6 +36,29 @@ class Parameters extends Component {
     clearTimeout(this.paramTimeout)
   }
 
+  onChangeProposalPctDIDRequired = ({ target: { value } }) => {
+    this.setState({ proposalPctDIDRequired: value })
+  }
+
+  onChangepullRequestPctDIDRequired = ({ target: { value } }) => {
+    //  TODO url validation
+    this.setState({ pullRequestPctDIDRequired: value })
+  }
+
+  onChangeVotingInterval = ({ target: { value } }) => {
+    this.setState({ proposalPctDIDRequired: value })
+  }
+
+  onSubmit = async e => {
+    e.preventDefault()
+    const { title, tags, issueURL, spec } = this.state
+
+    this.props.createTask({ title, tags, issueURL, spec })
+    this.setState({
+      redirect: true
+    })
+  }
+
   render() {
     const { parameters } = this.props
 
@@ -40,34 +66,48 @@ class Parameters extends Component {
       <Layout>
         <Head title="Distense' Votable Parameters" />
         <Segment.Group>
-        {parameters.length > 0 ? (
-          parameters.map(parameter => (
-            <Parameter key={Math.random()} parameter={parameter} />
-          ))
-        ) : (
-          <span>Loading Distense parameters...</span>
-        )}
+          {parameters.length > 0 ? (
+            parameters.map(parameter => (
+              <Parameter
+                key={Math.random()}
+                parameter={parameter}
+                onSubmit={this.onSubmit}
+              />
+            ))
+          ) : (
+            <Segment>Loading Distense parameters...</Segment>
+          )}
         </Segment.Group>
       </Layout>
     )
   }
 }
 
-const Parameter = ({ parameter }) => (
-  <Segment>
-    <Statistic value={parameter.value} label={parameter.title} />
-    <Form.Input label="Vote on this parameter" type="text" />
-    <Form.Button
-      basic
-      color="green"
-      compact={true}
-      // size="tiny"
-      title="Vote on this parameter"
-    >
-      Vote
-    </Form.Button>
-  </Segment>
-)
+const Parameter = ({ parameter }) => {
+  const value =
+    parameter.title === 'votingInterval'
+      ? parameter.value / 86400 + ' days'
+      : parameter.title === 'proposalPctDIDRequired'
+        ? parameter.value + '%'
+        : parameter.value
+
+  const title =
+    parameter.title === 'votingInterval'
+      ? 'Parameter Voting Interval'
+      : parameter.title === 'proposalPctDIDRequired'
+        ? 'Percent of DID required to approve work proposal'
+        : 'Number of Pull request approvals required to merge'
+
+  return (
+    <Segment>
+      <Statistic value={value} label={title} />
+      <Form.Input type="text" />
+      <Form.Button basic color="green" compact={true}>
+        Vote
+      </Form.Button>
+    </Segment>
+  )
+}
 
 const mapStateToProps = state => ({
   parameters: getParameters(state)
