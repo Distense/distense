@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Grid, Header, List, Menu, Segment } from 'semantic-ui-react'
+import {
+  Container,
+  Grid,
+  Header,
+  Icon,
+  List,
+  Menu,
+  Segment
+} from 'semantic-ui-react'
 import Scroll from 'react-scroll'
 import Head from '../components/common/Head'
 
@@ -15,7 +23,7 @@ const durationFn = function(deltaTop) {
   return deltaTop
 }
 
-class HowItWorks extends Component {
+export default class HowItWorks extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -95,15 +103,15 @@ class HowItWorks extends Component {
                 <Grid.Column width={8}>
                   <List style={{ fontSize: '1.33em' }}>
                     <List.Item>
-                      <List.Content>A new Distense DApp</List.Content>
+                      <List.Content>New DApps</List.Content>
                     </List.Item>
                     <List.Item>
                       <List.Content>
-                        Parameter changes <Link to="/parameters" />
+                        Votable parameter changes <Link to="/parameters" />
                       </List.Content>
                     </List.Item>
                     <List.Item>
-                      <List.Content>Frontend changes</List.Content>
+                      <List.Content>Website and copy changes</List.Content>
                     </List.Item>
                     <List.Item>
                       <List.Content>Design and process changes</List.Content>
@@ -120,7 +128,7 @@ class HowItWorks extends Component {
               as="h3"
               style={{ fontSize: '1.7em' }}
             >
-              Four simple pages
+              Four steps
             </Header>
             <List style={{ fontSize: '1.33em' }}>
               <List.Item>
@@ -130,21 +138,47 @@ class HowItWorks extends Component {
                     spy={true}
                     smooth={true}
                     duration={500}
+                    style={{
+                      color: 'black',
+                      textDecoration: 'none'
+                    }}
                   >
                     Propose a task or change
+                    <Icon name="angle down" />
                   </ScrollLink>
                 </List.Content>
               </List.Item>
               <List.Item>
                 <List.Content>
-                  <ScrollLink to="view" spy={true} smooth={true} duration={500}>
+                  <ScrollLink
+                    to="view"
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                    style={{
+                      color: 'black',
+                      textDecoration: 'none'
+                    }}
+                  >
                     View list of tasks
+                    <Icon name="angle down" />
                   </ScrollLink>
                 </List.Content>
               </List.Item>
               <List.Item>
-                <ScrollLink to="submit" spy={true} smooth={true} duration={500}>
-                  <List.Content>Submit work</List.Content>
+                <ScrollLink
+                  to="submit"
+                  spy={true}
+                  smooth={true}
+                  duration={500}
+                  style={{
+                    color: 'black',
+                    textDecoration: 'none'
+                  }}
+                >
+                  <List.Content>
+                    Submit work<Icon name="angle down" />
+                  </List.Content>
                 </ScrollLink>
               </List.Item>
               <List.Item>
@@ -153,8 +187,14 @@ class HowItWorks extends Component {
                   spy={true}
                   smooth={true}
                   duration={500}
+                  style={{
+                    color: 'black',
+                    textDecoration: 'none'
+                  }}
                 >
-                  <List.Content>Approve Work</List.Content>
+                  <List.Content>
+                    Approve Work<Icon name="angle down" />
+                  </List.Content>
                 </ScrollLink>
               </List.Item>
             </List>
@@ -167,29 +207,55 @@ class HowItWorks extends Component {
               <Header as="h3" style={{ fontSize: '1.7em' }}>
                 Propose a task or change
               </Header>
-              <p style={{ fontSize: '1.33em' }} />
+              <p style={{ fontSize: '1.33em' }}>
+                Anyone who owns more than 0 DID can propose a new task, whether
+                that's fixing a bug of building a feature for an existing DApp,
+                or they could propose entirely new DApps.
+              </p>
+              <p style={{ fontSize: '1.33em' }}>
+                Proposing tasks is simple. Discussion can happen on Github and a
+                more detail description can be entered into a spec on our
+                website. To propose your first task, click
+                <Link to="create">here</Link>.
+              </p>
             </Element>
             <Element name="view" className="element">
-              <Header as="h3" style={{ fontSize: '1.7em' }}>
-                View list of tasks
+              <Header as="h3" style={{ fontSize: '1.7em', marginTop: '2rem' }}>
+                View tasks
               </Header>
-              <p style={{ fontSize: '1.33em' }} />
+              <p style={{ fontSize: '1.33em' }}>
+                Whether viewing the <Link to="/tasks">list of tasks</Link> or a
+                single task, it's easy to get started contributing to Distense.
+              </p>
+              <p style={{ fontSize: '1.33em' }}>
+                View the spec, discussion and DID reward for each task. Each DID
+                holder can vote on the DID reward they think is appropriate for
+                each task.
+              </p>
             </Element>
             <Element name="submit" className="element">
-              <Header as="h3" style={{ fontSize: '1.7em' }}>
+              <Header as="h3" style={{ fontSize: '1.7em', marginTop: '2rem' }}>
                 Submit work
               </Header>
-              <p style={{ fontSize: '1.33em' }}>submit work</p>
+              <p style={{ fontSize: '1.33em' }}>
+                Once you've completed work, it's easy to let the other DID
+                holders and Distense members that there you're ready for them to
+                review your work. The only things we need to know are the task
+                ID and the pull request URL.
+              </p>
             </Element>
             <Element name="approve" className="element">
               <Header
                 className="landing-header"
                 as="h3"
-                style={{ fontSize: '1.7em' }}
+                style={{ fontSize: '1.7em', marginTop: '2rem' }}
               >
                 Approve work
               </Header>
-              <p style={{ fontSize: '1.33em' }} />
+              <p style={{ fontSize: '1.33em' }}>
+                Previous contributors can review submitted pull requests in a
+                very similar workflow to the well-known Github workflow.
+              </p>
             </Element>
           </Container>
         </Segment>
@@ -208,5 +274,3 @@ class HowItWorks extends Component {
     )
   }
 }
-
-export default HowItWorks
