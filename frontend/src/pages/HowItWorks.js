@@ -13,15 +13,10 @@ import Scroll from 'react-scroll'
 import Head from '../components/common/Head'
 
 const ScrollLink = Scroll.Link
-const DirectLink = Scroll.DirectLink
 const Element = Scroll.Element
 const Events = Scroll.Events
 const scroll = Scroll.animateScroll
 const scrollSpy = Scroll.scrollSpy
-
-const durationFn = function(deltaTop) {
-  return deltaTop
-}
 
 export default class HowItWorks extends Component {
   constructor(props) {
@@ -59,7 +54,7 @@ export default class HowItWorks extends Component {
   render() {
     return (
       <div>
-        <Head title="HowItWorks" />
+        <Head title="Home" />
         <Segment
           inverted
           textAlign="center"
@@ -86,9 +81,7 @@ export default class HowItWorks extends Component {
               <Menu.Item to="/pullrequests" as={Link}>
                 Approve
               </Menu.Item>
-              <Menu.Item to="/parameters" as={Link}>
-                Parameters
-              </Menu.Item>
+              <Menu.Item position="right">18330 Total DID</Menu.Item>
             </Container>
           </Menu>
         </Segment>
@@ -98,6 +91,9 @@ export default class HowItWorks extends Component {
             <Header as="h3" style={{ fontSize: '1.7em' }}>
               Anyone who owns DID can propose anything
             </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              Contributing and earning DID gives the holder governance rights
+            </p>
             <Grid textAlign="center" divided inverted stackable>
               <Grid.Row className="landing-work-broken" textAlign="center">
                 <Grid.Column width={8}>
