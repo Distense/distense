@@ -137,6 +137,26 @@ class Home extends Component {
                 </Form>
               )}
             </Grid>
+            <Grid
+              style={{
+                fontSize: '2rem',
+                marginTop: '2em',
+                color: 'green'
+              }}
+              centered
+              inverted
+              columns="1"
+            >
+              <Link
+                style={{
+                  color: 'green',
+                  textDecoration: 'underline'
+                }}
+                to="/howitworks"
+              >
+                How It Works
+              </Link>
+            </Grid>
           </Container>
         </Segment>
 
