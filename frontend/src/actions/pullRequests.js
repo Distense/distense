@@ -21,12 +21,7 @@ import {
 import { receiveUserNotAuthenticated } from './user'
 import { setDefaultStatus } from './status'
 
-import {
-  submitIPFSHash,
-  receiveIPFSHash,
-  requestIPFSNode,
-  receiveIPFSNode
-} from './ipfs'
+import { submitIPFSHash, requestIPFSNode, receiveIPFSNode } from './ipfs'
 
 const requestPullRequests = () => ({
   type: REQUEST_PULLREQUESTS
@@ -81,7 +76,8 @@ const getPullRequestById = async prId => {
 
   ipfsPullRequest = ipfsPullRequest.value
   const createdBy = contractPR[0]
-  const taskId = contractPR[1].toString()
+  const taskId = reconstructIPFSHash(contractPR[1].toString())
+  const pctDIDVoted = contractPR[2].toString()
   const prURL = ipfsPullRequest.prURL
 
   return Object.assign(
@@ -89,13 +85,14 @@ const getPullRequestById = async prId => {
     {
       _id: prIPFSHash,
       createdBy,
-      taskId,
-      prURL
+      pctDIDVoted,
+      prURL,
+      taskId
     }
   )
 }
 
-export const fetchPullRequests = () => async (dispatch, getState) => {
+export const fetchPullRequests = () => async dispatch => {
   dispatch(requestPullRequests())
 
   // Have to get numPRs from chain to know how many to query by index

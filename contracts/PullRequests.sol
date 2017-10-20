@@ -5,11 +5,12 @@ import './lib/Approvable.sol';
 import './DIDToken.sol';
 import './Distense.sol';
 import './Tasks.sol';
+import './lib/LogHelpers.sol';
 
 
-contract PullRequests is Approvable {
+contract PullRequests is Approvable, LogHelpers {
 
-  DIDToken didToken;
+  DIDToken didToken = DIDToken(DIDTokenAddress);
   address public DIDTokenAddress;
 
   Distense distense;
@@ -17,6 +18,8 @@ contract PullRequests is Approvable {
 
   Tasks tasks;
   address public TasksAddress;
+
+  uint256 constant public numDIDToApprove = 50;
 
   struct PullRequest {
     address createdBy;
@@ -35,8 +38,8 @@ contract PullRequests is Approvable {
   mapping (bytes32 => PullRequest) pullRequests;
 
   event LogPullRequestApproval(bytes32 _prId, bytes32 indexed taskId);
-  event LogValue(uint256 value);
-  event LogPullRequestVote(bytes32 _prId);  // TODO what should be in this
+  event LogTwoBytes32(bytes32 value, bytes32 another);
+  event LogPullRequestVote(bytes32 _prId, uint256 pctDIDApproved);
 
   function PullRequests(address _DIDTokenAddress, address _DistenseAddress, address _TasksAddress) public {
     DIDTokenAddress = _DIDTokenAddress;
@@ -45,39 +48,44 @@ contract PullRequests is Approvable {
   }
 
   function submitPullRequest(bytes32 _prId, bytes32 _taskId) external returns (uint256) {
-    PullRequest memory pr = PullRequest(msg.sender, _taskId, 0);
+    LogTwoBytes32(_prId, _taskId);
+    PullRequest memory _pr = PullRequest(msg.sender, _taskId, 0);
     //Write the struct to storage
-    pullRequests[_prId] = pr;
+    _pr.pctDIDApproved = 0;
+    pullRequests[_prId] = _pr;
     pullRequestIds.push(_prId);
     return pullRequestIds.length;
   }
 
-  function getPullRequestById(bytes32 _prId) public view returns (address, bytes32) {
+  function getPullRequestById(bytes32 _prId) public view returns (address, bytes32, uint256) {
     PullRequest memory pr = pullRequests[_prId];
-    return (pr.createdBy, pr.taskId);
+    return (pr.createdBy, pr.taskId, pr.pctDIDApproved);
   }
 
   function getNumPullRequests() public view returns (uint256) {
     return pullRequestIds.length;
   }
 
-  function voteOnApproval(bytes32 _prId, bool _approve) external returns (bool) {
+  function voteOnApproval(bytes32 _prId, bool _approve) hasntVotedThisWay(_prId, msg.sender, _approve) enoughDIDToApprove(msg.sender) external
+  returns (uint256) {
     PullRequest storage _pr = pullRequests[_prId];
 
     uint256 pctDIDOwned = didToken.percentDID(msg.sender);
+    _pr.votes[msg.sender].approves = _approve;
 
-    if (!_approve) {
-      pctDIDOwned = -pctDIDOwned;
-    }
-
+//    if (!_approve) {
+//      pctDIDOwned += -pctDIDOwned;
+//    }
+//    LogUint256(pctDIDOwned);
     _pr.pctDIDApproved += pctDIDOwned;
-    LogPullRequestVote(_prId);
-    uint256 approvalValue = distense.getParameterValue(distense.pullRequestPctDIDRequiredParameterTitle());
-    if (_pr.pctDIDApproved > approvalValue) {
-      approvePullRequest(_pr.taskId, _prId, _pr.createdBy);
-    }
-
-    return true;
+    return 100;
+//    uint256 approvalValue = distense.getParameterValue(distense.pullRequestPctDIDRequiredParameterTitle());
+//    if (_pr.pctDIDApproved > approvalValue) {
+//      approvePullRequest(_pr.taskId, _prId, _pr.createdBy);
+//    }
+//
+//    LogPullRequestVote(_prId, _pr.pctDIDApproved);
+//    return _pr.pctDIDApproved;
   }
 
   function approvePullRequest(bytes32 _taskId, bytes32 _prId, address contributor) internal returns (bool) {
@@ -85,6 +93,20 @@ contract PullRequests is Approvable {
     uint256 taskReward = tasks.getTaskReward(_taskId);
     didToken.issueDID(contributor, taskReward);
     return true;
+  }
+
+  modifier hasntVotedThisWay(bytes32 _prId, address voter, bool vote) {
+    bool alreadyVoted = pullRequests[_prId].votes[voter].approves == vote;
+    require(!alreadyVoted);
+    _;
+  }
+
+  modifier enoughDIDToApprove(address voter) {
+    LogUint256(100);
+    uint256 didOwned = didToken.balances(voter);
+    assert(numDIDToApprove == 50);
+    require(didOwned >= numDIDToApprove);
+    _;
   }
 
 }

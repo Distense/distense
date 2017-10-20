@@ -51,6 +51,7 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.1.2",
     "react-router-dom": "^4.1.2",
+    "react-scroll": "^1.6.1",
     "react-three": "^0.9.7",
     "react-window-size": "^1.1.0",
     "redux": "^3.7.2",

@@ -50,20 +50,17 @@ class PullRequests extends Component {
 
   mapTasksToPullRequests(prs, tasks) {
     const pullRequests = prs.map(pr => {
-      let pullRequest = pr
       const task = _.find(tasks, { _id: pr.taskId })
+      let pullRequest
       if (task)
-        pullRequest = {
-          _id: pr._id,
-          createdAt: pr.createdAt,
+        pullRequest = Object.assign({}, pr, {
           issueURL: task.issueURL ? task.issueURL : '',
           taskTitle: task.title,
           taskId: task._id,
-          taskReward: task.reward,
+          taskReward: !task.reward ? '?' : task.reward,
           taskPctDIDVoted: task.pctDIDVoted,
-          tags: task.tags.length > 0 ? task.tags : [],
-          prURL: pr.prURL
-        }
+          tags: task.tags.length > 0 ? task.tags : []
+        })
       return pullRequest
     })
     this.setState({
@@ -115,7 +112,7 @@ class PullRequests extends Component {
                 sorted={column === 'Status' ? direction : null}
                 onClick={this.handleSort('status')}
               >
-                Num Approvals
+                % DID Approved
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Reward' ? direction : null}
@@ -123,7 +120,7 @@ class PullRequests extends Component {
               >
                 Reward
               </Table.HeaderCell>
-              <Table.HeaderCell>Review</Table.HeaderCell>
+              <Table.HeaderCell />
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -159,7 +156,7 @@ const PullRequestsListItem = ({ pr }) => (
     <Table.Cell>
       <Tags tags={pr.tags} />
     </Table.Cell>
-    <Table.Cell>{pr.numApprovals}</Table.Cell>
+    <Table.Cell>{pr.pctDIDVoted}</Table.Cell>
     <Table.Cell>{pr.taskReward}</Table.Cell>
     <Table.Cell>
       <Button

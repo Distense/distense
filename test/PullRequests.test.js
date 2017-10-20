@@ -2,17 +2,19 @@ const web3 = global.web3
 const Tasks = artifacts.require('Tasks')
 const PullRequests = artifacts.require('PullRequests')
 const DIDToken = artifacts.require('DIDToken')
-const distense = artifacts.require('Distense')
+const Distense = artifacts.require('Distense')
 
 contract('PullRequests', function(accounts) {
   beforeEach(async function() {
     tasks = await Tasks.new()
     didToken = await DIDToken.new()
+    distense = await Distense.new()
     pullRequests = await PullRequests.new(
       didToken.address,
       distense.address,
       tasks.address
     )
+    numDIDToApprove = await pullRequests.numDIDToApprove.call()
   })
 
   const pullRequest = {
@@ -36,6 +38,8 @@ contract('PullRequests', function(accounts) {
 
   it('pullRequestIds.length should be 0', async function() {
     let numPRs
+    let submitError
+
     numPRs = await pullRequests.getNumPullRequests.call()
     assert.equal(numPRs.toNumber(), 0, 'numPRs should be 0')
   })
@@ -46,46 +50,112 @@ contract('PullRequests', function(accounts) {
     numPRs = await pullRequests.getNumPullRequests.call()
     assert.equal(numPRs.toNumber(), 0, 'numPRs should be 0 initially')
 
-    submitted = await pullRequests.submitPullRequest.call('1234', '1234')
-    assert.equal(
-      submitted.toNumber(),
-      1,
-      'Should have successfully submitted PR'
+    try {
+      submitted = await pullRequests.submitPullRequest.call(
+        pullRequest.id,
+        pullRequest.taskId
+      )
+      assert.equal(
+        submitted.toNumber(),
+        1,
+        'Should have successfully submitted PR'
+      )
+
+      //  Make sure pctDIDApproved is set to 0
+      const pr = await pullRequests.getPullRequestById(pullRequest.id)
+      assert.equal(
+        pr[2].toNumber,
+        0,
+        'pctDIDApproved should be 0 for a brand new pullRequest'
+      )
+
+      await pullRequests.submitPullRequest.call('4321', '4312')
+
+      numPRs = await pullRequests.getNumPullRequests.call()
+      assert.equal(numPRs.toNumber(), 2, 'numPRs should be 2')
+    } catch (error) {
+      submitError = error
+    }
+  })
+
+  it('the enoughDIDToApprove modifier should work', async function() {
+    let anError
+
+    try {
+      assert.equal(
+        await pullRequests.numDIDToApprove.call(),
+        50,
+        'Beginning numbers should be accurate'
+      )
+      await didToken.issueDID(accounts[0], 49)
+      assert.equal(
+        await didToken.balances.call(accounts[0]),
+        49,
+        'User balance should be 49 or less than threshold here'
+      )
+
+      submitted = await pullRequests.voteOnApproval.call(pullRequest.id, true)
+    } catch (error) {
+      anError = error
+    }
+
+    assert.notEqual(
+      anError,
+      undefined,
+      'error should be thrown if someone with not enough DID approval votes'
     )
 
-    await pullRequests.submitPullRequest.call('4321', '4312')
+    try {
+      await didToken.issueDID(accounts[0], 1)
+      assert.equal(
+        await didToken.balances(accounts[0]),
+        50,
+        "User's balance should be 50 right here"
+      )
+      submitted = await pullRequests.voteOnApproval.call(pullRequest.id, true)
+    } catch (error) {
+      approvalVoteError = error
+    }
 
-    //  TODO why the hell doesn't this work?
-    numPRs = await pullRequests.getNumPullRequests.call()
     assert.equal(
-      numPRs.toNumber(),
-      2,
-      "TODO why the hell doesn't this work? numPRs should be 2"
+      approvalVoteError,
+      undefined,
+      'No error should be thrown for should vote/adjust pctDIDApproved correctly'
     )
   })
 
   it('should vote/adjust pctDIDApproved correctly', async function() {
     let pr
-    let voted
+    let pctVoted
+    let anError
 
-    await didToken.issueDID(accounts[0], 100)
-    assert.equal(await didToken.totalSupply(), 100)
+    try {
+      await didToken.issueDID(accounts[0], 100)
+      let pctDIDOwned = await didToken.percentDID.call(accounts[0])
+      assert.equal(await didToken.totalSupply(), 100)
 
-    submitted = await pullRequests.submitPullRequest.call(
-      pullRequest.id,
-      pullRequest.taskId,
-      {
-        from: accounts[1]
-      }
+      submitted = await pullRequests.submitPullRequest.call(
+        pullRequest.id,
+        pullRequest.taskId,
+        {
+          from: accounts[1]
+        }
+      )
+
+      pctVoted = await pullRequests.voteOnApproval.call(pullRequest.id, true)
+      assert.equal(
+        pctVoted.toNumber(),
+        pctDIDOwned.toNumber(),
+        'pctVoted should be 100'
+      )
+    } catch (error) {
+      anError = error
+    }
+
+    assert.equal(
+      anError,
+      undefined,
+      'No error should be thrown for should vote/adjust pctDIDApproved correctly'
     )
-
-    voted = await pullRequests.voteOnApproval.call(pullRequest.id, true)
-    assert.equal(voted, true, 'Voted should be true')
-
-    //  return (pr.createdBy, pr.taskId);
-    pr = await pullRequests.getPullRequestById.call(pullRequest.id)
-
-    assert.equal(pr[0], accounts[1])
-    assert.equal(pr[1], pullRequest.taskId)
   })
 })

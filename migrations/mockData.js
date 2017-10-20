@@ -64,7 +64,7 @@ module.exports = async function(tasksInstance, pullRequestsInstance) {
         await addTask(task)
 
         const pr = {
-          bytes32: web3Utils.randomHex(66).toString(),
+          bytes32: web3Utils.randomHex(64).toString(),
           taskId: task.bytes32
         }
         await submitPullRequest(pr)

@@ -44,9 +44,9 @@ module.exports = deployer => {
     })
     .then(async () => {
       if (web3.version.network !== 1) {
-        const tasks = await Tasks.deployed()
-        const pullRequests = await PullRequests.deployed()
-        await mockData(tasks, pullRequests)
+        // const tasks = await Tasks.deployed()
+        // const pullRequests = await PullRequests.deployed()
+        // await mockData(tasks, pullRequests)
       }
     })
     .catch(err => {

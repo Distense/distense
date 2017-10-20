@@ -19,7 +19,6 @@ export const selectContractInstance = contractBuild => {
   })
 }
 
-// TODO unused
 export const mapReponseToJSON = (contractResponse, parameters, type) => {
   switch (type) {
     case 'arrayOfObject': {

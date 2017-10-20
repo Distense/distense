@@ -12,6 +12,7 @@ import { selectUserAccountInfo } from './actions/user'
 
 import Home from './pages/Home'
 import CreateTask from './pages/CreateTask'
+import HowItWorks from './pages/HowItWorks'
 import Tasks from './pages/Tasks'
 import Task from './pages/Task'
 import SubmitPullRequest from './pages/SubmitPullRequest'
@@ -27,6 +28,7 @@ const Root = () => (
   <Router>
     <Switch>
       <Route exact path="/" component={Home} />
+      <Route exact path="/howitworks" component={HowItWorks} />
       <Route path="/tasks/:title/:id" component={Task} />
       <Route path="/tasks/create" component={CreateTask} />
       <Route exact path="/tasks" component={Tasks} />
