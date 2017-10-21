@@ -85,11 +85,13 @@ contract('PullRequests', function(accounts) {
       assert.equal(
         await pullRequests.numDIDToApprove.call(),
         50,
-        'Beginning numbers should be accurate'
+        'Beginning number of numDIDToApprove should be accurate'
       )
       await didToken.issueDID(accounts[0], 49)
+      const numDIDOwned = await didToken.balances.call(accounts[0])
+      console.log(`numDIDOwned: ${numDIDOwned}`)
       assert.equal(
-        await didToken.balances.call(accounts[0]),
+        numDIDOwned,
         49,
         'User balance should be 49 or less than threshold here'
       )

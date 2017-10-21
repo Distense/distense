@@ -150,6 +150,10 @@ const status = (
       return Object.assign({}, state, {
         message: 'Awaiting total supply of DID'
       })
+    case actions.RECEIVE_EVENT:
+      return Object.assign({}, state, {
+        message: 'Awaiting total supply of DID'
+      })
     default:
       return state
   }

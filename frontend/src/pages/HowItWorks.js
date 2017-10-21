@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Container,
+  Divider,
   Grid,
   Header,
   Icon,
@@ -21,12 +22,6 @@ const scrollSpy = Scroll.scrollSpy
 export default class HowItWorks extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      email: '',
-      emailSubmitSuccess: false,
-      footerSubmitSuccess: false
-    }
-
     this.scrollToTop = this.scrollToTop.bind(this)
   }
 
@@ -54,7 +49,7 @@ export default class HowItWorks extends Component {
   render() {
     return (
       <div>
-        <Head title="Home" />
+        <Head title="How It Works" />
         <Segment
           inverted
           textAlign="center"
@@ -86,39 +81,8 @@ export default class HowItWorks extends Component {
           </Menu>
         </Segment>
 
-        <Segment style={{ padding: '7em 0em' }} textAlign="center" vertical>
-          <Container text>
-            <Header as="h3" style={{ fontSize: '1.7em' }}>
-              Anyone who owns DID can propose anything
-            </Header>
-            <p style={{ fontSize: '1.33em' }}>
-              Contributing and earning DID gives the holder governance rights
-            </p>
-            <Grid textAlign="center" divided inverted stackable>
-              <Grid.Row className="landing-work-broken" textAlign="center">
-                <Grid.Column width={8}>
-                  <List style={{ fontSize: '1.33em' }}>
-                    <List.Item>
-                      <List.Content>New DApps</List.Content>
-                    </List.Item>
-                    <List.Item>
-                      <List.Content>
-                        Votable parameter changes <Link to="/parameters" />
-                      </List.Content>
-                    </List.Item>
-                    <List.Item>
-                      <List.Content>Website and copy changes</List.Content>
-                    </List.Item>
-                    <List.Item>
-                      <List.Content>Design and process changes</List.Content>
-                    </List.Item>
-                    <List.Item>
-                      <List.Content>Anything</List.Content>
-                    </List.Item>
-                  </List>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+        <Container text>
+          <Segment style={{ padding: '7em 0em' }} textAlign="center" vertical>
             <Header
               className="landing-header"
               as="h3"
@@ -189,57 +153,85 @@ export default class HowItWorks extends Component {
                   }}
                 >
                   <List.Content>
-                    Approve Work<Icon name="angle down" />
+                    Approve work<Icon name="angle down" />
                   </List.Content>
                 </ScrollLink>
               </List.Item>
             </List>
-          </Container>
-        </Segment>
+          </Segment>
 
-        <Segment style={{ padding: '8em 0em' }} textAlign="center" vertical>
-          <Container text>
+          <Segment style={{ padding: '5em 0em' }} textAlign="center" vertical>
             <Element name="propose" className="element">
               <Header as="h3" style={{ fontSize: '1.7em' }}>
                 Propose a task or change
               </Header>
               <p style={{ fontSize: '1.33em' }}>
                 Anyone who owns more than 0 DID can propose a new task, whether
-                that's fixing a bug of building a feature for an existing DApp,
-                or they could propose entirely new DApps.
+                that's fixing a bug or building a feature for an existing DApp.
+                Want to build a DApp under the Distense umbrella? Simply propose
+                the DApp and other Distense contributors can work with you.
               </p>
               <p style={{ fontSize: '1.33em' }}>
                 Proposing tasks is simple. Discussion can happen on Github and a
                 more detail description can be entered into a spec on our
                 website. To propose your first task, click
-                <Link to="create">here</Link>.
+                <Link to="/tasks/create"> here</Link>.
               </p>
+              <p style={{ fontSize: '1.33em' }}>
+                Contributing and earning DID gives the holder voting &
+                governance rights for the future of Distense
+              </p>
+              <Grid textAlign="center" divided inverted stackable>
+                <Grid.Row className="landing-work-broken" textAlign="center">
+                  <Grid.Column width={8}>
+                    <List bulleted style={{ fontSize: '1.33em' }}>
+                      <List.Item>New DApps</List.Item>
+                      <List.Item>
+                        Votable parameter changes <Link to="/parameters" />
+                      </List.Item>
+                      <List.Item>Website and copy changes</List.Item>
+                      <List.Item>Design and process changes</List.Item>
+                      <List.Item>Anything</List.Item>
+                    </List>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
             </Element>
+          </Segment>
+
+          <Segment style={{ padding: '5em 0em' }} textAlign="center" vertical>
             <Element name="view" className="element">
               <Header as="h3" style={{ fontSize: '1.7em', marginTop: '2rem' }}>
                 View tasks
               </Header>
               <p style={{ fontSize: '1.33em' }}>
                 Whether viewing the <Link to="/tasks">list of tasks</Link> or a
-                single task, it's easy to get started contributing to Distense.
+                single task, it's easy to begin contributing to Distense.
               </p>
               <p style={{ fontSize: '1.33em' }}>
-                View the spec, discussion and DID reward for each task. Each DID
-                holder can vote on the DID reward they think is appropriate for
-                each task.
+                View the spec, discussion and DID reward for each task.
+              </p>
+              <p style={{ fontSize: '1.33em' }}>
+                Each DID holder can vote on the DID reward they think is
+                appropriate for each task proposal.
               </p>
             </Element>
+          </Segment>
+          <Segment style={{ padding: '5em 0em' }} textAlign="center" vertical>
             <Element name="submit" className="element">
               <Header as="h3" style={{ fontSize: '1.7em', marginTop: '2rem' }}>
                 Submit work
               </Header>
               <p style={{ fontSize: '1.33em' }}>
-                Once you've completed work, it's easy to let the other DID
-                holders and Distense members that there you're ready for them to
-                review your work. The only things we need to know are the task
-                ID and the pull request URL.
+                Once you've completed work, it's easy to submit your submitted
+                work in the form of a normal Github pull request. Distense uses
+                come necessary centralized, familiar infrastructure until its
+                members can replicate existing tools The only things we need to
+                know are the task ID and the pull request URL.
               </p>
             </Element>
+          </Segment>
+          <Segment style={{ padding: '5em 0em' }} textAlign="center" vertical>
             <Element name="approve" className="element">
               <Header
                 className="landing-header"
@@ -252,9 +244,14 @@ export default class HowItWorks extends Component {
                 Previous contributors can review submitted pull requests in a
                 very similar workflow to the well-known Github workflow.
               </p>
+              <p style={{ fontSize: '1.33em' }}>
+                Once a sufficient percentage of DID holders have approved a pull
+                request, the pull request is merged into the repo and your
+                contribution will run in production
+              </p>
             </Element>
-          </Container>
-        </Segment>
+          </Segment>
+        </Container>
 
         {/*language=CSS*/}
         <style global jsx>{`

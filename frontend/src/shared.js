@@ -1,3 +1,15 @@
+export const votingIntervalParameter = {
+  title: 'votingInterval'
+}
+
+export const proposalPctDIDApprovalParameter = {
+  title: 'proposalPctDIDRequired'
+}
+
+export const pullRequestPctDIDParameter = {
+  title: 'pullRequestPctDIDRequired'
+}
+
 export const tagsOptions = [
   'Contracts',
   'Contract Tests',

@@ -125,6 +125,7 @@ export const fetchTasks = () => async dispatch => {
   const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
   dispatch(receiveTasks(tasks.filter(_.identity)))
   dispatch(setDefaultStatus())
+  console.log(`here`)
 }
 
 export const fetchTask = id => async dispatch => {

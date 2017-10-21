@@ -1,10 +1,14 @@
 import _ from 'lodash'
 import web3Utils from 'web3-utils'
+import web3 from 'web3'
 
-import { REQUEST_PARAMETERS, RECEIVE_PARAMETERS } from '../constants/constants'
+import {
+  REQUEST_PARAMETERS,
+  RECEIVE_PARAMETERS,
+  RECEIVE_EVENT
+} from '../constants/constants'
 
 import * as contracts from '../contracts'
-
 import { setDefaultStatus } from './status'
 
 const requestParameters = () => ({
@@ -14,6 +18,11 @@ const requestParameters = () => ({
 const receiveParameters = parameters => ({
   type: RECEIVE_PARAMETERS,
   parameters
+})
+
+const receiveNewDistenseEvent = event => ({
+  type: RECEIVE_EVENT,
+  event
 })
 
 const getParameterByIndex = async index => {
@@ -71,10 +80,27 @@ export const voteOnParameter = ({ title, newValue }) => async (
 
   const receipt = await voteOnParameter(title, newValue, {
     from: coinbase,
-    gasPrice: 2000000000 // 2gwei
+    gasPrice: 1500000000 // TODO GASPRICE could probably be lower now!! 2gwei
   })
   // if (receipt.tx) dispatch(confirmPendingTx())
   dispatch(setDefaultStatus())
 
   return receipt
+}
+
+export const watchEvents = () => async dispatch => {
+  console.log(`watching events`)
+
+  // const currentNetworkId = web3.eth.getId().then(console.log)
+  //
+  // console.log(
+  //   `contracts.Distense: ${contracts.Distense.networks[currentNetworkId]}`
+  // )
+  // const distenseContractAddresses = [contracts.Distense]
+  // filter.get(function(err, result) {
+  //   if (err) console.log(err)
+  //   if (!err) console.log(result)
+  //   const event = {}
+  //   dispatch(receiveNewDistenseEvent(event))
+  // })
 }

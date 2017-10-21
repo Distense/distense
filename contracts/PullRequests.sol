@@ -102,8 +102,8 @@ contract PullRequests is Approvable, LogHelpers {
   }
 
   modifier enoughDIDToApprove(address voter) {
-    LogUint256(100);
     uint256 didOwned = didToken.balances(voter);
+    LogUint256(didOwned);
     assert(numDIDToApprove == 50);
     require(didOwned >= numDIDToApprove);
     _;

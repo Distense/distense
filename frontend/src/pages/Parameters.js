@@ -1,21 +1,25 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Segment, Statistic } from 'semantic-ui-react'
+import { Form, Header, Segment } from 'semantic-ui-react'
 
-import { fetchParameters } from '../actions/parameters'
+import { fetchParameters, voteOnParameter } from '../actions/parameters'
 import { getParameters } from '../reducers/parameters'
 
+import Events from '../components/common/Events'
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
+import {
+  votingIntervalParameter,
+  proposalPctDIDApprovalParameter,
+  pullRequestPctDIDParameter
+} from '../shared'
 
 class Parameters extends Component {
   constructor(props) {
     super(props)
     this.state = {
       parameters: this.props.parameters || [],
-      proposalPctDIDRequired: '',
-      pullRequestPctDIDRequired: '',
-      votingInterval: ''
+      parameterValue: ''
     }
   }
 
@@ -36,24 +40,23 @@ class Parameters extends Component {
     clearTimeout(this.paramTimeout)
   }
 
-  onChangeProposalPctDIDRequired = ({ target: { value } }) => {
-    this.setState({ proposalPctDIDRequired: value })
-  }
+  handleInputChange(event) {
+    const target = event.target
+    const name = target.name
+    const value = target.value
 
-  onChangepullRequestPctDIDRequired = ({ target: { value } }) => {
-    //  TODO url validation
-    this.setState({ pullRequestPctDIDRequired: value })
-  }
-
-  onChangeVotingInterval = ({ target: { value } }) => {
-    this.setState({ proposalPctDIDRequired: value })
+    if (value.length < 3)
+      this.setState({
+        [name]: value
+      })
   }
 
   onSubmit = async e => {
     e.preventDefault()
-    const { title, tags, issueURL, spec } = this.state
 
-    this.props.createTask({ title, tags, issueURL, spec })
+    const title = this.target.name
+    const newValue = this.target.value
+    this.props.voteOnParameter({ title, newValue })
     this.setState({
       redirect: true
     })
@@ -61,51 +64,73 @@ class Parameters extends Component {
 
   render() {
     const { parameters } = this.props
+    const { parameterValue } = this.state
 
     return (
       <Layout>
-        <Head title="Distense' Votable Parameters" />
-        <Segment.Group>
+        <Head title="Votable Parameters" />
+        <Segment>
           {parameters.length > 0 ? (
             parameters.map(parameter => (
               <Parameter
                 key={Math.random()}
-                parameter={parameter}
+                p={parameter}
+                onChange={this.handleInputChange}
                 onSubmit={this.onSubmit}
+                parameterValue={parameterValue}
               />
             ))
           ) : (
             <Segment>Loading Distense parameters...</Segment>
           )}
-        </Segment.Group>
+        </Segment>
+        <Events />
       </Layout>
     )
   }
 }
 
-const Parameter = ({ parameter }) => {
-  const value =
-    parameter.title === 'votingInterval'
-      ? parameter.value / 86400 + ' days'
-      : parameter.title === 'proposalPctDIDRequired'
-        ? parameter.value + '%'
-        : parameter.value
+const Parameter = ({ p }) => {
+  let value
+  let title
+  let placeholder
 
-  const title =
-    parameter.title === 'votingInterval'
-      ? 'Parameter Voting Interval'
-      : parameter.title === 'proposalPctDIDRequired'
-        ? 'Percent of DID required to approve work proposal'
-        : 'Number of Pull request approvals required to merge'
+  if (p.title === votingIntervalParameter.title) {
+    value = p.value / 86400 + ' days'
+    title = 'Parameter Voting Interval'
+    placeholder = '1-100 days'
+  }
+
+  if (p.title === proposalPctDIDApprovalParameter.title) {
+    value = p.value + '%'
+    title = 'Percent of DID required to approve task proposal '
+    placeholder = '1-50'
+  }
+
+  if (p.title === pullRequestPctDIDParameter.title) {
+    value = value
+    title = '% of DID required to vote on pull requests'
+    placeholder = '1-50'
+  }
 
   return (
-    <Segment>
-      <Statistic value={value} label={title} />
-      <Form.Input type="text" />
-      <Form.Button basic color="green" compact={true}>
-        Vote
-      </Form.Button>
-    </Segment>
+    <div>
+      <Header as="h3">
+        {title}: {value}
+      </Header>
+      <Form>
+        <Form.Group size="small">
+          <Form.Input
+            placeholder={placeholder}
+            type="text"
+            value={p.parameterValue}
+          />
+          <Form.Button basic color="green" compact={true}>
+            Vote
+          </Form.Button>
+        </Form.Group>
+      </Form>
+    </div>
   )
 }
 
@@ -114,7 +139,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchParameters: () => dispatch(fetchParameters())
+  fetchParameters: () => dispatch(fetchParameters()),
+  voteOnParameter: vote => dispatch(voteOnParameter(vote))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Parameters)

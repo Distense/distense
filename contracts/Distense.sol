@@ -59,14 +59,14 @@ contract Distense {
 
     pullRequestPctDIDParameter = Parameter({
       title: pullRequestPctDIDRequiredParameterTitle,
-      value: 1
+      value: 10
     });
     parameters[pullRequestPctDIDRequiredParameterTitle] = pullRequestPctDIDParameter;
     parameterTitles.push(pullRequestPctDIDRequiredParameterTitle);
     
     votingIntervalParameter = Parameter({
       title: votingIntervalParameterTitle,
-      value: 15 days
+      value: 15 days  // 15 * 86400 = 1.296e+6
     });
     parameters[votingIntervalParameterTitle] = votingIntervalParameter;
     parameterTitles.push(votingIntervalParameterTitle);
@@ -97,8 +97,6 @@ contract Distense {
     return parameter.value;
   }
   
-  
-
   function getParameterByTitle(bytes32 _title) public view returns (bytes32, uint256) {
     Parameter memory param = parameters[_title];
     return (param.title, param.value);
@@ -112,7 +110,7 @@ contract Distense {
     Parameter storage parameter = parameters[_title];
     uint256 lastVotedOnParameter = parameter.votes[_voter].lastVoted;
     if (lastVotedOnParameter > 0)
-        require(now >= lastVotedOnParameter + votingInterval);
+      require(now >= lastVotedOnParameter + votingInterval);
     _;
   }
 
