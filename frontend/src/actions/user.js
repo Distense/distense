@@ -10,7 +10,8 @@ import {
   RECEIVE_COINBASE,
   RECEIVE_ACCOUNT_TRANSACTIONS,
   RECEIVE_USER_NOT_AUTHENTICATED,
-  RECEIVE_USER_NUM_DID
+  RECEIVE_USER_NUM_DID,
+  RECEIVE_NETWORK_ID
 } from '../constants/constants'
 
 import { setDefaultStatus } from './status'
@@ -50,6 +51,11 @@ export const receiveUserNotAuthenticated = () => ({
 export const receiveAccountNumDID = numDID => ({
   type: RECEIVE_USER_NUM_DID,
   numDID
+})
+
+export const receiveNetworkId = id => ({
+  type: RECEIVE_NETWORK_ID,
+  id
 })
 
 export const selectAddress = address => dispatch => {

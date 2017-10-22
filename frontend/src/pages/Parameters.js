@@ -5,7 +5,6 @@ import { Form, Header, Segment } from 'semantic-ui-react'
 import { fetchParameters, voteOnParameter } from '../actions/parameters'
 import { getParameters } from '../reducers/parameters'
 
-import Events from '../components/common/Events'
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import {
@@ -84,7 +83,6 @@ class Parameters extends Component {
             <Segment>Loading Distense parameters...</Segment>
           )}
         </Segment>
-        <Events />
       </Layout>
     )
   }
@@ -108,7 +106,7 @@ const Parameter = ({ p }) => {
   }
 
   if (p.title === pullRequestPctDIDParameter.title) {
-    value = value
+    value = p.value
     title = '% of DID required to vote on pull requests'
     placeholder = '1-50'
   }

@@ -38,7 +38,6 @@ contract PullRequests is Approvable, LogHelpers {
   mapping (bytes32 => PullRequest) pullRequests;
 
   event LogPullRequestApproval(bytes32 _prId, bytes32 indexed taskId);
-  event LogTwoBytes32(bytes32 value, bytes32 another);
   event LogPullRequestVote(bytes32 _prId, uint256 pctDIDApproved);
 
   function PullRequests(address _DIDTokenAddress, address _DistenseAddress, address _TasksAddress) public {
@@ -103,8 +102,6 @@ contract PullRequests is Approvable, LogHelpers {
 
   modifier enoughDIDToApprove(address voter) {
     uint256 didOwned = didToken.balances(voter);
-    LogUint256(didOwned);
-    assert(numDIDToApprove == 50);
     require(didOwned >= numDIDToApprove);
     _;
   }

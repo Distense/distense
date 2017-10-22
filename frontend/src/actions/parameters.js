@@ -20,11 +20,6 @@ const receiveParameters = parameters => ({
   parameters
 })
 
-const receiveNewDistenseEvent = event => ({
-  type: RECEIVE_EVENT,
-  event
-})
-
 const getParameterByIndex = async index => {
   const { parameterTitles } = await contracts.Distense
   const title = await parameterTitles(index)
@@ -86,21 +81,4 @@ export const voteOnParameter = ({ title, newValue }) => async (
   dispatch(setDefaultStatus())
 
   return receipt
-}
-
-export const watchEvents = () => async dispatch => {
-  console.log(`watching events`)
-
-  // const currentNetworkId = web3.eth.getId().then(console.log)
-  //
-  // console.log(
-  //   `contracts.Distense: ${contracts.Distense.networks[currentNetworkId]}`
-  // )
-  // const distenseContractAddresses = [contracts.Distense]
-  // filter.get(function(err, result) {
-  //   if (err) console.log(err)
-  //   if (!err) console.log(result)
-  //   const event = {}
-  //   dispatch(receiveNewDistenseEvent(event))
-  // })
 }

@@ -11,6 +11,7 @@ import reducers from './reducers'
 import { selectUserAccountInfo } from './actions/user'
 
 import Home from './pages/Home'
+import Events from './pages/Events'
 import CreateTask from './pages/CreateTask'
 import HowItWorks from './pages/HowItWorks'
 import Tasks from './pages/Tasks'
@@ -29,6 +30,7 @@ const Root = () => (
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/howitworks" component={HowItWorks} />
+      <Route exact path="/events" component={Events} />
       <Route path="/tasks/:title/:id" component={Task} />
       <Route path="/tasks/create" component={CreateTask} />
       <Route exact path="/tasks" component={Tasks} />
