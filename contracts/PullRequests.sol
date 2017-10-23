@@ -38,7 +38,7 @@ contract PullRequests is Approvable, LogHelpers {
   mapping (bytes32 => PullRequest) pullRequests;
 
   event LogPullRequestApproval(bytes32 _prId, bytes32 indexed taskId);
-  event LogPullRequestVote(bytes32 _prId, uint256 pctDIDApproved);
+  event LogPullRequestVote(bytes32 indexed _prId, uint256 pctDIDApproved);
 
   function PullRequests(address _DIDTokenAddress, address _DistenseAddress, address _TasksAddress) public {
     DIDTokenAddress = _DIDTokenAddress;
@@ -47,9 +47,8 @@ contract PullRequests is Approvable, LogHelpers {
   }
 
   function submitPullRequest(bytes32 _prId, bytes32 _taskId) external returns (uint256) {
-    LogTwoBytes32(_prId, _taskId);
     PullRequest memory _pr = PullRequest(msg.sender, _taskId, 0);
-    //Write the struct to storage
+    //Write the _pr struct to storage
     _pr.pctDIDApproved = 0;
     pullRequests[_prId] = _pr;
     pullRequestIds.push(_prId);

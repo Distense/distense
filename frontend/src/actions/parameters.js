@@ -1,12 +1,8 @@
 import _ from 'lodash'
 import web3Utils from 'web3-utils'
-import web3 from 'web3'
+// import web3 from 'web3'
 
-import {
-  REQUEST_PARAMETERS,
-  RECEIVE_PARAMETERS,
-  RECEIVE_EVENT
-} from '../constants/constants'
+import { REQUEST_PARAMETERS, RECEIVE_PARAMETERS } from '../constants/constants'
 
 import * as contracts from '../contracts'
 import { setDefaultStatus } from './status'

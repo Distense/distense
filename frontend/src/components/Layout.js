@@ -55,7 +55,7 @@ export default ({ children, title }) => (
         <Container>
           <Menu.Item>© {new Date().getFullYear()} Distense</Menu.Item>
           <Menu.Item
-            // style={{ textDecoration: 'underline' }}
+            style={{ textDecoration: 'underline' }}
             color="blue"
             link
             as={Link}
@@ -64,7 +64,13 @@ export default ({ children, title }) => (
           >
             Parameters
           </Menu.Item>
-          <Menu.Item color="blue" link as={Link} to="/events">
+          <Menu.Item
+            style={{ textDecoration: 'underline' }}
+            color="blue"
+            link
+            as={Link}
+            to="/events"
+          >
             Event Feed
           </Menu.Item>
           <Status />

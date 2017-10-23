@@ -9,9 +9,9 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 
 class Events extends Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
   componentWillMount() {
     this.props.watchEvents()
@@ -27,13 +27,11 @@ class Events extends Component {
     return (
       <Layout>
         <Head title="Create Task" />
-        <Segment>
-          <List>
-            {events.length > 0
-              ? events.map(event => <EventItem e={event} />)
-              : 'Loading events...'}
-          </List>
-        </Segment>
+        <List celled>
+          {events.length > 0
+            ? events.map(event => <EventItem e={event} />)
+            : 'Loading events...'}
+        </List>
       </Layout>
     )
   }
@@ -41,10 +39,12 @@ class Events extends Component {
 
 const EventItem = ({ e }) => (
   <List.Item>
-    <List.Header>{e.contract}</List.Header>
-    <List.Content />
+    <List.Header>{e.title}</List.Header>
+    <List.Content>{e.contract}</List.Content>
     <List.Description>
-      <Link to={`https://etherscan.io/tx/${e.txHash}`}>View tx</Link>
+      <Link target="_blank" to={`https://etherscan.io/tx/${e.txHash}`}>
+        View tx
+      </Link>
     </List.Description>
   </List.Item>
 )
