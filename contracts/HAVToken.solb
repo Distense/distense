@@ -1,8 +1,7 @@
 // Distense is a decentralized, for-profit code cooperative
 // Anyone can contribute
 
-// DRAFT -- LIKELY INSECURE
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.17;
 
 import './lib/Approvable.sol';
 import './lib/SafeMath.sol';
@@ -63,27 +62,12 @@ contract HAVToken is Approvable {
     LogHAVSale(msg.sender, numWei, numHav);
   }
 
-  function issueHAVForDID(address _to, uint256 _num) internal returns (bool) {
-    // Prevent reentrancy -- SECURITY
-    DIDToken didToken = DIDToken(DIDAddress);
-    bool burntDID = didToken.burnDIDHAV(_to, _num);
-    if (burntDID) {
-      numHAV = numHAV.add(_num);
-      bals[_to] = bals[_to].add(_num);
-      LogSwapDIDForHAV(_to, _num);
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
   function forwardFunds() internal {
     //    TODO wallet.transfer(msg.value);
   }
 
   function approvePurchase() internal view returns (bool) {
-    return msg.value != 0 && saleOn;
+    return msg.value > 0 && saleOn;
   }
 
   function tradMkt(bool _tradMkt) onlyOwner public returns (bool) {

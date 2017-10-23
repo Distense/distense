@@ -22,6 +22,7 @@ class EthereumAuthenticated extends Component {
       <Menu.Item title={title}>
         <EthereumSVGIcon width="20" height="20" />
         <Icon color={color} name={icon} />
+        {coinbase && coinbase.substring(0, 6)}...
       </Menu.Item>
     )
   }

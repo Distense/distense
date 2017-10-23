@@ -11,12 +11,15 @@ import reducers from './reducers'
 import { selectUserAccountInfo } from './actions/user'
 
 import Home from './pages/Home'
+import Events from './pages/Events'
 import CreateTask from './pages/CreateTask'
+import HowItWorks from './pages/HowItWorks'
 import Tasks from './pages/Tasks'
 import Task from './pages/Task'
 import SubmitPullRequest from './pages/SubmitPullRequest'
 import PullRequests from './pages/PullRequests'
 import PullRequest from './pages/PullRequest'
+import Parameters from './pages/Parameters'
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
 
@@ -26,12 +29,15 @@ const Root = () => (
   <Router>
     <Switch>
       <Route exact path="/" component={Home} />
+      <Route exact path="/howitworks" component={HowItWorks} />
+      <Route exact path="/events" component={Events} />
       <Route path="/tasks/:title/:id" component={Task} />
       <Route path="/tasks/create" component={CreateTask} />
       <Route exact path="/tasks" component={Tasks} />
       <Route path="/pullrequests/submit/:id?" component={SubmitPullRequest} />
       <Route exact path="/pullrequests/:id" component={PullRequest} />
       <Route exact path="/pullrequests" component={PullRequests} />
+      <Route exact path="/parameters" component={Parameters} />
     </Switch>
   </Router>
 )

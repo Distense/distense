@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { /*Icon, */ Menu } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 import { fetchTotalSupplyDID } from '../../actions/status'
 import { getTotalSupplyDID } from '../../reducers/status'
 
@@ -17,7 +17,9 @@ class TotalDID extends Component {
   render() {
     const { totalSupplyDID } = this.props
 
-    return <Menu.Item position="right">Total DID: {totalSupplyDID}</Menu.Item>
+    return (
+      <Menu.Item position="right">Total Supply DID: {totalSupplyDID}</Menu.Item>
+    )
   }
 }
 

@@ -34,12 +34,6 @@ class CreateTask extends Component {
     this.onChangeTags = this.onChangeTags.bind(this)
   }
 
-  componentWillMount() {
-    this.setState({
-      gasEst: '120000'
-    })
-  }
-
   onChangeTitle = ({ target: { value } }) => {
     if (value.length <= 50) this.setState({ title: value })
   }
@@ -61,6 +55,7 @@ class CreateTask extends Component {
   onSubmit = async e => {
     e.preventDefault()
     const { title, tags, issueURL, spec } = this.state
+
     this.props.createTask({ title, tags, issueURL, spec })
     this.setState({
       redirect: true

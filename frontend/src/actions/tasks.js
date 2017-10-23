@@ -94,13 +94,13 @@ const getTaskByID = async id => {
   const contractTask = await getTaskById(taskIdBytes32)
 
   const createdBy = contractTask[0]
-  const reward = contractTask[1].toNumber()
-  const numRewardVoters = contractTask[2].toNumber()
-  console.log(`numRewardVoters: ${numRewardVoters}`)
+  const reward = contractTask[1].toString()
+  const numRewardVoters = contractTask[2].toString()
   const rewardPaid = contractTask[3]
+  const pctDIDVoted = contractTask[4].toString()
 
   const status =
-    reward === 0
+    reward === '0'
       ? 'PROPOSAL'
       : reward > 0 && !rewardPaid ? 'TASK' : 'CONTRIBUTION'
 
@@ -109,7 +109,8 @@ const getTaskByID = async id => {
     reward,
     rewardPaid,
     numRewardVoters,
-    status
+    status,
+    pctDIDVoted
   })
 }
 
@@ -124,6 +125,7 @@ export const fetchTasks = () => async dispatch => {
   const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
   dispatch(receiveTasks(tasks.filter(_.identity)))
   dispatch(setDefaultStatus())
+  console.log(`here`)
 }
 
 export const fetchTask = id => async dispatch => {
@@ -199,10 +201,9 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
     const taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(taskId)
     receipt = await voteOnReward(taskIdBytes32, reward, {
       from: coinbase,
-      gasPrice: 1000000000 // 1gwei
+      gasPrice: 2000000000 // 2gwei
     })
     if (receipt.tx) dispatch(confirmPendingTx())
-  } else {
   }
 
   dispatch(setDefaultStatus())

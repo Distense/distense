@@ -54,7 +54,25 @@ export default ({ children, title }) => (
       <Menu className="inconsolata" borderless fixed="bottom">
         <Container>
           <Menu.Item>© {new Date().getFullYear()} Distense</Menu.Item>
-          {/*<UserTransactionsStatus />*/}
+          <Menu.Item
+            style={{ textDecoration: 'underline' }}
+            color="blue"
+            link
+            as={Link}
+            to="/parameters"
+            position="right"
+          >
+            Parameters
+          </Menu.Item>
+          <Menu.Item
+            style={{ textDecoration: 'underline' }}
+            color="blue"
+            link
+            as={Link}
+            to="/events"
+          >
+            Event Feed
+          </Menu.Item>
           <Status />
           <NumberDIDOwned />
           <GasEstimate />

@@ -31,8 +31,8 @@ class PullRequests extends Component {
   }
 
   componentDidMount() {
-    let TheFinalCountdown = 3600
-    const lightYearsToGo = 300
+    let TheFinalCountdown = 32400
+    const lightYearsToGo = 200
     this.someInterval = setInterval(() => {
       TheFinalCountdown -= lightYearsToGo
       if (TheFinalCountdown <= 0)
@@ -50,18 +50,17 @@ class PullRequests extends Component {
 
   mapTasksToPullRequests(prs, tasks) {
     const pullRequests = prs.map(pr => {
-      let pullRequest = pr
       const task = _.find(tasks, { _id: pr.taskId })
+      let pullRequest
       if (task)
-        pullRequest = {
-          _id: pr._id,
-          createdAt: pr.createdAt,
+        pullRequest = Object.assign({}, pr, {
           issueURL: task.issueURL ? task.issueURL : '',
           taskTitle: task.title,
           taskId: task._id,
-          tags: task.tags.length > 0 ? task.tags : [],
-          prURL: pr.prURL
-        }
+          taskReward: !task.reward ? '?' : task.reward,
+          taskPctDIDVoted: task.pctDIDVoted,
+          tags: task.tags.length > 0 ? task.tags : []
+        })
       return pullRequest
     })
     this.setState({
@@ -113,7 +112,7 @@ class PullRequests extends Component {
                 sorted={column === 'Status' ? direction : null}
                 onClick={this.handleSort('status')}
               >
-                Status
+                % DID Approved
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Reward' ? direction : null}
@@ -121,7 +120,7 @@ class PullRequests extends Component {
               >
                 Reward
               </Table.HeaderCell>
-              <Table.HeaderCell>Review</Table.HeaderCell>
+              <Table.HeaderCell />
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -157,8 +156,8 @@ const PullRequestsListItem = ({ pr }) => (
     <Table.Cell>
       <Tags tags={pr.tags} />
     </Table.Cell>
-    <Table.Cell>{pr.url}</Table.Cell>
-    <Table.Cell>100</Table.Cell>
+    <Table.Cell>{pr.pctDIDVoted}</Table.Cell>
+    <Table.Cell>{pr.taskReward}</Table.Cell>
     <Table.Cell>
       <Button
         basic
@@ -167,9 +166,8 @@ const PullRequestsListItem = ({ pr }) => (
         floated="right"
         fluid={true}
         size="mini"
-        // onClick={this.setSelected}
         target="_blank"
-        to={`${pr.url}`}
+        to={`${pr.prURL}`}
         as={Link}
       >
         Review PR

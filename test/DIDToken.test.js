@@ -85,23 +85,18 @@ contract('DIDToken', function(accounts) {
     )
   })
 
-  //  TODO -1 here
-  // it('should disallow an issueDID call for < 0', async function() {
-  //   let addError
-  //   try {
-  //     //contract throws error here
-  //     await didToken.issueDID(accounts[5], -1, {
-  //       from: accounts[0]
-  //     })
-  //   } catch (error) {
-  //     addError = error
-  //     console.log(`disallow an issueDID call for < 0 ERROR: ${addError}`);
-  //   }
-  //   assert.notEqual(addError, undefined, 'Error must be thrown')
-  //   assert.equal(
-  //     await didToken.totalSupply(),
-  //     0,
-  //     'No DID should have been issued'
-  //   )
-  // })
+  it('should correctly calculate the percentDID someone owns', async function() {
+    assert.equal(await didToken.totalSupply(), 0)
+    await didToken.issueDID(accounts[0], 200)
+    let percentDID = await didToken.percentDID(accounts[0])
+    assert.equal(percentDID.toString(), 100)
+
+    await didToken.issueDID(accounts[1], 100)
+    percentDID = await didToken.percentDID(accounts[1])
+    assert.equal(percentDID.toString(), 33)
+
+    await didToken.issueDID(accounts[1], 100)
+    percentDID = await didToken.percentDID(accounts[1])
+    assert.equal(percentDID.toString(), 50)
+  })
 })

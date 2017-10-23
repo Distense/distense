@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Icon, Menu } from 'semantic-ui-react'
 
-import Blocktime from './Blocktime'
-
 const constructStatus = message => {
   let color
   let icon
@@ -26,7 +24,7 @@ class Status extends Component {
     const s = constructStatus(status.message)
 
     return (
-      <Menu.Item position="right">
+      <Menu.Item>
         {status.message}
         <Icon color={s.color} name={s.icon} />
         {/* TODO because we set the gasPrice to so low our txs will actually take at least a few minutes

@@ -1,179 +1,144 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import _ from 'lodash'
-import { Link } from 'react-router-dom'
-import { Button, Table } from 'semantic-ui-react'
-// import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { Form, Header, Segment } from 'semantic-ui-react'
 
-import { fetchTasks } from '../actions/tasks'
-import { getAllTasksWithRewards } from '../reducers/tasks'
+import { fetchParameters, voteOnParameter } from '../actions/parameters'
+import { getParameters } from '../reducers/parameters'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
-import Tags from '../components/common/Tags'
+import {
+  votingIntervalParameter,
+  proposalPctDIDApprovalParameter,
+  pullRequestPctDIDParameter
+} from '../shared'
 
-class Tasks extends Component {
+class Parameters extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      column: null,
-      tasks: this.props.tasks || [],
-      direction: null,
-      loading: true
+      parameters: this.props.parameters || [],
+      parameterValue: ''
     }
-    this.handleSort = this.handleSort.bind(this)
   }
 
   componentWillMount() {
-    this.props.fetchTasks()
+    this.props.fetchParameters()
   }
 
   componentDidMount() {
-    this.someTimeout = setTimeout(() => {
+    this.paramTimeout = setTimeout(() => {
       this.setState({
         loading: false,
-        tasks: this.props.tasks
+        parameters: this.props.parameters
       })
-    }, 3000)
+    }, 2000)
   }
 
   componentWillUnmount() {
-    clearTimeout(this.someTimeout)
+    clearTimeout(this.paramTimeout)
   }
 
-  handleSort = clickedColumn => () => {
-    const { column, direction } = this.state
-    const { tasks } = this.props
-    if (column !== clickedColumn) {
-      this.setState({
-        column: clickedColumn,
-        tasks: _.sortBy(tasks, [clickedColumn]),
-        direction: 'ascending'
-      })
-      return
-    }
+  handleInputChange(event) {
+    const target = event.target
+    const name = target.name
+    const value = target.value
 
+    if (value.length < 3)
+      this.setState({
+        [name]: value
+      })
+  }
+
+  onSubmit = async e => {
+    e.preventDefault()
+
+    const title = this.target.name
+    const newValue = this.target.value
+    this.props.voteOnParameter({ title, newValue })
     this.setState({
-      tasks: tasks.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending'
+      redirect: true
     })
   }
 
   render() {
-    const { column, direction, loading } = this.state
-    const { tasks } = this.props
+    const { parameters } = this.props
+    const { parameterValue } = this.state
 
     return (
       <Layout>
-        <Head title="Available Tasks" />
-        <Table sortable striped>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell
-                sorted={column === 'title' ? direction : null}
-                onClick={this.handleSort('title')}
-              >
-                Title
-              </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === 'Tags' ? direction : null}
-                onClick={this.handleSort('tags')}
-              >
-                Tags
-              </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === 'Status' ? direction : null}
-                onClick={this.handleSort('status')}
-              >
-                Status
-              </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === 'Reward' ? direction : null}
-                onClick={this.handleSort('reward')}
-              >
-                Reward
-              </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === 'numRewardVoters' ? direction : null}
-                onClick={this.handleSort('numRewardVoters')}
-                title="Number of people who have submitted reward votes"
-              >
-                NumVoters
-              </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === 'numRewardVoters' ? direction : null}
-                onClick={this.handleSort('numRewardVoters')}
-                title="% of DID that have voted on a task."
-              >
-                % DID Voted
-              </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === 'Date' ? direction : null}
-                onClick={this.handleSort('createdAt')}
-              >
-                Created
-              </Table.HeaderCell>
-              <Table.HeaderCell>Submit</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {tasks.length > 0 ? (
-              tasks.map(task => <TasksListItem key={task._id} task={task} />)
-            ) : loading ? (
-              <Table.Cell as="tr">
-                <Table.Cell>Loading tasks...</Table.Cell>
-              </Table.Cell>
-            ) : (
-              <Table.Cell as="tr">
-                <Table.Cell>No tasks</Table.Cell>
-              </Table.Cell>
-            )}
-          </Table.Body>
-        </Table>
+        <Head title="Votable Parameters" />
+        <Segment>
+          {parameters.length > 0 ? (
+            parameters.map(parameter => (
+              <Parameter
+                key={Math.random()}
+                p={parameter}
+                onChange={this.handleInputChange}
+                onSubmit={this.onSubmit}
+                parameterValue={parameterValue}
+              />
+            ))
+          ) : (
+            <Segment>Loading Distense parameters...</Segment>
+          )}
+        </Segment>
       </Layout>
     )
   }
 }
 
-const TasksListItem = ({ task }) => (
-  <Table.Row key={task._id}>
-    <Table.Cell>
-      <Link to={`/tasks/${task.title}/${task._id}`}>{task.title}</Link>
-    </Table.Cell>
-    <Table.Cell singleLine>
-      <Tags tags={task.tags} />
-    </Table.Cell>
-    <Table.Cell>{task.status}</Table.Cell>
-    <Table.Cell>{task.reward}</Table.Cell>
-    <Table.Cell>{task.numRewardVoters}</Table.Cell>
-    <Table.Cell>{task.pctDIDVoted}%</Table.Cell>
-    <Table.Cell collapsing textAlign="right">
-      {task.createdAt.toDateString()}
-    </Table.Cell>
-    <Table.Cell>
-      <Button
-        basic
-        color="green"
-        compact={true}
-        floated="right"
-        fluid={true}
-        size="mini"
-        as={Link}
-        title="Submit work for this task"
-        to={`/pullrequests/submit/${task._id}`}
-      >
-        Submit
-      </Button>
-    </Table.Cell>
-  </Table.Row>
-)
+const Parameter = ({ p }) => {
+  let value
+  let title
+  let placeholder
+
+  if (p.title === votingIntervalParameter.title) {
+    value = p.value / 86400 + ' days'
+    title = 'Parameter Voting Interval'
+    placeholder = '1-100 days'
+  }
+
+  if (p.title === proposalPctDIDApprovalParameter.title) {
+    value = p.value + '%'
+    title = 'Percent of DID required to approve task proposal '
+    placeholder = '1-50'
+  }
+
+  if (p.title === pullRequestPctDIDParameter.title) {
+    value = p.value
+    title = '% of DID required to vote on pull requests'
+    placeholder = '1-50'
+  }
+
+  return (
+    <div>
+      <Header as="h3">
+        {title}: {value}
+      </Header>
+      <Form>
+        <Form.Group size="small">
+          <Form.Input
+            placeholder={placeholder}
+            type="text"
+            value={p.parameterValue}
+          />
+          <Form.Button basic color="green" compact={true}>
+            Vote
+          </Form.Button>
+        </Form.Group>
+      </Form>
+    </div>
+  )
+}
 
 const mapStateToProps = state => ({
-  tasks: getAllTasksWithRewards(state)
+  parameters: getParameters(state)
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchTasks: () => dispatch(fetchTasks())
+  fetchParameters: () => dispatch(fetchParameters()),
+  voteOnParameter: vote => dispatch(voteOnParameter(vote))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tasks)
+export default connect(mapStateToProps, mapDispatchToProps)(Parameters)

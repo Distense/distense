@@ -128,7 +128,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchTask: id => dispatch(fetchTask(id)),
-  createPullRequest: taskId => dispatch(createPullRequest(taskId)),
+  createPullRequest: pr => dispatch(createPullRequest(pr)),
   selectTask: taskId => dispatch(selectTask(taskId))
 })
 

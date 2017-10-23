@@ -1,13 +1,17 @@
 import { combineReducers } from 'redux'
 
-import user from './user'
+import events from './events'
+import parameters from './parameters'
 import pullRequests from './pullRequests'
-import tasks from './tasks'
 import status from './status'
+import tasks from './tasks'
+import user from './user'
 
 export default combineReducers({
-  user,
+  events,
+  parameters,
   pullRequests,
   status,
-  tasks
+  tasks,
+  user
 })
