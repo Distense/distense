@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Header, Segment } from 'semantic-ui-react'
 
-import { fetchParameters, voteOnParameter } from '../actions/parameters'
+import { voteOnParameter } from '../actions/parameters'
 import { getParameters } from '../reducers/parameters'
 
 import Head from '../components/common/Head'
@@ -20,10 +20,6 @@ class Parameters extends Component {
       parameters: this.props.parameters || [],
       parameterValue: ''
     }
-  }
-
-  componentWillMount() {
-    this.props.fetchParameters()
   }
 
   componentDidMount() {
@@ -137,7 +133,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchParameters: () => dispatch(fetchParameters()),
   voteOnParameter: vote => dispatch(voteOnParameter(vote))
 })
 

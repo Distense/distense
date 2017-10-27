@@ -63,13 +63,15 @@ contract('Tasks', function(accounts) {
       await tasks.addTask(task.taskId)
       assert.equal(await tasks.taskExists(task.taskId), true)
 
-      await tasks.voteOnReward(task.taskId, 100, {
+      const voted1 = await tasks.voteOnReward.call(task.taskId, 100, {
         from: accounts[0]
       })
 
-      await tasks.voteOnReward(task.taskId, 100, {
+      assert.equal(voted1, true, 'Should have returned true')
+      const voted2 = await tasks.voteOnReward(task.taskId, 100, {
         from: accounts[1]
       })
+      assert.equal(voted2, true, 'Should have returned true')
 
       reward = await tasks.determineReward(task.taskId)
     } catch (error) {

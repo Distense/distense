@@ -74,7 +74,8 @@ const submitTask = task => ({
 })
 
 const submitVoteReward = reward => ({
-  type: SUBMIT_REWARD_VOTE
+  type: SUBMIT_REWARD_VOTE,
+  reward
 })
 
 const getTaskByIndex = async index => {
@@ -125,7 +126,6 @@ export const fetchTasks = () => async dispatch => {
   const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
   dispatch(receiveTasks(tasks.filter(_.identity)))
   dispatch(setDefaultStatus())
-  console.log(`here`)
 }
 
 export const fetchTask = id => async dispatch => {
@@ -190,10 +190,10 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
     return
   }
   dispatch(requestTasksInstance())
-  const { voteOnReward } = await contracts.Tasks // Get callable function from Tasks contract instance
+  const { voteOnReward } = await contracts.Tasks // Get contract function from Tasks contract instance
   dispatch(receiveTasksInstance())
 
-  dispatch(submitVoteReward())
+  dispatch(submitVoteReward(reward))
   dispatch(createPendingTx())
 
   let receipt
@@ -201,9 +201,11 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
     const taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(taskId)
     receipt = await voteOnReward(taskIdBytes32, reward, {
       from: coinbase,
-      gasPrice: 2000000000 // 2gwei
+      gasPrice: 2000000000 // 2 gwei!
     })
-    if (receipt.tx) dispatch(confirmPendingTx())
+    if (receipt.tx) {
+      dispatch(confirmPendingTx())
+    } else console.error(`voteOnReward ERROR`)
   }
 
   dispatch(setDefaultStatus())

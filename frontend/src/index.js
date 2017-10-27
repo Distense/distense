@@ -7,8 +7,12 @@ import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import Web3 from 'web3'
 import registerServiceWorker from './registerServiceWorker'
+
 import reducers from './reducers'
+
 import { selectUserAccountInfo } from './actions/user'
+import { getContractEvents } from './actions/events'
+import { fetchParameters } from './actions/parameters'
 
 import Home from './pages/Home'
 import Events from './pages/Events'
@@ -24,6 +28,8 @@ import Parameters from './pages/Parameters'
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
 
 store.dispatch(selectUserAccountInfo())
+store.dispatch(getContractEvents())
+store.dispatch(fetchParameters())
 
 const Root = () => (
   <Router>

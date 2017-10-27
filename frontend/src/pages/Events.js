@@ -1,22 +1,12 @@
 import React, { Component } from 'react'
-import { List, Segment } from 'semantic-ui-react'
+import { List } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
-import { watchEvents } from '../actions/events'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 
 class Events extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
-
-  componentWillMount() {
-    this.props.watchEvents()
-  }
-
   shouldComponentUpdate(nextProps) {
     return this.props.events !== nextProps.events
   }
@@ -53,8 +43,4 @@ const mapStateToProps = state => ({
   events: state.events.events
 })
 
-const mapDispatchToProps = dispatch => ({
-  watchEvents: () => dispatch(watchEvents())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Events)
+export default connect(mapStateToProps)(Events)
