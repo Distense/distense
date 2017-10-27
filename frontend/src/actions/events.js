@@ -15,7 +15,7 @@ const receiveNewContractEvent = event => ({
   event
 })
 
-export const watchEvents = () => async dispatch => {
+export const getContractEvents = () => async dispatch => {
   const network = web3.version.network
   if (network) {
     console.log(`Connected network number ${network}`)

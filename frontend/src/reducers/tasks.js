@@ -6,9 +6,7 @@ import {
   RECEIVE_TASK,
   SELECT_TASK,
   SET_NUM_TASKS,
-  SUBMIT_TASK,
-  SUBMIT_REWARD_VOTE,
-  RECEIVE_REWARD_VOTE
+  SUBMIT_TASK
 } from '../constants/constants'
 
 const taskById = (state = {}, action) => {
@@ -87,23 +85,11 @@ const pendingTaskId = (state = null, action) => {
   }
 }
 
-const pendingRewardVote = (state = null, action) => {
-  switch (action.type) {
-    case SUBMIT_REWARD_VOTE:
-      return true
-    case RECEIVE_REWARD_VOTE:
-      return false
-    default:
-      return state
-  }
-}
-
 export default combineReducers({
   tasks,
   numTasks,
   taskById,
   pendingTaskId,
-  pendingRewardVote,
   selectedTask
 })
 
@@ -118,9 +104,9 @@ export const getNumTasks = state => {
 }
 
 export const getPendingTask = state => {
-  return state.tasks.pendingRewardVote
+  return state.tasks.pendingTaskId
 }
-export const getPendingRewardVote= state => {
+export const getPendingRewardVote = state => {
   return getTask(state, state.tasks.pendingTaskId)
 }
 

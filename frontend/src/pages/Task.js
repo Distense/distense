@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import {
   Button,
   Form,
@@ -13,7 +13,7 @@ import {
 import ReactMarkdown from 'react-markdown'
 
 import { fetchTask, voteOnTaskReward } from '../actions/tasks'
-import { getPendingRewardVote, getTask } from '../reducers/tasks'
+import { getTask } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
@@ -55,8 +55,7 @@ class Task extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      reward: '',
-      disabled: this.props.pendingRewardVote
+      reward: ''
     }
   }
   componentWillMount() {
@@ -64,14 +63,12 @@ class Task extends Component {
     fetchTask(id)
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  componentWillUnmount() {
+    clearTimeout(this.redirectTimeout)
+  }
+
+  shouldComponentUpdate(nextProps) {
     return true
-    // TODO
-    // if (this.props.pendingRewardVote !== nextProps.pendingRewardVote)
-    //   return true
-    // if (this.state.reward !== nextState.reward)
-    //   return true
-    // return false
   }
 
   onChangeReward = ({ target: { value: reward } }) => {
@@ -84,14 +81,27 @@ class Task extends Component {
     const taskId = this.props.task._id
     const reward = this.state.reward
     this.props.voteOnTaskReward({ taskId, reward })
-    this.setState({
-      disabled: this.props.pendingRewardVote
-    })
+    this.setState(
+      {
+        reward: 'Vote submitted to blockchain. redirecting to tasks list'
+      },
+      () => {
+        this.redirectTimeout = setTimeout(() => {
+          this.setState({
+            redirect: true
+          })
+        }, 2000)
+      }
+    )
   }
 
   render() {
     const { task } = this.props
-    const { disabled, reward } = this.state
+    const { redirect, reward } = this.state
+
+    if (redirect) {
+      return <Redirect to="/tasks" />
+    }
 
     return (
       <Layout>
@@ -134,7 +144,6 @@ class Task extends Component {
                 </Grid.Column>
                 <Grid.Column>
                   <TaskRewardInput
-                    disabled={disabled}
                     reward={reward}
                     task={task}
                     onChangeReward={this.onChangeReward}
@@ -158,8 +167,7 @@ class Task extends Component {
 }
 
 const mapStateToProps = (state, { match: { params: { id } } }) => ({
-  task: getTask(state, id),
-  pendingRewardVote: getPendingRewardVote(state)
+  task: getTask(state, id)
 })
 
 const mapDispatchToProps = dispatch => ({
