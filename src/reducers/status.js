@@ -121,21 +121,20 @@ const status = (
       return Object.assign({}, state, {
         message: 'Received tasks contract'
       })
-    case actions.CONFIRM_BLOCKCHAIN_TX:
-      return Object.assign({}, state, {
-        message: 'Successful blockchain tx'
-      })
     case actions.RECEIVE_USER_NOT_AUTHENTICATED:
       return Object.assign({}, state, {
         message: "Can't submit transaction. Not authenticated"
       })
-    //  TODO shouldn't all actions that don't set txSubmitted to be true cause txSubmitted to be false
-    //  TODO if so why aren't they?
     case actions.SET_DEFAULT_STATUS:
       return Object.assign({}, state, {
         message: 'idle',
         txSubmitted: false
       })
+    case actions.SET_STATUS_MESSAGE:
+      return Object.assign({}, state, {
+        message: action.text
+      })
+
     case actions.SET_NUM_PULLREQUESTS:
       return Object.assign({}, state, {
         message: `Found ${action.numPullRequests} pull requests`,
@@ -167,11 +166,6 @@ const txs = (
   action
 ) => {
   switch (action.type) {
-    case actions.CREATE_PENDING_BLOCKCHAIN_TX:
-      return {
-        ...state,
-        txsPending: [...state.txsPending, action.tx]
-      }
     case actions.RECEIVE_TASK:
       return Object.assign({}, state, {
         message: 'Received a task'

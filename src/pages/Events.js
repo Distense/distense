@@ -19,7 +19,7 @@ class Events extends Component {
         <Head title="Create Task" />
         <List celled>
           {events.length > 0
-            ? events.map(event => <EventItem e={event} />)
+            ? events.map(event => <EventItem key={event.txHash} e={event} />)
             : 'Loading events...'}
         </List>
       </Layout>

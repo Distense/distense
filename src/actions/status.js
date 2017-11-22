@@ -1,24 +1,23 @@
 import * as contracts from '../contracts'
 
 import {
-  CREATE_PENDING_BLOCKCHAIN_TX,
-  CONFIRM_BLOCKCHAIN_TX,
   RECEIVE_TOTALSUPPLY_DID,
-  SET_DEFAULT_STATUS
+  SET_DEFAULT_STATUS,
+  SET_STATUS_MESSAGE
 } from '../constants/constants'
 
-export const createPendingTx = txResponse => ({
-  type: CREATE_PENDING_BLOCKCHAIN_TX
+export const setStatusMessage = text => ({
+  type: SET_STATUS_MESSAGE,
+  text
 })
 
-export const confirmPendingTx = () => ({
-  type: CONFIRM_BLOCKCHAIN_TX
-})
+export const updateStatusMessage = (text, timeout) => dispatch =>{
+  dispatch(setStatusMessage(text))
 
-export const confirmBlockchainTx = txHash => ({
-  type: CONFIRM_BLOCKCHAIN_TX,
-  txHash
-})
+  setTimeout(() => {
+    dispatch(setDefaultStatus())
+  }, 5000)
+}
 
 export const setDefaultStatus = () => ({
   type: SET_DEFAULT_STATUS
@@ -33,5 +32,5 @@ export const fetchTotalSupplyDID = () => async dispatch => {
   const { totalSupply } = await contracts.DidToken
   const totalSupplyDID = await totalSupply()
   dispatch(receiveTotalSupplyDID(totalSupplyDID.toString()))
-  dispatch(setDefaultStatus())
+  dispatch(updateStatusMessage(`Received total supply of DID: ${totalSupplyDID}`))
 }

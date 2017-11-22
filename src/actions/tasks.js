@@ -16,7 +16,7 @@ import {
   receiveIPFSNode
 } from './ipfs'
 
-import { confirmPendingTx, createPendingTx, setDefaultStatus } from './status'
+import { setDefaultStatus, updateStatusMessage } from './status'
 
 import {
   REQUEST_TASK,
@@ -81,19 +81,29 @@ const submitVoteReward = reward => ({
 const getTaskByIndex = async index => {
   const { taskIds } = await contracts.Tasks
   const id = await taskIds(index)
+
   return getTaskByID(id)
 }
 
 const getTaskByID = async id => {
-  const ipfsHash = id.substr(0, 4) === 'zdpu' ? id : reconstructIPFSHash(id)
+
+  let ipfsHash = id
+  if (ipfsHash.indexOf('zdpu') < 0) {
+    ipfsHash = reconstructIPFSHash(id)
+  }
 
   await ipfsReady
   const ipfsTask = await getIPFSDagDetail(ipfsHash)
 
-  const { getTaskById } = await contracts.Tasks //Get tasks mapping getter
-  const taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(ipfsHash)
-  const contractTask = await getTaskById(taskIdBytes32)
+  const { getTaskById } = await contracts.Tasks // Get tasks mapping contract getter
 
+  let taskIdBytes32 = id
+  if (ipfsHash === id) {
+    console.log(`id: ${id}`)
+    taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(id)
+  }
+
+  const contractTask = await getTaskById(taskIdBytes32)
   const createdBy = contractTask[0]
   const reward = contractTask[1].toString()
   const numRewardVoters = contractTask[2].toString()
@@ -103,9 +113,10 @@ const getTaskByID = async id => {
   const status =
     reward === '0'
       ? 'PROPOSAL'
-      : reward > 0 && !rewardPaid ? 'TASK' : 'CONTRIBUTION'
+      : reward > 0 && !rewardPaid ? 'TASK'
+      : 'CONTRIBUTION'
 
-  return Object.assign({}, { _id: ipfsHash }, ipfsTask.value, {
+  return Object.assign({}, { _id: id }, ipfsTask.value, {
     createdBy,
     reward,
     rewardPaid,
@@ -121,6 +132,7 @@ export const fetchTasks = () => async dispatch => {
   const { getNumTasks } = await contracts.Tasks
   dispatch(receiveTasksInstance())
   const numTasks = +await getNumTasks()
+  console.log(`Found ${numTasks} tasks`);
   dispatch(setNumTasks(numTasks))
   dispatch(requestTasks())
   const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
@@ -194,7 +206,6 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
   dispatch(receiveTasksInstance())
 
   dispatch(submitVoteReward(reward))
-  dispatch(createPendingTx())
 
   let receipt
   if (taskId && reward) {
@@ -204,7 +215,7 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
       gasPrice: 2000000000 // 2 gwei!
     })
     if (receipt.tx) {
-      dispatch(confirmPendingTx())
+      updateStatusMessage('vote on task reward tx confirmed')
     } else console.error(`voteOnReward ERROR`)
   }
 

@@ -1,7 +1,6 @@
 import IPFS from 'ipfs'
-import { reconstructIPFSHash } from './utils'
 
-const wrtc = require('wrtc') // or require('electron-webrtc')()
+const wrtc = require('wrtc')
 const WStar = require('libp2p-webrtc-star')
 const wstar = new WStar({ wrtc: wrtc })
 
@@ -35,7 +34,7 @@ export const ipfs = new IPFS({
 export default new Promise((resolve, reject) => {
   ipfs.on('ready', () => {
     ipfs.swarm.connect(
-      '/ip4/165.227.28.206/tcp/9999/ws/ipfs/QmSX1Q4rYtSpBXbSs4ZXnw4kyCwHBpS33siSUpiBJwTHtn',
+      '/ip4/45.55.66.93/tcp/9999/ws/ipfs/Qmcm6iQ4TqqmV6gncuyGUcV6bh35yzEL9oCxBH1tNGtTov',
       err => {
         if (err) reject(err)
         else {
@@ -46,9 +45,8 @@ export default new Promise((resolve, reject) => {
   })
 })
 
+
 export async function getIPFSDagDetail(hash) {
-  // hack fix this
-  let ipfsHash = hash
-  if (hash.substr(0, 4) !== 'zdpu') ipfsHash = reconstructIPFSHash(hash)
-  return await ipfs.dag.get(ipfsHash)
+  console.log(`getIPFSDagDetail hash: ${hash}`);
+  return await ipfs.dag.get(hash)
 }
