@@ -99,5 +99,4 @@ const selectTransactionInfo = tx => ({
 export const getAccounts = state => state.accounts
 export const getCoinbase = state => state.user.accounts[0]
 export const getNetworkId = state => state.user.network
-// export const getUsersNumDID = state => state.user.accounts[0].map(address => )
 export const getETHBalance = state => state.account

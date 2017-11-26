@@ -99,7 +99,6 @@ const getTaskByID = async id => {
 
   let taskIdBytes32 = id
   if (ipfsHash === id) {
-    console.log(`id: ${id}`)
     taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(id)
   }
 
@@ -132,7 +131,7 @@ export const fetchTasks = () => async dispatch => {
   const { getNumTasks } = await contracts.Tasks
   dispatch(receiveTasksInstance())
   const numTasks = +await getNumTasks()
-  console.log(`Found ${numTasks} tasks`);
+  console.log(`Found ${numTasks} tasks in contract`)
   dispatch(setNumTasks(numTasks))
   dispatch(requestTasks())
   const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
@@ -185,7 +184,9 @@ export const createTask = ({ title, tags, issueURL, spec }) => async (
   task.bytes32TaskId = bytes32TaskId
   //  Add task IPFS hash to blockchain
   dispatch(submitTask(task))
-  await addTask(bytes32TaskId, { from: task.createdBy, gasPrice: 2000000000 })
+  const addedTask = await addTask(bytes32TaskId, { from: task.createdBy, gasPrice: 2000000000 })
+  if (addedTask) console.log(`add task successful`)
+  else console.log(`FAILED to add task`)
   dispatch(receiveTask(task))
   dispatch(setDefaultStatus())
 
@@ -209,11 +210,17 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
 
   let receipt
   if (taskId && reward) {
-    const taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(taskId)
+
+    let taskIdBytes32 = taskId
+    if (taskId.indexOf('0x') < 0)
+      taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(taskId)
+
     receipt = await voteOnReward(taskIdBytes32, reward, {
       from: coinbase,
-      gasPrice: 2000000000 // 2 gwei!
+      gasPrice: 1500000000 // 2 gwei
     })
+
+
     if (receipt.tx) {
       updateStatusMessage('vote on task reward tx confirmed')
     } else console.error(`voteOnReward ERROR`)

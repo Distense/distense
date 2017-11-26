@@ -2,7 +2,6 @@ import bs58 from 'bs58'
 import web3Utils from 'web3-utils'
 
 export const extractContentFromIPFSHashIntoBytes32Hex = ipfsBaseEncodedString => {
-  console.log(`ipfsBaseEncodedString: ${ipfsBaseEncodedString}`)
   const ipfsHashBytes = bs58.decode(ipfsBaseEncodedString)
   const contentBytes = ipfsHashBytes.slice(4)
   return web3Utils.bytesToHex(contentBytes)

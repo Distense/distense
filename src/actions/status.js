@@ -16,7 +16,7 @@ export const updateStatusMessage = (text, timeout) => dispatch =>{
 
   setTimeout(() => {
     dispatch(setDefaultStatus())
-  }, 5000)
+  }, 500)
 }
 
 export const setDefaultStatus = () => ({
@@ -33,4 +33,5 @@ export const fetchTotalSupplyDID = () => async dispatch => {
   const totalSupplyDID = await totalSupply()
   dispatch(receiveTotalSupplyDID(totalSupplyDID.toString()))
   dispatch(updateStatusMessage(`Received total supply of DID: ${totalSupplyDID}`))
+  dispatch(setDefaultStatus())
 }

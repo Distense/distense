@@ -2,17 +2,18 @@ import Web3 from 'web3'
 import contract from 'truffle-contract'
 
 let provider
-provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545')
+provider = new Web3.providers.HttpProvider('http://165.227.180.132:9000')
 if (!provider) {
   console.log(`Remote distense-hosted testnet not found`)
-  console.log(`Checking localhost for testrpc`);
+  console.log(`Checking localhost for testrpc`)
   provider = new Web3.providers.HttpProvider('http://localhost:8545')
+} else {
+  console.log(`DISTNET`)
 }
 
 if (!provider)  {
   console.log(`No web3 provider found`);
 }
-
 const web3 = new Web3(provider)
 export default web3
 

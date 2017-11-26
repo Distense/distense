@@ -48,15 +48,17 @@ const Root = () => (
   </Router>
 )
 
-window.addEventListener('load', () => {
-  if (typeof window.web3 !== 'undefined') {
-    window.web3 = new Web3(window.web3.currentProvider)
-  } else {
-    const provider = new Web3.providers.HttpProvider(
-      'http://165.227.28.206:9000'
-    )
-    window.web3 = new Web3(new Web3.providers.HttpProvider(provider))
-  }
+// window.addEventListener('load', () => {
+//   if (typeof window.web3 !== 'undefined') {
+//     console.log(`metamask`);
+//     window.web3 = new Web3(window.web3.currentProvider)
+//   } else {
+//     console.log(`using DISTNET testnet`)
+//     const provider = new Web3.providers.HttpProvider(
+//       'http://165.227.180.132:9000'
+//     )
+//     window.web3 = new Web3(new Web3.providers.HttpProvider(provider))
+//   }
 
   ReactDOM.render(
     <Provider store={store}>
@@ -66,4 +68,4 @@ window.addEventListener('load', () => {
   )
 
   registerServiceWorker()
-})
+// })

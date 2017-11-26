@@ -67,8 +67,22 @@ const getPullRequestByIndex = async index => {
 }
 
 const getPullRequestById = async prId => {
+
+  let ipfsHash = prId
+  if (ipfsHash.indexOf('zdpu') < 0) {
+    ipfsHash = reconstructIPFSHash(prId)
+  }
+
+  await ipfsReady
   const { getPullRequestById } = await contracts.PullRequests
-  const contractPR = await getPullRequestById(prId)
+
+  let prIdBytes32 = prId
+  if (ipfsHash === prId) {
+    console.log(`id: ${prId}`)
+    prIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(prId)
+  }
+
+  const contractPR = await getPullRequestById(prIdBytes32 )
 
   const prIPFSHash = reconstructIPFSHash(prId)
   await ipfsReady
@@ -109,7 +123,7 @@ export const fetchPullRequests = () => async dispatch => {
   dispatch(setDefaultStatus())
 }
 
-export const fetchPullRequest = id => async (dispatch, getState) => {
+export const fetchPullRequest = id => async (dispatch) => {
   dispatch(requestPullRequest(id))
   const pullRequest = await getPullRequestById(id)
   dispatch(receivePullRequest(pullRequest))

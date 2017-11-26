@@ -47,6 +47,5 @@ export default new Promise((resolve, reject) => {
 
 
 export async function getIPFSDagDetail(hash) {
-  console.log(`getIPFSDagDetail hash: ${hash}`);
   return await ipfs.dag.get(hash)
 }
