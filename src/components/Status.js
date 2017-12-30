@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Icon, Menu } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 
 const constructStatus = message => {
   let color
@@ -26,13 +26,9 @@ class Status extends Component {
     return (
       <Menu.Item>
         {status.message}
-        <Icon color={s.color} name={s.icon} />
-        {/* TODO because we set the gasPrice to so low our txs will actually take at least a few minutes
-        // {status.txSubmitted && <Blocktime seconds="30"
-         />}*/}
         {/*language=CSS*/}
         <style>{`
-        .ui.menu .item > i.icon {
+        .ui.menu .item > s.icon {
           margin-left: .2em;
         }
       `}</style>

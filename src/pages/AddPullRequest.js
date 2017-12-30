@@ -13,12 +13,12 @@ import { Redirect } from 'react-router-dom'
 
 import { fetchTask, selectTask } from '../actions/tasks'
 import { getSelectedTask } from '../reducers/tasks'
-import { createPullRequest } from '../actions/pullRequests'
+import { addPullRequest } from '../actions/pullRequests'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 
-class SubmitPullRequest extends Component {
+class AddPullRequest extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -128,8 +128,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchTask: id => dispatch(fetchTask(id)),
-  createPullRequest: pr => dispatch(createPullRequest(pr)),
+  createPullRequest: pr => dispatch(addPullRequest(pr)),
   selectTask: taskId => dispatch(selectTask(taskId))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubmitPullRequest)
+export default connect(mapStateToProps, mapDispatchToProps)(AddPullRequest )

@@ -16,7 +16,7 @@ class Events extends Component {
 
     return (
       <Layout>
-        <Head title="Create Task" />
+        <Head title="Add Task" />
         <List celled>
           {events.length > 0
             ? events.map(event => <EventItem key={event.txHash} e={event} />)

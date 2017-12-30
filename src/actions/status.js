@@ -1,7 +1,7 @@
 import * as contracts from '../contracts'
 
 import {
-  RECEIVE_TOTALSUPPLY_DID,
+  RECEIVE_TOTAL_SUPPLY_DID,
   SET_DEFAULT_STATUS,
   SET_STATUS_MESSAGE
 } from '../constants/constants'
@@ -16,7 +16,7 @@ export const updateStatusMessage = (text, timeout) => dispatch =>{
 
   setTimeout(() => {
     dispatch(setDefaultStatus())
-  }, 500)
+  }, 1000)
 }
 
 export const setDefaultStatus = () => ({
@@ -24,12 +24,12 @@ export const setDefaultStatus = () => ({
 })
 
 export const receiveTotalSupplyDID = totalSupplyDID => ({
-  type: RECEIVE_TOTALSUPPLY_DID,
+  type: RECEIVE_TOTAL_SUPPLY_DID,
   totalSupplyDID
 })
 
 export const fetchTotalSupplyDID = () => async dispatch => {
-  const { totalSupply } = await contracts.DidToken
+  const { totalSupply } = await contracts.DIDToken
   const totalSupplyDID = await totalSupply()
   dispatch(receiveTotalSupplyDID(totalSupplyDID.toString()))
   dispatch(updateStatusMessage(`Received total supply of DID: ${totalSupplyDID}`))

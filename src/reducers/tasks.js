@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { combineReducers } from 'redux'
 
+
 import {
   RECEIVE_TASKS,
   RECEIVE_TASK,
@@ -8,6 +9,7 @@ import {
   SET_NUM_TASKS,
   SUBMIT_TASK
 } from '../constants/constants'
+
 
 const taskById = (state = {}, action) => {
   switch (action.type) {
@@ -115,8 +117,7 @@ export const getSelectedTask = state => {
 }
 
 export const getTaskWithReward = ({ tasks: { taskById } }, _id) => {
-  let task = taskById[_id]
-  return task
+  return taskById[_id]
 }
 
 export const getAllTasksWithRewards = state => {

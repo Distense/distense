@@ -5,16 +5,17 @@ let provider
 provider = new Web3.providers.HttpProvider('http://165.227.180.132:9000')
 if (!provider) {
   console.log(`Remote distense-hosted testnet not found`)
-  console.log(`Checking localhost for testrpc`)
+  console.log(`Checking localhost for available testrpc`)
   provider = new Web3.providers.HttpProvider('http://localhost:8545')
 } else {
-  console.log(`DISTNET`)
+  console.log(`connected to DISTNET testnet`)
 }
 
 if (!provider)  {
   console.log(`No web3 provider found`);
 }
 const web3 = new Web3(provider)
+
 export default web3
 
 
@@ -30,7 +31,6 @@ export const selectContractInstance = contractBuild => {
 }
 
 export const PromisifyWeb3 = web3 => {
-  // Pipes values from a Web3 callback.
   const callbackToResolve = function(resolve, reject) {
     return function(error, value) {
       if (error) {

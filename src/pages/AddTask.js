@@ -9,7 +9,7 @@ import ReactMarkdown from 'react-markdown'
 import slug from 'slug'
 
 import { getPendingTask } from '../reducers/tasks'
-import { createTask } from '../actions/tasks'
+import { addTask } from '../actions/tasks'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
@@ -20,7 +20,7 @@ const tagOption = tag => {
   return { text: tag, key: value, value }
 }
 
-class CreateTask extends Component {
+class AddTask extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -56,7 +56,7 @@ class CreateTask extends Component {
     e.preventDefault()
     const { title, tags, issueURL, spec } = this.state
 
-    this.props.createTask({ title, tags, issueURL, spec })
+    this.props.addTask({ title, tags, issueURL, spec })
     this.setState({
       redirect: true
     })
@@ -69,7 +69,7 @@ class CreateTask extends Component {
 
     return (
       <Layout>
-        <Head title="Create Task" />
+        <Head title="Add Task" />
         <Grid.Column>
           <Form onSubmit={this.onSubmit}>
             <Header as="h1">Create Task</Header>
@@ -183,7 +183,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createTask: task => dispatch(createTask(task))
+  addTask: task => dispatch(addTask(task))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTask)
+export default connect(mapStateToProps, mapDispatchToProps)(AddTask)

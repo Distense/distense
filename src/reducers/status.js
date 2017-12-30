@@ -49,7 +49,7 @@ const status = (
       })
     case actions.SUBMIT_REWARD_VOTE:
       return Object.assign({}, state, {
-        message: 'Submitting reward vote to tasks contract',
+        message: 'Submitting task reward vote to tasks contract',
         txSubmitted: true
       })
     case actions.RECEIVE_TASKS:
@@ -145,7 +145,7 @@ const status = (
         message: `Found ${action.numTasks} tasks`,
         numTasks: action.numTasks
       })
-    case actions.RECEIVE_TOTALSUPPLY_DID:
+    case actions.RECEIVE_TOTAL_SUPPLY_DID:
       return Object.assign({}, state, {
         message: 'Awaiting total supply of DID'
       })
@@ -186,7 +186,7 @@ const distense = (
   action
 ) => {
   switch (action.type) {
-    case actions.RECEIVE_TOTALSUPPLY_DID:
+    case actions.RECEIVE_TOTAL_SUPPLY_DID:
       return Object.assign({}, state, {
         totalSupplyDID: action.totalSupplyDID
       })

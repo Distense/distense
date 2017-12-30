@@ -18,11 +18,13 @@ const receiveNewContractEvent = event => ({
 
 export const getContractEvents = () => async dispatch => {
   //  network id; 5777/9000 is private testnet; 1 is mainnet, others are testnets
-  const network = web3.version.network
 
-  if (network) {
+  if (web3 && web3.version && web3.version.network) {
+
+    const network = web3.version.network
 
     const didTokenAddress = DidTokenArtifacts.networks[network] && DidTokenArtifacts.networks[network].address
+
 
     if (didTokenAddress) {
       const didTokenEvents = getContractEventsNamesAndHashs(DidTokenArtifacts)
@@ -40,13 +42,16 @@ export const getContractEvents = () => async dispatch => {
           dispatch(setDefaultStatus())
         }
       })
-    } else console.log(`didTokenAddress doesn't exist for network: ${network}`)
+    }
+
+
+    else console.log(`didTokenAddress doesn't exist for network: ${network}`)
 
     const tasksAddress = TasksArtifacts.networks[network] && TasksArtifacts.networks[network].address
     if (tasksAddress) {
       const tasksEvents = getContractEventsNamesAndHashs(TasksArtifacts)
       const tasksFilter = web3.eth.filter({
-        fromBlock: 0, // TODO increase this to block at time of launch
+        fromBlock: 4739786, // TODO increase this to block at time of launch
         toBlock: 'latest',
         address: tasksAddress
       })

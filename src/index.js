@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import Web3 from 'web3'
+// import Web3 from 'web3'
 import registerServiceWorker from './registerServiceWorker'
 
 import reducers from './reducers'
@@ -16,11 +16,11 @@ import { fetchParameters } from './actions/parameters'
 
 import Home from './pages/Home'
 import Events from './pages/Events'
-import CreateTask from './pages/CreateTask'
+import CreateTask from './pages/AddTask'
 import HowItWorks from './pages/HowItWorks'
 import Tasks from './pages/Tasks'
 import Task from './pages/Task'
-import SubmitPullRequest from './pages/SubmitPullRequest'
+import AddPullRequest from './pages/AddPullRequest'
 import PullRequests from './pages/PullRequests'
 import PullRequest from './pages/PullRequest'
 import Parameters from './pages/Parameters'
@@ -38,9 +38,9 @@ const Root = () => (
       <Route exact path="/howitworks" component={HowItWorks} />
       <Route exact path="/events" component={Events} />
       <Route path="/tasks/:title/:id" component={Task} />
-      <Route path="/tasks/create" component={CreateTask} />
+      <Route path="/tasks/add" component={CreateTask} />
       <Route exact path="/tasks" component={Tasks} />
-      <Route path="/pullrequests/submit/:id?" component={SubmitPullRequest} />
+      <Route path="/pullrequests/add/:id?" component={AddPullRequest} />
       <Route exact path="/pullrequests/:id" component={PullRequest} />
       <Route exact path="/pullrequests" component={PullRequests} />
       <Route exact path="/parameters" component={Parameters} />

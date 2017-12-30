@@ -90,7 +90,7 @@ class Task extends Component {
           this.setState({
             redirect: true
           })
-        }, 2000)
+        }, 3500)
       }
     )
   }
@@ -131,7 +131,7 @@ class Task extends Component {
                       <Item.Extra>
                         <Button
                           as={Link}
-                          to={`/pullrequests/submit/${task._id}`}
+                          to={`/pullrequests/add/${task._id}`}
                           color="green"
                           compact
                           size="large"

@@ -36,10 +36,8 @@ export const receiveAccountNumDID = numDID => ({
 
 const getNumDIDByAddress = async address => {
   // Have to get numTasks from chain to know how many to query by index
-  const { balances } = await contracts.DidToken
-  const numDID = await balances(address)
-  console.log(`numDID: ${numDID}`)
-  return numDID
+  const { balances } = await contracts.DIDToken
+  return await balances(address)
 }
 
 export const selectUserAccountInfo = () => async dispatch => {
@@ -47,14 +45,16 @@ export const selectUserAccountInfo = () => async dispatch => {
   let isConnected = false
   if (hasWeb3) {
     isConnected = web3.isConnected()
-    if (isConnected) console.log(`web3.isConnected`);
-    const accounts = web3.eth.accounts
-    if (accounts.length)
-      for (const account of accounts) {
-        dispatch(receiveAccountAction(account))
-        const numDID = await getNumDIDByAddress(account)
-        dispatch(receiveAccountNumDID(numDID.toString()))
-      }
+    if (isConnected) {
+      console.log(`web3: isConnected`);
+      const accounts = web3.eth.accounts
+      if (accounts.length)
+        for (const account of accounts) {
+          dispatch(receiveAccountAction(account))
+          const numDID = await getNumDIDByAddress(account)
+          dispatch(receiveAccountNumDID(numDID.toString()))
+        }
+    }
   }
   dispatch(receiveHasWeb3(hasWeb3))
   dispatch(receiveIsConnected(isConnected))

@@ -31,13 +31,13 @@ export default ({ children, title }) => (
           <Menu.Item to="/" as={Link} position="left">
             Distense
           </Menu.Item>
-          <Menu.Item to="/tasks/create" as={Link}>
+          <Menu.Item to="/tasks/add" as={Link}>
             Propose
           </Menu.Item>
           <Menu.Item to="/tasks" as={Link}>
             View
           </Menu.Item>
-          <Menu.Item to="/pullrequests/submit" as={Link}>
+          <Menu.Item to="/pullrequests/add" as={Link}>
             Submit
           </Menu.Item>
           <Menu.Item to="/pullrequests" as={Link}>

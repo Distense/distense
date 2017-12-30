@@ -5,10 +5,12 @@ const WStar = require('libp2p-webrtc-star')
 const wstar = new WStar({ wrtc: wrtc })
 
 export const ipfs = new IPFS({
-  repo: 'distense',
+  repo: 'ipfs-asdf' + String(Math.random()),
   config: {
     Addresses: {
-      Swarm: ['/dns4/star-signal.cloud.ipfs.team/wss/p2p-webrtc-star'],
+      Swarm: [
+        '/dns4/wrtc-star.discovery.libp2p.io/tcp/443/wss/p2p-webrtc-star'
+      ],
       API: '',
       Gateway: ''
     },

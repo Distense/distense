@@ -9,7 +9,7 @@ export const extractContentFromIPFSHashIntoBytes32Hex = ipfsBaseEncodedString =>
 
 export const reconstructIPFSHash = taskIdBytes32 => {
   let strippedBytes32 = taskIdBytes32.slice(2) //  Strip the leading 0x for IPFS
-  const bytes = Buffer.from(`82ddfdec${strippedBytes32}`, 'hex') // '82ddfdec' is 'zdpu-base58' in hex
-  const hash = bs58.encode(bytes)
-  return hash
+  const bytes = Buffer.from(`82ddfdec${strippedBytes32}`, 'hex') // '82ddfdec' is 'zdpu' base58 in hex
+  const bytesEncoded = bs58.encode(bytes)
+  return bytesEncoded
 }

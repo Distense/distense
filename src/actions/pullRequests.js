@@ -4,11 +4,6 @@ import ipfsReady, { getIPFSDagDetail } from '../db'
 import * as contracts from '../contracts'
 
 import {
-  extractContentFromIPFSHashIntoBytes32Hex,
-  reconstructIPFSHash
-} from '../utils'
-
-import {
   REQUEST_PULLREQUESTS,
   REQUEST_PULLREQUESTS_INSTANCE,
   RECEIVE_PULLREQUESTS_INSTANCE,
@@ -66,38 +61,28 @@ const getPullRequestByIndex = async index => {
   return getPullRequestById(id)
 }
 
-const getPullRequestById = async prId => {
 
-  let ipfsHash = prId
-  if (ipfsHash.indexOf('zdpu') < 0) {
-    ipfsHash = reconstructIPFSHash(prId)
-  }
+const getPullRequestById = async prId => {
 
   await ipfsReady
   const { getPullRequestById } = await contracts.PullRequests
 
-  let prIdBytes32 = prId
-  if (ipfsHash === prId) {
-    console.log(`id: ${prId}`)
-    prIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(prId)
-  }
+  const contractPR = await getPullRequestById(prId)
 
-  const contractPR = await getPullRequestById(prIdBytes32 )
-
-  const prIPFSHash = reconstructIPFSHash(prId)
   await ipfsReady
-  let ipfsPullRequest = await getIPFSDagDetail(prIPFSHash)
+  let ipfsPullRequest = await getIPFSDagDetail(prId)
 
   ipfsPullRequest = ipfsPullRequest.value
+
   const createdBy = contractPR[0]
-  const taskId = reconstructIPFSHash(contractPR[1].toString())
+  const taskId = contractPR[1].toString()
   const pctDIDVoted = contractPR[2].toString()
   const prURL = ipfsPullRequest.prURL
 
   return Object.assign(
     {},
     {
-      _id: prIPFSHash,
+      _id: prId,
       createdBy,
       pctDIDVoted,
       prURL,
@@ -114,6 +99,8 @@ export const fetchPullRequests = () => async dispatch => {
   const { getNumPullRequests } = await contracts.PullRequests
   dispatch(receivePullRequestsInstance())
   const numPRs = +await getNumPullRequests()
+  console.log(`Found ${numPRs} PRs in contract`)
+
   dispatch(setNumPullRequests(numPRs))
   const pullRequests = await Promise.all(
     _.range(numPRs).map(getPullRequestByIndex)
@@ -129,7 +116,7 @@ export const fetchPullRequest = id => async (dispatch) => {
   dispatch(receivePullRequest(pullRequest))
 }
 
-export const createPullRequest = ({ taskId, prURL }) => async (
+export const addPullRequest = ({ taskId, prURL }) => async (
   dispatch,
   getState
 ) => {
@@ -138,8 +125,9 @@ export const createPullRequest = ({ taskId, prURL }) => async (
   dispatch(receiveIPFSNode())
 
   dispatch(requestPullRequestsInstance())
-  const { submitPullRequest } = await contracts.PullRequests
+  const { addPullRequest } = await contracts.PullRequests
   dispatch(receivePullRequestsInstance())
+
   const coinbase = getState().user.accounts[0] //TODO make better
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
@@ -162,16 +150,12 @@ export const createPullRequest = ({ taskId, prURL }) => async (
   // Get IPFS hash from raw IPFS CID object
   pullRequest._id = hash.toBaseEncodedString()
 
-  const bytes32PullRequestId = extractContentFromIPFSHashIntoBytes32Hex(
-    pullRequest._id
-  )
-  const bytes32TaskId = extractContentFromIPFSHashIntoBytes32Hex(taskId)
-
   dispatch(submitPullRequestAction(pullRequest))
+
   //  Add task IPFS hash to blockchain
-  await submitPullRequest(bytes32PullRequestId, bytes32TaskId, {
+  await addPullRequest(pullRequest._id, taskId, {
     from: coinbase,
-    gasPrice: 1500000000
+    gasPrice: 3000000000
   })
 
   dispatch(receivePullRequest(pullRequest))

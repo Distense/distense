@@ -3,10 +3,6 @@ import _ from 'lodash'
 import ipfsReady, { getIPFSDagDetail } from '../db'
 import * as contracts from '../contracts'
 
-import {
-  extractContentFromIPFSHashIntoBytes32Hex,
-  reconstructIPFSHash
-} from '../utils'
 import { receiveUserNotAuthenticated } from './user'
 
 import {
@@ -27,8 +23,7 @@ import {
   SELECT_TASK,
   SUBMIT_TASK,
   REQUEST_TASKS_INSTANCE,
-  RECEIVE_TASKS_INSTANCE,
-  SUBMIT_REWARD_VOTE
+  RECEIVE_TASKS_INSTANCE
 } from '../constants/constants'
 
 const requestTasks = () => ({
@@ -73,11 +68,6 @@ const submitTask = task => ({
   task
 })
 
-const submitVoteReward = reward => ({
-  type: SUBMIT_REWARD_VOTE,
-  reward
-})
-
 const getTaskByIndex = async index => {
   const { taskIds } = await contracts.Tasks
   const id = await taskIds(index)
@@ -85,29 +75,20 @@ const getTaskByIndex = async index => {
   return getTaskByID(id)
 }
 
-const getTaskByID = async id => {
-
-  let ipfsHash = id
-  if (ipfsHash.indexOf('zdpu') < 0) {
-    ipfsHash = reconstructIPFSHash(id)
-  }
+const getTaskByID = async taskId => {
 
   await ipfsReady
-  const ipfsTask = await getIPFSDagDetail(ipfsHash)
+
+  const ipfsTask = await getIPFSDagDetail(taskId)
 
   const { getTaskById } = await contracts.Tasks // Get tasks mapping contract getter
 
-  let taskIdBytes32 = id
-  if (ipfsHash === id) {
-    taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(id)
-  }
+  const contractTask = await getTaskById(taskId)
 
-  const contractTask = await getTaskById(taskIdBytes32)
   const createdBy = contractTask[0]
   const reward = contractTask[1].toString()
-  const numRewardVoters = contractTask[2].toString()
-  const rewardPaid = contractTask[3]
-  const pctDIDVoted = contractTask[4].toString()
+  const rewardPaid = contractTask[2]
+  const pctDIDVoted = contractTask[3].toString()
 
   const status =
     reward === '0'
@@ -115,11 +96,10 @@ const getTaskByID = async id => {
       : reward > 0 && !rewardPaid ? 'TASK'
       : 'CONTRIBUTION'
 
-  return Object.assign({}, { _id: id }, ipfsTask.value, {
+  return Object.assign({}, { _id: taskId }, ipfsTask.value, {
     createdBy,
     reward,
     rewardPaid,
-    numRewardVoters,
     status,
     pctDIDVoted
   })
@@ -146,7 +126,7 @@ export const fetchTask = id => async dispatch => {
   dispatch(setDefaultStatus())
 }
 
-export const createTask = ({ title, tags, issueURL, spec }) => async (
+export const addTask = ({ title, tags, issueURL, spec }) => async (
   dispatch,
   getState
 ) => {
@@ -180,11 +160,10 @@ export const createTask = ({ title, tags, issueURL, spec }) => async (
   })
   task._id = cid.toBaseEncodedString() // Get real IPFS hash 'zdpu...'
   dispatch(receiveIPFSHash())
-  const bytes32TaskId = extractContentFromIPFSHashIntoBytes32Hex(task._id)
-  task.bytes32TaskId = bytes32TaskId
+
   //  Add task IPFS hash to blockchain
   dispatch(submitTask(task))
-  const addedTask = await addTask(bytes32TaskId, { from: task.createdBy, gasPrice: 2000000000 })
+  const addedTask = await addTask(task._id, { from: task.createdBy, gasPrice: 2000000000 })
   if (addedTask) console.log(`add task successful`)
   else console.log(`FAILED to add task`)
   dispatch(receiveTask(task))
@@ -197,35 +176,35 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
   dispatch,
   getState
 ) => {
-  const coinbase = getState().user.accounts[0] // TODO betterize this
+
+  const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
     return
   }
+
   dispatch(requestTasksInstance())
   const { voteOnReward } = await contracts.Tasks // Get contract function from Tasks contract instance
   dispatch(receiveTasksInstance())
 
-  dispatch(submitVoteReward(reward))
+  updateStatusMessage('submitting task reward vote to blockchain')
 
   let receipt
   if (taskId && reward) {
 
-    let taskIdBytes32 = taskId
-    if (taskId.indexOf('0x') < 0)
-      taskIdBytes32 = extractContentFromIPFSHashIntoBytes32Hex(taskId)
-
-    receipt = await voteOnReward(taskIdBytes32, reward, {
+    receipt = await voteOnReward(taskId, reward, {
       from: coinbase,
-      gasPrice: 1500000000 // 2 gwei
+      gasPrice: 2000000000 // 2 gwei
     })
 
-
+    if (receipt) console.log(`got tx receipt`)
     if (receipt.tx) {
-      updateStatusMessage('vote on task reward tx confirmed')
-    } else console.error(`voteOnReward ERROR`)
+      console.log(`vote on task reward success`)
+      updateStatusMessage('task reward vote confirmed')
+    } else console.error(`vote on task reward ERROR`)
   }
 
   dispatch(setDefaultStatus())
+
   return receipt
 }

@@ -13,6 +13,7 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
 
+
 class PullRequests extends Component {
   constructor(props) {
     super(props)
@@ -31,7 +32,7 @@ class PullRequests extends Component {
   }
 
   componentDidMount() {
-    let TheFinalCountdown = 32400
+    let TheFinalCountdown = 3400
     const lightYearsToGo = 200
     this.someInterval = setInterval(() => {
       TheFinalCountdown -= lightYearsToGo
@@ -39,8 +40,9 @@ class PullRequests extends Component {
         this.setState({
           loading: false
         })
-      if (this.props.pullRequests.length > 0 && this.props.tasks.length > 0)
+      if (this.props.pullRequests.length > 0 && this.props.tasks.length > 0) {
         this.mapTasksToPullRequests(this.props.pullRequests, this.props.tasks)
+      }
     }, lightYearsToGo)
   }
 
