@@ -26,6 +26,11 @@ import {
   RECEIVE_TASKS_INSTANCE
 } from '../constants/constants'
 
+
+const convertSolidityIntToInt = function (integer) {
+  return integer / 10
+}
+
 const requestTasks = () => ({
   type: REQUEST_TASKS
 })
@@ -78,33 +83,46 @@ const getTaskByIndex = async index => {
 const getTaskByID = async taskId => {
 
   await ipfsReady
-
-  console.log(`taskId: ${taskId}`)
-
   const ipfsTask = await getIPFSDagDetail(taskId)
 
-  const { getTaskById } = await contracts.Tasks // Get tasks mapping contract getter
+  if (!ipfsTask.value)
+    console.log(`no ipfs task`)
+
+  const { getTaskById } = await contracts.Tasks
 
   const contractTask = await getTaskById(taskId)
 
   const createdBy = contractTask[0]
-  const reward = contractTask[1].toString()
-  const rewardPaid = contractTask[2]
+  const reward = convertSolidityIntToInt(contractTask[1].toString())
+  const rewardStatusEnumInteger = contractTask[2].toNumber()
   const pctDIDVoted = contractTask[3].toString()
+  const numVotes = contractTask[4].toString()
 
-  const status =
-    reward === '0'
-      ? 'PROPOSAL'
-      : reward > 0 && !rewardPaid ? 'TASK'
-      : 'CONTRIBUTION'
+  //  enum RewardStatus { Default, Tentative, Determined, Paid }
+  const status = rewardStatusEnumInteger === 0 || rewardStatusEnumInteger === 1 ?
+    'PROPOSAL' :
+    rewardStatusEnumInteger === 2 ?
+      'TASK' :
+      'CONTRIBUTION'
+
+  const rewardStatus = rewardStatusEnumInteger === 0 ?
+    'DEFAULT' :
+    rewardStatusEnumInteger === 1 ?
+      'TENTATIVE' :
+      rewardStatusEnumInteger === 2 ?
+        'DETERMINED' :
+        'PAID'
+
+  const votingStatus = pctDIDVoted + '% voted ' + numVotes + ' votes'
 
   return Object.assign({}, { _id: taskId }, ipfsTask.value, {
     createdBy,
-    reward,
-    rewardPaid,
     status,
-    pctDIDVoted
+    reward,
+    rewardStatus,
+    votingStatus
   })
+
 }
 
 export const fetchTasks = () => async dispatch => {
@@ -128,10 +146,8 @@ export const fetchTask = id => async dispatch => {
   dispatch(setDefaultStatus())
 }
 
-export const addTask = ({ title, tags, issueURL, spec }) => async (
-  dispatch,
-  getState
-) => {
+export const addTask = ({ title, tags, issueURL, spec }) => async (dispatch,
+                                                                   getState) => {
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
@@ -177,10 +193,8 @@ export const addTask = ({ title, tags, issueURL, spec }) => async (
   return task
 }
 
-export const voteOnTaskReward = ({ taskId, reward }) => async (
-  dispatch,
-  getState
-) => {
+export const voteOnTaskReward = ({ taskId, reward }) => async (dispatch,
+                                                               getState) => {
 
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
@@ -206,7 +220,8 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
     if (receipt.tx) {
       console.log(`vote on task reward success`)
       updateStatusMessage('task reward vote confirmed')
-    } else console.error(`vote on task reward ERROR`)
+    }
+    else console.error(`vote on task reward ERROR`)
   }
 
   dispatch(setDefaultStatus())

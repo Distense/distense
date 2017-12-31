@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom'
 import { Button, Table } from 'semantic-ui-react'
 
 import { fetchTasks } from '../actions/tasks'
-import { getAllTasksWithRewards } from '../reducers/tasks'
+import { getAllTasks } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
+
 
 class Tasks extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class Tasks extends Component {
         loading: false,
         tasks: this.props.tasks
       })
-    }, 6500)
+    }, 5500)
   }
 
   componentWillUnmount() {
@@ -90,14 +91,13 @@ class Tasks extends Component {
                 sorted={column === 'Reward' ? direction : null}
                 onClick={this.handleSort('reward')}
               >
-                Reward
+                Reward (status)
               </Table.HeaderCell>
               <Table.HeaderCell
-                sorted={column === 'numRewardVoters' ? direction : null}
-                onClick={this.handleSort('numRewardVoters')}
-                title="Number of people who have submitted reward votes"
+                sorted={column === 'Voting Status' ? direction : null}
+                onClick={this.handleSort('pctDIDVoted')}
               >
-                NumVoters
+                Voting Status
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Date' ? direction : null}
@@ -136,11 +136,8 @@ const TasksListItem = ({ task }) => (
       <Tags tags={task.tags} />
     </Table.Cell>
     <Table.Cell>{task.status}</Table.Cell>
-    <Table.Cell>{task.reward}</Table.Cell>
-    <Table.Cell>
-      {task.pctDIDVoted}
-      {task.pctDIDVoted && '%'}
-    </Table.Cell>
+    <Table.Cell>{task.reward} ({task.rewardStatus})</Table.Cell>
+    <Table.Cell>{task.votingStatus}</Table.Cell>
     <Table.Cell collapsing textAlign="right">
       {task.createdAt.toDateString()}
     </Table.Cell>
@@ -163,7 +160,7 @@ const TasksListItem = ({ task }) => (
 )
 
 const mapStateToProps = state => ({
-  tasks: getAllTasksWithRewards(state)
+  tasks: getAllTasks(state)
 })
 
 const mapDispatchToProps = dispatch => ({

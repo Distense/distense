@@ -5,7 +5,7 @@ const WStar = require('libp2p-webrtc-star')
 const wstar = new WStar({ wrtc: wrtc })
 
 export const ipfs = new IPFS({
-  repo: 'ipfs-asdf' + String(Math.random()),
+  repo: 'ipfs-repo' + String(Math.random()),
   config: {
     Addresses: {
       Swarm: [
@@ -49,7 +49,5 @@ export default new Promise((resolve, reject) => {
 
 
 export async function getIPFSDagDetail(hash) {
-
-
   return await ipfs.dag.get(hash)
 }

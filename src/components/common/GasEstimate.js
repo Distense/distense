@@ -5,7 +5,7 @@ export default () => {
   const likelyGasForPagesTx = {
     '/tasks': 0,
     '/task': 321,
-    '/tasks/add': 321,
+    '/tasks/add': '163604 (',
     '/pullrequests': 321,
     '/pullRequest': 321,
     '/pullrequests/add': 321

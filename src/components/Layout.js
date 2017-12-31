@@ -75,7 +75,7 @@ export default ({ children, title }) => (
           </Menu.Item>
           <Status />
           <NumberDIDOwned />
-          <GasEstimate />
+          {/*<GasEstimate />*/}
           <HasWeb3 />
           <EthereumAuthenticated />
         </Container>
