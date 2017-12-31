@@ -12,7 +12,7 @@ class NumberDIDOwned extends Component {
 
     return (
       <Menu.Item title="The number of DID the accounts available in web3 own">
-        DID: {numDID}
+        your DID: {numDID}
       </Menu.Item>
     )
   }

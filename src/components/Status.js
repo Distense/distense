@@ -21,14 +21,14 @@ class Status extends Component {
   render() {
     const { status } = this.props
 
-    const s = constructStatus(status.message)
+    // const s = constructStatus(status.message)
 
     return (
       <Menu.Item>
         {status.message}
         {/*language=CSS*/}
         <style>{`
-        .ui.menu .item > s.icon {
+        .ui.menu .item >  {
           margin-left: .2em;
         }
       `}</style>

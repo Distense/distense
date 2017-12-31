@@ -49,5 +49,7 @@ export default new Promise((resolve, reject) => {
 
 
 export async function getIPFSDagDetail(hash) {
+
+
   return await ipfs.dag.get(hash)
 }

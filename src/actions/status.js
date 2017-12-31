@@ -11,12 +11,12 @@ export const setStatusMessage = text => ({
   text
 })
 
-export const updateStatusMessage = (text, timeout) => dispatch =>{
+export const updateStatusMessage = text => dispatch =>{
   dispatch(setStatusMessage(text))
 
   setTimeout(() => {
     dispatch(setDefaultStatus())
-  }, 1000)
+  }, 2000)
 }
 
 export const setDefaultStatus = () => ({

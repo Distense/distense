@@ -79,6 +79,8 @@ const getTaskByID = async taskId => {
 
   await ipfsReady
 
+  console.log(`taskId: ${taskId}`)
+
   const ipfsTask = await getIPFSDagDetail(taskId)
 
   const { getTaskById } = await contracts.Tasks // Get tasks mapping contract getter
@@ -111,7 +113,7 @@ export const fetchTasks = () => async dispatch => {
   const { getNumTasks } = await contracts.Tasks
   dispatch(receiveTasksInstance())
   const numTasks = +await getNumTasks()
-  console.log(`Found ${numTasks} tasks in contract`)
+  console.log(`Found ${numTasks} contract tasks`)
   dispatch(setNumTasks(numTasks))
   dispatch(requestTasks())
   const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
@@ -158,7 +160,10 @@ export const addTask = ({ title, tags, issueURL, spec }) => async (
     format: 'dag-cbor',
     hashAlg: 'sha2-256'
   })
+
   task._id = cid.toBaseEncodedString() // Get real IPFS hash 'zdpu...'
+  console.log(`new task IPFS hash: ${task._id}`)
+
   dispatch(receiveIPFSHash())
 
   //  Add task IPFS hash to blockchain

@@ -12,7 +12,6 @@ export default () => {
   }
 
   const gas = likelyGasForPagesTx[window.location.pathname]
-  console.log(`gas: ${gas}`)
   return (
     <Menu.Item title="approximate average gas charged by the primary tx possible on this page">
       Est Gas: {gas}

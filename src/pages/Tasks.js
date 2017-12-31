@@ -33,7 +33,7 @@ class Tasks extends Component {
         loading: false,
         tasks: this.props.tasks
       })
-    }, 3500)
+    }, 6500)
   }
 
   componentWillUnmount() {
@@ -100,13 +100,6 @@ class Tasks extends Component {
                 NumVoters
               </Table.HeaderCell>
               <Table.HeaderCell
-                sorted={column === 'numRewardVoters' ? direction : null}
-                onClick={this.handleSort('numRewardVoters')}
-                title="% of DID that have voted on a task."
-              >
-                % DID Voted
-              </Table.HeaderCell>
-              <Table.HeaderCell
                 sorted={column === 'Date' ? direction : null}
                 onClick={this.handleSort('createdAt')}
               >
@@ -144,7 +137,6 @@ const TasksListItem = ({ task }) => (
     </Table.Cell>
     <Table.Cell>{task.status}</Table.Cell>
     <Table.Cell>{task.reward}</Table.Cell>
-    <Table.Cell>{task.numRewardVoters}</Table.Cell>
     <Table.Cell>
       {task.pctDIDVoted}
       {task.pctDIDVoted && '%'}
@@ -162,7 +154,7 @@ const TasksListItem = ({ task }) => (
         size="mini"
         as={Link}
         title="Submit work for this task"
-        to={`/pullrequests/submit/${task._id}`}
+        to={`/pullrequests/add/${task._id}`}
       >
         Submit
       </Button>
