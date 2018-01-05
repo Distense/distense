@@ -1,16 +1,9 @@
 import _ from 'lodash'
+import Random from 'meteor-random'
 
-import ipfsReady, { getIPFSDagDetail } from '../db'
 import * as contracts from '../contracts'
 
 import { receiveUserNotAuthenticated } from './user'
-
-import {
-  submitIPFSHash,
-  receiveIPFSHash,
-  requestIPFSNode,
-  receiveIPFSNode
-} from './ipfs'
 
 import { setDefaultStatus, updateStatusMessage } from './status'
 
@@ -73,70 +66,95 @@ const submitTask = task => ({
   task
 })
 
+
+export const fetchTasks = () => async dispatch => {
+
+  // Have to get numTasks from chain to know how many to query by index
+  dispatch(requestTasksInstance())
+  const { getNumTasks } = await contracts.Tasks
+
+  dispatch(receiveTasksInstance())
+  const numTasks = +await getNumTasks()
+  console.log(`found ${numTasks} tasks in blockchain`)
+  dispatch(setNumTasks(numTasks))
+  dispatch(requestTasks())
+
+  const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
+  dispatch(receiveTasks(tasks.filter(_.identity)))
+  dispatch(setDefaultStatus())
+}
+
 const getTaskByIndex = async index => {
-  const { taskIds } = await contracts.Tasks
-  const id = await taskIds(index)
+
+  let id
+  try {
+    const { taskIds } = await contracts.Tasks
+    id = await taskIds(index)
+  } catch (error) {
+    console.log(`getTaskByIndex error: ${getTaskByIndex}`)
+  }
+
 
   return getTaskByID(id)
 }
 
 const getTaskByID = async taskId => {
 
-  await ipfsReady
-  const ipfsTask = await getIPFSDagDetail(taskId)
+  console.log(`taskId: ${taskId}`)
 
-  if (!ipfsTask.value)
-    console.log(`no ipfs task`)
+  try {
+    const { getTaskById } = await contracts.Tasks
 
-  const { getTaskById } = await contracts.Tasks
+    const contractTask = await getTaskById(taskId)
 
-  const contractTask = await getTaskById(taskId)
+    const createdBy = contractTask[0]
+    const created = new Date(contractTask[1].toNumber())
+    const reward = convertSolidityIntToInt(contractTask[2].toNumber())
+    const rewardStatusEnumInteger = contractTask[3].toNumber()
+    const pctDIDVoted = contractTask[4].toString()
+    const numVotes = contractTask[5].toString()
+    const title = contractTask[6].toString()
+    const issueNum = contractTask[7].toString()
+    const repo = contractTask[8].toString()
+    const tags = contractTask[9].toString().split(':')
 
-  const createdBy = contractTask[0]
-  const reward = convertSolidityIntToInt(contractTask[1].toString())
-  const rewardStatusEnumInteger = contractTask[2].toNumber()
-  const pctDIDVoted = contractTask[3].toString()
-  const numVotes = contractTask[4].toString()
 
-  //  enum RewardStatus { Default, Tentative, Determined, Paid }
-  const status = rewardStatusEnumInteger === 0 || rewardStatusEnumInteger === 1 ?
-    'PROPOSAL' :
-    rewardStatusEnumInteger === 2 ?
-      'TASK' :
-      'CONTRIBUTION'
-
-  const rewardStatus = rewardStatusEnumInteger === 0 ?
-    'DEFAULT' :
-    rewardStatusEnumInteger === 1 ?
-      'TENTATIVE' :
+    const status = rewardStatusEnumInteger === 0 || rewardStatusEnumInteger === 1 ?
+      'PROPOSAL' :
       rewardStatusEnumInteger === 2 ?
-        'DETERMINED' :
-        'PAID'
+        'TASK' :
+        'CONTRIBUTION'
 
-  const votingStatus = pctDIDVoted + '% voted ' + numVotes + ' votes'
+    const rewardStatus = rewardStatusEnumInteger === 0 ?
+      'DEFAULT' :
+      rewardStatusEnumInteger === 1 ?
+        'TENTATIVE' :
+        rewardStatusEnumInteger === 2 ?
+          'DETERMINED' :
+          'PAID'
 
-  return Object.assign({}, { _id: taskId }, ipfsTask.value, {
-    createdBy,
-    status,
-    reward,
-    rewardStatus,
-    votingStatus
-  })
+    const votingStatus = pctDIDVoted + '% voted ' + numVotes + ' votes'
 
-}
+    return Object.assign({}, { _id: taskId }, {
+      createdBy,
+      created,
+      reward,
+      rewardStatus,
+      votingStatus,
+      pctDIDVoted,
+      numVotes,
+      title,
+      issueNum,
+      repo,
+      tags,
+      status
+    })
 
-export const fetchTasks = () => async dispatch => {
-  // Have to get numTasks from chain to know how many to query by index
-  dispatch(requestTasksInstance())
-  const { getNumTasks } = await contracts.Tasks
-  dispatch(receiveTasksInstance())
-  const numTasks = +await getNumTasks()
-  console.log(`Found ${numTasks} contract tasks`)
-  dispatch(setNumTasks(numTasks))
-  dispatch(requestTasks())
-  const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
-  dispatch(receiveTasks(tasks.filter(_.identity)))
-  dispatch(setDefaultStatus())
+  } catch (error) {
+    console.error(error)
+  }
+
+
 }
 
 export const fetchTask = id => async dispatch => {
@@ -146,7 +164,7 @@ export const fetchTask = id => async dispatch => {
   dispatch(setDefaultStatus())
 }
 
-export const addTask = ({ title, tags, issueURL, spec }) => async (dispatch,
+export const addTask = ({ title, tagsString, issueNum, repo }) => async (dispatch,
                                                                    getState) => {
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
@@ -154,44 +172,39 @@ export const addTask = ({ title, tags, issueURL, spec }) => async (dispatch,
     return
   }
 
-  dispatch(requestIPFSNode())
-  const ipfs = await ipfsReady // await ipfs browser node instantiation and remote node connection
-  dispatch(receiveIPFSNode())
-
   dispatch(requestTasksInstance())
   const { addTask } = await contracts.Tasks // Get Tasks contract instance
   dispatch(receiveTasksInstance())
 
+  const _id = Random.hexString(32)
+
   const task = {
+    _id,
     title,
-    tags,
-    issueURL,
-    spec,
-    createdAt: new Date(),
+    tagsString,
+    issueNum,
     createdBy: coinbase
   }
 
-  dispatch(submitIPFSHash())
-  const cid = await ipfs.dag.put(task, {
-    format: 'dag-cbor',
-    hashAlg: 'sha2-256'
-  })
-
-  task._id = cid.toBaseEncodedString() // Get real IPFS hash 'zdpu...'
-  console.log(`new task IPFS hash: ${task._id}`)
-
-  dispatch(receiveIPFSHash())
-
-  //  Add task IPFS hash to blockchain
   dispatch(submitTask(task))
-  const addedTask = await addTask(task._id, { from: task.createdBy, gasPrice: 2000000000 })
-  if (addedTask) console.log(`add task successful`)
+
+  const addedTask = await addTask(
+    _id,
+    title,
+    tagsString,
+    issueNum,
+    repo, {
+      from: coinbase
+    }
+  )
+  if (addedTask) console.log(`blockchain/contact addTask() successful`)
   else console.log(`FAILED to add task`)
   dispatch(receiveTask(task))
   dispatch(setDefaultStatus())
 
   return task
 }
+
 
 export const voteOnTaskReward = ({ taskId, reward }) => async (dispatch,
                                                                getState) => {
@@ -203,7 +216,7 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (dispatch,
   }
 
   dispatch(requestTasksInstance())
-  const { voteOnReward } = await contracts.Tasks // Get contract function from Tasks contract instance
+  const { taskRewardVote } = await contracts.Tasks // Get contract function from Tasks contract instance
   dispatch(receiveTasksInstance())
 
   updateStatusMessage('submitting task reward vote to blockchain')
@@ -211,7 +224,7 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (dispatch,
   let receipt
   if (taskId && reward) {
 
-    receipt = await voteOnReward(taskId, reward, {
+    receipt = await taskRewardVote(taskId, reward, {
       from: coinbase,
       gasPrice: 2000000000 // 2 gwei
     })

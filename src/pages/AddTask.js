@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
-import CodeMirror from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/mode/markdown/markdown'
 import { Button, Dropdown, Input, Form, Grid, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import ReactMarkdown from 'react-markdown'
 import slug from 'slug'
 
 import { getPendingTask } from '../reducers/tasks'
@@ -13,7 +9,7 @@ import { addTask } from '../actions/tasks'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
-import { specPlaceholder, tagsOptions } from '../shared'
+import { tagsOptions } from '../shared'
 
 const tagOption = tag => {
   const value = slug(tag)
@@ -25,45 +21,55 @@ class AddTask extends Component {
     super(props)
     this.state = {
       title: '',
-      tags: [],
-      issueURL: '',
+      tagsString: '',
+      issueNum: '',
+      repo: '',
       redirect: false,
-      spec: specPlaceholder
     }
 
+    this.onChangeRepo = this.onChangeRepo.bind(this)
     this.onChangeTags = this.onChangeTags.bind(this)
+
   }
 
   onChangeTitle = ({ target: { value } }) => {
     if (value.length <= 50) this.setState({ title: value })
   }
 
-  onChangeIssueURL = ({ target: { value } }) => {
-    //  TODO url validation
-    this.setState({ issueURL: value })
+  onChangeIssueNum = ({ target: { value } }) => {
+    this.setState({ issueNum: value })
   }
 
   onChangeTags(e, data) {
     const tags = data.value
-    if (tags.length < 6) this.setState({ tags })
+    if (tags.length < 6) {
+      this.setState({ tags })
+      let tagsString = ''
+      tags.forEach((tag) => {
+        tagsString += ':' + tag
+      })
+      this.setState({tagsString})
+    }
   }
 
-  onChangeSpec = (editor, metadata, value) => {
-    this.setState({ spec: value })
+  onChangeRepo(e, data) {
+    this.setState({
+      repo: data.value
+    })
   }
 
   onSubmit = async e => {
     e.preventDefault()
-    const { title, tags, issueURL, spec } = this.state
+    const { title, tagsString, issueNum, repo } = this.state
 
-    this.props.addTask({ title, tags, issueURL, spec })
+    this.props.addTask({ title, tagsString, issueNum, repo })
     this.setState({
       redirect: true
     })
   }
 
   render() {
-    const { title, tags, issueURL, redirect, spec } = this.state
+    const { title, tags, issueNum, repo, redirect } = this.state
 
     if (redirect) return <Redirect to="/tasks" />
 
@@ -97,31 +103,30 @@ class AddTask extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <Input
-                onChange={this.onChangeIssueURL}
-                placeholder="Github Issue URL"
-                value={issueURL}
+              <Dropdown
+                fluid
+                onChange={this.onChangeRepo}
+                options={[{
+                  key:'ui', value:'ui',text: 'UI'
+                }, {
+                  key: 'contracts', value: 'contracts', text: 'Contracts'}
+                  ]
+                }
+                placeholder="Repo"
+                search
+                selection
+                scrolling
+                value={repo}
               />
             </Form.Field>
-            <Form.Field className="fields fields-margin-fix">
-              <Form.Field width="8">
-                <CodeMirror
-                  value={spec}
-                  options={{
-                    cursorBlinkRate: 650,
-                    lineNumbers: true,
-                    lineWrapping: true,
-                    mode: 'markdown',
-                    scrollbarStyle: null,
-                    tabSize: 2
-                  }}
-                  onValueChange={this.onChangeSpec}
-                />
-              </Form.Field>
-              <Form.Field className="react-markdown" width="8">
-                <ReactMarkdown source={spec} />
-              </Form.Field>
+            <Form.Field>
+              <Input
+                onChange={this.onChangeIssueNum}
+                placeholder="Github Issue Number"
+                value={issueNum}
+              />
             </Form.Field>
+
             <Button size="large" color="green" type="submit">
               Submit
             </Button>
@@ -130,35 +135,9 @@ class AddTask extends Component {
 
         {/*language=CSS*/}
         <style global jsx>{`
-          .react-codemirror2,
-          .react-markdown {
-            border: 1px solid rgba(34, 36, 38, 0.15);
-            border-radius: 0.28571429rem;
-          }
-
-          .react-codemirror2 {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-            margin-right: -0.5rem;
-          }
-
-          .react-markdown {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            padding: 1rem;
-            width: 49.7% !important;
-          }
 
           .fields-margin-fix {
             margin: 0 -0.5em 1em !important;
-          }
-
-          .CodeMirror {
-            height: 36rem;
-          }
-
-          .CodeMirror-scroll {
-            padding-bottom: 0;
           }
 
           .center {
@@ -169,9 +148,6 @@ class AddTask extends Component {
             border-bottom: 1px solid #ccc;
           }
 
-          .CodeMirror-cursor {
-            border-left: 0.5rem solid #ccc;
-          }
         `}</style>
       </Layout>
     )

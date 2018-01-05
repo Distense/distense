@@ -115,11 +115,3 @@ export const getPendingRewardVote = state => {
 export const getSelectedTask = state => {
   return getTask(state, state.tasks.selectedTask)
 }
-
-export const getTaskWithReward = ({ tasks: { taskById } }, _id) => {
-  return taskById[_id]
-}
-
-export const getAllTasksWithRewards = state => {
-  return state.tasks.tasks.map(_id => getTaskWithReward(state, _id))
-}

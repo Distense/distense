@@ -56,7 +56,7 @@ class PullRequests extends Component {
       let pullRequest
       if (task)
         pullRequest = Object.assign({}, pr, {
-          issueURL: task.issueURL ? task.issueURL : '',
+          issueNum: task.issueNum ? task.issueNum : '',
           taskTitle: task.title,
           taskId: task._id,
           taskReward: !task.reward ? '?' : task.reward,

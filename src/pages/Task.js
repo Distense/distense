@@ -10,7 +10,6 @@ import {
   Item,
   Message
 } from 'semantic-ui-react'
-import ReactMarkdown from 'react-markdown'
 
 import { fetchTask, voteOnTaskReward } from '../actions/tasks'
 import { getTask } from '../reducers/tasks'
@@ -19,13 +18,14 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
 
+
 const TaskRewardInput = ({
-  disabled,
-  task,
-  reward,
-  onSubmitReward,
-  onChangeReward
-}) => (
+                           disabled,
+                           task,
+                           reward,
+                           onSubmitReward,
+                           onChangeReward
+                         }) => (
   <Message>
     <Form onSubmit={event => onSubmitReward(event)}>
       <Form.Field required>
@@ -58,6 +58,7 @@ class Task extends Component {
       reward: ''
     }
   }
+
   componentWillMount() {
     const { fetchTask, match: { params: { id } } } = this.props
     fetchTask(id)
@@ -100,12 +101,12 @@ class Task extends Component {
     const { redirect, reward } = this.state
 
     if (redirect) {
-      return <Redirect to="/tasks" />
+      return <Redirect to="/tasks"/>
     }
 
     return (
       <Layout>
-        <Head title="Task" />
+        <Head title="Task"/>
         <div className="task">
           {task ? (
             <Grid divided="vertically">
@@ -117,16 +118,16 @@ class Task extends Component {
                         {task.title}
                       </Header>
                       <Item.Description>
-                        Tags: <Tags tags={task.tags} />
+                        Tags: <Tags tags={task.tags}/>
                       </Item.Description>
                       <Item.Description>
                         Issue URL:
-                        <a className="" target="_blank" href={task.issueURL}>
-                          {task.issueURL}
+                        <a className="" target="_blank" href={task.issueNum}>
+                          {task.issueNum}
                         </a>
                       </Item.Description>
                       <Item.Meta>
-                        Created: {new Date(task.createdAt).toDateString()}
+                        Created: {new Date(task.created)}
                       </Item.Meta>
                       <Item.Extra>
                         <Button
@@ -149,11 +150,6 @@ class Task extends Component {
                     onChangeReward={this.onChangeReward}
                     onSubmitReward={this.onSubmitReward}
                   />
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  <ReactMarkdown source={task.spec} />
                 </Grid.Column>
               </Grid.Row>
             </Grid>

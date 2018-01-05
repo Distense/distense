@@ -34,7 +34,7 @@ class Tasks extends Component {
         loading: false,
         tasks: this.props.tasks
       })
-    }, 5500)
+    }, 2000)
   }
 
   componentWillUnmount() {
@@ -91,13 +91,13 @@ class Tasks extends Component {
                 sorted={column === 'Reward' ? direction : null}
                 onClick={this.handleSort('reward')}
               >
-                Reward (status)
+                Task Reward (status)
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Voting Status' ? direction : null}
                 onClick={this.handleSort('pctDIDVoted')}
               >
-                Voting Status
+                Approval Voting Status
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Date' ? direction : null}
@@ -139,7 +139,7 @@ const TasksListItem = ({ task }) => (
     <Table.Cell>{task.reward} ({task.rewardStatus})</Table.Cell>
     <Table.Cell>{task.votingStatus}</Table.Cell>
     <Table.Cell collapsing textAlign="right">
-      {task.createdAt.toDateString()}
+      {task.created && task.created.toDateString()}
     </Table.Cell>
     <Table.Cell>
       <Button

@@ -48,12 +48,11 @@ export const selectUserAccountInfo = () => async dispatch => {
     if (isConnected) {
       console.log(`web3: isConnected`);
       const accounts = web3.eth.accounts
-      if (accounts.length)
-        for (const account of accounts) {
-          dispatch(receiveAccountAction(account))
-          const numDID = await getNumDIDByAddress(account)
-          dispatch(receiveAccountNumDID(numDID.toString()))
-        }
+      if (accounts.length) {
+        dispatch(receiveAccountAction(accounts[0]))
+        const numDID = await getNumDIDByAddress(accounts[0])
+        dispatch(receiveAccountNumDID(numDID.toString()))
+      }
     }
   }
   dispatch(receiveHasWeb3(hasWeb3))
