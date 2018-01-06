@@ -4,9 +4,7 @@ import Random from 'meteor-random'
 import * as contracts from '../contracts'
 
 import { receiveUserNotAuthenticated } from './user'
-
 import { setDefaultStatus, updateStatusMessage } from './status'
-
 import {
   REQUEST_TASK,
   RECEIVE_TASK,
@@ -19,6 +17,7 @@ import {
   RECEIVE_TASKS_INSTANCE
 } from '../constants/constants'
 import web3 from '../web3'
+import { encodeTaskDataIntoBytes32AndTitle }from '../shared'
 
 
 const convertSolidityIntToInt = function (integer) {
@@ -171,7 +170,7 @@ export const fetchTask = id => async dispatch => {
 }
 
 export const addTask = ({ title, tagsString, issueNum, repo }) => async (dispatch,
-                                                                   getState) => {
+                                                                         getState) => {
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
@@ -184,34 +183,33 @@ export const addTask = ({ title, tagsString, issueNum, repo }) => async (dispatc
 
   const _id = Random.hexString(12)
 
-  const task = {
+  const originalTask = {
     _id,
     createdBy: coinbase,
     created: new Date(),
     title,
     tagsString,
     issueNum,
-    repoString: repo === 'ui' ? 'distense-ui' : 'contracts',
+    repoString: repo === 'ui' ? 'distense-ui' : 'contracts'
   }
 
-  // const taskID = encodeTaskDataIntoBytes32(task)
-  dispatch(submitTask(task))
+  const taskId = encodeTaskDataIntoBytes32AndTitle(originalTask)
+  dispatch(submitTask(originalTask))
 
   const addedTask = await addTask(
-    _id,
-    title,
-    tagsString,
-    issueNum,
-    repo, {
+    taskId,
+    title, {
       from: coinbase
     }
   )
+
   if (addedTask) console.log(`blockchain/contact addTask() successful`)
   else console.log(`FAILED to add task`)
-  dispatch(receiveTask(task))
+
+  dispatch(receiveTask(originalTask))
   dispatch(setDefaultStatus())
 
-  return task
+  return originalTask
 }
 
 

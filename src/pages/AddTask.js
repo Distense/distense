@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Button, Dropdown, Input, Form, Grid, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import slug from 'slug'
 
 import { getPendingTask } from '../reducers/tasks'
 import { addTask } from '../actions/tasks'
@@ -11,10 +10,6 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import { tagsOptions } from '../shared'
 
-// const tagOption = tag => {
-//   const value = slug(tag)
-//   return { text: tag, key: value, value }
-// }
 
 class AddTask extends Component {
   constructor(props) {
@@ -42,7 +37,7 @@ class AddTask extends Component {
 
   onChangeTags(e, data) {
     const tags = data.value
-    if (tags.length < 6) {
+    if (tags.length < 4) {
       this.setState({ tags })
       let tagsString = ''
       tags.forEach((tag, i) => {

@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export const votingIntervalParameter = {
   title: 'votingInterval'
 }
@@ -47,17 +49,21 @@ export const specPlaceholder = `
   )
 \`\`\``
 
-// const getTagsMappingValue = tags => {
-//   let encodedBlockchainTagString = ''
-//   tags.forEach((tag) => {
-//
-//   })
-// }
-//
-// export const encodeTaskDataIntoBytes32 = task => {
-//
-//   //  js date int 1515200136407
-//   const tagsString = getTagsMappingValue(task.tags)
-//
-//   return contentHash
-// }
+export const encodeTaskDataIntoBytes32AndTitle = task => {
+
+  //  js date int 1515200136407
+  const dateString = new Date().getTime().toString()
+  console.log(`dateString: ${dateString}`)
+
+  let tags = ''
+  task.tagsString.split(':').forEach((tag, index) => {
+    const indexOfTag = _.findIndex(tagsOptions, function(tagOption) { return tagOption.value === tag })
+    if (index > 0) tags += '-' + indexOfTag
+    else tags += indexOfTag
+
+  })
+
+  const repoNum = task.repoString === 'distense-ui' ? 0 : 1
+  const contentHash = dateString + '-' + tags + '-' + task.issueNum + '-' + repoNum
+  return contentHash
+}
