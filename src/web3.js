@@ -1,8 +1,10 @@
 import Web3 from 'web3'
 import contract from 'truffle-contract'
 
-const provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545')
-// const provider = new Web3.providers.HttpProvider('http://165.227.180.132:9000')
+
+// const provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545')  // ganache
+const provider = new Web3.providers.HttpProvider('http://165.227.180.132:9000') // remote Distense testnet
+
 
 if (!provider)  {
   console.log(`No web3 provider found`);

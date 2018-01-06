@@ -122,12 +122,12 @@ class Task extends Component {
                       </Item.Description>
                       <Item.Description>
                         Issue URL:
-                        <a className="" target="_blank" href={task.issueNum}>
-                          {task.issueNum}
+                        <a className="" target="_blank" href={task.issueURL}>
+                          {task.issueURL}
                         </a>
                       </Item.Description>
                       <Item.Meta>
-                        Created: {new Date(task.created)}
+                        Created: {task.created.toDateString()}
                       </Item.Meta>
                       <Item.Extra>
                         <Button

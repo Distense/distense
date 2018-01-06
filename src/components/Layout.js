@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Container, Menu, Segment } from 'semantic-ui-react'
 
 import EthereumAuthenticated from './common/EthereumAuthenticated'
-import GasEstimate from './common/GasEstimate'
+// import GasEstimate from './common/GasEstimate'
 import NumberDIDOwned from './common/NumberDIDOwned'
 import HasWeb3 from './common/HasWeb3'
 import TotalDID from './common/TotalDID'

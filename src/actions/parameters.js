@@ -1,6 +1,4 @@
 import _ from 'lodash'
-import web3Utils from 'web3-utils'
-// import web3 from 'web3'
 
 import { REQUEST_PARAMETERS, RECEIVE_PARAMETERS } from '../constants/constants'
 
@@ -28,7 +26,7 @@ const getParameterByTitle = async title => {
   return Object.assign(
     {},
     {
-      title: web3Utils.hexToUtf8(parameter[0]),
+      title: 'TODO convert from hex to ASCII',
       value: parameter[1].toString()
     }
   )

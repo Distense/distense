@@ -11,10 +11,10 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import { tagsOptions } from '../shared'
 
-const tagOption = tag => {
-  const value = slug(tag)
-  return { text: tag, key: value, value }
-}
+// const tagOption = tag => {
+//   const value = slug(tag)
+//   return { text: tag, key: value, value }
+// }
 
 class AddTask extends Component {
   constructor(props) {
@@ -45,8 +45,9 @@ class AddTask extends Component {
     if (tags.length < 6) {
       this.setState({ tags })
       let tagsString = ''
-      tags.forEach((tag) => {
-        tagsString += ':' + tag
+      tags.forEach((tag, i) => {
+        if (i === 0) tagsString = tag
+        else tagsString += ':' + tag
       })
       this.setState({tagsString})
     }
@@ -60,8 +61,8 @@ class AddTask extends Component {
 
   onSubmit = async e => {
     e.preventDefault()
-    const { title, tagsString, issueNum, repo } = this.state
 
+    const { title, tagsString, issueNum, repo } = this.state
     this.props.addTask({ title, tagsString, issueNum, repo })
     this.setState({
       redirect: true
@@ -70,6 +71,7 @@ class AddTask extends Component {
 
   render() {
     const { title, tags, issueNum, repo, redirect } = this.state
+
 
     if (redirect) return <Redirect to="/tasks" />
 
@@ -94,7 +96,7 @@ class AddTask extends Component {
                 fluid
                 multiple
                 onChange={this.onChangeTags}
-                options={tagsOptions.map(tagOption)}
+                options={tagsOptions}
                 placeholder="Tags"
                 search
                 selection

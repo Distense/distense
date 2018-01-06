@@ -11,50 +11,24 @@ export const pullRequestPctDIDParameter = {
 }
 
 export const tagsOptions = [
-  'Contracts',
-  'Contract Tests',
-  'Contributors',
-  'Copy Review',
-  'DApp Proposal',
-  'Decisions',
-  'Design',
-  'Design Review',
-  'DID Token',
-  'Education',
-  'Frontend',
-  'Frontend Tests',
-  'Governance',
-  'HAV Token',
-  'HTML',
-  'Idea',
-  'Issue/Task Management',
-  'New Parameter',
-  'Planning',
-  'React',
-  'Security',
-  'Semantic UI',
-  'Solidity',
-  'Tasks Contract'
+  { text: 'Contracts', value: 'cts', key: 'cts' },
+  { text: 'Contract Tests', value: 'cts-test', key: 'cts-test' },
+  { text: 'Contributors', value: 'contribs', key: 'contribs' },
+  { text: 'Copy Review', value: 'copy', key: 'copy' },
+  { text: 'DApp Proposal', value: 'dapp', key: 'dapp'},
+  { text: 'Design', value: 'des', key: 'des' },
+  { text: 'Education', value: 'edu', key: 'edu' },
+  { text: 'Frontend', value: 'site', key: 'site' },
+  { text: 'Frontend Tests', value: 'site-tests' , key: 'site-tests'},
+  { text: 'Governance', value: 'gov', key: 'gov' },
+  { text: 'HAV Token', value: 'hav', key: 'hav' },
+  { text: 'Issue/Task Management', value: 'admin', key: 'admin' },
+  { text: 'New Parameter', value: 'param', key: 'param' },
+  { text: 'Planning', value: 'plan', key: 'plan'  },
+  { text: 'React', value: 'react', key: 'react'  },
+  { text: 'Security', value: 'sec', key: 'sec' },
+  { text: 'Solidity', value: 'sol', key: 'sol' }
 ]
-// export const tagsOptions = [
-//   { text: 'Contracts', value: 'cts', key: 'cts' },
-//   { text: 'Contract Tests', value: 'cts-test', key: 'cts-test' },
-//   { text: 'Contributors', value: 'contribs', key: 'contribs' },
-//   { text: 'Copy Review', value: 'copy', key: 'copy' },
-//   { text: 'DApp Proposal', value: 'dapp', key: 'dapp'},
-//   { text: 'Design', value: 'des', key: 'des' },
-//   { text: 'Education', value: 'edu', key: 'edu' },
-//   { text: 'Frontend', value: 'site', key: 'site' },
-//   { text: 'Frontend Tests', value: 'site-tests' , key: 'site-tests'},
-//   { text: 'Governance', value: 'gov', key: 'gov' },
-//   { text: 'HAV Token', value: 'hav', key: 'hav' },
-//   { text: 'Issue/Task Management', value: 'admin', key: 'admin' },
-//   { text: 'New Parameter', value: 'param', key: 'param' },
-//   { text: 'Planning', value: 'plan', key: 'plan'  },
-//   { text: 'React', value: 'react', key: 'react'  },
-//   { text: 'Security', value: 'sec', key: 'sec' },
-//   { text: 'Solidity', value: 'sol', key: 'sol' }
-// ]
 
 export const specPlaceholder = `
   ## Task Title 
@@ -72,3 +46,18 @@ export const specPlaceholder = `
     document.getElementById('content')
   )
 \`\`\``
+
+// const getTagsMappingValue = tags => {
+//   let encodedBlockchainTagString = ''
+//   tags.forEach((tag) => {
+//
+//   })
+// }
+//
+// export const encodeTaskDataIntoBytes32 = task => {
+//
+//   //  js date int 1515200136407
+//   const tagsString = getTagsMappingValue(task.tags)
+//
+//   return contentHash
+// }

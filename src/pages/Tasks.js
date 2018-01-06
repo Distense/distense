@@ -34,7 +34,7 @@ class Tasks extends Component {
         loading: false,
         tasks: this.props.tasks
       })
-    }, 2000)
+    }, 1000)
   }
 
   componentWillUnmount() {

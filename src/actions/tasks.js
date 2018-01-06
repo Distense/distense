@@ -18,6 +18,7 @@ import {
   REQUEST_TASKS_INSTANCE,
   RECEIVE_TASKS_INSTANCE
 } from '../constants/constants'
+import web3 from '../web3'
 
 
 const convertSolidityIntToInt = function (integer) {
@@ -100,7 +101,7 @@ const getTaskByIndex = async index => {
 
 const getTaskByID = async taskId => {
 
-  console.log(`taskId: ${taskId}`)
+  console.log(`getTaskByID() taskId: ${taskId}`)
 
   try {
     const { getTaskById } = await contracts.Tasks
@@ -114,7 +115,8 @@ const getTaskByID = async taskId => {
     const pctDIDVoted = contractTask[4].toString()
     const numVotes = contractTask[5].toString()
     const title = contractTask[6].toString()
-    const issueNum = contractTask[7].toString()
+    const issueNum = web3.toAscii(contractTask[7].toString())
+    console.log(`issueNUM: ${issueNum}`)
     const repo = contractTask[8].toString()
     const tags = contractTask[9].toString().split(':')
 
@@ -135,6 +137,10 @@ const getTaskByID = async taskId => {
 
     const votingStatus = pctDIDVoted + '% voted ' + numVotes + ' votes'
 
+    const repoString = repo === 'ui' ? 'distense-ui' : 'contracts'
+
+    const issueURL = 'https://github.com/Distense/' + repoString + '/' + web3.toAscii(issueNum)
+
     return Object.assign({}, { _id: taskId }, {
       createdBy,
       created,
@@ -144,7 +150,7 @@ const getTaskByID = async taskId => {
       pctDIDVoted,
       numVotes,
       title,
-      issueNum,
+      issueURL,
       repo,
       tags,
       status
@@ -176,16 +182,19 @@ export const addTask = ({ title, tagsString, issueNum, repo }) => async (dispatc
   const { addTask } = await contracts.Tasks // Get Tasks contract instance
   dispatch(receiveTasksInstance())
 
-  const _id = Random.hexString(32)
+  const _id = Random.hexString(12)
 
   const task = {
     _id,
+    createdBy: coinbase,
+    created: new Date(),
     title,
     tagsString,
     issueNum,
-    createdBy: coinbase
+    repoString: repo === 'ui' ? 'distense-ui' : 'contracts',
   }
 
+  // const taskID = encodeTaskDataIntoBytes32(task)
   dispatch(submitTask(task))
 
   const addedTask = await addTask(

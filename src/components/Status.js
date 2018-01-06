@@ -2,20 +2,20 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Menu } from 'semantic-ui-react'
 
-const constructStatus = message => {
-  let color
-  let icon
-  message === 'idle' // eslint-disable-line no-unused-expressions
-    ? ((color = 'green'), (icon = 'signal'))
-    : /Await|Submit|Adding|Request/g.test(message)
-      ? ((color = 'yellow'), (icon = 'hourglass full'))
-      : ((color = 'green'), (icon = 'thumbs up'))
-
-  return {
-    color,
-    icon
-  }
-}
+// const constructStatus = message => {
+//   let color
+//   let icon
+//   message === 'idle' // eslint-disable-line no-unused-expressions
+//     ? ((color = 'green'), (icon = 'signal'))
+//     : /Await|Submit|Adding|Request/g.test(message)
+//       ? ((color = 'yellow'), (icon = 'hourglass full'))
+//       : ((color = 'green'), (icon = 'thumbs up'))
+//
+//   return {
+//     color,
+//     icon
+//   }
+// }
 
 class Status extends Component {
   render() {
