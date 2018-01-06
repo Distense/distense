@@ -32,10 +32,10 @@ class Events extends Component {
 const EventItem = ({ e }) => (
   <List.Item>
     <List.Header>{e.title}</List.Header>
-    <List.Content>{e.contract}</List.Content>
+    <List.Content>{e.contract} contract</List.Content>
     <List.Description>
       <Link target="_blank" to={`https://etherscan.io/tx/${e.txHash}`}>
-        View tx
+        View tx (mainnet only)
       </Link>
     </List.Description>
   </List.Item>
