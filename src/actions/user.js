@@ -49,8 +49,10 @@ export const selectUserAccountInfo = () => async dispatch => {
       console.log(`web3: isConnected`);
       const accounts = web3.eth.accounts
       if (accounts.length) {
+        console.log(`found accounts[0]/coinbase: ${accounts[0]}`)
         dispatch(receiveAccountAction(accounts[0]))
         const numDID = await getNumDIDByAddress(accounts[0])
+        console.log(`accounts[0] owns ${numDID} DID`)
         dispatch(receiveAccountNumDID(numDID.toString()))
       }
     }
