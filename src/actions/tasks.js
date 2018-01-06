@@ -1,6 +1,5 @@
+import fetch from 'cross-fetch';
 import _ from 'lodash'
-import Random from 'meteor-random'
-
 import * as contracts from '../contracts'
 
 import { receiveUserNotAuthenticated } from './user'
@@ -17,7 +16,10 @@ import {
   RECEIVE_TASKS_INSTANCE
 } from '../constants/constants'
 import web3 from '../web3'
-import { encodeTaskDataIntoBytes32AndTitle }from '../shared'
+import {
+  decodeTaskBytes32ToMetaData,
+  encodeTaskMetaDataToBytes32
+} from '../utils'
 
 
 const convertSolidityIntToInt = function (integer) {
@@ -100,24 +102,18 @@ const getTaskByIndex = async index => {
 
 const getTaskByID = async taskId => {
 
-  console.log(`getTaskByID() taskId: ${taskId}`)
-
   try {
     const { getTaskById } = await contracts.Tasks
 
     const contractTask = await getTaskById(taskId)
 
     const createdBy = contractTask[0]
-    const created = new Date(contractTask[1].toNumber())
     const reward = convertSolidityIntToInt(contractTask[2].toNumber())
     const rewardStatusEnumInteger = contractTask[3].toNumber()
     const pctDIDVoted = contractTask[4].toString()
     const numVotes = contractTask[5].toString()
-    const title = contractTask[6].toString()
-    const issueNum = web3.toAscii(contractTask[7].toString())
-    console.log(`issueNUM: ${issueNum}`)
-    const repo = contractTask[8].toString()
-    const tags = contractTask[9].toString().split(':')
+
+    const { created, tags, issueNum, repo } = decodeTaskBytes32ToMetaData(taskId)
 
 
     const status = rewardStatusEnumInteger === 0 || rewardStatusEnumInteger === 1 ?
@@ -140,6 +136,7 @@ const getTaskByID = async taskId => {
 
     const issueURL = 'https://github.com/Distense/' + repoString + '/' + web3.toAscii(issueNum)
 
+    const title = fetch(issueURL)
     return Object.assign({}, { _id: taskId }, {
       createdBy,
       created,
@@ -181,24 +178,22 @@ export const addTask = ({ title, tagsString, issueNum, repo }) => async (dispatc
   const { addTask } = await contracts.Tasks // Get Tasks contract instance
   dispatch(receiveTasksInstance())
 
-  const _id = Random.hexString(12)
+  //  Create a full task here, as it will be optimistically loaded into the client/redux
 
   const originalTask = {
-    _id,
     createdBy: coinbase,
-    created: new Date(),
     title,
     tagsString,
     issueNum,
     repoString: repo === 'ui' ? 'distense-ui' : 'contracts'
   }
-
-  const taskId = encodeTaskDataIntoBytes32AndTitle(originalTask)
+  const encodedTaskId = encodeTaskMetaDataToBytes32(originalTask)
+  originalTask._id = encodedTaskId
   dispatch(submitTask(originalTask))
 
   const addedTask = await addTask(
-    taskId,
-    title, {
+    encodedTaskId,
+    {
       from: coinbase
     }
   )

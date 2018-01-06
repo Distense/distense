@@ -1,4 +1,3 @@
-import _ from 'lodash'
 
 export const votingIntervalParameter = {
   title: 'votingInterval'
@@ -13,23 +12,23 @@ export const pullRequestPctDIDParameter = {
 }
 
 export const tagsOptions = [
-  { text: 'Contracts', value: 'cts', key: 'cts' },
-  { text: 'Contract Tests', value: 'cts-test', key: 'cts-test' },
-  { text: 'Contributors', value: 'contribs', key: 'contribs' },
-  { text: 'Copy Review', value: 'copy', key: 'copy' },
-  { text: 'DApp Proposal', value: 'dapp', key: 'dapp'},
-  { text: 'Design', value: 'des', key: 'des' },
-  { text: 'Education', value: 'edu', key: 'edu' },
-  { text: 'Frontend', value: 'site', key: 'site' },
-  { text: 'Frontend Tests', value: 'site-tests' , key: 'site-tests'},
-  { text: 'Governance', value: 'gov', key: 'gov' },
-  { text: 'HAV Token', value: 'hav', key: 'hav' },
-  { text: 'Issue/Task Management', value: 'admin', key: 'admin' },
-  { text: 'New Parameter', value: 'param', key: 'param' },
-  { text: 'Planning', value: 'plan', key: 'plan'  },
-  { text: 'React', value: 'react', key: 'react'  },
-  { text: 'Security', value: 'sec', key: 'sec' },
-  { text: 'Solidity', value: 'sol', key: 'sol' }
+  { text: 'Contracts', value: 'cts', key: 'cts', num: 0 },
+  { text: 'Contract Tests', value: 'cts-test', key: 'cts-test', num: 1 },
+  { text: 'Contributors', value: 'contribs', key: 'contribs', num: 2 },
+  { text: 'Copy Review', value: 'copy', key: 'copy', num: 3 },
+  { text: 'DApp Proposal', value: 'dapp', key: 'dapp', num: 4 },
+  { text: 'Design', value: 'des', key: 'des', num: 5 },
+  { text: 'Education', value: 'edu', key: 'edu', num: 6 },
+  { text: 'Frontend', value: 'site', key: 'site', num: 7 },
+  { text: 'Frontend Tests', value: 'site-tests', key: 'site-tests', num: 8 },
+  { text: 'Governance', value: 'gov', key: 'gov', num: 9 },
+  { text: 'HAV Token', value: 'hav', key: 'hav', num: 10 },
+  { text: 'Issue/Task Management', value: 'admin', key: 'admin', num: 11 },
+  { text: 'New Parameter', value: 'param', key: 'param', num: 12 },
+  { text: 'Planning', value: 'plan', key: 'plan', num: 13 },
+  { text: 'React', value: 'react', key: 'react', num: 14 },
+  { text: 'Security', value: 'sec', key: 'sec', num: 15 },
+  { text: 'Solidity', value: 'sol', key: 'sol', num: 16 }
 ]
 
 export const specPlaceholder = `
@@ -48,22 +47,3 @@ export const specPlaceholder = `
     document.getElementById('content')
   )
 \`\`\``
-
-export const encodeTaskDataIntoBytes32AndTitle = task => {
-
-  //  js date int 1515200136407
-  const dateString = new Date().getTime().toString()
-  console.log(`dateString: ${dateString}`)
-
-  let tags = ''
-  task.tagsString.split(':').forEach((tag, index) => {
-    const indexOfTag = _.findIndex(tagsOptions, function(tagOption) { return tagOption.value === tag })
-    if (index > 0) tags += '-' + indexOfTag
-    else tags += indexOfTag
-
-  })
-
-  const repoNum = task.repoString === 'distense-ui' ? 0 : 1
-  const contentHash = dateString + '-' + tags + '-' + task.issueNum + '-' + repoNum
-  return contentHash
-}

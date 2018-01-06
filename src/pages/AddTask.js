@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Button, Dropdown, Input, Form, Grid, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-
 import { getPendingTask } from '../reducers/tasks'
 import { addTask } from '../actions/tasks'
 
