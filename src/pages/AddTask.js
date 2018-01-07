@@ -27,7 +27,7 @@ class AddTask extends Component {
   }
 
   onChangeTitle = ({ target: { value } }) => {
-    if (value.length <= 50) this.setState({ title: value })
+    if (value.length <= 32) this.setState({ title: value })
   }
 
   onChangeIssueNum = ({ target: { value } }) => {
@@ -78,7 +78,7 @@ class AddTask extends Component {
             <Form.Field>
               <Input
                 type="text"
-                placeholder="Title"
+                placeholder="Title (32 chars)"
                 onChange={this.onChangeTitle}
                 className=""
                 name="title"

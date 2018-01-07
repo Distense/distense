@@ -1,4 +1,3 @@
-import fetch from 'cross-fetch';
 import _ from 'lodash'
 import * as contracts from '../contracts'
 
@@ -107,7 +106,8 @@ const getTaskByID = async taskId => {
 
     const contractTask = await getTaskById(taskId)
 
-    const createdBy = contractTask[0]
+    const title = web3.toAscii(contractTask[0])
+    const createdBy = contractTask[1]
     const reward = convertSolidityIntToInt(contractTask[2].toNumber())
     const rewardStatusEnumInteger = contractTask[3].toNumber()
     const pctDIDVoted = contractTask[4].toString()
@@ -132,11 +132,16 @@ const getTaskByID = async taskId => {
 
     const votingStatus = pctDIDVoted + '% voted ' + numVotes + ' votes'
 
-    const repoString = repo === 'ui' ? 'distense-ui' : 'contracts'
+    const repoString = repo === 'contracts' ? 'contracts' : 'distense-ui'
 
-    const issueURL = 'https://github.com/Distense/' + repoString + '/' + web3.toAscii(issueNum)
+    const issueURL = 'https://api.github.com/repos/Distense/' + repoString + '/issues/' + issueNum
 
-    const title = fetch(issueURL)
+    // const response = await fetchUrl(issueURL, {
+    //   method: 'POST',
+    //   payload: JSON.stringify({
+    //   })
+    // })
+
     return Object.assign({}, { _id: taskId }, {
       createdBy,
       created,
@@ -193,6 +198,7 @@ export const addTask = ({ title, tagsString, issueNum, repo }) => async (dispatc
 
   const addedTask = await addTask(
     encodedTaskId,
+    title,
     {
       from: coinbase
     }

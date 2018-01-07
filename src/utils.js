@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { tagsOptions } from './shared'
+import web3 from './web3'
 
 //If we go back to IPFS ever
 // import bs58 from 'bs58'
@@ -22,7 +23,6 @@ export const encodeTaskMetaDataToBytes32 = task => {
 
   //  js date int 1515200136407
   const dateString = new Date().getTime().toString()
-  console.log(`dateString: ${dateString}`)
 
   let tags = ''
   task.tagsString.split(':').forEach((tag, index) => {
@@ -38,7 +38,7 @@ export const encodeTaskMetaDataToBytes32 = task => {
   const repoNum = task.repoString === 'distense-ui' ? 0 : 1
 
   const encodedMetaData = dateString + 'a' + tags + 'b' + task.issueNum + 'c' + repoNum
-  console.log(`encodedMetaData.length: ${encodedMetaData.length}`)
+  console.log(`encodedMetaData: ${encodedMetaData}`)
 
   return encodedMetaData
 }
@@ -46,6 +46,7 @@ export const encodeTaskMetaDataToBytes32 = task => {
 export const decodeTaskBytes32ToMetaData = taskId => {
 
   //  TODO add comment example taskID
+  taskId = web3.toAscii(taskId)
   const created = new Date(taskId.slice(0, 9) * 1000)
 
   const tags = []
@@ -55,14 +56,14 @@ export const decodeTaskBytes32ToMetaData = taskId => {
   //const indexOfTag = _.findIndex(tagsOptions, function(tagOption) { return tagOption.value === tag })
   for (let tag of tagsNums) {
     const tagObject = _.find(tagsOptions, function (tagOption) {
-      return tagOption.value === tag
+      return tagOption.num.toString() === tag
     })
     tags.push(tagObject.text)
   }
 
-  const repoIndex = taskId.indexOf('r')
-  const issueNum = taskId.slice(taskId.indexOf('i'), repoIndex)
-  const repo = taskId.slice(repoIndex) === 0 ? 'distense-ui' : 'contracts'
+  const repoIndex = taskId.indexOf('c')
+  const issueNum = taskId.slice(taskId.indexOf('b') + 1, repoIndex)
+  const repo = taskId.slice(repoIndex + 1) === '0' ? 'distense-ui' : 'contracts'
 
   return {
     created,

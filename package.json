@@ -61,8 +61,7 @@
     "web3-core-requestmanager": "^1.0.0-beta.18",
     "webpack": "3.5.1",
     "webpack-dev-server": "2.7.1",
-    "webpack-manifest-plugin": "1.2.1",
-    "whatwg-fetch": "2.0.3"
+    "webpack-manifest-plugin": "1.2.1"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -126,6 +125,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
     "html-webpack-plugin": "^2.29.0",
+    "jest": "^22.0.4",
     "prettier-eslint": "^8.1.0"
   }
 }
