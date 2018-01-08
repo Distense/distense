@@ -84,7 +84,7 @@ class Task extends Component {
     this.props.voteOnTaskReward({ taskId, reward })
     this.setState(
       {
-        reward: 'Vote submitted to blockchain. redirecting to tasks list'
+        reward: 'Vote submitted to blockchain. Redirecting to tasks list'
       },
       () => {
         this.redirectTimeout = setTimeout(() => {
