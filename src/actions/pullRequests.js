@@ -1,6 +1,7 @@
 import _ from 'lodash'
+import Random from 'meteor-random'
 
-import ipfsReady, { getIPFSDagDetail } from '../db'
+import web3 from '../web3'
 import * as contracts from '../contracts'
 
 import {
@@ -14,9 +15,7 @@ import {
   SUBMIT_PULLREQUEST
 } from '../constants/constants'
 import { receiveUserNotAuthenticated } from './user'
-import { setDefaultStatus } from './status'
-
-import { submitIPFSHash, requestIPFSNode, receiveIPFSNode } from './ipfs'
+import { setDefaultStatus, updateStatusMessage } from './status'
 
 const requestPullRequests = () => ({
   type: REQUEST_PULLREQUESTS
@@ -64,20 +63,13 @@ const getPullRequestByIndex = async index => {
 
 const getPullRequestById = async prId => {
 
-  await ipfsReady
   const { getPullRequestById } = await contracts.PullRequests
 
   const contractPR = await getPullRequestById(prId)
 
-  await ipfsReady
-  let ipfsPullRequest = await getIPFSDagDetail(prId)
-
-  ipfsPullRequest = ipfsPullRequest.value
-
   const createdBy = contractPR[0]
-  const taskId = contractPR[1].toString()
+  const taskId = web3.toAscii(contractPR[1]).replace(/\0/g, '')
   const pctDIDVoted = contractPR[2].toString()
-  const prURL = ipfsPullRequest.prURL
 
   return Object.assign(
     {},
@@ -85,7 +77,7 @@ const getPullRequestById = async prId => {
       _id: prId,
       createdBy,
       pctDIDVoted,
-      prURL,
+      // prURL,
       taskId
     }
   )
@@ -110,20 +102,20 @@ export const fetchPullRequests = () => async dispatch => {
   dispatch(setDefaultStatus())
 }
 
+
 export const fetchPullRequest = id => async (dispatch) => {
   dispatch(requestPullRequest(id))
   const pullRequest = await getPullRequestById(id)
   dispatch(receivePullRequest(pullRequest))
 }
 
+
 export const addPullRequest = ({ taskId, prURL }) => async (
   dispatch,
   getState
 ) => {
-  dispatch(requestIPFSNode())
-  const ipfs = await ipfsReady
-  dispatch(receiveIPFSNode())
 
+  taskId = taskId.replace(/\0/g, '')
   dispatch(requestPullRequestsInstance())
   const { addPullRequest } = await contracts.PullRequests
   dispatch(receivePullRequestsInstance())
@@ -134,26 +126,21 @@ export const addPullRequest = ({ taskId, prURL }) => async (
     return
   }
 
+  const _id = Random.hexString(14)
   const pullRequest = {
+    _id,
     taskId, // id of task one is submitting pull request for
     prURL, // url pointing to Github pr of completed work
     createdAt: new Date(),
     createdBy: coinbase
   }
 
-  // Add pullRequest to IPFS.  Use dag.put instead of files.add because task is object/dag node not a file
-  dispatch(submitIPFSHash())
-  const hash = await ipfs.dag.put(pullRequest, {
-    format: 'dag-cbor',
-    hashAlg: 'sha2-256'
-  })
-  // Get IPFS hash from raw IPFS CID object
-  pullRequest._id = hash.toBaseEncodedString()
-
   dispatch(submitPullRequestAction(pullRequest))
 
   //  Add task IPFS hash to blockchain
-  await addPullRequest(pullRequest._id, taskId, {
+  await addPullRequest(
+    pullRequest._id,
+    taskId, {
     from: coinbase,
     gasPrice: 3000000000
   })
@@ -162,3 +149,40 @@ export const addPullRequest = ({ taskId, prURL }) => async (
   dispatch(setDefaultStatus())
   return pullRequest
 }
+
+
+export const approvePullRequest = ({ taskId, prURL}) => async (dispatch,
+                                                               getState) => {
+
+  const coinbase = getState().user.accounts[0]
+  if (!coinbase) {
+    dispatch(receiveUserNotAuthenticated())
+    return
+  }
+  const { approvePullRequest } = await contracts.PullRequests// Get contract function from Tasks contract instance
+
+  updateStatusMessage('approving pull request')
+
+  let receipt
+  if (taskId && prURL) {
+
+    receipt = await approvePullRequest(
+      taskId,
+      prURL, {
+      from: coinbase,
+      gasPrice: 3000000000  // TODO use ethgasstation for this
+    })
+
+    if (receipt) console.log(`got tx receipt`)
+    if (receipt.tx) {
+      console.log(`vote on task reward success`)
+      updateStatusMessage('task reward vote confirmed')
+    }
+    else console.error(`vote on task reward ERROR`)
+  }
+
+  dispatch(setDefaultStatus())
+
+  return receipt
+}
+
