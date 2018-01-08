@@ -46,12 +46,12 @@ export const encodeTaskMetaDataToBytes32 = task => {
 export const decodeTaskBytes32ToMetaData = taskId => {
 
   //  TODO add comment example taskID
-  taskId = web3.toAscii(taskId)
-  const created = new Date(taskId.slice(0, 9) * 1000)
+  const decodedTaskId = web3.toAscii(taskId)
+  const created = new Date(decodedTaskId.slice(0, 10) * 1000)
 
   const tags = []
 
-  const tagsNums = taskId.slice(taskId.indexOf('a') + 1, taskId.indexOf('b')).split('f')
+  const tagsNums = decodedTaskId.slice(decodedTaskId.indexOf('a') + 1, decodedTaskId.indexOf('b')).split('f')
 
   //const indexOfTag = _.findIndex(tagsOptions, function(tagOption) { return tagOption.value === tag })
   for (let tag of tagsNums) {
@@ -61,9 +61,9 @@ export const decodeTaskBytes32ToMetaData = taskId => {
     tags.push(tagObject.text)
   }
 
-  const repoIndex = taskId.indexOf('c')
-  const issueNum = taskId.slice(taskId.indexOf('b') + 1, repoIndex)
-  const repo = taskId.slice(repoIndex + 1) === '0' ? 'distense-ui' : 'contracts'
+  const repoIndex = decodedTaskId.indexOf('c')
+  const issueNum = decodedTaskId.slice(decodedTaskId.indexOf('b') + 1, repoIndex)
+  const repo = decodedTaskId.slice(repoIndex + 1) === '0' ? 'distense-ui' : 'contracts'
 
   return {
     created,
