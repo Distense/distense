@@ -106,11 +106,11 @@ const getTaskByID = async taskId => {
 
     const contractTask = await getTaskById(taskId)
 
-    const title = web3.toAscii(contractTask[0])
+    const title = web3.toAscii(contractTask[0]).replace(/\0/g, '')
     const createdBy = contractTask[1]
     const reward = convertSolidityIntToInt(contractTask[2].toNumber())
     const rewardStatusEnumInteger = contractTask[3].toNumber()
-    const pctDIDVoted = contractTask[4].toString()
+    const pctDIDVoted = contractTask[4].toString() / 10 // TODO increase precision/test
     const numVotes = contractTask[5].toString()
 
     const { created, tags, issueNum, repo } = decodeTaskBytes32ToMetaData(taskId)
@@ -130,19 +130,14 @@ const getTaskByID = async taskId => {
           'DETERMINED' :
           'PAID'
 
-    const votingStatus = pctDIDVoted + '% voted ' + numVotes + ' votes'
+    const votingStatus = pctDIDVoted + `% voted` + numVotes + ' vote(s)'
 
     const repoString = repo === 'contracts' ? 'contracts' : 'distense-ui'
 
     const issueURL = 'https://api.github.com/repos/Distense/' + repoString + '/issues/' + issueNum
 
-    // const response = await fetchUrl(issueURL, {
-    //   method: 'POST',
-    //   payload: JSON.stringify({
-    //   })
-    // })
-
-    return Object.assign({}, { _id: taskId }, {
+    const decodedTaskId = web3.toAscii(taskId).replace(/\0/g, '')
+    return Object.assign({}, { _id: decodedTaskId }, {
       createdBy,
       created,
       reward,
@@ -234,7 +229,7 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (dispatch,
 
     receipt = await taskRewardVote(taskId, reward, {
       from: coinbase,
-      gasPrice: 2000000000 // 2 gwei
+      gasPrice: 3000000000  // TODO use ethgasstation for this
     })
 
     if (receipt) console.log(`got tx receipt`)
