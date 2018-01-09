@@ -82,7 +82,9 @@ const getPullRequestById = async prId => {
       pctDIDVoted,
       // prURL,
       taskId,
-      taskTitle: task && task.title ? task.title : 'title not available yet'
+      taskTitle: task && task.title ? task.title : 'not available',
+      tags: task && task.tags ? task.tags : [],
+      taskReward: task && task.reward
     }
   )
 }
@@ -141,7 +143,9 @@ export const addPullRequest = ({ taskId, prNum }) => async (
     prNum, // url pointing to Github pr of completed work
     createdAt: new Date(),
     createdBy: coinbase,
-    taskTitle: task.title
+    taskTitle: task && task.title ? task.title : 'not available',
+    tags: task && task.tags ? task.tags : [],
+    taskReward: task && task.reward
   })
 
   dispatch(submitPullRequestAction(pullRequest))
