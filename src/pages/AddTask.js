@@ -74,7 +74,7 @@ class AddTask extends Component {
         <Head title="Add Task" />
         <Grid.Column>
           <Form onSubmit={this.onSubmit}>
-            <Header as="h1">Create Task</Header>
+            <Header as="h1">Propose Task</Header>
             <Form.Field>
               <Input
                 type="text"

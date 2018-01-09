@@ -15,6 +15,7 @@ import {
   SUBMIT_PULLREQUEST
 } from '../constants/constants'
 import { receiveUserNotAuthenticated } from './user'
+import { getTaskByID } from './tasks'
 import { setDefaultStatus, updateStatusMessage } from './status'
 
 const requestPullRequests = () => ({
@@ -68,9 +69,11 @@ const getPullRequestById = async prId => {
   const contractPR = await getPullRequestById(prId)
 
   const createdBy = contractPR[0]
+
   const taskId = web3.toAscii(contractPR[1]).replace(/\0/g, '')
   const pctDIDVoted = contractPR[2].toString()
 
+  const task = await getTaskByID(taskId)
   return Object.assign(
     {},
     {
@@ -78,7 +81,8 @@ const getPullRequestById = async prId => {
       createdBy,
       pctDIDVoted,
       // prURL,
-      taskId
+      taskId,
+      taskTitle: task && task.title ? task.title : 'title not available yet'
     }
   )
 }
@@ -110,7 +114,7 @@ export const fetchPullRequest = id => async (dispatch) => {
 }
 
 
-export const addPullRequest = ({ taskId, prURL }) => async (
+export const addPullRequest = ({ taskId, prNum }) => async (
   dispatch,
   getState
 ) => {
@@ -118,6 +122,7 @@ export const addPullRequest = ({ taskId, prURL }) => async (
   taskId = taskId.replace(/\0/g, '')
   dispatch(requestPullRequestsInstance())
   const { addPullRequest } = await contracts.PullRequests
+
   dispatch(receivePullRequestsInstance())
 
   const coinbase = getState().user.accounts[0] //TODO make better
@@ -126,24 +131,30 @@ export const addPullRequest = ({ taskId, prURL }) => async (
     return
   }
 
-  const _id = Random.hexString(14)
-  const pullRequest = {
+  const task = await getTaskByID(taskId)
+
+  const _id = Random.hexString(14) + '-' + prNum
+
+  const pullRequest = Object.assign({}, {
     _id,
     taskId, // id of task one is submitting pull request for
-    prURL, // url pointing to Github pr of completed work
+    prNum, // url pointing to Github pr of completed work
     createdAt: new Date(),
-    createdBy: coinbase
-  }
+    createdBy: coinbase,
+    taskTitle: task.title
+  })
 
   dispatch(submitPullRequestAction(pullRequest))
 
   //  Add task IPFS hash to blockchain
-  await addPullRequest(
+  const addedPullRequest = await addPullRequest(
     pullRequest._id,
     taskId, {
     from: coinbase,
     gasPrice: 3000000000
   })
+
+  if (addedPullRequest) console.log(`successful pull request add`)
 
   dispatch(receivePullRequest(pullRequest))
   dispatch(setDefaultStatus())

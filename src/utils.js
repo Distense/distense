@@ -43,10 +43,17 @@ export const encodeTaskMetaDataToBytes32 = task => {
   return encodedMetaData
 }
 
+export const taskIdHasBeenDecoded = taskId => {
+
+  if (taskId.length > 32)
+    return web3.toAscii(taskId).replace(/\0/g, '')
+  return taskId
+}
+
 export const decodeTaskBytes32ToMetaData = taskId => {
 
-  //  TODO add comment example taskID
-  const decodedTaskId = web3.toAscii(taskId)
+  //  example taskId: 1515514023593a1f4b21c0
+  const decodedTaskId = taskIdHasBeenDecoded(taskId)
   const created = new Date(decodedTaskId.slice(0, 10) * 1000)
 
   const tags = []

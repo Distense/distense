@@ -6,7 +6,7 @@ import { Button, Table } from 'semantic-ui-react'
 
 import { fetchTasks } from '../actions/tasks'
 import { getAllTasks } from '../reducers/tasks'
-import { fetchPullRequests } from '../actions/pullRequests'
+import { approvePullRequest, fetchPullRequests } from '../actions/pullRequests'
 import { getAllPullRequests } from '../reducers/pullRequests'
 
 import Head from '../components/common/Head'
@@ -24,6 +24,8 @@ class PullRequests extends Component {
       direction: null
     }
     this.handleSort = this.handleSort.bind(this)
+    this.onClickApprove = this.onClickApprove.bind(this)
+
   }
 
   componentWillMount() {
@@ -32,43 +34,20 @@ class PullRequests extends Component {
   }
 
   componentDidMount() {
-    let TheFinalCountdown = 3400
+    let TheFinalCountdown = 1500
     const lightYearsToGo = 200
     this.someInterval = setInterval(() => {
       TheFinalCountdown -= lightYearsToGo
       if (TheFinalCountdown <= 0)
         this.setState({
-          loading: false
+          loading: false,
+          pullRequests: this.props.pullRequests.length > 0 ? this.props.pullRequests : []
         })
-      if (this.props.pullRequests.length > 0 && this.props.tasks.length > 0) {
-        this.mapTasksToPullRequests(this.props.pullRequests, this.props.tasks)
-      }
     }, lightYearsToGo)
   }
 
   componentWillUnmount() {
     clearInterval(this.someInterval)
-  }
-
-  mapTasksToPullRequests(prs, tasks) {
-    const pullRequests = prs.map(pr => {
-      const task = _.find(tasks, { _id: pr.taskId })
-      let pullRequest
-      if (task)
-        pullRequest = Object.assign({}, pr, {
-          issueNum: task.issueNum ? task.issueNum : '',
-          taskTitle: task.title,
-          taskId: task._id,
-          taskReward: !task.reward ? '?' : task.reward,
-          taskPctDIDVoted: task.pctDIDVoted,
-          tags: task.tags.length > 0 ? task.tags : []
-        })
-      return pullRequest
-    })
-    this.setState({
-      pullRequests,
-      loading: false
-    })
   }
 
   handleSort = clickedColumn => () => {
@@ -89,6 +68,13 @@ class PullRequests extends Component {
     })
   }
 
+  onClickApprove = async e => {
+    e.preventDefault()
+
+    const { taskId, prNum } = this.state
+    this.props.approvePullRequest({ taskId, prNum })
+  }
+
   render() {
     const { column, direction, loading, pullRequests } = this.state
 
@@ -104,12 +90,14 @@ class PullRequests extends Component {
               >
                 Task Title
               </Table.HeaderCell>
+
               <Table.HeaderCell
                 sorted={column === 'Tags' ? direction : null}
                 onClick={this.handleSort('tags')}
               >
                 Tags
               </Table.HeaderCell>
+
               <Table.HeaderCell
                 sorted={column === 'Status' ? direction : null}
                 onClick={this.handleSort('status')}
@@ -122,13 +110,28 @@ class PullRequests extends Component {
               >
                 Reward
               </Table.HeaderCell>
-              <Table.HeaderCell />
+              <Table.HeaderCell
+                sorted={column === 'Approve' ? direction : null}
+                onClick={this.handleSort('approve')}
+              >
+                Approve
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={column === 'Review' ? direction : null}
+                onClick={this.handleSort('review')}
+              >
+                Review
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {pullRequests.length > 0 ? (
               pullRequests.map(pullRequest => (
-                <PullRequestsListItem key={pullRequest._id} pr={pullRequest} />
+                <PullRequestsListItem
+                  key={pullRequest._id}
+                  pr={pullRequest}
+                  onClick={this.onClickApprove}
+                />
               ))
             ) : loading ? (
               <Table.Cell as="tr">
@@ -168,6 +171,19 @@ const PullRequestsListItem = ({ pr }) => (
         floated="right"
         fluid={true}
         size="mini"
+        onClick={this.onClickApprove}
+      >
+        Approve
+      </Button>
+    </Table.Cell>
+    <Table.Cell>
+      <Button
+        // basic
+        color="green"
+        compact={true}
+        floated="right"
+        fluid={true}
+        size="mini"
         target="_blank"
         to={`${pr.prURL}`}
         as={Link}
@@ -185,7 +201,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchPullRequests: () => dispatch(fetchPullRequests()),
-  fetchTasks: () => dispatch(fetchTasks())
+  fetchTasks: () => dispatch(fetchTasks()),
+  approvePullRequest: task => dispatch(approvePullRequest(task))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequests)

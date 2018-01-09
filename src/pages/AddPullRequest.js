@@ -23,7 +23,7 @@ class AddPullRequest extends Component {
     super(props)
     this.state = {
       taskId: '',
-      prURL: '',
+      prNum: '',
       redirect: false
     }
     this.onSubmit = this.onSubmit.bind(this)
@@ -49,16 +49,15 @@ class AddPullRequest extends Component {
     }
   }
 
-  onChangeURL = ({ target: { value } }) => {
-    //  TODO url validation
-    this.setState({ prURL: value })
+  onChangePRNum= ({ target: { value } }) => {
+    this.setState({ prNum: value })
   }
 
   onSubmit = async e => {
     e.preventDefault()
-    const { taskId, prURL } = this.state
-    if (taskId && prURL) {
-      this.props.createPullRequest({ taskId, prURL })
+    const { taskId, prNum } = this.state
+    if (taskId && prNum) {
+      this.props.createPullRequest({ taskId, prNum })
       this.setState({
         redirect: true
       })
@@ -67,7 +66,7 @@ class AddPullRequest extends Component {
 
   render() {
     const { task } = this.props
-    const { taskId, prURL, redirect } = this.state
+    const { taskId, prNum, redirect } = this.state
 
     if (redirect) {
       return <Redirect to="/pullrequests" />
@@ -77,17 +76,18 @@ class AddPullRequest extends Component {
       <Layout>
         <Head title="Task" />
         <div className="task">
-          <Grid.Row columns={1}>
+          <Grid columns={1}>
+          <Grid.Row width={4} columns={1}>
             <Form onSubmit={this.onSubmit}>
               <Header as="h1">Submit Pull Request</Header>
               <Form.Field required>
                 <Input
-                  label="Pull request URL"
+                  label="Pull Request Number"
                   type="text"
                   placeholder=""
-                  onChange={this.onChangeURL}
+                  onChange={this.onChangePRNum}
                   name="url"
-                  value={prURL}
+                  value={prNum}
                 />
               </Form.Field>
               <Form.Field required>
@@ -105,6 +105,7 @@ class AddPullRequest extends Component {
               </Button>
             </Form>
           </Grid.Row>
+          </Grid>
           {task && (
             // Preview task info so submitter can verify they're submitting for
             // the right task

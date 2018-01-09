@@ -17,7 +17,8 @@ import {
 import web3 from '../web3'
 import {
   decodeTaskBytes32ToMetaData,
-  encodeTaskMetaDataToBytes32
+  encodeTaskMetaDataToBytes32,
+  taskIdHasBeenDecoded
 } from '../utils'
 
 
@@ -99,63 +100,69 @@ const getTaskByIndex = async index => {
   return getTaskByID(id)
 }
 
-const getTaskByID = async taskId => {
+export const convertContractTaskToClient = (taskId, contractTask) => {
+
+  const title = web3.toAscii(contractTask[0]).replace(/\0/g, '')
+  const createdBy = contractTask[1]
+  const reward = convertSolidityIntToInt(contractTask[2].toNumber())
+  const rewardStatusEnumInteger = contractTask[3].toNumber()
+  const pctDIDVoted = contractTask[4].toString() / 10 // TODO increase precision/test
+  const numVotes = contractTask[5].toString()
+
+  const { created, tags, issueNum, repo } = decodeTaskBytes32ToMetaData(taskId)
+
+
+  const status = rewardStatusEnumInteger === 0 || rewardStatusEnumInteger === 1 ?
+    'PROPOSAL' :
+    rewardStatusEnumInteger === 2 ?
+      'TASK' :
+      'CONTRIBUTION'
+
+  const rewardStatus = rewardStatusEnumInteger === 0 ?
+    'DEFAULT' :
+    rewardStatusEnumInteger === 1 ?
+      'TENTATIVE' :
+      rewardStatusEnumInteger === 2 ?
+        'DETERMINED' :
+        'PAID'
+
+  const votingStatus = pctDIDVoted + `% voted\xa0\xa0\xa0` + numVotes + ' vote(s)'
+
+  const repoString = repo === 'contracts' ? 'contracts' : 'distense-ui'
+
+  const issueURL = 'https://api.github.com/repos/Distense/' + repoString + '/issues/' + issueNum
+
+  const decodedTaskId = taskIdHasBeenDecoded(taskId)
+  // = web3.toAscii(taskId).replace(/\0/g, '')
+
+  return Object.assign({}, { _id: decodedTaskId }, {
+    createdBy,
+    created,
+    reward,
+    rewardStatus,
+    votingStatus,
+    pctDIDVoted,
+    numVotes,
+    title,
+    issueURL,
+    repo,
+    tags,
+    status
+  })
+
+}
+export const getTaskByID = async taskId => {
 
   try {
     const { getTaskById } = await contracts.Tasks
 
     const contractTask = await getTaskById(taskId)
 
-    const title = web3.toAscii(contractTask[0]).replace(/\0/g, '')
-    const createdBy = contractTask[1]
-    const reward = convertSolidityIntToInt(contractTask[2].toNumber())
-    const rewardStatusEnumInteger = contractTask[3].toNumber()
-    const pctDIDVoted = contractTask[4].toString() / 10 // TODO increase precision/test
-    const numVotes = contractTask[5].toString()
-
-    const { created, tags, issueNum, repo } = decodeTaskBytes32ToMetaData(taskId)
-
-
-    const status = rewardStatusEnumInteger === 0 || rewardStatusEnumInteger === 1 ?
-      'PROPOSAL' :
-      rewardStatusEnumInteger === 2 ?
-        'TASK' :
-        'CONTRIBUTION'
-
-    const rewardStatus = rewardStatusEnumInteger === 0 ?
-      'DEFAULT' :
-      rewardStatusEnumInteger === 1 ?
-        'TENTATIVE' :
-        rewardStatusEnumInteger === 2 ?
-          'DETERMINED' :
-          'PAID'
-
-    const votingStatus = pctDIDVoted + `% voted` + numVotes + ' vote(s)'
-
-    const repoString = repo === 'contracts' ? 'contracts' : 'distense-ui'
-
-    const issueURL = 'https://api.github.com/repos/Distense/' + repoString + '/issues/' + issueNum
-
-    const decodedTaskId = web3.toAscii(taskId).replace(/\0/g, '')
-    return Object.assign({}, { _id: decodedTaskId }, {
-      createdBy,
-      created,
-      reward,
-      rewardStatus,
-      votingStatus,
-      pctDIDVoted,
-      numVotes,
-      title,
-      issueURL,
-      repo,
-      tags,
-      status
-    })
+    return convertContractTaskToClient(taskId, contractTask)
 
   } catch (error) {
     console.error(error)
   }
-
 
 }
 
