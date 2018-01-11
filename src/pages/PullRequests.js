@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import { Link } from 'react-router-dom'
-import { Button, Table } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 
 import { fetchTasks } from '../actions/tasks'
 import { getAllTasks } from '../reducers/tasks'
@@ -11,7 +10,7 @@ import { getAllPullRequests } from '../reducers/pullRequests'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
-import Tags from '../components/common/Tags'
+import PullRequestListItem from '../pages/PullRequestListItem'
 
 
 class PullRequests extends Component {
@@ -24,8 +23,6 @@ class PullRequests extends Component {
       direction: null
     }
     this.handleSort = this.handleSort.bind(this)
-    this.onClickApprove = this.onClickApprove.bind(this)
-
   }
 
   componentWillMount() {
@@ -34,7 +31,7 @@ class PullRequests extends Component {
   }
 
   componentDidMount() {
-    let TheFinalCountdown = 1500
+    let TheFinalCountdown = 1400
     const lightYearsToGo = 200
     this.someInterval = setInterval(() => {
       TheFinalCountdown -= lightYearsToGo
@@ -68,19 +65,12 @@ class PullRequests extends Component {
     })
   }
 
-  onClickApprove = async e => {
-    e.preventDefault()
-
-    const { taskId, prNum } = this.state
-    this.props.approvePullRequest({ taskId, prNum })
-  }
-
   render() {
     const { column, direction, loading, pullRequests } = this.state
 
     return (
       <Layout>
-        <Head title="Reviewable Pull Requests" />
+        <Head title="Reviewable Pull Requests"/>
         <Table sortable striped>
           <Table.Header>
             <Table.Row>
@@ -127,25 +117,24 @@ class PullRequests extends Component {
           <Table.Body>
             {pullRequests.length > 0 ? (
               pullRequests.map(pullRequest => (
-                <PullRequestsListItem
+                <PullRequestListItem
                   key={pullRequest._id}
-                  pr={pullRequest}
-                  onClick={this.onClickApprove}
+                  pullRequest={pullRequest}
                 />
               ))
             ) : loading ? (
               <Table.Cell as="tr">
                 <Table.Cell>Loading pull requests...</Table.Cell>
-                <Table.Cell />
-                <Table.Cell />
-                <Table.Cell />
+                <Table.Cell/>
+                <Table.Cell/>
+                <Table.Cell/>
               </Table.Cell>
             ) : (
               <Table.Cell as="tr">
                 <Table.Cell>No pull requests</Table.Cell>
-                <Table.Cell />
-                <Table.Cell />
-                <Table.Cell />
+                <Table.Cell/>
+                <Table.Cell/>
+                <Table.Cell/>
               </Table.Cell>
             )}
           </Table.Body>
@@ -155,44 +144,6 @@ class PullRequests extends Component {
   }
 }
 
-const PullRequestsListItem = ({ pr }) => (
-  <Table.Row key={pr._id}>
-    <Table.Cell>{pr.taskTitle}</Table.Cell>
-    <Table.Cell>
-      <Tags tags={pr.tags} />
-    </Table.Cell>
-    <Table.Cell>{pr.pctDIDVoted}</Table.Cell>
-    <Table.Cell>{pr.taskReward}</Table.Cell>
-    <Table.Cell>
-      <Button
-        basic
-        color="green"
-        compact={true}
-        floated="right"
-        fluid={true}
-        size="mini"
-        onClick={this.onClickApprove}
-      >
-        Approve
-      </Button>
-    </Table.Cell>
-    <Table.Cell>
-      <Button
-        // basic
-        color="green"
-        compact={true}
-        floated="right"
-        fluid={true}
-        size="mini"
-        target="_blank"
-        to={`${pr.prURL}`}
-        as={Link}
-      >
-        Review PR
-      </Button>
-    </Table.Cell>
-  </Table.Row>
-)
 
 const mapStateToProps = state => ({
   pullRequests: getAllPullRequests(state),

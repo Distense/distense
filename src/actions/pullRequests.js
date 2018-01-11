@@ -61,7 +61,6 @@ const getPullRequestByIndex = async index => {
   return getPullRequestById(id)
 }
 
-
 const getPullRequestById = async prId => {
 
   const { getPullRequestById } = await contracts.PullRequests
@@ -69,9 +68,9 @@ const getPullRequestById = async prId => {
   const contractPR = await getPullRequestById(prId)
 
   const createdBy = contractPR[0]
-
   const taskId = web3.toAscii(contractPR[1]).replace(/\0/g, '')
-  const pctDIDVoted = contractPR[2].toString()
+  const prNum = contractPR[2].toString()
+  const pctDIDApproved = contractPR[3].toString()
 
   const task = await getTaskByID(taskId)
   return Object.assign(
@@ -79,8 +78,8 @@ const getPullRequestById = async prId => {
     {
       _id: prId,
       createdBy,
-      pctDIDVoted,
-      // prURL,
+      pctDIDApproved,
+      prNum,
       taskId,
       taskTitle: task && task.title ? task.title : 'not available',
       tags: task && task.tags ? task.tags : [],
@@ -166,8 +165,7 @@ export const addPullRequest = ({ taskId, prNum }) => async (
 }
 
 
-export const approvePullRequest = ({ taskId, prURL}) => async (dispatch,
-                                                               getState) => {
+export const approvePullRequest = prId => async (dispatch, getState) => {
 
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
@@ -179,11 +177,11 @@ export const approvePullRequest = ({ taskId, prURL}) => async (dispatch,
   updateStatusMessage('approving pull request')
 
   let receipt
-  if (taskId && prURL) {
+
+    console.log(`approving pr: ${prId}`)
 
     receipt = await approvePullRequest(
-      taskId,
-      prURL, {
+      prId, {
       from: coinbase,
       gasPrice: 3000000000  // TODO use ethgasstation for this
     })
@@ -191,10 +189,10 @@ export const approvePullRequest = ({ taskId, prURL}) => async (dispatch,
     if (receipt) console.log(`got tx receipt`)
     if (receipt.tx) {
       console.log(`vote on task reward success`)
-      updateStatusMessage('task reward vote confirmed')
+      updateStatusMessage('approve pullRequest confirmed')
     }
     else console.error(`vote on task reward ERROR`)
-  }
+
 
   dispatch(setDefaultStatus())
 
