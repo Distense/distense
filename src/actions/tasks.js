@@ -26,6 +26,10 @@ const convertSolidityIntToInt = function (integer) {
   return integer / 10
 }
 
+const convertIntToSolidityInt = function (integer) {
+  return integer * 10
+}
+
 const requestTasks = () => ({
   type: REQUEST_TASKS
 })
@@ -102,7 +106,7 @@ const getTaskByIndex = async index => {
 
 export const convertContractTaskToClient = (taskId, contractTask) => {
 
-  const title = web3.toAscii(contractTask[0]).replace(/\0/g, '')
+  const title = contractTask[0]
   const createdBy = contractTask[1]
   const reward = convertSolidityIntToInt(contractTask[2].toNumber())
   const rewardStatusEnumInteger = contractTask[3].toNumber()
@@ -234,7 +238,9 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (dispatch,
   let receipt
   if (taskId && reward) {
 
-    receipt = await taskRewardVote(taskId, reward, {
+    receipt = await taskRewardVote(
+      taskId,
+      convertIntToSolidityInt(reward), {
       from: coinbase,
       gasPrice: 3000000000  // TODO use ethgasstation for this
     })
