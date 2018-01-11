@@ -1,9 +1,19 @@
 import React, { Component } from 'react'
-import { Button, Dropdown, Input, Form, Grid, Header } from 'semantic-ui-react'
+import {
+  Button,
+  Dropdown,
+  Input,
+  Form,
+  Grid,
+  Header,
+  List,
+  Message
+} from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { getPendingTask } from '../reducers/tasks'
+
 import { addTask } from '../actions/tasks'
+import { getPendingTask } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
@@ -18,7 +28,7 @@ class AddTask extends Component {
       tagsString: '',
       issueNum: '',
       repo: '',
-      redirect: false,
+      redirect: false
     }
 
     this.onChangeRepo = this.onChangeRepo.bind(this)
@@ -27,7 +37,7 @@ class AddTask extends Component {
   }
 
   onChangeTitle = ({ target: { value } }) => {
-    if (value.length <= 32) this.setState({ title: value })
+    if (value.length <= 70) this.setState({ title: value })
   }
 
   onChangeIssueNum = ({ target: { value } }) => {
@@ -43,7 +53,7 @@ class AddTask extends Component {
         if (i === 0) tagsString = tag
         else tagsString += ':' + tag
       })
-      this.setState({tagsString})
+      this.setState({ tagsString })
     }
   }
 
@@ -67,84 +77,175 @@ class AddTask extends Component {
     const { title, tags, issueNum, repo, redirect } = this.state
 
 
-    if (redirect) return <Redirect to="/tasks" />
+    if (redirect) return <Redirect to="/tasks"/>
 
     return (
       <Layout>
-        <Head title="Add Task" />
-        <Grid.Column>
-          <Form onSubmit={this.onSubmit}>
-            <Header as="h1">Propose Task</Header>
-            <Form.Field>
-              <Input
-                type="text"
-                placeholder="Title (32 chars)"
-                onChange={this.onChangeTitle}
-                className=""
-                name="title"
-                value={title}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Dropdown
-                fluid
-                multiple
-                onChange={this.onChangeTags}
-                options={tagsOptions}
-                placeholder="Tags"
-                search
-                selection
-                scrolling
-                value={tags}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Dropdown
-                fluid
-                onChange={this.onChangeRepo}
-                options={[{
-                  key:'ui', value:'ui',text: 'UI'
-                }, {
-                  key: 'contracts', value: 'contracts', text: 'Contracts'}
-                  ]
-                }
-                placeholder="Repo"
-                search
-                selection
-                scrolling
-                value={repo}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Input
-                onChange={this.onChangeIssueNum}
-                placeholder="Github Issue Number"
-                value={issueNum}
-              />
-            </Form.Field>
+        <Head title="Add Task"/>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column>
+            <Header as="h1">
+              Propose
+            </Header>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column width={8}>
+              <Form onSubmit={this.onSubmit}>
+                <Form.Field>
+                  <Input
+                    onChange={this.onChangeIssueNum}
+                    placeholder="Github Issue Number"
+                    value={issueNum}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Input
+                    type="text"
+                    placeholder="Title (<70 chars)"
+                    onChange={this.onChangeTitle}
+                    className=""
+                    name="title"
+                    value={title}
+                  />
+                </Form.Field>
+                <Button size="large" color="green" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <Form>
+                <Form.Field>
+                  <Dropdown
+                    fluid
+                    multiple
+                    onChange={this.onChangeTags}
+                    options={tagsOptions}
+                    placeholder="Tags"
+                    search
+                    selection
+                    scrolling
+                    value={tags}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Dropdown
+                    fluid
+                    onChange={this.onChangeRepo}
+                    options={[{
+                      key: 'ui', value: 'ui', text: 'UI'
+                    }, {
+                      key: 'contracts', value: 'contracts', text: 'Contracts'
+                    }
+                    ]
+                    }
+                    placeholder="Repo"
+                    search
+                    selection
+                    scrolling
+                    value={repo}
+                  />
+                </Form.Field>
+              </Form>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column width={16}>
+              <Message>
+                <Message.Header>
+                  Rules
+                </Message.Header>
+                <List bulleted>
+                  <List.Item>
+                    You must own at least 100 DID to propose. This number changes according to the proposalPctDIDToApprove Parameter
+                  </List.Item>
+                  <List.Item>
+                    Your proposal can be anything, it doesn't necessarily have to be <em>work</em>.
+                  </List.Item>
+                  <List.Item>
+                    Discussion will happen on Github in the issue you create
+                  </List.Item>
+                  <List.Item>
+                    Remember that when you propose, it is likely that DID will be issued for the completion of the task. The fewer DID the better.
+                  </List.Item>
+                </List>
+              </Message>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column width={8}>
+              <Message>
+                <Message.Header>
+                  Github Issue Number
+                </Message.Header>
+                <List bulleted>
+                  <List.Item>
+                    Create an issue in the appropriate Github repository to determine the Github issue number
+                  </List.Item>
+                  <List.Item>
+                    Your proposal can be anything, it doesn't necessarily have to be <em>work</em>.
+                  </List.Item>
+                  <List.Item>
+                    Discussion will happen on Github in the issue you create
+                  </List.Item>
+                </List>
+              </Message>
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <Message>
+                <Message.Header>
+                  Title
+                </Message.Header>
+                <List bulleted>
+                  <List.Item>
+                    Enter the title of your task/proposal
+                  </List.Item>
+                  <List.Item>
+                    Limit the length of the title: the more characters the more gas it will cost you :)
+                  </List.Item>
+                  <List.Item>
+                    Example: 'Build this amazing new dapp that will change the world'
+                  </List.Item>
+                </List>
+              </Message>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
 
-            <Button size="large" color="green" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Grid.Column>
-
-        {/*language=CSS*/}
-        <style global jsx>{`
-
-          .fields-margin-fix {
-            margin: 0 -0.5em 1em !important;
-          }
-
-          .center {
-            text-align: center;
-          }
-
-          .underlined {
-            border-bottom: 1px solid #ccc;
-          }
-
-        `}</style>
+            <Grid.Column width={8}>
+              <Message>
+                <Message.Header>
+                  Tags
+                </Message.Header>
+                <List bulleted>
+                  <List.Item>
+                    Select the category of proposal you're making
+                  </List.Item>
+                  <List.Item>
+                    Examples are: 'contracts', 'frontend', 'governance'
+                  </List.Item>
+                </List>
+              </Message>
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <Message>
+                <Message.Header>
+                  Repo
+                </Message.Header>
+                <List bulleted>
+                  <List.Item>
+                    Choose the one that best fits
+                  </List.Item>
+                  <List.Item>
+                    TODO decide on general purpose repo
+                  </List.Item>
+                </List>
+              </Message>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </Layout>
     )
   }

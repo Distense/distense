@@ -141,7 +141,7 @@ class AddPullRequest extends Component {
                 </Message.Header>
                 <List bulleted>
                   <List.Item>
-                    Find the Task ID of the task your PR completes
+                    Find the Task ID of the task your pull request completes
                   </List.Item>
                   <List.Item>
                     The Task ID can be found by clicking the corresponding task found in the&nbsp;
@@ -149,7 +149,9 @@ class AddPullRequest extends Component {
                     &nbsp;page.
                   </List.Item>
                   <List.Item>
-                    If you know the URL of your task, the Task ID is the last part and will look like:
+                    If you know the URL of your task,
+                    the Task ID is the last part and will look like:
+                    1515652690755a0f3f4b21c0
                   </List.Item>
                 </List>
               </Message>
