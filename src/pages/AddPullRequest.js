@@ -109,13 +109,12 @@ class AddPullRequest extends Component {
                 </Button>
               </Form>
             </Grid.Row>
-            <Message>
-              <Message.Header>
-                Submit work in the form of a pull request on this page
-              </Message.Header>
-            </Message>
-
             <Grid.Row>
+              <Message>
+                <Message.Header>
+                  Submit pull requests for completed work on this page
+                </Message.Header>
+              </Message>
                 <Message>
                   <Message.Header>
                     Pull Request number
