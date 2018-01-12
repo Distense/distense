@@ -205,6 +205,9 @@ class AddTask extends Component {
                   <List.Item>
                     Example: 'Build this amazing new dapp that will change the world'
                   </List.Item>
+                  <List.Item>
+                    People will like you more if you enter the same exact title as your Github issue
+                  </List.Item>
                 </List>
               </Message>
             </Grid.Column>
