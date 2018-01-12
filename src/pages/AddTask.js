@@ -159,13 +159,10 @@ class AddTask extends Component {
                 </Message.Header>
                 <List bulleted>
                   <List.Item>
-                    You must own at least 100 DID to propose. This number changes according to the proposalPctDIDToApprove Parameter
+                    You must own at least 100 DID to propose. This number changes according to the proposalPctDIDToApprove parameter
                   </List.Item>
                   <List.Item>
                     Your proposal can be anything, it doesn't necessarily have to be <em>work</em>.
-                  </List.Item>
-                  <List.Item>
-                    Discussion will happen on Github in the issue you create
                   </List.Item>
                   <List.Item>
                     Remember that when you propose, it is likely that DID will be issued for the completion of the task. The fewer DID the better.
@@ -239,7 +236,7 @@ class AddTask extends Component {
                     Choose the one that best fits
                   </List.Item>
                   <List.Item>
-                    TODO decide on general purpose repo
+                    TODO decide on whether to have general purpose repo (probably)
                   </List.Item>
                 </List>
               </Message>
