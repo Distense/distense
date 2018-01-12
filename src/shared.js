@@ -1,14 +1,107 @@
+import { convertSolidityIntToInt } from './utils'
 
-export const votingIntervalParameter = {
+const votingIntervalParameter = {
   title: 'votingInterval'
 }
 
-export const proposalPctDIDApprovalParameter = {
-  title: 'proposalPctDIDRequired'
+const proposalPctDIDToApproveParameter = {
+  title: 'proposalPctDIDToApprove'
 }
 
-export const pullRequestPctDIDParameter = {
-  title: 'pullRequestPctDIDRequired'
+const pctDIDRequiredToMergePullRequestParameter = {
+  title: 'pctDIDRequiredToMergePullRequest'
+}
+
+const maxRewardParameter = {
+  title: 'maxReward'
+}
+
+const numDIDRequiredToApproveVotePullRequestParameter = {
+  title: 'numDIDReqApproveVotePullRequest'
+}
+
+const numDIDRequiredToTaskRewardVoteParameter = {
+  title: 'numDIDRequiredToTaskRewardVote'
+}
+
+const minNumberOfTaskRewardVotersParameter = {
+  title: 'minNumberOfTaskRewardVoters'
+}
+
+const defaultRewardParameter = {
+  title: 'defaultReward'
+}
+
+export const constructParameterClientDetails = p => {
+
+  let title
+  let placeholder
+
+
+  let value = p.value
+  if (p.title.indexOf('votingInterval') < 0)
+    value = convertSolidityIntToInt(p.value)
+
+  if (p.title === votingIntervalParameter.title) {
+    value = value / 86400 + ' days'
+    title = 'Parameter Voting Interval'
+    placeholder = '1-100 days'
+  }
+
+  if (p.title === proposalPctDIDToApproveParameter.title) {
+    value = value + '%'
+    title = 'Percent of DID required to approve task proposal '
+    placeholder = '1-50'
+  }
+
+  if (p.title === numDIDRequiredToApproveVotePullRequestParameter.title) {
+    value = value
+    title = 'Number of DID required to vote on pull requests'
+    placeholder = '1-50'
+  }
+
+  if (p.title === pctDIDRequiredToMergePullRequestParameter.title) {
+    value = value
+    title = 'Total percent of DID that must approve pull requests'
+    placeholder = ''
+  }
+
+  if (p.title === maxRewardParameter.title) {
+    value = value
+    title = 'Maximum DID Reward for Any Task'
+    placeholder = ''
+  }
+
+  if (p.title === numDIDRequiredToApproveVotePullRequestParameter.title) {
+    value = value
+    title = 'Number of DID that must be owned to approve pull requests'
+    placeholder = ''
+  }
+
+  if (p.title === numDIDRequiredToTaskRewardVoteParameter.title) {
+    value = value
+    title = 'Number of DID required to vote on task rewards'
+    placeholder = ''
+  }
+
+  if (p.title === minNumberOfTaskRewardVotersParameter.title) {
+    value = value
+    title = 'Number of voters that can vote on a task reward to make it a determined reward'
+    placeholder = ''
+  }
+
+  if (p.title === defaultRewardParameter.title) {
+    value = value
+    title = 'Initial/default number of DID issuable for each task'
+    placeholder = ''
+  }
+
+
+  return {
+    value,
+    title,
+    placeholder
+  }
 }
 
 export const tagsOptions = [

@@ -7,11 +7,9 @@ import { getParameters } from '../reducers/parameters'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
-import {
-  votingIntervalParameter,
-  proposalPctDIDApprovalParameter,
-  pullRequestPctDIDParameter
-} from '../shared'
+import { constructParameterClientDetails } from '../shared'
+
+
 
 class Parameters extends Component {
   constructor(props) {
@@ -66,10 +64,10 @@ class Parameters extends Component {
         <Head title="Votable Parameters" />
         <Segment>
           {parameters.length > 0 ? (
-            parameters.map(parameter => (
+            parameters.map((parameter, i) => (
               <Parameter
-                key={Math.random()}
-                p={parameter}
+                key={i}
+                param={parameter}
                 onChange={this.handleInputChange}
                 onSubmit={this.onSubmit}
                 parameterValue={parameterValue}
@@ -78,44 +76,25 @@ class Parameters extends Component {
           ) : (
             <Segment>Loading Distense parameters...</Segment>
           )}
-        </Segment>
+        </Segment>`
       </Layout>
     )
   }
 }
 
-const Parameter = ({ p }) => {
-  let value
-  let title
-  let placeholder
+const Parameter = ({ param }) => {
 
-  if (p.title === votingIntervalParameter.title) {
-    value = p.value / 86400 + ' days'
-    title = 'Parameter Voting Interval'
-    placeholder = '1-100 days'
-  }
-
-  if (p.title === proposalPctDIDApprovalParameter.title) {
-    value = p.value + '%'
-    title = 'Percent of DID required to approve task proposal '
-    placeholder = '1-50'
-  }
-
-  if (p.title === pullRequestPctDIDParameter.title) {
-    value = p.value
-    title = '% of DID required to vote on pull requests'
-    placeholder = '1-50'
-  }
+  const p = constructParameterClientDetails(param)
 
   return (
     <div>
       <Header as="h3">
-        {title}: {value}
+        {p.title}: {p.value}
       </Header>
       <Form>
         <Form.Group size="small">
           <Form.Input
-            placeholder={placeholder}
+            placeholder='Up to twice the current value'
             type="text"
             value={p.parameterValue}
           />

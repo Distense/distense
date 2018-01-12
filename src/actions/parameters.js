@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import web3Utils from 'web3-utils'
 
 import { REQUEST_PARAMETERS, RECEIVE_PARAMETERS } from '../constants/constants'
 
@@ -22,12 +23,15 @@ const getParameterByIndex = async index => {
 
 const getParameterByTitle = async title => {
   const { getParameterByTitle } = await contracts.Distense // confirm parameter id/hash stored in blockchain
+  title = web3Utils.toAscii(title).replace(/\u0000/g, '')
   const parameter = await getParameterByTitle(title)
+
+
   return Object.assign(
     {},
     {
-      title: 'TODO convert from hex to ASCII',
-      value: parameter[1].toString()
+      title,
+      value: parameter[1].toNumber()
     }
   )
 }
@@ -48,18 +52,12 @@ export const fetchParameters = () => async dispatch => {
   return parameters
 }
 
-// export const fetchParameter = title => async (dispatch, getState) => {
-//   dispatch(requestParameter(title))
-//   const { getParameterByTitle } = await contracts.Distense
-//   const parameter = await getParameterByTitle(title)
-//   dispatch(receiveParameter(parameter))
-// }
 
 export const voteOnParameter = ({ title, newValue }) => async (
   dispatch,
   getState
 ) => {
-  const coinbase = getState().user.accounts[0] // TODO betterize this
+  const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     console.log(`User not authenticated...`)
     // dispatch(receiveUserNotAuthenticated())

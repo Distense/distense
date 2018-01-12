@@ -60,7 +60,6 @@ export const decodeTaskBytes32ToMetaData = taskId => {
 
   const tagsNums = decodedTaskId.slice(decodedTaskId.indexOf('a') + 1, decodedTaskId.indexOf('b')).split('f')
 
-  //const indexOfTag = _.findIndex(tagsOptions, function(tagOption) { return tagOption.value === tag })
   for (let tag of tagsNums) {
     const tagObject = _.find(tagsOptions, function (tagOption) {
       return tagOption.num.toString() === tag
@@ -79,5 +78,13 @@ export const decodeTaskBytes32ToMetaData = taskId => {
     issueNum
   }
 
+}
+
+export const convertSolidityIntToInt = function (integer) {
+  return integer / 10
+}
+
+export const convertIntToSolidityInt = function (integer) {
+  return integer * 10
 }
 
