@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-  Button,
   Card,
   Form,
   Grid,
@@ -71,20 +70,23 @@ class Parameters extends Component {
         <Head title="Votable Parameters"/>
         <Message>
           <Message.Header>
-            Pull Request number
+            Parameters
           </Message.Header>
           <List bulleted>
             <List.Item>
-              First submit a pull request on Github
+              This page displays the parameters of Distense and their current values
             </List.Item>
             <List.Item>
-              Enter the number found in your PR URL in the top box of this web page
+              Youu must own DID to vote
             </List.Item>
             <List.Item>
-              The number is the last part of your pull request URL. Example: https://github.com/Distense/distense-ui/pulls/<b>321</b>
+              The maximum vote is twice the current value
             </List.Item>
             <List.Item>
-              Enter just the number: 123
+              Basically the maximum you can change the value is by the percentage of DID you own
+            </List.Item>
+            <List.Item>
+              We should probably just have up or down buttons here
             </List.Item>
           </List>
         </Message>
