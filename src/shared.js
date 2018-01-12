@@ -39,59 +39,55 @@ export const constructParameterClientDetails = p => {
 
 
   let value = p.value
+  //  Voting interval is a date into so we want to leave the value of that alone
+  //  Otherwise we want to divide by 10
   if (p.title.indexOf('votingInterval') < 0)
     value = convertSolidityIntToInt(p.value)
 
   if (p.title === votingIntervalParameter.title) {
     value = value / 86400 + ' days'
-    title = 'Parameter Voting Interval'
-    placeholder = '1-100 days'
+    title = 'How Often Parameters Can Be Voted On'
+    placeholder = ''
   }
 
   if (p.title === proposalPctDIDToApproveParameter.title) {
     value = value + '%'
     title = 'Percent of DID required to approve task proposal '
-    placeholder = '1-50'
-  }
-
-  if (p.title === numDIDRequiredToApproveVotePullRequestParameter.title) {
-    value = value
-    title = 'Number of DID required to vote on pull requests'
-    placeholder = '1-50'
+    placeholder = ''
   }
 
   if (p.title === pctDIDRequiredToMergePullRequestParameter.title) {
-    value = value
-    title = 'Total percent of DID that must approve pull requests'
+    value = value + '%'
+    title = 'Percent of DID that must approve pull requests'
     placeholder = ''
   }
 
   if (p.title === maxRewardParameter.title) {
-    value = value
-    title = 'Maximum DID Reward for Any Task'
+    value = value + ' DID'
+    title = 'Maximum DID Reward for Tasks'
     placeholder = ''
   }
 
   if (p.title === numDIDRequiredToApproveVotePullRequestParameter.title) {
-    value = value
+    value = value + ' DID'
     title = 'Number of DID that must be owned to approve pull requests'
     placeholder = ''
   }
 
   if (p.title === numDIDRequiredToTaskRewardVoteParameter.title) {
-    value = value
+    value = value + ' DID'
     title = 'Number of DID required to vote on task rewards'
     placeholder = ''
   }
 
   if (p.title === minNumberOfTaskRewardVotersParameter.title) {
-    value = value
-    title = 'Number of voters that can vote on a task reward to make it a determined reward'
+    value = value + ' voters'
+    title = 'Number of voters that must vote on a task reward to determine reward'
     placeholder = ''
   }
 
   if (p.title === defaultRewardParameter.title) {
-    value = value
+    value = value + ' DID'
     title = 'Initial/default number of DID issuable for each task'
     placeholder = ''
   }

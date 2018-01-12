@@ -11,7 +11,6 @@ import {
   Segment
 } from 'semantic-ui-react'
 
-// import HasWeb3 from '../components/common/HasWeb3'
 import Head from '../components/common/Head'
 import TotalDID from '../components/common/TotalDID'
 

@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Header, Segment } from 'semantic-ui-react'
+import {
+  Button,
+  Card,
+  Form,
+  Grid,
+  List,
+  Message,
+  Segment
+} from 'semantic-ui-react'
 
 import { voteOnParameter } from '../actions/parameters'
 import { getParameters } from '../reducers/parameters'
@@ -8,7 +16,6 @@ import { getParameters } from '../reducers/parameters'
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import { constructParameterClientDetails } from '../shared'
-
 
 
 class Parameters extends Component {
@@ -61,23 +68,52 @@ class Parameters extends Component {
 
     return (
       <Layout>
-        <Head title="Votable Parameters" />
-        <Segment>
-          {parameters.length > 0 ? (
-            parameters.map((parameter, i) => (
-              <Parameter
-                key={i}
-                param={parameter}
-                onChange={this.handleInputChange}
-                onSubmit={this.onSubmit}
-                parameterValue={parameterValue}
-              />
-            ))
-          ) : (
-            <Segment>Loading Distense parameters...</Segment>
-          )}
-        </Segment>`
+        <Head title="Votable Parameters"/>
+        <Message>
+          <Message.Header>
+            Pull Request number
+          </Message.Header>
+          <List bulleted>
+            <List.Item>
+              First submit a pull request on Github
+            </List.Item>
+            <List.Item>
+              Enter the number found in your PR URL in the top box of this web page
+            </List.Item>
+            <List.Item>
+              The number is the last part of your pull request URL. Example: https://github.com/Distense/distense-ui/pulls/<b>321</b>
+            </List.Item>
+            <List.Item>
+              Enter just the number: 123
+            </List.Item>
+          </List>
+        </Message>
+        <Grid.Row>
+          <Card.Group>
+            {parameters.length > 0 ? (
+              parameters.map((parameter, i) => (
+                <Parameter
+                  key={i}
+                  param={parameter}
+                  onChange={this.handleInputChange}
+                  onSubmit={this.onSubmit}
+                  parameterValue={parameterValue}
+                />
+              ))
+            ) : (
+              <Segment>Loading Distense parameters...</Segment>
+            )}
+          </Card.Group>
+        </Grid.Row>
+        {/*language=CSS*/}
+        <style global jsx>{`
+
+          .parameter-card-width {
+            width: 366px !important;
+          }
+        `}</style>
       </Layout>
+
     )
   }
 }
@@ -87,23 +123,37 @@ const Parameter = ({ param }) => {
   const p = constructParameterClientDetails(param)
 
   return (
-    <div>
-      <Header as="h3">
-        {p.title}: {p.value}
-      </Header>
-      <Form>
-        <Form.Group size="small">
-          <Form.Input
-            placeholder='Up to twice the current value'
-            type="text"
-            value={p.parameterValue}
-          />
-          <Form.Button basic color="green" compact={true}>
-            Vote
-          </Form.Button>
-        </Form.Group>
-      </Form>
-    </div>
+    <Card className='parameter-card-width' raised>
+      <Card.Content>
+        <Card.Header>
+          {p.title}
+        </Card.Header>
+        <Card.Meta>
+          {p.placeholder}
+        </Card.Meta>
+        <Form>
+          <Form.Group size="small">
+            <Form.Input
+              placeholder=''
+              type="text"
+              value={p.parameterValue}
+            />
+            <Form.Button basic color="green" compact={true}>
+              Vote
+            </Form.Button>
+          </Form.Group>
+        </Form>
+        <Card.Content>
+          Current Value: {p.value}
+        </Card.Content>
+        {/*<Card.Content extra>*/}
+          {/*<Button.Group>*/}
+            {/*<Button basic color='red'>Max Down</Button>*/}
+            {/*<Button basic color='green'>Max Up</Button>*/}
+          {/*</Button.Group>*/}
+        {/*</Card.Content>*/}
+      </Card.Content>
+    </Card>
   )
 }
 
