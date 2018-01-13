@@ -19,37 +19,6 @@ import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
 
 
-const TaskRewardInput = ({
-                           disabled,
-                           task,
-                           reward,
-                           onSubmitReward,
-                           onChangeReward
-                         }) => (
-  <Message>
-    <Form onSubmit={event => onSubmitReward(event)}>
-      <Form.Field required>
-        <label>DID Token Reward</label>
-        <Input
-          type="text"
-          placeholder="positive numeric reward value"
-          onChange={event => onChangeReward(event)}
-          name="reward"
-          value={reward}
-        />
-      </Form.Field>
-      <Button
-        disabled={disabled}
-        inverted
-        size="small"
-        color="green"
-        type="submit"
-      >
-        Vote on Reward
-      </Button>
-    </Form>
-  </Message>
-)
 
 class Task extends Component {
   constructor(props) {
@@ -114,7 +83,7 @@ class Task extends Component {
                 <Grid.Column>
                   <Item>
                     <Item.Content>
-                      <Header style={{ textDecoration: 'underline' }} as="h2">
+                      <Header as="h2">
                         {task.title}
                       </Header>
                       <Item.Description>
@@ -162,13 +131,45 @@ class Task extends Component {
   }
 }
 
+const TaskRewardInput = ({
+                           disabled,
+                           max,
+                           reward,
+                           onSubmitReward,
+                           onChangeReward
+                         }) => (
+  <Message>
+    <Form onSubmit={event => onSubmitReward(event)}>
+      <Form.Field required>
+        <label>DID Token Reward Min: 0 Max: 5000</label>
+        <Input
+          type="text"
+          placeholder="positive numeric reward value"
+          onChange={event => onChangeReward(event)}
+          name="reward"
+          value={reward}
+        />
+      </Form.Field>
+      <Button
+        disabled={disabled}
+        inverted
+        size="small"
+        color="green"
+        type="submit"
+      >
+        Vote on Reward
+      </Button>
+    </Form>
+  </Message>
+)
+
 const mapStateToProps = (state, { match: { params: { id } } }) => ({
   task: getTask(state, id)
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchTask: id => dispatch(fetchTask(id)),
-  voteOnTaskReward: (taskId, reward) => dispatch(voteOnTaskReward(taskId))
+  voteOnTaskReward: (taskId, reward) => dispatch(voteOnTaskReward(taskId, reward))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task)
