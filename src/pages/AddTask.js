@@ -37,7 +37,14 @@ class AddTask extends Component {
   }
 
   onChangeTitle = ({ target: { value } }) => {
-    if (value.length <= 70) this.setState({ title: value })
+
+    //  make sure not to have any slashes for URLs
+    value = value.replace('/', '')
+
+    if (value.length <= 70) {
+
+      this.setState({ title: value })
+    }
   }
 
   onChangeIssueNum = ({ target: { value } }) => {
@@ -67,6 +74,7 @@ class AddTask extends Component {
     e.preventDefault()
 
     const { title, tagsString, issueNum, repo } = this.state
+
     this.props.addTask({ title, tagsString, issueNum, repo })
     this.setState({
       redirect: true
