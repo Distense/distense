@@ -4,7 +4,7 @@ import web3Utils from 'web3-utils'
 import { REQUEST_PARAMETERS, RECEIVE_PARAMETERS } from '../constants/constants'
 
 import * as contracts from '../contracts'
-import { setDefaultStatus } from './status'
+import { setDefaultStatus, updateStatusMessage } from './status'
 
 const requestParameters = () => ({
   type: REQUEST_PARAMETERS
@@ -15,13 +15,13 @@ const receiveParameters = parameters => ({
   parameters
 })
 
-const getParameterByIndex = async index => {
+const fetchParameterByIndex = async index => {
   const { parameterTitles } = await contracts.Distense
   const title = await parameterTitles(index)
-  return getParameterByTitle(title)
+  return fetchParameter(title)
 }
 
-const getParameterByTitle = async title => {
+const fetchParameter = async title => {
   const { getParameterByTitle } = await contracts.Distense // confirm parameter id/hash stored in blockchain
   title = web3Utils.toAscii(title).replace(/\u0000/g, '')
   const parameter = await getParameterByTitle(title)
@@ -43,7 +43,7 @@ export const fetchParameters = () => async dispatch => {
   const { getNumParameters } = await contracts.Distense
   const numParameters = await getNumParameters()
   const parameters = await Promise.all(
-    _.range(numParameters).map(getParameterByIndex)
+    _.range(numParameters).map(fetchParameterByIndex)
   )
 
   dispatch(receiveParameters(parameters.filter(_.identity)))
@@ -69,7 +69,10 @@ export const voteOnParameter = ({ title, newValue }) => async (
     from: coinbase,
     gasPrice: 1500000000 // TODO GASPRICE could probably be lower now!! 2gwei
   })
-  // if (receipt.tx) dispatch(confirmPendingTx())
+  if (receipt.tx) {
+    console.log(`vote on parameter receipt`)
+    dispatch(updateStatusMessage('vote on parameter blockchain receipt'))
+  }
   dispatch(setDefaultStatus())
 
   return receipt
