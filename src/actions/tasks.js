@@ -134,7 +134,7 @@ export const convertContractTaskToClient = (taskId, contractTask) => {
 
   const repoString = repo === 'contracts' ? 'contracts' : 'distense-ui'
 
-  const issueURL = 'https://api.github.com/repos/Distense/' + repoString + '/issues/' + issueNum
+  const issueURL = 'https://github.com/Distense/' + repoString + '/issues/' + issueNum
 
   const decodedTaskId = taskIdHasBeenDecoded(taskId)
   // = web3.toAscii(taskId).replace(/\0/g, '')
