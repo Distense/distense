@@ -130,7 +130,7 @@ class Tasks extends Component {
 const TasksListItem = ({ task }) => (
   <Table.Row key={task._id}>
     <Table.Cell>
-      <Link to={`/tasks/${task.title}/${task._id}`}>{task.title}</Link>
+      <Link to={`/tasks/${task.title.split(' ').join('-')}/${task._id}`}>{task.title}</Link>
     </Table.Cell>
     <Table.Cell singleLine>
       <Tags tags={task.tags} />
