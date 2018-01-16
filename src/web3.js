@@ -6,14 +6,12 @@ import contract from 'truffle-contract'
 let provider = new Web3.providers.HttpProvider('http://127.0.0.1:4000')
 
 //  If can't connect on 127.0.0.1:4000 likely running locally, check for local node
-if (!provider) {
+if (!provider.isConnected() || process.env.TESTING) {
   console.log(`No node running on localhost:4000 or no web3 provider found`)
-}
-
-if (process.env.LOCAL_NODE){
   console.log(`LOCAL_NODE true, looking for local node running on port 7545`)
   provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545')
 }
+
 const web3 = new Web3(provider)
 
 export default web3
@@ -40,7 +38,7 @@ export const PromisifyWeb3 = web3 => {
       }
     }
   }
-
+``
   // List synchronous functions masquerading as values.
   const syncGetters = {
     db: [],
