@@ -1,5 +1,6 @@
 import { convertSolidityIntToInt } from './utils'
 
+
 const votingIntervalParameter = {
   title: 'votingInterval'
 }
@@ -32,6 +33,12 @@ const defaultRewardParameter = {
   title: 'defaultReward'
 }
 
+const didPerEtherParameter = {
+  title: 'didPerEther'
+}
+
+
+
 export const constructParameterClientDetails = p => {
 
   let title
@@ -52,7 +59,7 @@ export const constructParameterClientDetails = p => {
 
   if (p.title === proposalPctDIDToApproveParameter.title) {
     value = value + '%'
-    title = 'Percent of DID required to approve task proposal '
+    title = 'Percent of DID required to approve task'
     placeholder = ''
   }
 
@@ -70,7 +77,7 @@ export const constructParameterClientDetails = p => {
 
   if (p.title === numDIDRequiredToApproveVotePullRequestParameter.title) {
     value = value + ' DID'
-    title = 'Number of DID that must be owned to approve pull requests'
+    title = 'Number of DID required to approve pull requests'
     placeholder = ''
   }
 
@@ -82,13 +89,19 @@ export const constructParameterClientDetails = p => {
 
   if (p.title === minNumberOfTaskRewardVotersParameter.title) {
     value = value + ' voters'
-    title = 'Number of voters that must vote on a task reward to determine reward'
+    title = 'Number of voters required  to determine reward'
     placeholder = ''
   }
 
   if (p.title === defaultRewardParameter.title) {
     value = value + ' DID'
     title = 'Initial/default number of DID issuable for each task'
+    placeholder = ''
+  }
+
+  if (p.title === didPerEtherParameter.title) {
+    value = value + ' DID'
+    title = 'Conversion ratio of DID per ether'
     placeholder = ''
   }
 
