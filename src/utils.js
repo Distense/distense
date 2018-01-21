@@ -1,4 +1,5 @@
 import _ from 'lodash'
+
 import { tagsOptions } from './shared'
 import web3 from './web3'
 
@@ -25,6 +26,7 @@ export const encodeTaskMetaDataToBytes32 = task => {
   const dateString = new Date().getTime().toString()
 
   let tags = ''
+
   task.tagsString.split(':').forEach((tag, index) => {
     const tagObject = _.find(tagsOptions, function (tagOption) {
       return tagOption.value === tag
@@ -81,10 +83,10 @@ export const decodeTaskBytes32ToMetaData = taskId => {
 }
 
 export const convertSolidityIntToInt = function (integer) {
-  return integer / 10
+  return integer / 100
 }
 
 export const convertIntToSolidityInt = function (integer) {
-  return integer * 10
+  return integer * 100
 }
 

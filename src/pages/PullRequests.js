@@ -80,14 +80,18 @@ class PullRequests extends Component {
               >
                 Task Title
               </Table.HeaderCell>
-
               <Table.HeaderCell
                 sorted={column === 'Tags' ? direction : null}
                 onClick={this.handleSort('tags')}
               >
                 Tags
               </Table.HeaderCell>
-
+              <Table.HeaderCell
+                sorted={column === 'Status' ? direction : null}
+                onClick={this.handleSort('status')}
+              >
+                Status
+              </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Status' ? direction : null}
                 onClick={this.handleSort('status')}

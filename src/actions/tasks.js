@@ -14,7 +14,6 @@ import {
   REQUEST_TASKS_INSTANCE,
   RECEIVE_TASKS_INSTANCE
 } from '../constants/constants'
-import web3 from '../web3'
 import {
   decodeTaskBytes32ToMetaData,
   encodeTaskMetaDataToBytes32,
@@ -23,11 +22,11 @@ import {
 
 
 const convertSolidityIntToInt = function (integer) {
-  return integer / 10
+  return integer / 100
 }
 
 const convertIntToSolidityInt = function (integer) {
-  return integer * 10
+  return integer * 100
 }
 
 const requestTasks = () => ({
@@ -110,7 +109,7 @@ export const convertContractTaskToClient = (taskId, contractTask) => {
   const createdBy = contractTask[1]
   const reward = convertSolidityIntToInt(contractTask[2].toNumber())
   const rewardStatusEnumInteger = contractTask[3].toNumber()
-  const pctDIDVoted = contractTask[4].toString() / 10 // TODO increase precision/test
+  const pctDIDVoted = convertSolidityIntToInt(contractTask[4].toString())
   const numVotes = contractTask[5].toString()
 
   const { created, tags, issueNum, repo } = decodeTaskBytes32ToMetaData(taskId)
@@ -137,7 +136,6 @@ export const convertContractTaskToClient = (taskId, contractTask) => {
   const issueURL = 'https://github.com/Distense/' + repoString + '/issues/' + issueNum
 
   const decodedTaskId = taskIdHasBeenDecoded(taskId)
-  // = web3.toAscii(taskId).replace(/\0/g, '')
 
   return Object.assign({}, { _id: decodedTaskId }, {
     createdBy,
@@ -241,9 +239,9 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (dispatch,
     receipt = await taskRewardVote(
       taskId,
       convertIntToSolidityInt(reward), {
-      from: coinbase,
-      gasPrice: 3000000000  // TODO use ethgasstation for this
-    })
+        from: coinbase,
+        gasPrice: 3000000000  // TODO use ethgasstation for this
+      })
 
     if (receipt) console.log(`got tx receipt`)
     if (receipt.tx) {

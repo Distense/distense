@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
+  Button,
   Card,
   Form,
   Grid,
@@ -50,15 +51,14 @@ class Parameters extends Component {
       })
   }
 
-  onSubmit = async e => {
+  onClick  = async (title, vote, e) => {
     e.preventDefault()
 
-    const title = this.target.name
-    const newValue = this.target.value
-    this.props.voteOnParameter({ title, newValue })
+    this.props.voteOnParameter({ title, vote })
     this.setState({
       redirect: true
     })
+
   }
 
   render() {
@@ -77,16 +77,16 @@ class Parameters extends Component {
               This page displays the parameters of Distense and their current values
             </List.Item>
             <List.Item>
-              Youu must own DID to vote
-            </List.Item>
-            <List.Item>
-              The maximum vote is twice the current value
+              You must own greater than zero DID to vote
             </List.Item>
             <List.Item>
               Basically the maximum you can change the value is by the percentage of DID you own
             </List.Item>
             <List.Item>
               We should probably just have up or down buttons here
+            </List.Item>
+            <List.Item>
+              <b>Your vote simply affects the value up or down by your percentage DID ownership</b>
             </List.Item>
           </List>
         </Message>
@@ -98,7 +98,7 @@ class Parameters extends Component {
                   key={i}
                   param={parameter}
                   onChange={this.handleInputChange}
-                  onSubmit={this.onSubmit}
+                  onClick={this.onClick}
                   parameterValue={parameterValue}
                 />
               ))
@@ -120,7 +120,7 @@ class Parameters extends Component {
   }
 }
 
-const Parameter = ({ param }) => {
+const Parameter = ({ param, onClick }) => {
 
   const p = constructParameterClientDetails(param)
 
@@ -133,27 +133,13 @@ const Parameter = ({ param }) => {
         <Card.Meta>
           {p.placeholder}
         </Card.Meta>
-        <Form>
-          <Form.Group size="small">
-            <Form.Input
-              placeholder=''
-              type="text"
-              value={p.parameterValue}
-            />
-            <Form.Button basic color="green" compact={true}>
-              Vote
-            </Form.Button>
-          </Form.Group>
-        </Form>
         <Card.Content>
           Current Value: {p.value}
         </Card.Content>
-        {/*<Card.Content extra>*/}
-          {/*<Button.Group>*/}
-            {/*<Button basic color='red'>Max Down</Button>*/}
-            {/*<Button basic color='green'>Max Up</Button>*/}
-          {/*</Button.Group>*/}
-        {/*</Card.Content>*/}
+        <Card.Content extra>
+          <Button color='black' id='upvote'  basic onClick={(e) => onClick(p.title, 'upvote', e)}>DownVote</Button>
+          <Button color='black' id='downvote' basic onClick={(e) => onClick(p.title, 'downvote', e)}>UpVote</Button>
+        </Card.Content>
       </Card.Content>
     </Card>
   )

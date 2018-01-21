@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Table } from 'semantic-ui-react'
+import { PAID } from '../constants/rewardStatuses'
 
 import { approvePullRequest } from '../actions/pullRequests'
 
@@ -12,7 +13,7 @@ class PullRequestsListItem extends Component {
     super(props)
     this.state = {
       pr: this.props.pullRequest,
-      approveText: 'Approve'
+      approveText: this.props.pullRequest.status === 'PAID' ? 'Approved' : 'Approve'
     }
     this.onClickApprove = this.onClickApprove.bind(this)
   }
@@ -24,11 +25,7 @@ class PullRequestsListItem extends Component {
       approveText: 'Approving PR'
     })
 
-    const confirmed = this.props.approvePullRequest(this.state.pr._id)
-
-    this.setState({
-      approveText: confirmed ? 'Approved' : 'Not Approved'
-    })
+    this.props.approvePullRequest(this.state.pr._id)
 
   }
 
@@ -39,21 +36,36 @@ class PullRequestsListItem extends Component {
   render () {
 
     const { approveText, pr } = this.state
+
+    let approveButtonColor
+    let approveButtonDisabled
+    if (pr.status === PAID) {
+      approveButtonColor = 'black'
+      approveButtonDisabled = true
+    } else {
+      approveButtonColor = 'green'
+      approveButtonDisabled = false
+    }
+
     return (
       <Table.Row key={pr._id}>
         <Table.Cell>{pr.taskTitle}</Table.Cell>
         <Table.Cell>
           <Tags tags={pr.tags}/>
         </Table.Cell>
+        <Table.Cell>
+          {pr.status}
+        </Table.Cell>
         <Table.Cell>{pr.pctDIDApproved}</Table.Cell>
         <Table.Cell>{pr.taskReward}</Table.Cell>
         <Table.Cell>
           <Button
             basic
-            color="green"
+            color={approveButtonColor}
             compact={true}
             floated="right"
             fluid={true}
+            disabled={approveButtonDisabled}
             size="mini"
             pr={pr}
             onClick={(e) => this.onClickApprove(e, pr)}
@@ -63,14 +75,13 @@ class PullRequestsListItem extends Component {
         </Table.Cell>
         <Table.Cell>
           <Button
-            // basic
             color="green"
             compact={true}
             floated="right"
             fluid={true}
             size="mini"
             target="_blank"
-            to={`${pr.prURL}`}
+            to={`http:${pr.url}`}
             as={Link}
           >
             Review PR
