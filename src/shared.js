@@ -54,7 +54,7 @@ export const constructParameterClientDetails = p => {
 
   if (p.title === proposalPctDIDToApproveParameter.title) {
     value = value + '%'
-    title = 'Percent of DID required to approve task'
+    title = 'Percent of DID required to approve task proposal'
     placeholder = ''
   }
 
