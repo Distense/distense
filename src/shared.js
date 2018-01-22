@@ -95,7 +95,7 @@ export const constructParameterClientDetails = p => {
 
   if (p.title === defaultRewardParameter.title) {
     value = value + ' DID'
-    title = 'Initial/default number of DID issuable for each task'
+    title = 'Default number of DID issuable for each task'
     placeholder = ''
   }
 
