@@ -44,12 +44,7 @@ export const constructParameterClientDetails = p => {
   let title
   let placeholder
 
-
-  let value = p.value
-  //  Voting interval is a date into so we want to leave the value of that alone
-  //  Otherwise we want to divide by 10
-  if (p.title.indexOf('votingInterval') < 0)
-    value = convertSolidityIntToInt(p.value)
+  let value = convertSolidityIntToInt(p.value)
 
   if (p.title === votingIntervalParameter.title) {
     value = value / 86400 + ' days'
