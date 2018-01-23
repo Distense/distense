@@ -1,26 +1,20 @@
-import _ from 'lodash'
 import * as contracts from '../contracts'
+import web3 from '../web3'
 
 import { receiveUserNotAuthenticated } from './user'
-import { setDefaultStatus, updateStatusMessage } from './status'
+import { setDefaultStatus } from './status'
 import {
   // EXCHANGE_DID_ETHER,
   // EXCHANGE_ETHER_DID
 } from '../constants/constants'
-import {} from '../utils'
+import {
+  getNumDIDByAddress,
+  receiveAccountNumDID
+} from './user'
 
 
-const convertSolidityIntToInt = function (integer) {
-  return integer / 10
-}
-
-const convertIntToSolidityInt = function (integer) {
-  return integer * 10
-}
-
-
-export const convertDIDToEther = ({ num }) => async (dispatch,
-                                                     getState) => {
+export const exchangeDIDForEther = ({ numDID }) => async (dispatch,
+                                                        getState) => {
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
@@ -30,22 +24,32 @@ export const convertDIDToEther = ({ num }) => async (dispatch,
   const { exchangeDIDForEther } = await contracts.DIDToken
 
   const exchanged = await exchangeDIDForEther(
-    coinbase,
-    num, {
-      from: coinbase
+    numDID, {
+      from: coinbase,
+      gasPrice: 2000000000,
+      gas: 1000000
     }
   )
 
-  if (exchanged) console.log(`exchange successful`)
-  else console.log(`FAILED to add task`)
+  if (exchanged) {
+
+    console.log(`exchange successful`)
+    const numDIDOwned = await getNumDIDByAddress(coinbase)
+    console.log(`${coinbase} owns ${numDIDOwned} DID`)
+    dispatch(receiveAccountNumDID(numDIDOwned.toString()))
+  }
+  else
+    console.log(`FAILED to exchange DID for ether`)
 
   dispatch(setDefaultStatus())
+
+
 
   return exchanged
 }
 
 export const investEtherForDID = ({ numEther }) => async (dispatch,
-                                                     getState) => {
+                                                          getState) => {
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
@@ -53,18 +57,22 @@ export const investEtherForDID = ({ numEther }) => async (dispatch,
   }
 
   const { investEtherForDID } = await contracts.DIDToken
-
-  const exchanged = await investEtherForDID(
-    coinbase,
-    numEther, {
-      from: coinbase
+  const invested = await investEtherForDID(
+    {}, {
+      from: coinbase,
+      value: web3.toWei(numEther)
     }
   )
 
-  if (exchanged) console.log(`exchange successful`)
-  else console.log(`FAILED to add task`)
+  if (invested) {
+    console.log(`exchange successful`)
+    const numDID = await getNumDIDByAddress(coinbase)
+    console.log(`${coinbase} owns ${numDID} DID`)
+    dispatch(receiveAccountNumDID(numDID.toString()))
+  }
+  else console.log(`FAILED to exchange`)
 
   dispatch(setDefaultStatus())
 
-  return exchanged
+  return invested
 }
