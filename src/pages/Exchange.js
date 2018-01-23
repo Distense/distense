@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 
 import {
   investEtherForDID,
-  convertDIDToEther
+  exchangeDIDForEther
 } from '../actions/exchange'
 
 import Head from '../components/common/Head'
@@ -26,7 +26,7 @@ class Exchange extends Component {
     this.state = {
       numDID: '',
       numEther: '',
-      numDIDOwned: this.props.numDIDOwned || 0
+      numDIDOwned: this.props.numDIDOwned || 0,
     }
 
     this.onChangeNumDID = this.onChangeNumDID.bind(this)
@@ -55,7 +55,6 @@ class Exchange extends Component {
     e.preventDefault()
 
     const { numDID } = this.state
-
     this.props.exchangeDIDForEther({ numDID })
   }
 
@@ -65,6 +64,7 @@ class Exchange extends Component {
     const { numEther } = this.state
 
     this.props.investEtherForDID({ numEther })
+
   }
 
   render() {
@@ -103,9 +103,10 @@ class Exchange extends Component {
                   <List.Item>
                     You may exchange your DID for ether.
                   </List.Item>
-                  {numDIDOwned ? (
+                  {
+                    numDIDOwned ? (
                       <List.Item>
-                        With the current Ethereum coinbase account you are logged in as, you have {numDIDOwned} DID to exchange
+                        With the current Ethereum coinbase account you are logged in with, you may exchange {numDIDOwned} DID
                       </List.Item>
                     ) : (
                       <List.Item>
@@ -117,7 +118,7 @@ class Exchange extends Component {
                     This option is available because not everyone can work solely for equity, unfortunately. We understand.
                   </List.Item>
                   <List.Item>
-                    The current exchange rate is xxxx DID per ether. This rate may be found and voted on in the <Link
+                    The current exchange rate is 1000 DID per ether. This rate may be found and voted on in the <Link
                     to='/parameters'>parameters</Link> page
                   </List.Item>
                   <List.Item>
@@ -142,7 +143,7 @@ class Exchange extends Component {
                   />
                 </Form.Field>
                 <Button basic size="large" color="green" type="submit">
-                  Exchange ether for DID (probably a dumb idea)
+                  Invest ether for DID (probably a dumb idea)
                 </Button>
               </Form>
               <Message>
@@ -183,7 +184,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   investEtherForDID: numEther => dispatch(investEtherForDID(numEther)),
-  exchangeDIDForEther: numDID => dispatch(convertDIDToEther(numDID))
+  exchangeDIDForEther: numDID => dispatch(exchangeDIDForEther(numDID))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Exchange)
