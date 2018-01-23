@@ -29,13 +29,12 @@ export const receiveUserNotAuthenticated = () => ({
   type: RECEIVE_USER_NOT_AUTHENTICATED
 })
 
-export const receiveAccountNumDID = numDID => ({
+export const receiveAccountNumDID = numDIDOwned => ({
   type: RECEIVE_USER_NUM_DID,
-  numDID
+  numDIDOwned
 })
 
-const getNumDIDByAddress = async address => {
-  // Have to get numTasks from chain to know how many to query by index
+export const getNumDIDByAddress = async address => {
   const { balances } = await contracts.DIDToken
   return await balances(address)
 }
@@ -51,9 +50,9 @@ export const selectUserAccountInfo = () => async dispatch => {
       if (accounts.length) {
         console.log(`found accounts[0]/coinbase: ${accounts[0]}`)
         dispatch(receiveAccountAction(accounts[0]))
-        const numDID = await getNumDIDByAddress(accounts[0])
-        console.log(`${accounts[0]} owns ${numDID} DID`)
-        dispatch(receiveAccountNumDID(numDID.toString()))
+        const numDIDOwned = await getNumDIDByAddress(accounts[0])
+        console.log(`${accounts[0]} owns ${numDIDOwned} DID`)
+        dispatch(receiveAccountNumDID(numDIDOwned.toString()))
       }
     }
   }
