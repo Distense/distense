@@ -40,9 +40,8 @@ export const PromisifyWeb3 = web3 => {
       }
     }
   }
-}
 
-  // List synchronous functions masquerading as values.
+// List synchronous functions masquerading as values.
   const syncGetters = {
     db: [],
     eth: [
@@ -61,14 +60,15 @@ export const PromisifyWeb3 = web3 => {
     version: ['ethereum', 'network', 'node', 'whisper']
   }
 
-  Object.keys(syncGetters).forEach(function(group) {
-    Object.keys(web3[group]).forEach(function(method) {
+  Object.keys(syncGetters).forEach(function (group) {
+    Object.keys(web3[group]).forEach(function (method) {
       if (syncGetters[group].indexOf(method) > -1) {
         // Skip
-      } else if (typeof web3[group][method] === 'function') {
-        web3[group][method + 'Promise'] = function() {
+      }
+      else if (typeof web3[group][method] === 'function') {
+        web3[group][method + 'Promise'] = function () {
           const args = arguments
-          return new Promise(function(resolve, reject) {
+          return new Promise(function (resolve, reject) {
             args[args.length] = callbackToResolve(resolve, reject)
             args.length++
             web3[group][method].apply(web3[group], args)
