@@ -1,0 +1,19 @@
+sudo: false
+
+language: node_js
+
+branches:
+  only:
+    - master
+
+
+node_js:
+  - "9"
+  - "8"
+  - "6"
+
+before_script:
+  - npm install
+
+script:
+  - npm run build 
