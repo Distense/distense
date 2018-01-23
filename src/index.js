@@ -7,7 +7,6 @@ import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import registerServiceWorker from './registerServiceWorker'
 
-import Web3 from 'web3'
 import reducers from './reducers'
 
 import { selectUserAccountInfo } from './actions/user'
@@ -50,18 +49,6 @@ const Root = () => (
   </Router>
 )
 
-// window.addEventListener('load', () => {
-//   if (typeof window.web3 !== 'undefined') {
-//     console.log(`metamask`);
-//     window.web3 = new Web3(window.web3.currentProvider)
-//   } else {
-//     console.log(`using DISTNET testnet`)
-//     const provider = new Web3.providers.HttpProvider(
-//       'http://165.227.180.132:9000'
-//     )
-//     window.web3 = new Web3(new Web3.providers.HttpProvider(provider))
-//   }
-
   ReactDOM.render(
     <Provider store={store}>
       <Root />
@@ -70,4 +57,3 @@ const Root = () => (
   )
 
   registerServiceWorker()
-// })

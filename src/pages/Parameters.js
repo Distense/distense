@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import {
   Button,
   Card,
-  Form,
   Grid,
   List,
   Message,
@@ -51,7 +50,7 @@ class Parameters extends Component {
       })
   }
 
-  onClick  = async (title, vote, e) => {
+  onClick = async (title, vote, e) => {
     e.preventDefault()
 
     this.props.voteOnParameter({ title, vote })
@@ -103,7 +102,9 @@ class Parameters extends Component {
                 />
               ))
             ) : (
-              <Segment>Loading Distense parameters...</Segment>
+              <Card className='parameter-card-width' raised>
+                <Segment>Loading Distense parameters...</Segment>
+              </Card>
             )}
           </Card.Group>
         </Grid.Row>
@@ -137,7 +138,7 @@ const Parameter = ({ param, onClick }) => {
           Current Value: {p.value}
         </Card.Content>
         <Card.Content extra>
-          <Button color='black' id='upvote'  basic onClick={(e) => onClick(p.title, 'upvote', e)}>DownVote</Button>
+          <Button color='black' id='upvote' basic onClick={(e) => onClick(p.title, 'upvote', e)}>DownVote</Button>
           <Button color='black' id='downvote' basic onClick={(e) => onClick(p.title, 'downvote', e)}>UpVote</Button>
         </Card.Content>
       </Card.Content>

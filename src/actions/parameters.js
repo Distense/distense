@@ -15,17 +15,16 @@ const receiveParameters = parameters => ({
   parameters
 })
 
-const fetchParameterByIndex = async index => {
+export const fetchParameterByIndex = async index => {
   const { parameterTitles } = await contracts.Distense
   const title = await parameterTitles(index)
   return fetchParameter(title)
 }
 
-const fetchParameter = async title => {
+export const fetchParameter = async title => {
   const { getParameterByTitle } = await contracts.Distense // confirm parameter id/hash stored in blockchain
   title = web3Utils.toAscii(title).replace(/\u0000/g, '')
   const parameter = await getParameterByTitle(title)
-
 
   return Object.assign(
     {},
@@ -53,7 +52,7 @@ export const fetchParameters = () => async dispatch => {
 }
 
 
-export const voteOnParameter = ({ title, newValue }) => async (
+export const voteOnParameter = ({ title, vote }) => async (
   dispatch,
   getState
 ) => {
@@ -65,9 +64,11 @@ export const voteOnParameter = ({ title, newValue }) => async (
   }
   const { voteOnParameter } = await contracts.Distense // Get callable function from Tasks contract instance
 
-  const receipt = await voteOnParameter(title, newValue, {
+  const voteValue = vote === 'upvote' ? 1 : -1
+
+  const receipt = await voteOnParameter(title, voteValue, {
     from: coinbase,
-    gasPrice: 1500000000 // TODO GASPRICE could probably be lower now!! 2gwei
+    gasPrice: 2000000000 // TODO GASPRICE could probably be lower now!! 2gwei
   })
   if (receipt.tx) {
     console.log(`vote on parameter receipt`)
