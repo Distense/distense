@@ -36,7 +36,7 @@ const user = (
       })
     case RECEIVE_USER_NUM_DID:
       return Object.assign({}, state, {
-        numDID: action.numDID
+        numDID: action.numDIDOwned
       })
     case RECEIVE_NETWORK_ID:
       return Object.assign({}, state, {
@@ -99,4 +99,3 @@ const selectTransactionInfo = tx => ({
 export const getAccounts = state => state.accounts
 export const getCoinbase = state => state.user.accounts[0]
 export const getNetworkId = state => state.user.network
-export const getETHBalance = state => state.account
