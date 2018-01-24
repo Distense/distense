@@ -5,6 +5,7 @@ import { REQUEST_PARAMETERS, RECEIVE_PARAMETERS } from '../constants/constants'
 
 import * as contracts from '../contracts'
 import { setDefaultStatus, updateStatusMessage } from './status'
+import { convertSolidityIntToInt } from '../utils'
 
 const requestParameters = () => ({
   type: REQUEST_PARAMETERS
@@ -30,7 +31,7 @@ export const fetchParameter = async title => {
     {},
     {
       title,
-      value: parameter[1].toNumber()
+      value: convertSolidityIntToInt(parameter[1].toNumber())
     }
   )
 }

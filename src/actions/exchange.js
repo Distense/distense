@@ -60,17 +60,17 @@ export const investEtherForDID = ({ numEther }) => async (dispatch,
   const invested = await investEtherForDID(
     {}, {
       from: coinbase,
-      value: web3.toWei(numEther)
+      value: web3.toWei(numEther),
+      gasPrice: 30000000000
     }
   )
 
   if (invested) {
-    console.log(`exchange successful`)
+    console.log(`investment of ${numEther} ether successful`)
     const numDID = await getNumDIDByAddress(coinbase)
     console.log(`${coinbase} owns ${numDID} DID`)
     dispatch(receiveAccountNumDID(numDID.toString()))
-  }
-  else console.log(`FAILED to exchange`)
+  } else console.log(`FAILED to invest ether`)
 
   dispatch(setDefaultStatus())
 
