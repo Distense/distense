@@ -83,8 +83,10 @@ class Home extends Component {
               <Menu.Item to="/pullrequests" as={Link}>
                 Approve
               </Menu.Item>
+              <Menu.Item to="/exchange" as={Link}>
+                Exchange
+              </Menu.Item>
               <TotalDID />
-              {/*<Menu.Item position="right">18330 Total DID</Menu.Item>*/}
             </Container>
           </Menu>
 
@@ -298,8 +300,10 @@ class Home extends Component {
             </Grid>
           </Container>
         </Segment>
+
         {/*language=CSS*/}
         <style global jsx>{`
+
           .footer-email-subscribe {
             width: 50% !important;
           }
