@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Button,
   Dropdown,
@@ -167,7 +168,7 @@ class AddTask extends Component {
                 </Message.Header>
                 <List bulleted>
                   <List.Item>
-                    You must own at least 100 DID to propose. This number changes according to the proposalPctDIDToApprove parameter
+                    You must own at least 100 DID to propose. This number changes according to the <Link to='/parameters'>proposalPctDIDToApprove</Link> parameter
                   </List.Item>
                   <List.Item>
                     Your proposal can be anything, it doesn't necessarily have to be <em>work</em>.
