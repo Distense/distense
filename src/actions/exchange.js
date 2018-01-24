@@ -23,7 +23,7 @@ export const exchangeDIDForEther = ({ numDID }) => async (dispatch,
 
   const { exchangeDIDForEther } = await contracts.DIDToken
 
-  const exchanged = await exchangeDIDForEther(
+  const successfulExchange = await exchangeDIDForEther(
     numDID, {
       from: coinbase,
       gasPrice: 2000000000,
@@ -31,7 +31,7 @@ export const exchangeDIDForEther = ({ numDID }) => async (dispatch,
     }
   )
 
-  if (exchanged) {
+  if (successfulExchange && successfulExchange.logs.length) {
 
     console.log(`exchange successful`)
     const numDIDOwned = await getNumDIDByAddress(coinbase)
@@ -45,7 +45,7 @@ export const exchangeDIDForEther = ({ numDID }) => async (dispatch,
 
 
 
-  return exchanged
+  return successfulExchange
 }
 
 export const investEtherForDID = ({ numEther }) => async (dispatch,

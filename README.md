@@ -12,7 +12,7 @@
 ## Usage
 
 - `npm i`
-- `npm run start`
+- `npm start`
 
 ## License
 
