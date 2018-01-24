@@ -43,6 +43,9 @@ export default ({ children, title }) => (
           <Menu.Item to="/pullrequests" as={Link}>
             Approve
           </Menu.Item>
+          <Menu.Item to="/exchange" as={Link}>
+            Exchange
+          </Menu.Item>
           <TotalDID />
         </Container>
       </Menu>
