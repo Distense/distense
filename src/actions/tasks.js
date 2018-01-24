@@ -122,16 +122,14 @@ export const convertContractTaskToClient = (taskId, contractTask) => {
       'CONTRIBUTION'
 
   const rewardStatus = rewardStatusEnumInteger === 0 ?
-    'DEFAULT' :
-    rewardStatusEnumInteger === 1 ?
       'TENTATIVE' :
-      rewardStatusEnumInteger === 2 ?
+      rewardStatusEnumInteger === 1 ?
         'DETERMINED' :
         'PAID'
 
   const votingStatus = pctDIDVoted + `% voted\xa0\xa0\xa0` + numVotes + ' vote(s)'
 
-  const repoString = repo === 'contracts' ? 'contracts' : 'distense-ui'
+  const repoString = repo === 'distense-contracts' ? 'distense-contracts' : 'distense-ui'
 
   const issueURL = 'https://github.com/Distense/' + repoString + '/issues/' + issueNum
 
