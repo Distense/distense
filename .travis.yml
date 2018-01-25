@@ -15,7 +15,7 @@ script:
 - npm run build
 deploy:
   provider: gae
-  keyfile: distense-ui-a989f6f0ddf6.json.enc
+  keyfile: distense-ui-650ed23c0180.json.enc
   project: distense-ui
   verbosity: debug
 before_install:
