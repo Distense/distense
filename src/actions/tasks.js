@@ -14,20 +14,10 @@ import {
   REQUEST_TASKS_INSTANCE,
   RECEIVE_TASKS_INSTANCE
 } from '../constants/constants'
-import {
-  decodeTaskBytes32ToMetaData,
-  encodeTaskMetaDataToBytes32,
-  taskIdHasBeenDecoded
-} from '../utils'
+import { constructClientTask } from '../helpers/tasks/constructClientTask'
+import { encodeTaskMetaDataToBytes32 } from '../helpers/tasks/encodeTaskMetaDataToBytes32'
+import { convertIntToSolidityInt } from '../utils'
 
-
-const convertSolidityIntToInt = function (integer) {
-  return integer / 100
-}
-
-const convertIntToSolidityInt = function (integer) {
-  return integer * 100
-}
 
 const requestTasks = () => ({
   type: REQUEST_TASKS
@@ -89,68 +79,20 @@ export const fetchTasks = () => async dispatch => {
   dispatch(setDefaultStatus())
 }
 
+
 const getTaskByIndex = async index => {
 
-  let id
+  let taskId
   try {
     const { taskIds } = await contracts.Tasks
-    id = await taskIds(index)
+    taskId = await taskIds(index)
   } catch (error) {
     console.log(`getTaskByIndex error: ${getTaskByIndex}`)
   }
 
-
-  return getTaskByID(id)
+  return getTaskByID(taskId)
 }
 
-export const convertContractTaskToClient = (taskId, contractTask) => {
-
-  const title = contractTask[0]
-  const createdBy = contractTask[1]
-  const reward = convertSolidityIntToInt(contractTask[2].toNumber())
-  const rewardStatusEnumInteger = contractTask[3].toNumber()
-  const pctDIDVoted = convertSolidityIntToInt(contractTask[4].toString())
-  const numVotes = contractTask[5].toString()
-
-  const { created, tags, issueNum, repo } = decodeTaskBytes32ToMetaData(taskId)
-
-
-  const status = rewardStatusEnumInteger === 0 || rewardStatusEnumInteger === 1 ?
-    'PROPOSAL' :
-    rewardStatusEnumInteger === 2 ?
-      'TASK' :
-      'CONTRIBUTION'
-
-  const rewardStatus = rewardStatusEnumInteger === 0 ?
-      'TENTATIVE' :
-      rewardStatusEnumInteger === 1 ?
-        'DETERMINED' :
-        'PAID'
-
-  const votingStatus = pctDIDVoted + `% voted\xa0\xa0\xa0` + numVotes + ' vote(s)'
-
-  const repoString = repo === 'distense-contracts' ? 'distense-contracts' : 'distense-ui'
-
-  const issueURL = 'https://github.com/Distense/' + repoString + '/issues/' + issueNum
-
-  const decodedTaskId = taskIdHasBeenDecoded(taskId)
-
-  return Object.assign({}, { _id: decodedTaskId }, {
-    createdBy,
-    created,
-    reward,
-    rewardStatus,
-    votingStatus,
-    pctDIDVoted,
-    numVotes,
-    title,
-    issueURL,
-    repo,
-    tags,
-    status
-  })
-
-}
 export const getTaskByID = async taskId => {
 
   try {
@@ -158,7 +100,7 @@ export const getTaskByID = async taskId => {
 
     const contractTask = await getTaskById(taskId)
 
-    return convertContractTaskToClient(taskId, contractTask)
+    return constructClientTask(taskId, contractTask)
 
   } catch (error) {
     console.error(error)

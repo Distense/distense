@@ -18,7 +18,7 @@ import { getPendingTask } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
-import { tagsOptions } from '../shared'
+import { tagsOptions } from '../tagsOptions'
 
 
 class AddTask extends Component {
@@ -38,12 +38,9 @@ class AddTask extends Component {
   }
 
   onChangeTitle = ({ target: { value } }) => {
-
     //  make sure not to have any slashes for URLs
     value = value.replace('/', '')
-
     if (value.length <= 70) {
-
       this.setState({ title: value })
     }
   }

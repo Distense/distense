@@ -14,8 +14,7 @@ import { getParameters } from '../reducers/parameters'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
-import { constructParameterClientDetails } from '../shared'
-
+import { constructClientParameterDetails } from '../helpers/parameters/constructClientParameterDetails'
 
 class Parameters extends Component {
   constructor(props) {
@@ -123,7 +122,7 @@ class Parameters extends Component {
 
 const Parameter = ({ param, onClick }) => {
 
-  const p = constructParameterClientDetails(param)
+  const p = constructClientParameterDetails(param)
 
   return (
     <Card className='parameter-card-width' raised>

@@ -17,7 +17,8 @@ import {
 import { receiveUserNotAuthenticated } from './user'
 import { getTaskByID } from './tasks'
 import { setDefaultStatus, updateStatusMessage } from './status'
-import { convertSolidityIntToInt, decodeTaskBytes32ToMetaData } from '../utils'
+import { convertSolidityIntToInt } from '../utils'
+import { decodeTaskBytes32ToMetaData} from '../helpers/tasks/decodeTaskBytes32ToMetaData'
 
 const requestPullRequests = () => ({
   type: REQUEST_PULLREQUESTS
@@ -143,7 +144,7 @@ export const addPullRequest = ({ taskId, prNum }) => async (
 
   const task = await getTaskByID(taskId)
 
-  const _id = Random.hexString(14) + '-' + prNum
+  const _id = Random.hexString(10) + '-' + prNum
 
   const pullRequest = Object.assign({}, {
     _id,
@@ -158,7 +159,6 @@ export const addPullRequest = ({ taskId, prNum }) => async (
 
   dispatch(submitPullRequestAction(pullRequest))
 
-  //  Add task IPFS hash to blockchain
   const addedPullRequest = await addPullRequest(
     pullRequest._id,
     taskId, {
