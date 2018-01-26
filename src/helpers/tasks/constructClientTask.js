@@ -2,9 +2,7 @@ import { decodeTaskBytes32ToMetaData } from './decodeTaskBytes32ToMetaData'
 import { taskIdDecoded } from './taskIdDecoded'
 import { convertSolidityIntToInt } from '../../utils'
 
-
-export const constructClientTask = (taskId, contractTask)  => {
-
+export const constructClientTask = (taskId, contractTask) => {
   const title = contractTask[0]
   const createdBy = contractTask[1]
   const reward = convertSolidityIntToInt(contractTask[2].toNumber())
@@ -14,38 +12,43 @@ export const constructClientTask = (taskId, contractTask)  => {
 
   const { created, tags, issueNum, repo } = decodeTaskBytes32ToMetaData(taskId)
 
-  const status = rewardStatusEnumInteger === 0 || rewardStatusEnumInteger === 1 ?
-    'PROPOSAL' :
-    rewardStatusEnumInteger === 2 ?
-      'TASK' :
-      'CONTRIBUTION'
+  const status =
+    rewardStatusEnumInteger === 0 || rewardStatusEnumInteger === 1
+      ? 'PROPOSAL'
+      : rewardStatusEnumInteger === 2 ? 'TASK' : 'CONTRIBUTION'
 
-  const rewardStatus = rewardStatusEnumInteger === 0 ?
-    'TENTATIVE' :
-    rewardStatusEnumInteger === 1 ?
-      'DETERMINED' :
-      'PAID'
+  const rewardStatus =
+    rewardStatusEnumInteger === 0
+      ? 'TENTATIVE'
+      : rewardStatusEnumInteger === 1 ? 'DETERMINED' : 'PAID'
 
-  const votingStatus = pctDIDVoted + `% voted\xa0\xa0\xa0` + numVotes + ' vote(s)'
+  const votingStatus =
+    pctDIDVoted + `% voted\xa0\xa0\xa0` + numVotes + ' vote(s)'
 
-  const repoString = repo === 'distense-contracts' ? 'distense-contracts' : 'distense-ui'
+  const repoString =
+    repo === 'distense-contracts' ? 'distense-contracts' : 'distense-ui'
 
-  const issueURL = 'https://github.com/Distense/' + repoString + '/issues/' + issueNum
+  const issueURL =
+    'https://github.com/Distense/' + repoString + '/issues/' + issueNum
 
   const decodedTaskId = taskIdDecoded(taskId)
 
-  return Object.assign({}, { _id: decodedTaskId },
-    createdBy,
-    created,
-    reward,
-    rewardStatus,
-    votingStatus,
-    pctDIDVoted,
-    numVotes,
-    title,
-    issueURL,
-    repo,
-    tags,
-    status
+  return Object.assign(
+    {},
+    {
+      _id: decodedTaskId,
+      createdBy,
+      created,
+      reward,
+      rewardStatus,
+      votingStatus,
+      pctDIDVoted,
+      numVotes,
+      title,
+      issueURL,
+      repo,
+      tags,
+      status
+    }
   )
 }
