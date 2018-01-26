@@ -1,8 +1,8 @@
 import {
-  repoNameNumberMapping
-} from '../../constants/repoNameNumberMapping'
+  repoNameAndNumbers
+} from '../../constants/repoNameAndNumbers'
 
 
 export const getRepoNumber = repoName => {
-  return repoNameNumberMapping[repoName]
+  return repoNameAndNumbers[repoName]
 }

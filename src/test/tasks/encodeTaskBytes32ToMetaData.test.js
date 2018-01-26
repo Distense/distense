@@ -1,6 +1,6 @@
 import {
   encodeTaskMetaDataToBytes32,
-} from '../utils'
+} from '../../helpers/tasks/encodeTaskMetaDataToBytes32'
 
 
 describe('encodeTaskMetaDataToBytes32', function() {

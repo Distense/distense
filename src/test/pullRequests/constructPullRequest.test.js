@@ -1,11 +1,11 @@
 import { assert } from 'chai'
 
 import {
-  constructPullRequest
-} from '../helpers/pullRequests/constructPullRequest'
+  constructClientPullRequest
+} from '../../helpers/pullRequests/constructClientPullRequest'
 
 
-describe('constructPullRequest', function () {
+describe('constructClientPullRequest', function () {
   it('', function () {
 
 

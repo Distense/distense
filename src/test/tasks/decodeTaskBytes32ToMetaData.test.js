@@ -2,30 +2,69 @@ import { assert } from 'chai'
 
 import {
   decodeTaskBytes32ToMetaData
-} from '../helpers/tasks/decodeTaskBytes32ToMetaData'
-import { getRepoNumber } from '../helpers/tasks/getRepoNumber'
-import { FRONTEND_REPO_NAME } from '../constants/repoNames'
+} from '../../helpers/tasks/decodeTaskBytes32ToMetaData'
+import { getRepoNumber } from '../../helpers/tasks/getRepoNumber'
+import { CONTRACTS_REPO_NAME, FRONTEND_REPO_NAME } from '../../constants/repoNames'
+import { getRepoNameFromNumber } from '../../helpers/tasks/getRepoName'
 
 
-describe('decodeTaskBytes32ToMetaData', function() {
+describe('decodeTaskBytes32ToMetaData', function () {
 
-  const taskIds = [
-    '1516749224434a7b102c0',
-    '1516749448964a7b95c0',
-    '1516749704079a7b85c0'
-  ]
+  it('should properly decode a EVM task bytes32 into task metadata', function () {
 
-  for (let taskId of taskIds) {
-    it('should properly decode a EVM task bytes32 into task metadata', function (taskId) {
+    const taskId = '1516749224434a7b102c0'
+    const repo = getRepoNameFromNumber('0')
+    const expected = {
+      created: new Date(taskId.slice(0, 10) * 1000),
+      tags: ['Frontend'],
+      repo: getRepoNameFromNumber('0'),
+      issueNum: '102'
+    }
+    const actual = decodeTaskBytes32ToMetaData(taskId)
+    assert.deepEqual(expected, actual, `returned value doesn't match`)
 
-      console.log(`${taskId}`)
-      const expected = {
-        created: '1516749224434',
-        tags: 'Frontend',
-        repo: getRepoNumber(FRONTEND_REPO_NAME)
-      }
-      const actual = decodeTaskBytes32ToMetaData(taskId)
-      assert.equal(expected, actual)
-    })
-  }
+  })
+
+  it('should properly decode a EVM task bytes32 into task metadata', function () {
+
+    const taskId = '1516749448964a7b95c0'
+    const expected = {
+      created: new Date(taskId.slice(0, 10) * 1000),
+      tags: ['Frontend'],
+      repo: getRepoNameFromNumber('0'),
+      issueNum: '95'
+    }
+    const actual = decodeTaskBytes32ToMetaData(taskId)
+    assert.deepEqual(expected, actual)
+
+  })
+
+  it('should properly decode a EVM task bytes32 into task metadata', function () {
+
+    const taskId = '1516749704079a7b85c1'
+    const expected = {
+      created: new Date(taskId.slice(0, 10) * 1000),
+      tags: ['Frontend'],
+      repo: getRepoNameFromNumber('1'),
+      issueNum: '85'
+    }
+    const actual = decodeTaskBytes32ToMetaData(taskId)
+    assert.deepEqual(expected, actual)
+
+  })
+
+  it('should properly decode a EVM task bytes32 into task metadata', function () {
+
+    const taskId = '1516749704321a7b85c1'
+    const expected = {
+      created: new Date(taskId.slice(0, 10) * 1000),
+      tags: ['Frontend'],
+      repo: getRepoNameFromNumber('1'),
+      issueNum: '85'
+    }
+    const actual = decodeTaskBytes32ToMetaData(taskId)
+    assert.deepEqual(expected, actual)
+
+  })
+
 })

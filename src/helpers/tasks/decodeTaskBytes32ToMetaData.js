@@ -2,6 +2,7 @@ import _ from 'lodash'
 
 import { tagsOptions } from '../../tagsOptions'
 import { taskIdDecoded } from './taskIdDecoded'
+import { getRepoNameFromNumber } from './getRepoName'
 
 
 export const decodeTaskBytes32ToMetaData = taskId => {
@@ -23,13 +24,20 @@ export const decodeTaskBytes32ToMetaData = taskId => {
 
   const repoIndex = decodedTaskId.indexOf('c')
   const issueNum = decodedTaskId.slice(decodedTaskId.indexOf('b') + 1, repoIndex)
-  const repo = decodedTaskId.slice(repoIndex + 1) === '0' ? 'distense-ui' : 'contracts'
+  const repo = getRepoNameFromNumber(decodedTaskId.slice(repoIndex + 1))
 
-  return {
+  console.log(`${created}`)
+  console.log(`${repo}`)
+  console.log(`${issueNum}`)
+  console.log(`tags: ${tags}`)
+
+  const metadata = {
     created,
     tags,
     repo,
     issueNum
   }
+
+  return metadata
 
 }
