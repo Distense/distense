@@ -2,18 +2,18 @@ sudo: false
 language: node_js
 branches:
   only:
-  - master
-  - dev
+    - master
+    - dev
 node_js:
-- '8'
+  - '8'
 cache:
   directories:
   - node_modules
 before_script:
-- npm install
-- npm test
+  - npm install
+  - npm test
 script:
-- npm run build
+  - npm run build
 deploy:
   provider: gae
   keyfile: distense-ui-650ed23c0180.json.enc
@@ -21,7 +21,8 @@ deploy:
   default: true
   skip_cleanup: true
   verbosity: debug
-  - gcloud auth activate-service-account --key-file distense-ui-650ed23c0180.json
 before_install:
-- openssl aes-256-cbc -K $encrypted_54eebe5abc9c_key -iv $encrypted_54eebe5abc9c_iv
-  -in distense-ui-650ed23c0180.json.enc -out distense-ui-650ed23c0180.json -d
+  - openssl aes-256-cbc -K $encrypted_54eebe5abc9c_key -iv $encrypted_54eebe5abc9c_iv
+    -in distense-ui-650ed23c0180.json.enc -out distense-ui-650ed23c0180.json -d
+  - if [ -a distense-ui-650ed23c0180.json ]; then
+      gcloud auth activate-service-account --key-file distense-ui-650ed23c0180.json
