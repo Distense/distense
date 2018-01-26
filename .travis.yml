@@ -24,4 +24,6 @@ deploy:
 before_install:
   - openssl aes-256-cbc -K $encrypted_54eebe5abc9c_key -iv $encrypted_54eebe5abc9c_iv
     -in distense-ui-650ed23c0180.json.enc -out distense-ui-650ed23c0180.json -d
-    
+  - if [ -a distense-ui-650ed23c0180.json ]; then
+      gcloud auth activate-service-account distense-ui --key-file distense-ui-650ed23c0180.json
+    fi
