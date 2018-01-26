@@ -11,6 +11,7 @@ cache:
   - node_modules
 before_script:
 - npm install
+- npm test
 script:
 - npm run build
 deploy:
