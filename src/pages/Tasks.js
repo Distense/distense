@@ -11,7 +11,6 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
 
-
 class Tasks extends Component {
   constructor(props) {
     super(props)
@@ -130,13 +129,17 @@ class Tasks extends Component {
 const TasksListItem = ({ task }) => (
   <Table.Row key={task._id}>
     <Table.Cell>
-      <Link to={`/tasks/${task.title.split(' ').join('-')}/${task._id}`}>{task.title}</Link>
+      <Link to={`/tasks/${task.title.split(' ').join('-')}/${task._id}`}>
+        {task.title}
+      </Link>
     </Table.Cell>
     <Table.Cell singleLine>
       <Tags tags={task.tags} />
     </Table.Cell>
     <Table.Cell>{task.status}</Table.Cell>
-    <Table.Cell>{task.reward} ({task.rewardStatus})</Table.Cell>
+    <Table.Cell>
+      {task.reward} ({task.rewardStatus})
+    </Table.Cell>
     <Table.Cell>{task.votingStatus}</Table.Cell>
     <Table.Cell collapsing textAlign="right">
       {task.created && task.created.toDateString()}

@@ -18,7 +18,6 @@ import { constructClientTask } from '../helpers/tasks/constructClientTask'
 import { encodeTaskMetaDataToBytes32 } from '../helpers/tasks/encodeTaskMetaDataToBytes32'
 import { convertIntToSolidityInt } from '../utils'
 
-
 const requestTasks = () => ({
   type: REQUEST_TASKS
 })
@@ -61,9 +60,7 @@ const submitTask = task => ({
   task
 })
 
-
 export const fetchTasks = () => async dispatch => {
-
   // Have to get numTasks from chain to know how many to query by index
   dispatch(requestTasksInstance())
   const { getNumTasks } = await contracts.Tasks
@@ -79,9 +76,7 @@ export const fetchTasks = () => async dispatch => {
   dispatch(setDefaultStatus())
 }
 
-
 const getTaskByIndex = async index => {
-
   let taskId
   try {
     const { taskIds } = await contracts.Tasks
@@ -94,18 +89,15 @@ const getTaskByIndex = async index => {
 }
 
 export const getTaskByID = async taskId => {
-
   try {
     const { getTaskById } = await contracts.Tasks
 
     const contractTask = await getTaskById(taskId)
 
     return constructClientTask(taskId, contractTask)
-
   } catch (error) {
     console.error(error)
   }
-
 }
 
 export const fetchTask = id => async dispatch => {
@@ -115,8 +107,10 @@ export const fetchTask = id => async dispatch => {
   dispatch(setDefaultStatus())
 }
 
-export const addTask = ({ title, tagsString, issueNum, repo }) => async (dispatch,
-                                                                         getState) => {
+export const addTask = ({ title, tagsString, issueNum, repo }) => async (
+  dispatch,
+  getState
+) => {
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
@@ -140,13 +134,9 @@ export const addTask = ({ title, tagsString, issueNum, repo }) => async (dispatc
   originalTask._id = encodedTaskId
   dispatch(submitTask(originalTask))
 
-  const addedTask = await addTask(
-    encodedTaskId,
-    title,
-    {
-      from: coinbase
-    }
-  )
+  const addedTask = await addTask(encodedTaskId, title, {
+    from: coinbase
+  })
 
   if (addedTask) console.log(`blockchain/contact addTask() successful`)
   else console.log(`FAILED to add task`)
@@ -157,10 +147,10 @@ export const addTask = ({ title, tagsString, issueNum, repo }) => async (dispatc
   return originalTask
 }
 
-
-export const voteOnTaskReward = ({ taskId, reward }) => async (dispatch,
-                                                               getState) => {
-
+export const voteOnTaskReward = ({ taskId, reward }) => async (
+  dispatch,
+  getState
+) => {
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
@@ -175,20 +165,16 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (dispatch,
 
   let receipt
   if (taskId && reward) {
-
-    receipt = await taskRewardVote(
-      taskId,
-      convertIntToSolidityInt(reward), {
-        from: coinbase,
-        gasPrice: 3000000000  // TODO use ethgasstation for this
-      })
+    receipt = await taskRewardVote(taskId, convertIntToSolidityInt(reward), {
+      from: coinbase,
+      gasPrice: 3000000000 // TODO use ethgasstation for this
+    })
 
     if (receipt) console.log(`got tx receipt`)
     if (receipt.tx) {
       console.log(`vote on task reward success`)
       updateStatusMessage('task reward vote confirmed')
-    }
-    else console.error(`vote on task reward ERROR`)
+    } else console.error(`vote on task reward ERROR`)
   }
 
   dispatch(setDefaultStatus())
