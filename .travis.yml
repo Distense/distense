@@ -26,3 +26,5 @@ before_install:
     -in distense-ui-650ed23c0180.json.enc -out distense-ui-650ed23c0180.json -d
   - if [ -a distense-ui-650ed23c0180.json ]; then
       gcloud auth activate-service-account --key-file distense-ui-650ed23c0180.json
+    fi
+  - gcloud config set project
