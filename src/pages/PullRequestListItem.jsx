@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { Button, Table } from 'semantic-ui-react'
 import { PAID } from '../constants/rewardStatuses'
 
@@ -13,28 +12,25 @@ class PullRequestsListItem extends Component {
     super(props)
     this.state = {
       pr: this.props.pullRequest,
-      approveText: this.props.pullRequest.status === 'PAID' ? 'Approved' : 'Approve'
+      approveText:
+        this.props.pullRequest.status === 'PAID' ? 'Approved' : 'Approve',
+      approveButtonDisabled: false
     }
     this.onClickApprove = this.onClickApprove.bind(this)
   }
 
-  onClickApprove = async (event) => {
+  onClickApprove = async event => {
     event.preventDefault()
 
     this.setState({
-      approveText: 'Approving PR'
+      approveText: 'Approving PR',
+      approveButtonDisabled: true
     })
 
     this.props.approvePullRequest(this.state.pr._id)
-
   }
 
-  componentWillUnmount() {
-    clearTimeout(this.approveTextTimeout)
-  }
-
-  render () {
-
+  render() {
     const { approveText, pr } = this.state
 
     let approveButtonColor
@@ -51,11 +47,9 @@ class PullRequestsListItem extends Component {
       <Table.Row key={pr._id}>
         <Table.Cell>{pr.taskTitle}</Table.Cell>
         <Table.Cell>
-          <Tags tags={pr.tags}/>
+          <Tags tags={pr.tags} />
         </Table.Cell>
-        <Table.Cell>
-          {pr.status}
-        </Table.Cell>
+        <Table.Cell>{pr.status}</Table.Cell>
         <Table.Cell>{pr.pctDIDApproved}</Table.Cell>
         <Table.Cell>{pr.taskReward}</Table.Cell>
         <Table.Cell>
@@ -68,7 +62,7 @@ class PullRequestsListItem extends Component {
             disabled={approveButtonDisabled}
             size="mini"
             pr={pr}
-            onClick={(e) => this.onClickApprove(e, pr)}
+            onClick={e => this.onClickApprove(e, pr)}
           >
             {approveText}
           </Button>
@@ -81,8 +75,7 @@ class PullRequestsListItem extends Component {
             fluid={true}
             size="mini"
             target="_blank"
-            to={`http:${pr.url}`}
-            as={Link}
+            href={`${pr.url}`}
           >
             Review PR
           </Button>
@@ -90,14 +83,14 @@ class PullRequestsListItem extends Component {
       </Table.Row>
     )
   }
-
 }
 
-const mapStateToProps = state => ({
-})
+const mapStateToProps = state => ({})
 
 const mapDispatchToProps = dispatch => ({
   approvePullRequest: task => dispatch(approvePullRequest(task))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PullRequestsListItem)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  PullRequestsListItem
+)

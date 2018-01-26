@@ -12,14 +12,13 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import PullRequestListItem from '../pages/PullRequestListItem'
 
-
 class PullRequests extends Component {
   constructor(props) {
     super(props)
     this.state = {
       column: null,
       loading: true,
-      pullRequests: [],
+      pullRequests: this.props.pullRequests || [],
       direction: null
     }
     this.handleSort = this.handleSort.bind(this)
@@ -38,7 +37,8 @@ class PullRequests extends Component {
       if (TheFinalCountdown <= 0)
         this.setState({
           loading: false,
-          pullRequests: this.props.pullRequests.length > 0 ? this.props.pullRequests : []
+          pullRequests:
+            this.props.pullRequests.length > 0 ? this.props.pullRequests : []
         })
     }, lightYearsToGo)
   }
@@ -70,7 +70,7 @@ class PullRequests extends Component {
 
     return (
       <Layout>
-        <Head title="Reviewable Pull Requests"/>
+        <Head title="Reviewable Pull Requests" />
         <Table sortable striped>
           <Table.Header>
             <Table.Row>
@@ -129,16 +129,16 @@ class PullRequests extends Component {
             ) : loading ? (
               <Table.Cell as="tr">
                 <Table.Cell>Loading pull requests...</Table.Cell>
-                <Table.Cell/>
-                <Table.Cell/>
-                <Table.Cell/>
+                <Table.Cell />
+                <Table.Cell />
+                <Table.Cell />
               </Table.Cell>
             ) : (
               <Table.Cell as="tr">
                 <Table.Cell>No pull requests</Table.Cell>
-                <Table.Cell/>
-                <Table.Cell/>
-                <Table.Cell/>
+                <Table.Cell />
+                <Table.Cell />
+                <Table.Cell />
               </Table.Cell>
             )}
           </Table.Body>
@@ -147,7 +147,6 @@ class PullRequests extends Component {
     )
   }
 }
-
 
 const mapStateToProps = state => ({
   pullRequests: getAllPullRequests(state),

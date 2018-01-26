@@ -18,7 +18,7 @@ import { receiveUserNotAuthenticated } from './user'
 import { getTaskByID } from './tasks'
 import { setDefaultStatus, updateStatusMessage } from './status'
 import { convertSolidityIntToInt } from '../utils'
-import { decodeTaskBytes32ToMetaData} from '../helpers/tasks/decodeTaskBytes32ToMetaData'
+import { decodeTaskBytes32ToMetaData } from '../helpers/tasks/decodeTaskBytes32ToMetaData'
 
 const requestPullRequests = () => ({
   type: REQUEST_PULLREQUESTS
@@ -64,7 +64,6 @@ const getPullRequestByIndex = async index => {
 }
 
 const getPullRequestById = async prId => {
-
   const { getPullRequestById } = await contracts.PullRequests
 
   const contractPR = await getPullRequestById(prId)
@@ -117,19 +116,16 @@ export const fetchPullRequests = () => async dispatch => {
   dispatch(setDefaultStatus())
 }
 
-
-export const fetchPullRequest = id => async (dispatch) => {
+export const fetchPullRequest = id => async dispatch => {
   dispatch(requestPullRequest(id))
   const pullRequest = await getPullRequestById(id)
   dispatch(receivePullRequest(pullRequest))
 }
 
-
 export const addPullRequest = ({ taskId, prNum }) => async (
   dispatch,
   getState
 ) => {
-
   taskId = taskId.replace(/\0/g, '')
   dispatch(requestPullRequestsInstance())
   const { addPullRequest } = await contracts.PullRequests
@@ -146,22 +142,23 @@ export const addPullRequest = ({ taskId, prNum }) => async (
 
   const _id = Random.hexString(10) + '-' + prNum
 
-  const pullRequest = Object.assign({}, {
-    _id,
-    taskId, // id of task one is submitting pull request for
-    prNum, // url pointing to Github pr of completed work
-    createdAt: new Date(),
-    createdBy: coinbase,
-    taskTitle: task && task.title ? task.title : 'not available',
-    tags: task && task.tags ? task.tags : [],
-    taskReward: task && task.reward
-  })
+  const pullRequest = Object.assign(
+    {},
+    {
+      _id,
+      taskId, // id of task one is submitting pull request for
+      prNum, // url pointing to Github pr of completed work
+      createdAt: new Date(),
+      createdBy: coinbase,
+      taskTitle: task && task.title ? task.title : 'not available',
+      tags: task && task.tags ? task.tags : [],
+      taskReward: task && task.reward
+    }
+  )
 
   dispatch(submitPullRequestAction(pullRequest))
 
-  const addedPullRequest = await addPullRequest(
-    pullRequest._id,
-    taskId, {
+  const addedPullRequest = await addPullRequest(pullRequest._id, taskId, {
     from: coinbase,
     gasPrice: 3000000000
   })
@@ -173,38 +170,30 @@ export const addPullRequest = ({ taskId, prNum }) => async (
   return pullRequest
 }
 
-
 export const approvePullRequest = prId => async (dispatch, getState) => {
-
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
     return
   }
-  const { approvePullRequest } = await contracts.PullRequests// Get contract function from Tasks contract instance
+  const { approvePullRequest } = await contracts.PullRequests // Get contract function from Tasks contract instance
 
   updateStatusMessage('approving pull request')
 
   let receipt
 
-    console.log(`approving pr: ${prId}`)
+  receipt = await approvePullRequest(prId, {
+    from: coinbase,
+    gasPrice: 3000000000 // TODO use ethgasstation for this
+  })
 
-    receipt = await approvePullRequest(
-      prId, {
-      from: coinbase,
-      gasPrice: 3000000000  // TODO use ethgasstation for this
-    })
-
-    if (receipt) console.log(`got tx receipt`)
-    if (receipt.tx) {
-      console.log(`vote on task reward success`)
-      updateStatusMessage('approve pullRequest confirmed')
-    }
-    else console.error(`vote on task reward ERROR`)
-
+  if (receipt) console.log(`got tx receipt`)
+  if (receipt.tx) {
+    console.log(`vote on task reward success`)
+    updateStatusMessage('approve pullRequest confirmed')
+  } else console.error(`vote on task reward ERROR`)
 
   dispatch(setDefaultStatus())
 
   return receipt
 }
-
