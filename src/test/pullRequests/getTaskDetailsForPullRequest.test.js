@@ -1,18 +1,37 @@
+import chai from 'chai'
 import { assert } from 'chai'
+import chaiJestDiff from 'chai-jest-diff'
 
-import { TENTATIVE } from '../../constants/rewardStatuses'
+chai.use(chaiJestDiff())
+
 import { getTaskDetailsForPullRequest } from '../../helpers/pullRequests/getTaskDetailsForPullRequest'
 
 describe('getTaskDetailsForPullRequest', () => {
   it('should properly create task details for pull requests', () => {
     const taskId = '1516749224434a3b102c1'
     const expected = {
-      created: '1516749224434',
       repoName: 'distense-contracts',
-      tags: ['Education'],
-      issueNum: '102'
+      tags: ['Frontend']
     }
     const actual = getTaskDetailsForPullRequest(taskId)
-    assert.equal(actual, expected, 'problem with getTaskDetailsForPullRequest')
+    assert.deepEqual(
+      actual,
+      expected,
+      'problem with getTaskDetailsForPullRequest: 1516749224434a3b102c1'
+    )
+  })
+
+  it('should properly create task details for pull requests', () => {
+    const taskId = '1516749224434a2b102c0'
+    const expected = {
+      repoName: 'distense-ui',
+      tags: ['Design']
+    }
+    const actual = getTaskDetailsForPullRequest(taskId)
+    assert.deepEqual(
+      actual,
+      expected,
+      'problem with getTaskDetailsForPullRequest: 1516749224434a3b102c1'
+    )
   })
 })

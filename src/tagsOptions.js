@@ -7,6 +7,5 @@ export const tagsOptions = [
   { text: 'Parameters', value: 'param', key: 'param', num: '5' },
   { text: 'Planning', value: 'plan', key: 'plan', num: '6' },
   { text: 'React', value: 'react', key: 'react', num: '7' },
-  { text: 'Security', value: 'sec', key: 'sec', num: '8' },
-  { text: 'Solidity', value: 'sol', key: 'sol', num: '9' }
+  { text: 'Security', value: 'sec', key: 'sec', num: '8' }
 ]

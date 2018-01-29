@@ -4,10 +4,10 @@ import chaiJestDiff from 'chai-jest-diff'
 
 chai.use(chaiJestDiff())
 
-import { constructClientPullRequest } from '../../helpers/pullRequests/constructContractPullRequest'
+import { constructPullRequestFromContractDetails } from '../../helpers/pullRequests/constructPullRequestFromContractDetails.js'
 import { FRONTEND_REPO_NAME } from '../../constants/repoNames'
 
-describe('constructContractPullRequest', function() {
+describe('constructPullRequestFromContractDetails', function() {
   it('should properly construct client pullRequests', async function() {
     const prId = '12349871234'
     const contractTask = [
@@ -25,7 +25,7 @@ describe('constructContractPullRequest', function() {
       prNum: '4321'
     }
 
-    const actual = constructClientPullRequest(prId, contractTask)
+    const actual = constructPullRequestFromContractDetails(prId, contractTask)
 
     assert.deepEqual(actual, expected, 'fail fail fail')
   })

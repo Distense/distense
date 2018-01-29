@@ -1,4 +1,8 @@
 import { assert } from 'chai'
+import chai from 'chai'
+import chaiJestDiff from 'chai-jest-diff'
+
+chai.use(chaiJestDiff())
 
 import { decodeTaskBytes32ToMetaData } from '../../helpers/tasks/decodeTaskBytes32ToMetaData'
 import { getRepoNameFromNumber } from '../../helpers/tasks/getRepoName'
@@ -9,8 +13,8 @@ describe('decodeTaskBytes32ToMetaData', function() {
     const repo = getRepoNameFromNumber('0')
     const expected = {
       created: new Date(taskId.slice(0, 10) * 1000),
-      tags: ['Frontend'],
-      repo: getRepoNameFromNumber('0'),
+      tags: ['React'],
+      repoName: getRepoNameFromNumber('0'),
       issueNum: '102'
     }
     const actual = decodeTaskBytes32ToMetaData(taskId)
@@ -18,11 +22,11 @@ describe('decodeTaskBytes32ToMetaData', function() {
   })
 
   it('should properly decode a EVM task bytes32 into task metadata', function() {
-    const taskId = '1516749448964a7b95c0'
+    const taskId = '1516749448964a8b95c0'
     const expected = {
       created: new Date(taskId.slice(0, 10) * 1000),
-      tags: ['Frontend'],
-      repo: getRepoNameFromNumber('0'),
+      tags: ['Security'],
+      repoName: getRepoNameFromNumber('0'),
       issueNum: '95'
     }
     const actual = decodeTaskBytes32ToMetaData(taskId)
@@ -33,8 +37,8 @@ describe('decodeTaskBytes32ToMetaData', function() {
     const taskId = '1516749704079a7b85c1'
     const expected = {
       created: new Date(taskId.slice(0, 10) * 1000),
-      tags: ['Frontend'],
-      repo: getRepoNameFromNumber('1'),
+      tags: ['React'],
+      repoName: getRepoNameFromNumber('1'),
       issueNum: '85'
     }
     const actual = decodeTaskBytes32ToMetaData(taskId)
@@ -42,11 +46,11 @@ describe('decodeTaskBytes32ToMetaData', function() {
   })
 
   it('should properly decode a EVM task bytes32 into task metadata', function() {
-    const taskId = '1516749704321a7b85c1'
+    const taskId = '1516749704321a6b85c1'
     const expected = {
       created: new Date(taskId.slice(0, 10) * 1000),
-      tags: ['Frontend'],
-      repo: getRepoNameFromNumber('1'),
+      tags: ['Planning'],
+      repoName: getRepoNameFromNumber('1'),
       issueNum: '85'
     }
     const actual = decodeTaskBytes32ToMetaData(taskId)
