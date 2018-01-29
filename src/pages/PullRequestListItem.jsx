@@ -13,7 +13,7 @@ class PullRequestsListItem extends Component {
     this.state = {
       pr: this.props.pullRequest,
       approveText:
-        this.props.pullRequest.status === 'PAID' ? 'Approved' : 'Approve',
+        this.props.pullRequest.status === 'PAID' ? 'Approved' : 'Approve ',
       approveButtonDisabled: false
     }
     this.onClickApprove = this.onClickApprove.bind(this)

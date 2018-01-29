@@ -18,8 +18,6 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
 
-
-
 class Task extends Component {
   constructor(props) {
     super(props)
@@ -70,12 +68,12 @@ class Task extends Component {
     const { redirect, reward } = this.state
 
     if (redirect) {
-      return <Redirect to="/tasks"/>
+      return <Redirect to="/tasks" />
     }
 
     return (
       <Layout>
-        <Head title="Task"/>
+        <Head title="Task" />
         <div className="task">
           {task ? (
             <Grid divided="vertically">
@@ -83,11 +81,9 @@ class Task extends Component {
                 <Grid.Column>
                   <Item>
                     <Item.Content>
-                      <Header as="h2">
-                        {task.title}
-                      </Header>
+                      <Header as="h2">{task.title}</Header>
                       <Item.Description>
-                        Tags: <Tags tags={task.tags}/>
+                        Tags: <Tags tags={task.tags} />
                       </Item.Description>
                       <Item.Description>
                         Issue URL:
@@ -132,12 +128,12 @@ class Task extends Component {
 }
 
 const TaskRewardInput = ({
-                           disabled,
-                           max,
-                           reward,
-                           onSubmitReward,
-                           onChangeReward
-                         }) => (
+  disabled,
+  max,
+  reward,
+  onSubmitReward,
+  onChangeReward
+}) => (
   <Message>
     <Form onSubmit={event => onSubmitReward(event)}>
       <Form.Field required>
@@ -169,7 +165,8 @@ const mapStateToProps = (state, { match: { params: { id } } }) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchTask: id => dispatch(fetchTask(id)),
-  voteOnTaskReward: (taskId, reward) => dispatch(voteOnTaskReward(taskId, reward))
+  voteOnTaskReward: (taskId, reward) =>
+    dispatch(voteOnTaskReward(taskId, reward))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task)

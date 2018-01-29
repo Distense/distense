@@ -303,7 +303,6 @@ class Home extends Component {
 
         {/*language=CSS*/}
         <style global jsx>{`
-
           .footer-email-subscribe {
             width: 50% !important;
           }

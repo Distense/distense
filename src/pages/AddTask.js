@@ -20,7 +20,6 @@ import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import { tagsOptions } from '../tagsOptions'
 
-
 class AddTask extends Component {
   constructor(props) {
     super(props)
@@ -34,7 +33,6 @@ class AddTask extends Component {
 
     this.onChangeRepo = this.onChangeRepo.bind(this)
     this.onChangeTags = this.onChangeTags.bind(this)
-
   }
 
   onChangeTitle = ({ target: { value } }) => {
@@ -82,18 +80,15 @@ class AddTask extends Component {
   render() {
     const { title, tags, issueNum, repo, redirect } = this.state
 
-
-    if (redirect) return <Redirect to="/tasks"/>
+    if (redirect) return <Redirect to="/tasks" />
 
     return (
       <Layout>
-        <Head title="Add Task"/>
+        <Head title="Add Task" />
         <Grid>
           <Grid.Row>
             <Grid.Column>
-            <Header as="h1">
-              Propose
-            </Header>
+              <Header as="h1">Propose</Header>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -140,13 +135,18 @@ class AddTask extends Component {
                   <Dropdown
                     fluid
                     onChange={this.onChangeRepo}
-                    options={[{
-                      key: 'ui', value: 'ui', text: 'UI'
-                    }, {
-                      key: 'contracts', value: 'contracts', text: 'Contracts'
-                    }
-                    ]
-                    }
+                    options={[
+                      {
+                        key: 'ui',
+                        value: 'ui',
+                        text: 'UI'
+                      },
+                      {
+                        key: 'contracts',
+                        value: 'contracts',
+                        text: 'Contracts'
+                      }
+                    ]}
                     placeholder="Repo"
                     search
                     selection
@@ -160,18 +160,22 @@ class AddTask extends Component {
           <Grid.Row>
             <Grid.Column width={16}>
               <Message>
-                <Message.Header>
-                  Rules
-                </Message.Header>
+                <Message.Header>Rules</Message.Header>
                 <List bulleted>
                   <List.Item>
-                    You must own at least 100 DID to propose. This number changes according to the <Link to='/parameters'>proposalPctDIDToApprove</Link> parameter
+                    You must own at least 100 DID to propose. This number
+                    changes according to the{' '}
+                    <Link to="/parameters">proposalPctDIDToApprove</Link>{' '}
+                    parameter
                   </List.Item>
                   <List.Item>
-                    Your proposal can be anything, it doesn't necessarily have to be <em>work</em>.
+                    Your proposal can be anything, it doesn't necessarily have
+                    to be <em>work</em>.
                   </List.Item>
                   <List.Item>
-                    Remember that when you propose, it is likely that DID will be issued for the completion of the task. The fewer DID the better.
+                    Remember that when you propose, it is likely that DID will
+                    be issued for the completion of the task. The fewer DID the
+                    better.
                   </List.Item>
                 </List>
               </Message>
@@ -180,15 +184,15 @@ class AddTask extends Component {
           <Grid.Row>
             <Grid.Column width={8}>
               <Message>
-                <Message.Header>
-                  Github Issue Number
-                </Message.Header>
+                <Message.Header>Github Issue Number</Message.Header>
                 <List bulleted>
                   <List.Item>
-                    Create an issue in the appropriate Github repository to determine the Github issue number
+                    Create an issue in the appropriate Github repository to
+                    determine the Github issue number
                   </List.Item>
                   <List.Item>
-                    Your proposal can be anything, it doesn't necessarily have to be <em>work</em>.
+                    Your proposal can be anything, it doesn't necessarily have
+                    to be <em>work</em>.
                   </List.Item>
                   <List.Item>
                     Discussion will happen on Github in the issue you create
@@ -198,33 +202,29 @@ class AddTask extends Component {
             </Grid.Column>
             <Grid.Column width={8}>
               <Message>
-                <Message.Header>
-                  Title
-                </Message.Header>
+                <Message.Header>Title</Message.Header>
                 <List bulleted>
+                  <List.Item>Enter the title of your task/proposal</List.Item>
                   <List.Item>
-                    Enter the title of your task/proposal
+                    Limit the length of the title: the more characters the more
+                    gas it will cost you :)
                   </List.Item>
                   <List.Item>
-                    Limit the length of the title: the more characters the more gas it will cost you :)
+                    Example: 'Build this amazing new dapp that will change the
+                    world'
                   </List.Item>
                   <List.Item>
-                    Example: 'Build this amazing new dapp that will change the world'
-                  </List.Item>
-                  <List.Item>
-                    People will like you more if you enter the same exact title as your Github issue
+                    People will like you more if you enter the same exact title
+                    as your Github issue
                   </List.Item>
                 </List>
               </Message>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-
             <Grid.Column width={8}>
               <Message>
-                <Message.Header>
-                  Tags
-                </Message.Header>
+                <Message.Header>Tags</Message.Header>
                 <List bulleted>
                   <List.Item>
                     Select the category of proposal you're making
@@ -237,15 +237,12 @@ class AddTask extends Component {
             </Grid.Column>
             <Grid.Column width={8}>
               <Message>
-                <Message.Header>
-                  Repo
-                </Message.Header>
+                <Message.Header>Repo</Message.Header>
                 <List bulleted>
+                  <List.Item>Choose the one that best fits</List.Item>
                   <List.Item>
-                    Choose the one that best fits
-                  </List.Item>
-                  <List.Item>
-                    TODO decide on whether to have general purpose repo (probably)
+                    TODO decide on whether to have general purpose repo
+                    (probably)
                   </List.Item>
                 </List>
               </Message>

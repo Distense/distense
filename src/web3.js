@@ -1,7 +1,6 @@
 import Web3 from 'web3'
 import contract from 'truffle-contract'
 
-
 //  If https://disten.se version this will connect to node running on same machine
 let provider = new Web3.providers.HttpProvider('https://rinkeby.disten.se')
 //  If can't connect on 127.0.0.1:4000 likely running locally, check for local node
@@ -17,7 +16,6 @@ const web3 = new Web3(provider)
 
 export default web3
 
-
 export const selectContractInstance = contractBuild => {
   return new Promise(resolve => {
     const myContract = contract(contractBuild)
@@ -30,18 +28,17 @@ export const selectContractInstance = contractBuild => {
 }
 
 export const PromisifyWeb3 = web3 => {
-  const callbackToResolve = function (resolve, reject) {
-    return function (error, value) {
+  const callbackToResolve = function(resolve, reject) {
+    return function(error, value) {
       if (error) {
         reject(error)
-      }
-      else {
+      } else {
         resolve(value)
       }
     }
   }
 
-// List synchronous functions masquerading as values.
+  // List synchronous functions masquerading as values.
   const syncGetters = {
     db: [],
     eth: [
@@ -60,15 +57,14 @@ export const PromisifyWeb3 = web3 => {
     version: ['ethereum', 'network', 'node', 'whisper']
   }
 
-  Object.keys(syncGetters).forEach(function (group) {
-    Object.keys(web3[group]).forEach(function (method) {
+  Object.keys(syncGetters).forEach(function(group) {
+    Object.keys(web3[group]).forEach(function(method) {
       if (syncGetters[group].indexOf(method) > -1) {
         // Skip
-      }
-      else if (typeof web3[group][method] === 'function') {
-        web3[group][method + 'Promise'] = function () {
+      } else if (typeof web3[group][method] === 'function') {
+        web3[group][method + 'Promise'] = function() {
           const args = arguments
-          return new Promise(function (resolve, reject) {
+          return new Promise(function(resolve, reject) {
             args[args.length] = callbackToResolve(resolve, reject)
             args.length++
             web3[group][method].apply(web3[group], args)

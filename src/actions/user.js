@@ -7,7 +7,7 @@ import {
   RECEIVE_HAS_WEB3,
   RECEIVE_IS_CONNECTED,
   RECEIVE_USER_NOT_AUTHENTICATED,
-  RECEIVE_USER_NUM_DID,
+  RECEIVE_USER_NUM_DID
 } from '../constants/constants'
 
 import { setDefaultStatus } from './status'
@@ -45,7 +45,7 @@ export const selectUserAccountInfo = () => async dispatch => {
   if (hasWeb3) {
     isConnected = web3.isConnected()
     if (isConnected) {
-      console.log(`web3: isConnected`);
+      console.log(`web3: isConnected`)
       const accounts = web3.eth.accounts
       if (accounts.length) {
         dispatch(receiveAccountAction(accounts[0]))

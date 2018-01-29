@@ -10,7 +10,6 @@ import DistenseArtifacts from 'distense-contracts/build/contracts/Distense.json'
 import PullRequestsArtifacts from 'distense-contracts/build/contracts/PullRequests.json'
 import TasksArtifacts from 'distense-contracts/build/contracts/Tasks.json'
 
-
 const receiveNewContractEvent = event => ({
   type: RECEIVE_EVENT,
   event
@@ -20,11 +19,11 @@ export const getContractEvents = () => async dispatch => {
   //  network id; 5777/9000 is private testnet; 1 is mainnet, others are testnets
 
   if (web3 && web3.version && web3.version.network) {
-
     const network = web3.version.network
 
-    const didTokenAddress = DidTokenArtifacts.networks[network] && DidTokenArtifacts.networks[network].address
-
+    const didTokenAddress =
+      DidTokenArtifacts.networks[network] &&
+      DidTokenArtifacts.networks[network].address
 
     if (didTokenAddress) {
       const didTokenEvents = getContractEventsNamesAndHashs(DidTokenArtifacts)
@@ -37,17 +36,20 @@ export const getContractEvents = () => async dispatch => {
       didTokenFilter.watch((error, result) => {
         if (error) console.log(`didTokenFilter error ${error}`)
         if (result) {
-          const event = constructIssueDIDEvent('DIDToken', didTokenEvents, result)
+          const event = constructIssueDIDEvent(
+            'DIDToken',
+            didTokenEvents,
+            result
+          )
           dispatch(receiveNewContractEvent(event))
           dispatch(setDefaultStatus())
         }
       })
-    }
+    } else console.log(`didTokenAddress doesn't exist for network: ${network}`)
 
-
-    else console.log(`didTokenAddress doesn't exist for network: ${network}`)
-
-    const tasksAddress = TasksArtifacts.networks[network] && TasksArtifacts.networks[network].address
+    const tasksAddress =
+      TasksArtifacts.networks[network] &&
+      TasksArtifacts.networks[network].address
     if (tasksAddress) {
       const tasksEvents = getContractEventsNamesAndHashs(TasksArtifacts)
       const tasksFilter = web3.eth.filter({
@@ -66,9 +68,9 @@ export const getContractEvents = () => async dispatch => {
       })
     } else console.log(`tasksAddress doesn't exist for network: ${network}`)
 
-
-
-    const distenseAddress = DistenseArtifacts.networks[network] && DistenseArtifacts.networks[network].address
+    const distenseAddress =
+      DistenseArtifacts.networks[network] &&
+      DistenseArtifacts.networks[network].address
     if (distenseAddress) {
       const distenseEvents = getContractEventsNamesAndHashs(DistenseArtifacts)
       const distenseFilter = web3.eth.filter({
@@ -87,10 +89,9 @@ export const getContractEvents = () => async dispatch => {
       })
     } else console.log(`distenseAddress doesn't exist for network: ${network}`)
 
-
-
-    const pullRequestsAddress = PullRequestsArtifacts.networks[network]
-      && PullRequestsArtifacts.networks[network].address
+    const pullRequestsAddress =
+      PullRequestsArtifacts.networks[network] &&
+      PullRequestsArtifacts.networks[network].address
     if (pullRequestsAddress) {
       const pullRequestsEvents = getContractEventsNamesAndHashs(
         PullRequestsArtifacts
@@ -114,8 +115,10 @@ export const getContractEvents = () => async dispatch => {
           dispatch(setDefaultStatus())
         }
       })
-    } else console.log(`pullRequestsAddress doesn't exist for network: ${network}`)
-  } else console.log(`Not connected to an Ethereum network.  This is bad, very bad.`)
+    } else
+      console.log(`pullRequestsAddress doesn't exist for network: ${network}`)
+  } else
+    console.log(`Not connected to an Ethereum network.  This is bad, very bad.`)
 }
 
 /**
@@ -148,7 +151,6 @@ const getContractEventsNamesAndHashs = artifacts => {
   }
   return contractEvents
 }
-
 
 const constructEvent = (contract, contractEvents, result) => {
   const event = _.find(contractEvents, { hash: result.topics[0] })

@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {
-  Button,
-  Card,
-  Grid,
-  List,
-  Message,
-  Segment
-} from 'semantic-ui-react'
+import { Button, Card, Grid, List, Message, Segment } from 'semantic-ui-react'
 
 import { voteOnParameter } from '../actions/parameters'
 import { getParameters } from '../reducers/parameters'
@@ -56,7 +49,6 @@ class Parameters extends Component {
     this.setState({
       redirect: true
     })
-
   }
 
   render() {
@@ -65,26 +57,27 @@ class Parameters extends Component {
 
     return (
       <Layout>
-        <Head title="Votable Parameters"/>
+        <Head title="Votable Parameters" />
         <Message>
-          <Message.Header>
-            Parameters
-          </Message.Header>
+          <Message.Header>Parameters</Message.Header>
           <List bulleted>
             <List.Item>
-              This page displays the parameters of Distense and their current values
+              This page displays the parameters of Distense and their current
+              values
             </List.Item>
+            <List.Item>You must own greater than zero DID to vote</List.Item>
             <List.Item>
-              You must own greater than zero DID to vote
-            </List.Item>
-            <List.Item>
-              Basically the maximum you can change the value is by the percentage of DID you own
+              Basically the maximum you can change the value is by the
+              percentage of DID you own
             </List.Item>
             <List.Item>
               We should probably just have up or down buttons here
             </List.Item>
             <List.Item>
-              <b>Your vote simply affects the value up or down by your percentage DID ownership</b>
+              <b>
+                Your vote simply affects the value up or down by your percentage
+                DID ownership
+              </b>
             </List.Item>
           </List>
         </Message>
@@ -101,7 +94,7 @@ class Parameters extends Component {
                 />
               ))
             ) : (
-              <Card className='parameter-card-width' raised>
+              <Card className="parameter-card-width" raised>
                 <Segment>Loading Distense parameters...</Segment>
               </Card>
             )}
@@ -109,36 +102,41 @@ class Parameters extends Component {
         </Grid.Row>
         {/*language=CSS*/}
         <style global jsx>{`
-
           .parameter-card-width {
             width: 366px !important;
           }
         `}</style>
       </Layout>
-
     )
   }
 }
 
 const Parameter = ({ param, onClick }) => {
-
   const p = constructClientParameterDetails(param)
 
   return (
-    <Card className='parameter-card-width' raised>
+    <Card className="parameter-card-width" raised>
       <Card.Content>
-        <Card.Header>
-          {p.title}
-        </Card.Header>
-        <Card.Meta>
-          {p.placeholder}
-        </Card.Meta>
-        <Card.Content>
-          Current Value: {p.value}
-        </Card.Content>
+        <Card.Header>{p.title}</Card.Header>
+        <Card.Meta>{p.placeholder}</Card.Meta>
+        <Card.Content>Current Value: {p.value}</Card.Content>
         <Card.Content extra>
-          <Button color='black' id='upvote' basic onClick={(e) => onClick(p.title, 'upvote', e)}>DownVote</Button>
-          <Button color='black' id='downvote' basic onClick={(e) => onClick(p.title, 'downvote', e)}>UpVote</Button>
+          <Button
+            color="black"
+            id="upvote"
+            basic
+            onClick={e => onClick(p.title, 'upvote', e)}
+          >
+            DownVote
+          </Button>
+          <Button
+            color="black"
+            id="downvote"
+            basic
+            onClick={e => onClick(p.title, 'downvote', e)}
+          >
+            UpVote
+          </Button>
         </Card.Content>
       </Card.Content>
     </Card>

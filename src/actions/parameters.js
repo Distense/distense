@@ -52,7 +52,6 @@ export const fetchParameters = () => async dispatch => {
   return parameters
 }
 
-
 export const voteOnParameter = ({ title, vote }) => async (
   dispatch,
   getState

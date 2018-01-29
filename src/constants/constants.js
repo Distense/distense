@@ -1,4 +1,3 @@
-
 // User/web3
 export const RECEIVE_ACCOUNT = 'RECEIVE_ACCOUNT'
 export const RECEIVE_ACCOUNTS = 'RECEIVE_ACCOUNTS'

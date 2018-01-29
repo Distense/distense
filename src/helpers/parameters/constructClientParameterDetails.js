@@ -1,7 +1,6 @@
 import { convertSolidityIntToInt } from '../../utils'
-import  * as params from '../../constants/parameters/parameterDetails'
+import * as params from '../../constants/parameters/parameterDetails'
 export const constructClientParameterDetails = p => {
-
   let title
   let placeholder
 
@@ -31,7 +30,9 @@ export const constructClientParameterDetails = p => {
     placeholder = ''
   }
 
-  if (p.title === params.numDIDRequiredToApproveVotePullRequestParameter.title) {
+  if (
+    p.title === params.numDIDRequiredToApproveVotePullRequestParameter.title
+  ) {
     value = value + ' DID'
     title = 'Number of DID required to approve pull requests'
     placeholder = ''

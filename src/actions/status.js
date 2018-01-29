@@ -11,7 +11,7 @@ export const setStatusMessage = text => ({
   text
 })
 
-export const updateStatusMessage = text => dispatch =>{
+export const updateStatusMessage = text => dispatch => {
   dispatch(setStatusMessage(text))
 
   setTimeout(() => {
@@ -32,6 +32,8 @@ export const fetchTotalSupplyDID = () => async dispatch => {
   const { totalSupply } = await contracts.DIDToken
   const totalSupplyDID = await totalSupply()
   dispatch(receiveTotalSupplyDID(totalSupplyDID.toString()))
-  dispatch(updateStatusMessage(`Received total supply of DID: ${totalSupplyDID}`))
+  dispatch(
+    updateStatusMessage(`Received total supply of DID: ${totalSupplyDID}`)
+  )
   dispatch(setDefaultStatus())
 }

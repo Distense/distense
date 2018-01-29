@@ -20,9 +20,7 @@ class Events extends Component {
         <List celled>
           {events.length > 0
             ? events.map(event => <EventItem key={event.txHash} e={event} />)
-            : events.length === 0 ? 'No events'
-              : 'Loading events...'
-          }
+            : events.length === 0 ? 'No events' : 'Loading events...'}
         </List>
       </Layout>
     )

@@ -49,11 +49,11 @@ const Root = () => (
   </Router>
 )
 
-  ReactDOM.render(
-    <Provider store={store}>
-      <Root />
-    </Provider>,
-    document.getElementById('root')
-  )
+ReactDOM.render(
+  <Provider store={store}>
+    <Root />
+  </Provider>,
+  document.getElementById('root')
+)
 
-  registerServiceWorker()
+registerServiceWorker()
