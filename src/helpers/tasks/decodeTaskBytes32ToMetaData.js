@@ -27,12 +27,12 @@ export const decodeTaskBytes32ToMetaData = taskId => {
     decodedTaskId.indexOf('b') + 1,
     repoIndex
   )
-  const repo = getRepoNameFromNumber(decodedTaskId.slice(repoIndex + 1))
+  const repoName = getRepoNameFromNumber(decodedTaskId.slice(repoIndex + 1))
 
   return {
     created,
     tags,
-    repo,
+    repoName,
     issueNum
   }
 }

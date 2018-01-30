@@ -16,7 +16,8 @@ import {
 import { receiveUserNotAuthenticated } from './user'
 import { getTaskByID } from './tasks'
 import { setDefaultStatus, updateStatusMessage } from './status'
-import { constructClientPullRequest } from '../helpers/pullRequests/constructClientPullRequest'
+import { constructPullRequestFromContractDetails } from '../helpers/pullRequests/constructPullRequestFromContractDetails'
+import { getTaskDetailsForPullRequest } from '../helpers/pullRequests/getTaskDetailsForPullRequest'
 
 const requestPullRequests = () => ({
   type: REQUEST_PULLREQUESTS
@@ -61,12 +62,35 @@ const getPullRequestByIndex = async index => {
   return getPullRequestById(id)
 }
 
+/**
+ *
+ * @param prId
+ * @returns {Promise<{} & {contractPullRequestDetails: *, taskDetails: Promise<*>}>}
+ */
 const getPullRequestById = async prId => {
   const { getPullRequestById } = await contracts.PullRequests
 
   const contractPR = await getPullRequestById(prId)
 
-  return constructClientPullRequest(prId, contractPR)
+  const contractPullRequestDetails = constructPullRequestFromContractDetails(
+    prId,
+    contractPR
+  )
+
+  const taskId = contractPR[1].toString()
+  const pctDIDApproved = contractPullRequestDetails.pctDIDApproved
+
+  const taskDetails = getTaskDetailsForPullRequest(taskId)
+  const task = await getTaskByID(taskId)
+
+  return Object.assign({}, contractPullRequestDetails, taskDetails, {
+    taskTitle: task.title,
+    taskReward: task.reward,
+    rewardStatus: task.rewardStatus,
+    tags: task.tags,
+    pctDIDApproved,
+    taskId
+  })
 }
 
 export const fetchPullRequests = () => async dispatch => {

@@ -93,16 +93,16 @@ class PullRequests extends Component {
                 Status
               </Table.HeaderCell>
               <Table.HeaderCell
-                sorted={column === 'Status' ? direction : null}
-                onClick={this.handleSort('status')}
-              >
-                % DID Approved
-              </Table.HeaderCell>
-              <Table.HeaderCell
                 sorted={column === 'Reward' ? direction : null}
                 onClick={this.handleSort('reward')}
               >
                 Reward
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={column === 'Status' ? direction : null}
+                onClick={this.handleSort('status')}
+              >
+                % DID Approved
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Approve' ? direction : null}

@@ -50,8 +50,8 @@ class PullRequestsListItem extends Component {
           <Tags tags={pr.tags} />
         </Table.Cell>
         <Table.Cell>{pr.rewardStatus}</Table.Cell>
-        <Table.Cell>{pr.pctDIDApproved}</Table.Cell>
         <Table.Cell>{pr.taskReward}</Table.Cell>
+        <Table.Cell>{pr.pctDIDApproved}</Table.Cell>
         <Table.Cell>
           <Button
             basic
