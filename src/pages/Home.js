@@ -86,6 +86,9 @@ class Home extends Component {
               <Menu.Item to="/exchange" as={Link}>
                 Exchange
               </Menu.Item>
+              <Menu.Item to="/faq" as={Link}>
+                FAQ
+              </Menu.Item>
               <TotalDID />
             </Container>
           </Menu>

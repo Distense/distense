@@ -17,6 +17,7 @@ import Home from './pages/Home'
 import Events from './pages/Events'
 import CreateTask from './pages/AddTask'
 import Exchange from './pages/Exchange'
+import FAQ from './pages/faq'
 import HowItWorks from './pages/HowItWorks'
 import Tasks from './pages/Tasks'
 import Task from './pages/Task'
@@ -38,6 +39,7 @@ const Root = () => (
       <Route exact path="/howitworks" component={HowItWorks} />
       <Route exact path="/events" component={Events} />
       <Route exact path="/exchange" component={Exchange} />
+      <Route exact path="/faq" component={FAQ} />
       <Route path="/tasks/:title/:id" component={Task} />
       <Route path="/tasks/add" component={CreateTask} />
       <Route exact path="/tasks" component={Tasks} />
