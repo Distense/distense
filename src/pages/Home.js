@@ -86,9 +86,6 @@ class Home extends Component {
               <Menu.Item to="/exchange" as={Link}>
                 Exchange
               </Menu.Item>
-              <Menu.Item to="/faq" as={Link}>
-                FAQ
-              </Menu.Item>
               <TotalDID />
             </Container>
           </Menu>
@@ -249,6 +246,13 @@ class Home extends Component {
                     <List.Item
                       as="a"
                       target="_blank"
+                      href="/FAQ"
+                    >
+                      FAQ
+                    </List.Item>
+                    <List.Item
+                      as="a"
+                      target="_blank"
                       href="https://twitter.com/distenseorg"
                     >
                       @DistenseOrg
@@ -260,6 +264,7 @@ class Home extends Component {
                     >
                       Github
                     </List.Item>
+                    
                     <List.Item
                       as="a"
                       href="mailto:john@disten.se?Subject=Distense Slack Invite"
