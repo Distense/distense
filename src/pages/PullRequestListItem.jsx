@@ -49,7 +49,7 @@ class PullRequestsListItem extends Component {
         <Table.Cell>
           <Tags tags={pr.tags} />
         </Table.Cell>
-        <Table.Cell>{pr.status}</Table.Cell>
+        <Table.Cell>{pr.rewardStatus}</Table.Cell>
         <Table.Cell>{pr.pctDIDApproved}</Table.Cell>
         <Table.Cell>{pr.taskReward}</Table.Cell>
         <Table.Cell>
@@ -85,7 +85,7 @@ class PullRequestsListItem extends Component {
   }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = () => ({})
 
 const mapDispatchToProps = dispatch => ({
   approvePullRequest: task => dispatch(approvePullRequest(task))
