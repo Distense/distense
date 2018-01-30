@@ -63,7 +63,7 @@ export default class HowItWorks extends Component {
               <Menu.Item to="/" as={Link} position="left">
                 Distense
               </Menu.Item>
-              <Menu.Item to="/tasks/create" as={Link}>
+              <Menu.Item to="/tasks/add" as={Link}>
                 Propose
               </Menu.Item>
               <Menu.Item to="/tasks" as={Link}>
@@ -74,6 +74,9 @@ export default class HowItWorks extends Component {
               </Menu.Item>
               <Menu.Item to="/pullrequests" as={Link}>
                 Approve
+              </Menu.Item>
+              <Menu.Item to="/exchange" as={Link}>
+                Exchange
               </Menu.Item>
               <Menu.Item to="/faq" as={Link}>
                 FAQ
