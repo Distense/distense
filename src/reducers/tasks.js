@@ -106,6 +106,7 @@ export const getNumTasks = state => {
 export const getPendingTask = state => {
   return state.tasks.pendingTaskId
 }
+
 export const getPendingRewardVote = state => {
   return getTask(state, state.tasks.pendingTaskId)
 }

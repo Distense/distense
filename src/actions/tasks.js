@@ -17,6 +17,7 @@ import {
 import { constructClientTask } from '../helpers/tasks/constructClientTask'
 import { encodeTaskMetaDataToBytes32 } from '../helpers/tasks/encodeTaskMetaDataToBytes32'
 import { convertIntToSolidityInt } from '../utils'
+import { TENTATIVE } from '../constants/rewardStatuses'
 
 const requestTasks = () => ({
   type: REQUEST_TASKS
@@ -53,11 +54,6 @@ export const receiveTasksInstance = () => ({
 export const setNumTasks = numTasks => ({
   type: SET_NUM_TASKS,
   numTasks
-})
-
-const submitTask = task => ({
-  type: SUBMIT_TASK,
-  task
 })
 
 export const fetchTasks = () => async dispatch => {
@@ -122,7 +118,6 @@ export const addTask = ({ title, tagsString, issueNum, repo }) => async (
   dispatch(receiveTasksInstance())
 
   //  Create a full task here, as it will be optimistically loaded into the client/redux
-
   const originalTask = {
     createdBy: coinbase,
     title,
@@ -130,18 +125,17 @@ export const addTask = ({ title, tagsString, issueNum, repo }) => async (
     issueNum,
     repoString: repo === 'ui' ? 'distense-ui' : 'contracts'
   }
-  const encodedTaskId = encodeTaskMetaDataToBytes32(originalTask)
-  originalTask._id = encodedTaskId
-  dispatch(submitTask(originalTask))
+  originalTask._id = encodeTaskMetaDataToBytes32(originalTask)
 
-  const addedTask = await addTask(encodedTaskId, title, {
+  const addedTask = await addTask(originalTask._id, title, {
     from: coinbase
   })
 
-  if (addedTask) console.log(`blockchain/contact addTask() successful`)
-  else console.log(`FAILED to add task`)
+  if (addedTask) {
+    console.log(`successfully added task to Ethereum blockchain`)
+    dispatch(receiveTask(originalTask))
+  } else console.log(`FAILED to add task`)
 
-  dispatch(receiveTask(originalTask))
   dispatch(setDefaultStatus())
 
   return originalTask
