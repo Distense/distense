@@ -10,14 +10,12 @@ import {
   RECEIVE_TASKS,
   SET_NUM_TASKS,
   SELECT_TASK,
-  SUBMIT_TASK,
   REQUEST_TASKS_INSTANCE,
   RECEIVE_TASKS_INSTANCE
 } from '../constants/constants'
 import { constructClientTask } from '../helpers/tasks/constructClientTask'
 import { encodeTaskMetaDataToBytes32 } from '../helpers/tasks/encodeTaskMetaDataToBytes32'
 import { convertIntToSolidityInt } from '../utils'
-import { TENTATIVE } from '../constants/rewardStatuses'
 
 const requestTasks = () => ({
   type: REQUEST_TASKS
