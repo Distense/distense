@@ -90,13 +90,13 @@ class Tasks extends Component {
                 sorted={column === 'Reward' ? direction : null}
                 onClick={this.handleSort('reward')}
               >
-                Task Reward (status)
+                Reward
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Voting Status' ? direction : null}
                 onClick={this.handleSort('pctDIDVoted')}
               >
-                Approval Voting Status
+                Approval Status
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Date' ? direction : null}
@@ -133,7 +133,7 @@ const TasksListItem = ({ task }) => (
         {task.title}
       </Link>
     </Table.Cell>
-    <Table.Cell singleLine>
+    <Table.Cell>
       <Tags tags={task.tags} />
     </Table.Cell>
     <Table.Cell>{task.status}</Table.Cell>

@@ -5,7 +5,7 @@ import chaiJestDiff from 'chai-jest-diff'
 chai.use(chaiJestDiff())
 
 import { decodeTaskBytes32ToMetaData } from '../../helpers/tasks/decodeTaskBytes32ToMetaData'
-import { getRepoNameFromNumber } from '../../helpers/tasks/getRepoName'
+import { getRepoNameFromNumber } from '../../helpers/tasks/getRepoNameFromNumber'
 
 describe('decodeTaskBytes32ToMetaData', function() {
   it('should properly decode a EVM task bytes32 into task metadata', function() {
