@@ -21,10 +21,10 @@ export default class FAQ extends Component {
                 outsourcing companies?
               </Header>
             </p>
-            <p style={{ fontSize: '1.10em', marginTop: '2.5em' }}>
-              A: No, Distense is a single organization whose labor is for
-              internal purposes and building blockchain applications that will
-              generate revenue from third parties.
+            <p style={{ fontSize: '1.10em', marginTop: '2.2em' }}>
+              No, Distense is a single organization whose labor is for internal
+              purposes and building blockchain applications that will generate
+              revenue from third parties.
             </p>
             <p style={{ fontSize: '1.33em', marginTop: '2.5em' }}>
               <Header as="h3">
@@ -32,7 +32,7 @@ export default class FAQ extends Component {
               </Header>
             </p>
             <p style={{ fontSize: '1.10em' }}>
-              A: No, every issuance of DID has been according to voting by the
+              No, every issuance of DID has been according to voting by the
               contributors at the time. There is no founder fee. The earliest
               contributors worked on an hourly basis for DID until the per-task
               basis code could be implemented.
@@ -41,11 +41,11 @@ export default class FAQ extends Component {
               <Header as="h3">How can I propose a change/task/issue?</Header>
             </p>
             <p style={{ fontSize: '1.10em' }}>
-              A: Anyone who owns more than 100 DID can propose a new task,
-              whether that's fixing a bug or building a feature for an existing
-              DApp. Proposing tasks is simple. Discussion can happen on Github
-              and a more detailed description can be entered into a
-              specification on our website. To propose your first task, click<Link to="/tasks/create">
+              Anyone who owns more than 100 DID can propose a new task, whether
+              that's fixing a bug or building a feature for an existing DApp.
+              Proposing tasks is simple. Discussion can happen on Github and a
+              more detailed description can be entered into a specification on
+              our website. To propose your first task, click<Link to="/tasks/create">
                 {' '}
                 here
               </Link>.
@@ -54,7 +54,7 @@ export default class FAQ extends Component {
               <Header as="h3">How to submit my work?</Header>
             </p>
             <p style={{ fontSize: '1.10em' }}>
-              A: Once you've completed work, it's easy to submit your submitted
+              Once you've completed work, it's easy to submit your submitted
               work in the form of a normal Github pull request. Distense uses
               come necessary centralized, familiar infrastructure until its
               members can replicate existing tools The only things we need to
@@ -66,14 +66,14 @@ export default class FAQ extends Component {
               </Header>
             </p>
             <p style={{ fontSize: '1.10em' }}>
-              A: Once a sufficient percentage of DID holders have approved a
-              pull request DID are automatically issued on the blockchain.
+              Once a sufficient percentage of DID holders have approved a pull
+              request DID are automatically issued on the blockchain.
             </p>
             <p style={{ fontSize: '1.33em', marginTop: '2.2em' }}>
               <Header as="h3">Why should I contribute and earn DID?</Header>
             </p>
             <p style={{ fontSize: '1.10em' }}>
-              A: Contributing and earning DID gives the holder not only economic
+              Contributing and earning DID gives the holder not only economic
               rights to dividends, but also voting & governance rights for the
               future of Distense.
             </p>
