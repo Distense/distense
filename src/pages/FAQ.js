@@ -69,8 +69,8 @@ export default class FAQ extends Component {
               A: Once a sufficient percentage of DID holders have approved a
               pull request DID are automatically issued on the blockchain.
             </p>
-            <p style={{ fontSize: '1.33em' }}>
-              <Header as="h4">Why should I contribute and earn DID?</Header>
+            <p style={{ fontSize: '1.33em', marginTop: '2.2em' }}>
+              <Header as="h3">Why should I contribute and earn DID?</Header>
             </p>
             <p style={{ fontSize: '1.10em' }}>
               A: Contributing and earning DID gives the holder not only economic
