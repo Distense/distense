@@ -243,11 +243,7 @@ class Home extends Component {
                 <Grid.Column textAlign="right" width={8}>
                   <Header inverted as="h4" content="About" />
                   <List link inverted>
-                    <List.Item
-                      as="a"
-                      target="_blank"
-                      href="/FAQ"
-                    >
+                    <List.Item as="a" target="_blank" href="/FAQ">
                       FAQ
                     </List.Item>
                     <List.Item
@@ -264,7 +260,7 @@ class Home extends Component {
                     >
                       Github
                     </List.Item>
-                    
+
                     <List.Item
                       as="a"
                       href="mailto:john@disten.se?Subject=Distense Slack Invite"
