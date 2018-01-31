@@ -16,7 +16,9 @@ class EthereumAuthenticated extends Component {
       ? ((color = 'green'),
         (icon = 'checkmark'),
         (title = `Unlocked Ethereum account: ${coinbase}`))
-      : ((color = 'red'), (icon = 'x'), (title = 'No Ethereum account'))
+      : ((color = 'red'),
+        (icon = 'x'),
+        (title = 'No unlocked Ethereum account'))
 
     return (
       <Menu.Item title={title}>
