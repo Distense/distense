@@ -246,6 +246,13 @@ class Home extends Component {
                     <List.Item
                       as="a"
                       target="_blank"
+                      href="/FAQ"
+                    >
+                      FAQ
+                    </List.Item>
+                    <List.Item
+                      as="a"
+                      target="_blank"
                       href="https://twitter.com/distenseorg"
                     >
                       @DistenseOrg
@@ -257,6 +264,7 @@ class Home extends Component {
                     >
                       Github
                     </List.Item>
+                    
                     <List.Item
                       as="a"
                       href="mailto:john@disten.se?Subject=Distense Slack Invite"
