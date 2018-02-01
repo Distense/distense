@@ -5,8 +5,6 @@ import { decodeTaskBytes32ToMetaData } from '../tasks/decodeTaskBytes32ToMetaDat
 export const constructPullRequestFromContractDetails = (prId, contractPR) => {
   const createdBy = contractPR[0]
 
-  /*global web3 */
-  /*eslint no-undef: "error"*/
   const taskId = web3Utils.toAscii(contractPR[1]).replace(/\0/g, '')
   const prNum = contractPR[2].toString()
   const pctDIDApproved = convertSolidityIntToInt(contractPR[3].toString())
