@@ -1,4 +1,3 @@
-import web3 from '../web3'
 import _ from 'lodash'
 
 import { RECEIVE_EVENT } from '../constants/constants'
@@ -17,7 +16,8 @@ const receiveNewContractEvent = event => ({
 
 export const getContractEvents = () => async dispatch => {
   //  network id; 5777/9000 is private testnet; 1 is mainnet, others are testnets
-
+  /*global web3*/
+  /*eslint no-undef: "error"*/
   if (web3 && web3.version && web3.version.network) {
     const network = web3.version.network
 

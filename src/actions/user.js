@@ -1,5 +1,3 @@
-import web3 from '../web3'
-
 import * as contracts from '../contracts'
 
 import {
@@ -40,6 +38,8 @@ export const getNumDIDByAddress = async address => {
 }
 
 export const selectUserAccountInfo = () => async dispatch => {
+  /*global web3 */
+  /*eslint no-undef: "error"*/
   const hasWeb3 = web3
   let isConnected = false
   if (hasWeb3) {
@@ -47,12 +47,14 @@ export const selectUserAccountInfo = () => async dispatch => {
     if (isConnected) {
       console.log(`web3: isConnected`)
       const accounts = web3.eth.accounts
-      if (accounts.length) {
+      if (accounts && accounts.length) {
         dispatch(receiveAccountAction(accounts[0]))
         let numDIDOwned = await getNumDIDByAddress(accounts[0])
         numDIDOwned = numDIDOwned.toString()
         console.log(`coinbase: ${accounts[0]} owns ${numDIDOwned} DID`)
         dispatch(receiveAccountNumDID(numDIDOwned))
+      } else {
+        console.error(`No accounts found`)
       }
     }
   }

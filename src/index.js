@@ -6,6 +6,7 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import registerServiceWorker from './registerServiceWorker'
+import Web3 from 'web3'
 
 import reducers from './reducers'
 
@@ -51,11 +52,27 @@ const Root = () => (
   </Router>
 )
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Root />
-  </Provider>,
-  document.getElementById('root')
-)
+window.addEventListener('load', function() {
+  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  let provider
+  // eslint-disable-next-line no-alert
+  /*global web3 */
+  /*eslint no-undef: "error"*/
+  if (typeof web3 !== 'undefined') {
+    provider = web3.currentProvider
 
-registerServiceWorker()
+    new Web3(provider)
+  } else {
+    console.log('No web3? You should consider trying MetaMask!')
+    provider = new Web3.providers.HttpProvider('http://localhost:7545')
+    new Web3(provider)
+  }
+  ReactDOM.render(
+    <Provider store={store}>
+      <Root />
+    </Provider>,
+    document.getElementById('root')
+  )
+
+  registerServiceWorker()
+})

@@ -1,5 +1,4 @@
 import * as contracts from '../contracts'
-import web3 from '../web3'
 
 import { receiveUserNotAuthenticated } from './user'
 import { setDefaultStatus } from './status'
@@ -53,6 +52,8 @@ export const investEtherForDID = ({ numEther }) => async (
     {},
     {
       from: coinbase,
+      /*global web3 */
+      /*eslint no-undef: "error"*/
       value: web3.toWei(numEther),
       gasPrice: 30000000000
     }
