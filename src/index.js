@@ -53,9 +53,7 @@ const Root = () => (
 )
 
 window.addEventListener('load', function() {
-  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   let provider
-  // eslint-disable-next-line no-alert
   /*global web3 */
   /*eslint no-undef: "error"*/
   if (typeof web3 !== 'undefined') {
@@ -64,9 +62,10 @@ window.addEventListener('load', function() {
     new Web3(provider)
   } else {
     console.log('No web3? You should consider trying MetaMask!')
-    provider = new Web3.providers.HttpProvider('http://localhost:7545')
+    provider = new Web3.providers.HttpProvider('https://rinkeby.diste.nse')
     new Web3(provider)
   }
+
   ReactDOM.render(
     <Provider store={store}>
       <Root />
