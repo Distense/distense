@@ -16,15 +16,12 @@ export default class FAQ extends Component {
             </Header>
             <p style={{ fontSize: '1.33em', marginTop: '2em' }}>
               <Header as="h3">
-                Is Distense like other companies that are for connecting labor
-                to companies who need development jobs done possibly like
-                outsourcing companies?
+                How is Distense different from outsourcing companies?
               </Header>
             </p>
             <p style={{ fontSize: '1.10em', marginTop: '2.2em' }}>
-              No, Distense is a single organization whose labor is for internal
-              purposes and building blockchain applications that will generate
-              revenue from third parties.
+              Distense is a decentralized company whose contributors own it. Distense doesn't connect third parties with one another nor do Distense's contributors work for third parties. The purpose of Distense is to build novel blockchain applications that will generate revenue from third parties. 
+      
             </p>
             <p style={{ fontSize: '1.33em', marginTop: '2.5em' }}>
               <Header as="h3">
@@ -51,14 +48,13 @@ export default class FAQ extends Component {
               </Link>.
             </p>
             <p style={{ fontSize: '1.33em', marginTop: '2.2em' }}>
-              <Header as="h3">How to submit my work?</Header>
+              <Header as="h3">How do I submit my work?</Header>
             </p>
             <p style={{ fontSize: '1.10em' }}>
               Once you've completed work, it's easy to submit your submitted
-              work in the form of a normal Github pull request. Distense uses
-              come necessary centralized, familiar infrastructure until its
-              members can replicate existing tools The only things we need to
-              know are the task ID and the pull request URL.
+              work in the form of a normal Github pull request. Distense uses familiar infrastructure until its
+              contributors can reimplement custom software tooling. The only information we need to
+              know is the task ID and the pull request URL.
             </p>
             <p style={{ fontSize: '1.33em', marginTop: '2.2em' }}>
               <Header as="h3">
@@ -67,7 +63,7 @@ export default class FAQ extends Component {
             </p>
             <p style={{ fontSize: '1.10em' }}>
               Once a sufficient percentage of DID holders have approved a pull
-              request DID are automatically issued on the blockchain.
+              request, DID are automatically issued on the blockchain.
             </p>
             <p style={{ fontSize: '1.33em', marginTop: '2.2em' }}>
               <Header as="h3">Why should I contribute and earn DID?</Header>
@@ -76,6 +72,15 @@ export default class FAQ extends Component {
               Contributing and earning DID gives the holder not only economic
               rights to dividends, but also voting & governance rights for the
               future of Distense.
+            </p>
+      <p style={{ fontSize: '1.33em', marginTop: '2.5em' }}>
+              <Header as="h3">
+                How do I make money from Distense?
+              </Header>
+            </p>
+            <p style={{ fontSize: '1.10em' }}>
+              The DID you earn may be exchanged into ether on our <Link to="/exchange">exchange webpage 
+        </Link>.
             </p>
           </Segment>
         </Container>
