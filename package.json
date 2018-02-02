@@ -98,8 +98,9 @@
       "<rootDir>/config/polyfills.js"
     ],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.js?(x)",
-      "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
+      "<rootDir>**/__tests__/**/*.js?(x)",
+      "<rootDir>**/?(*.)(spec|test).js?(x)",
+      "!**/scripts/**",
     ],
     "testEnvironment": "node",
     "testURL": "http://localhost",
