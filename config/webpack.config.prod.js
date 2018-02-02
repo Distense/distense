@@ -101,8 +101,6 @@ module.exports = {
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
       new WebpackAutoInject({
-        // options
-        // example:
         components: {
           AutoIncreaseVersion: false,
           InjectAsComment: true
@@ -111,8 +109,8 @@ module.exports = {
           AutoIncreaseVersion: {
             runInWatchMode: false,
             InjectAsComment: {
-              tag: 'Build version: {version} - {date}', // default
-              dateFormat: 'dddd, mmmm dS, yyyy, h:MM:ss TT' // default
+              tag: 'Build version: {version} - {date}',
+              dateFormat: 'dddd, mmmm dS, yyyy, h:MM:ss TT'
             }
           }
         }
