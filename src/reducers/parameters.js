@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import _ from 'lodash'
 
-import { RECEIVE_PARAMETERS } from '../constants/constants'
+import { RECEIVE_PARAMETERS } from '../constants/actionTypes'
 
 const parameters = (state = [], action) => {
   switch (action.type) {

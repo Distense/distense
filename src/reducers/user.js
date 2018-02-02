@@ -9,7 +9,7 @@ import {
   RECEIVE_IS_CONNECTED,
   RECEIVE_USER_NUM_DID,
   RECEIVE_NETWORK_ID
-} from '../constants/constants'
+} from '../constants/actionTypes'
 
 const user = (
   state = {

@@ -6,7 +6,7 @@ import {
   RECEIVE_IS_CONNECTED,
   RECEIVE_USER_NOT_AUTHENTICATED,
   RECEIVE_USER_NUM_DID
-} from '../constants/constants'
+} from '../constants/actionTypes'
 
 import { setDefaultStatus } from './status'
 

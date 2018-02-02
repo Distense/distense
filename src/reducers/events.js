@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { combineReducers } from 'redux'
 
-import { RECEIVE_EVENT } from '../constants/constants'
+import { RECEIVE_EVENT } from '../constants/actionTypes'
 
 const events = (state = [], action) => {
   switch (action.type) {

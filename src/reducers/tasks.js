@@ -7,7 +7,7 @@ import {
   SELECT_TASK,
   SET_NUM_TASKS,
   SUBMIT_TASK
-} from '../constants/constants'
+} from '../constants/actionTypes'
 
 const taskById = (state = {}, action) => {
   switch (action.type) {
