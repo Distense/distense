@@ -1,6 +1,7 @@
+import web3Utils from 'web3-utils'
+
 export const taskIdDecoded = taskId => {
-  /*global web3 */
-  /*eslint no-undef: "error"*/
-  if (taskId.length > 32) return web3.toAscii(taskId).replace(/\0/g, '')
+  if (taskId.length > 32)
+    return web3Utils.toAscii(taskId).replace(/\u0000/g, '')
   return taskId
 }
