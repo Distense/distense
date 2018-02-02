@@ -33,7 +33,7 @@ const EventItem = ({ e }) => (
     <List.Content>{e.contract} contract</List.Content>
     <List.Description>
       <Link target="_blank" to={`https://etherscan.io/tx/${e.txHash}`}>
-        View tx (mainnet only)
+        View tx ()
       </Link>
     </List.Description>
   </List.Item>
