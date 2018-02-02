@@ -62,9 +62,12 @@ window.addEventListener('load', function() {
     new Web3(provider)
   } else {
     console.log('No web3? You should consider trying MetaMask!')
-    provider = new Web3.providers.HttpProvider('https://rinkeby.diste.nse')
+    console.log(`Falling back to localhost`)
+    provider = new Web3.providers.HttpProvider('https://localhost:7545')
     new Web3(provider)
   }
+
+  console.log(`Connected to network ${web3.version.network}`)
 
   ReactDOM.render(
     <Provider store={store}>
