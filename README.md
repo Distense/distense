@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/Distense/distense-ui.svg?branch=master)](https://travis-ci.org/Distense/distense-ui)
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
+ ![Distense logo](https://i.imgur.com/W8XjeyS.png, 'Distense')
 
 ## What is Distense?
 
