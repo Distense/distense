@@ -53,21 +53,17 @@ const Root = () => (
 )
 
 window.addEventListener('load', function() {
-  let provider
-  /*global web3 */
-  /*eslint no-undef: "error"*/
+  let web3js
   if (typeof web3 !== 'undefined') {
-    provider = web3.currentProvider
-
-    new Web3(provider)
+    /*global web3 */
+    /*eslint no-undef: "error"*/
+    web3js = new Web3(web3.currentProvider)
   } else {
-    console.log('No web3? You should consider trying MetaMask!')
     console.log(`Falling back to localhost`)
-    provider = new Web3.providers.HttpProvider('https://localhost:7545')
-    new Web3(provider)
+    web3js = new Web3(
+      new Web3.providers.HttpProvider('https://rinkeby.disten.se')
+    )
   }
-
-  console.log(`Connected to network ${web3.version.network}`)
 
   ReactDOM.render(
     <Provider store={store}>
