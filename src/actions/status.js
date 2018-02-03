@@ -4,7 +4,7 @@ import {
   RECEIVE_TOTAL_SUPPLY_DID,
   SET_DEFAULT_STATUS,
   SET_STATUS_MESSAGE
-} from '../constants/constants'
+} from '../constants/actionTypes'
 
 export const setStatusMessage = text => ({
   type: SET_STATUS_MESSAGE,

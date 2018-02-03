@@ -108,7 +108,7 @@ class Exchange extends Component {
                   </List.Item>
                   <List.Item>
                     The current exchange rate is 1000 DID per ether. This rate
-                    may be found and voted on in the{' '}
+                    may be voted on in the{' '}
                     <Link to="/parameters">parameters</Link> page
                   </List.Item>
                   <List.Item>

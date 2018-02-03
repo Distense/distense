@@ -62,8 +62,17 @@ export default ({ children, title }) => (
             color="blue"
             link
             as={Link}
-            to="/parameters"
             position="right"
+            to="/FAQ"
+          >
+            FAQ
+          </Menu.Item>
+          <Menu.Item
+            style={{ textDecoration: 'underline' }}
+            color="blue"
+            link
+            as={Link}
+            to="/parameters"
           >
             Parameters
           </Menu.Item>

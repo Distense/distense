@@ -15,10 +15,12 @@ import { Redirect } from 'react-router'
 
 import { addTask } from '../actions/tasks'
 import { getPendingTask } from '../reducers/tasks'
+import { NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 import { tagsOptions } from '../tagsOptions'
+import { getParameterValueByTitle } from '../reducers/parameters'
 
 class AddTask extends Component {
   constructor(props) {
@@ -27,12 +29,21 @@ class AddTask extends Component {
       title: '',
       tagsString: '',
       issueNum: '',
+      numDIDRequiredToAddTask: this.props.numDIDRequiredToAddTask || 120,
       repo: '',
       redirect: false
     }
 
     this.onChangeRepo = this.onChangeRepo.bind(this)
     this.onChangeTags = this.onChangeTags.bind(this)
+  }
+
+  componentDidMount() {
+    this.someTimeout = setTimeout(() => {
+      this.setState({
+        numDIDRequiredToAddTask: this.props.numDIDRequiredToAddTask
+      })
+    }, 2000)
   }
 
   onChangeTitle = ({ target: { value } }) => {
@@ -49,7 +60,7 @@ class AddTask extends Component {
 
   onChangeTags(e, data) {
     const tags = data.value
-    if (tags.length < 4) {
+    if (tags.length < 1) {
       this.setState({ tags })
       let tagsString = ''
       tags.forEach((tag, i) => {
@@ -78,7 +89,14 @@ class AddTask extends Component {
   }
 
   render() {
-    const { title, tags, issueNum, repo, redirect } = this.state
+    const {
+      title,
+      tags,
+      issueNum,
+      numDIDRequiredToAddTask,
+      repo,
+      redirect
+    } = this.state
 
     if (redirect) return <Redirect to="/tasks" />
 
@@ -163,8 +181,8 @@ class AddTask extends Component {
                 <Message.Header>Rules</Message.Header>
                 <List bulleted>
                   <List.Item>
-                    You must own at least 100 DID to propose. This number
-                    changes according to the{' '}
+                    You must own at least {numDIDRequiredToAddTask} DID to
+                    propose. This number changes according to the{' '}
                     <Link to="/parameters">proposalPctDIDToApprove</Link>{' '}
                     parameter
                   </List.Item>
@@ -255,7 +273,11 @@ class AddTask extends Component {
 }
 
 const mapStateToProps = state => ({
-  pendingTask: getPendingTask(state)
+  pendingTask: getPendingTask(state),
+  numDIDRequiredToAddTask: getParameterValueByTitle(
+    state,
+    NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE
+  )
 })
 
 const mapDispatchToProps = dispatch => ({

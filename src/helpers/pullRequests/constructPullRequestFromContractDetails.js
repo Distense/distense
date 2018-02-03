@@ -1,10 +1,11 @@
+import web3Utils from 'web3-utils'
 import { convertSolidityIntToInt } from '../../utils'
-import web3 from '../../web3'
 import { decodeTaskBytes32ToMetaData } from '../tasks/decodeTaskBytes32ToMetaData'
 
 export const constructPullRequestFromContractDetails = (prId, contractPR) => {
   const createdBy = contractPR[0]
-  const taskId = web3.toAscii(contractPR[1]).replace(/\0/g, '')
+
+  const taskId = web3Utils.toAscii(contractPR[1]).replace(/\0/g, '')
   const prNum = contractPR[2].toString()
   const pctDIDApproved = convertSolidityIntToInt(contractPR[3].toString())
 

@@ -10,14 +10,13 @@ import {
   RECEIVE_TASKS,
   SET_NUM_TASKS,
   SELECT_TASK,
-  SUBMIT_TASK,
   REQUEST_TASKS_INSTANCE,
   RECEIVE_TASKS_INSTANCE
-} from '../constants/constants'
+} from '../constants/actionTypes'
 import { constructClientTask } from '../helpers/tasks/constructClientTask'
 import { encodeTaskMetaDataToBytes32 } from '../helpers/tasks/encodeTaskMetaDataToBytes32'
 import { convertIntToSolidityInt } from '../utils'
-import { TENTATIVE } from '../constants/rewardStatuses'
+import { getGasPrice } from '../helpers/getGasPrice'
 
 const requestTasks = () => ({
   type: REQUEST_TASKS
@@ -128,7 +127,8 @@ export const addTask = ({ title, tagsString, issueNum, repo }) => async (
   originalTask._id = encodeTaskMetaDataToBytes32(originalTask)
 
   const addedTask = await addTask(originalTask._id, title, {
-    from: coinbase
+    from: coinbase,
+    gasPrice: getGasPrice()
   })
 
   if (addedTask) {
@@ -161,7 +161,7 @@ export const voteOnTaskReward = ({ taskId, reward }) => async (
   if (taskId && reward) {
     receipt = await taskRewardVote(taskId, convertIntToSolidityInt(reward), {
       from: coinbase,
-      gasPrice: 3000000000 // TODO use ethgasstation for this
+      gasPrice: getGasPrice()
     })
 
     if (receipt) console.log(`got tx receipt`)

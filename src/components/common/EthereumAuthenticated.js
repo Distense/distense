@@ -15,8 +15,10 @@ class EthereumAuthenticated extends Component {
     hasWeb3 && coinbase
       ? ((color = 'green'),
         (icon = 'checkmark'),
-        (title = 'Unlocked Ethereum account'))
-      : ((color = 'red'), (icon = 'x'), (title = 'No Ethereum account'))
+        (title = `Unlocked Ethereum account: ${coinbase}`))
+      : ((color = 'red'),
+        (icon = 'x'),
+        (title = 'No unlocked Ethereum account'))
 
     return (
       <Menu.Item title={title}>

@@ -26,6 +26,11 @@ export const minNumberOfTaskRewardVotersParameter = {
   title: 'minNumberOfTaskRewardVoters'
 }
 
+export const numDIDRequiredToAddTaskParameter = {
+  title: 'numDIDRequiredToAddTask',
+  value: 10000
+}
+
 export const defaultRewardParameter = {
   title: 'defaultReward'
 }
