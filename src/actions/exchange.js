@@ -2,9 +2,6 @@ import * as contracts from '../contracts'
 
 import { receiveUserNotAuthenticated } from './user'
 import { setDefaultStatus } from './status'
-import // EXCHANGE_DID_ETHER,
-// EXCHANGE_ETHER_DID
-'../constants/constants'
 import { getNumDIDByAddress, receiveAccountNumDID } from './user'
 
 export const exchangeDIDForEther = ({ numDID }) => async (

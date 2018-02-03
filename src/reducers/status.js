@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import * as actions from '../constants/constants'
+import * as actions from '../constants/actionTypes'
 
 /**
  * Standard redux reducer used to control the state of Status component that is always located in footer.  Basically the idea is to update the user

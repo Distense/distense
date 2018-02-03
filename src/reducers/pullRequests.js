@@ -5,7 +5,7 @@ import {
   RECEIVE_PULLREQUESTS,
   RECEIVE_PULLREQUEST,
   SUBMIT_PULLREQUEST
-} from '../constants/constants'
+} from '../constants/actionTypes'
 
 const pullRequestById = (state = {}, action) => {
   switch (action.type) {

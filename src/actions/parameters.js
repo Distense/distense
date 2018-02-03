@@ -1,11 +1,15 @@
 import _ from 'lodash'
 import web3Utils from 'web3-utils'
 
-import { REQUEST_PARAMETERS, RECEIVE_PARAMETERS } from '../constants/constants'
+import {
+  REQUEST_PARAMETERS,
+  RECEIVE_PARAMETERS
+} from '../constants/actionTypes'
 
 import * as contracts from '../contracts'
 import { setDefaultStatus, updateStatusMessage } from './status'
 import { convertSolidityIntToInt } from '../utils'
+import { getGasPrice } from '../helpers/getGasPrice'
 
 const requestParameters = () => ({
   type: REQUEST_PARAMETERS
@@ -68,7 +72,7 @@ export const voteOnParameter = ({ title, vote }) => async (
 
   const receipt = await voteOnParameter(title, voteValue, {
     from: coinbase,
-    gasPrice: 2000000000 // TODO GASPRICE could probably be lower now!! 2gwei
+    gasPrice: getGasPrice()
   })
   if (receipt.tx) {
     console.log(`vote on parameter receipt`)

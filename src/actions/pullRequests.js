@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import web3Utils from 'web3-utils'
 
 import * as contracts from '../contracts'
 
@@ -11,7 +10,7 @@ import {
   REQUEST_PULLREQUEST,
   RECEIVE_PULLREQUEST,
   SET_NUM_PULLREQUESTS
-} from '../constants/constants'
+} from '../constants/actionTypes'
 
 import { constructInitialPullRequest } from '../helpers/pullRequests/constructInitialPullRequest'
 import { receiveUserNotAuthenticated } from './user'
@@ -19,6 +18,8 @@ import { getTaskByID } from './tasks'
 import { setDefaultStatus, updateStatusMessage } from './status'
 import { constructPullRequestFromContractDetails } from '../helpers/pullRequests/constructPullRequestFromContractDetails'
 import { getTaskDetailsForPullRequest } from '../helpers/pullRequests/getTaskDetailsForPullRequest'
+import { getGasPrice } from '../helpers/getGasPrice'
+
 import Random from 'meteor-random'
 
 const requestPullRequests = () => ({
@@ -150,7 +151,7 @@ export const addPullRequest = ({ taskId, prNum }) => async (
     prNum,
     {
       from: coinbase,
-      gasPrice: web3Utils.toWei('3', 'gwei')
+      gasPrice: getGasPrice()
     }
   )
 
@@ -175,7 +176,7 @@ export const approvePullRequest = prId => async (dispatch, getState) => {
 
   receipt = await approvePullRequest(prId, {
     from: coinbase,
-    gasPrice: 3000000000 // TODO use ethgasstation for this
+    gasPrice: getGasPrice()
   })
 
   if (receipt) console.log(`got tx receipt`)

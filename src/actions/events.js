@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { RECEIVE_EVENT } from '../constants/constants'
+import { RECEIVE_EVENT } from '../constants/actionTypes'
 
 import { setDefaultStatus } from './status'
 
