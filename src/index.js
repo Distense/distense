@@ -53,16 +53,13 @@ const Root = () => (
 )
 
 window.addEventListener('load', function() {
-  let web3js
   if (typeof web3 !== 'undefined') {
     /*global web3 */
     /*eslint no-undef: "error"*/
-    web3js = new Web3(web3.currentProvider)
+    new Web3(web3.currentProvider)
   } else {
     console.log(`Falling back to localhost`)
-    web3js = new Web3(
-      new Web3.providers.HttpProvider('https://rinkeby.disten.se')
-    )
+    new Web3(new Web3.providers.HttpProvider('https://rinkeby.disten.se'))
   }
 
   ReactDOM.render(
