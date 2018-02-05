@@ -5,6 +5,9 @@ Thanks for your interest in Distense.
 
 **If this is a bug report please let us know the details below**
 
+What is the expected behavior?
+
+Please mention other relevant information such as the browser version, Node.js version, webpack version and Operating System.
 OS: 
 
 Browser and version:
@@ -12,7 +15,6 @@ Browser and version:
 Error output:
 
 Page/function:
-
 
 
 **If you're more officially proposing a task for Distense, please follow these rules**
