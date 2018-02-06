@@ -167,7 +167,7 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               compact: true,
-              plugins: [["styled-jsx/babel", { "optimizeForSpeed": true }]]
+              plugins: [['styled-jsx/babel', { optimizeForSpeed: true }]]
             }
           },
           // The notation here is somewhat confusing.
