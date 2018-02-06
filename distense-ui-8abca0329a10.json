@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "distense-ui",
+  "private_key_id": "8abca0329a105fbe604f9e3aed03c8f65b6c66a4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCyNt9OsOQH0iG9\nBkjGoDilx+zFz0a7SS7SWOwluvlh3dDCmWezFuEwHcoqpGjGBQ1Px79fPyCmQ6fT\nTIRcAufrBmCeIrQyIlyrezmRmVKH9GK5CUF4FlBH1AIWgca5DYkuFqoxpT+9llEK\nbHqaSwhSqxnRz29/i6cCPG2i2Ci8h7WROuULeJWOpWqP9E+kXVhG+u8sOylL9Esq\n6TcLY4IZpMWH18cTdOQazS8oXKL3sRZNJpjj3ZtgtHdbkbXnBsuYcMh6cN67OlMU\nrqCBakyTluEVBR/IeSNLgGWANB8S0R8RzeHRELH4Of155II+3w57lURFNk+zR1W1\nQklTWHMDAgMBAAECggEAHP6VdUGNUAJtj8nidEJkBQDSclpnSRg+gGWMQhU59qS2\njrqTpwz9ZS0rk6V9EF6JDGZUqePk5XgTaWrFDA1C+zdl58SAqblyd0nMk3Ys+caW\ne0FYv/dtZ0pEbrH9iWT84R054mrexHMcy0Pb7JdxirWgtUR5APjRGqmHMtvVQNrT\nWRoGvwcqfkHO+97RwhqJIPh7r59mkVGPVdeBq+RBrT9GLl841+p/sHzqujDolgZ8\ny+SsEs1t20CUiUtKpIYbIotntR+Wb/LfqOH0liSjXxBcJs7e+UDwXxSD/RPpIHsz\n+3+s9Tr85L0YGNmD7IW00XyA9KoSM36u3nwQOToaPQKBgQD0jwd7ktMJc5IanVAM\n6CvUVXJzS29TYM5m/LzFxfPLFlVh0zIms8ys4Yuf3C5kO/ePkbTYByvXLjFwmvR8\nvJ4/A6k/+Mp8RP2b92juntE63j7VwRBoLo2ZlxOM2zdnaMIqyfrJ4qTlmqjEt+Ng\nd44ha4ArVlveN6DMRCvT2hRH5QKBgQC6jUQjX+UlyqkpOnhtsJPsnLq1L5rdKgN1\nS5/5q8QeQ+Jvx2N8ydekynAxW7k0ZhsCNx4Oto4xU9zEObWnhGbN/bk0oQXqnkDa\ns7x7ZLxBK4latf9oF1jfpVmZ4biobtTUES/8n3exJTrEk+psrMhaPagPaMWz0cA+\nABCxDtlQxwKBgBXxH0K/EaAvdlRc+Omviv8qC3K8uehJLzueQXGdKRp3joGQaVd/\nmkWIlvZo0uC7YKLI9+jJ++z6gAUSYg0u/yO4OF88+y3bIsXzlL6UEUGu3wRephIy\n2xGEtIRWxsnIZGNia9XhN9pB3hKITSZCk8X71ywMO4Hci9jH5QbE8jzhAoGAcGLO\nm+kXqY7QHlBlYN+yHifFq4YEbBz1fGKU+9rpCbqn3eNnIjSPP23d7T5u8wxYVRtT\ndlWwkDMPmv+RWlw/evXR78zaPaAdPiRt9oCXkUNjOkzOk60NE58Pvc7oakBq419/\nY1fGyee94dOitNna0dK3PqFGCbDheficFa72aN0CgYEApowLjNegljHqZD7NhsLf\nJUScUDLnxJS3iuuGLgb1qOhFFwkShL2J1/SAyQbDbYgT4D/fkkgepw/biEhAamJc\nxAwbf8rm7IScCGrrtY1gd0e9qWNuVpVw6AwJQ7lXz/O7jVntYHKPvFxKsrWvLYrW\nfYovUCocUEr2RhdS6rcLjCs=\n-----END PRIVATE KEY-----\n",
+  "client_email": "travis-deploy@distense-ui.iam.gserviceaccount.com",
+  "client_id": "118210203483126054702",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/travis-deploy%40distense-ui.iam.gserviceaccount.com"
+}
