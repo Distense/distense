@@ -21,7 +21,7 @@
   "dependencies": {
     "babel-preset-react-app": "^3.0.2",
     "babel-runtime": "^6.26.0",
-    "distense-contracts": "^0.3.68",
+    "distense-contracts": "^0.3",
     "fs-extra": "^5.0.0",
     "lodash": "^4.17.4",
     "meteor-random": "0.0.3",
