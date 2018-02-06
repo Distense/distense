@@ -8,6 +8,7 @@ Thanks for your interest in Distense.
 What is the expected behavior?
 
 Please mention other relevant information such as the browser version, Node.js version, webpack version and Operating System.
+
 OS: 
 
 Browser and version:
