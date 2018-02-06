@@ -20,7 +20,7 @@ Page/function:
 
 **If you're more officially proposing a task for Distense, please follow these rules**
 
-*** Task Title Here *** (<= 70 chars or so)
+*** Task Title Here (<= 70 chars or so) *** 
 
 *** Link to task on Distense website *** 
 
