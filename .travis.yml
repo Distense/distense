@@ -16,7 +16,7 @@ script:
   - npm run build
 deploy:
   provider: gae
-  keyfile: distense-ui-8abca0329a10.json.enc
+  keyfile: distense-ui-8abca0329a10.json
   project: distense-ui
   default: true
   skip_cleanup: true
