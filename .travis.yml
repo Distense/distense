@@ -21,6 +21,17 @@ deploy:
   default: true
   skip_cleanup: true
   verbosity: debug
+  on:
+    branch: master
+deploy:
+  provider: gae
+  keyfile: distense-ui-a989f6f0ddf6.json
+  project: distense-ui-staging
+  default: true
+  skip_cleanup: true
+  verbosity: debug
+  on:
+    branch: staging    
 before_install:
   - openssl aes-256-cbc -K $encrypted_54eebe5abc9c_key -iv $encrypted_54eebe5abc9c_iv
     -in distense-ui-a989f6f0ddf6.json.enc -out distense-ui-a989f6f0ddf6.json -d
