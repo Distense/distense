@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import Random from 'meteor-random'
 
 import * as contracts from '../contracts'
 
@@ -10,14 +9,18 @@ import {
   RECEIVE_PULLREQUESTS,
   REQUEST_PULLREQUEST,
   RECEIVE_PULLREQUEST,
-  SET_NUM_PULLREQUESTS,
-  SUBMIT_PULLREQUEST
-} from '../constants/constants'
+  SET_NUM_PULLREQUESTS
+} from '../constants/actionTypes'
+
+import { constructInitialPullRequest } from '../helpers/pullRequests/constructInitialPullRequest'
 import { receiveUserNotAuthenticated } from './user'
 import { getTaskByID } from './tasks'
 import { setDefaultStatus, updateStatusMessage } from './status'
 import { constructPullRequestFromContractDetails } from '../helpers/pullRequests/constructPullRequestFromContractDetails'
 import { getTaskDetailsForPullRequest } from '../helpers/pullRequests/getTaskDetailsForPullRequest'
+import { getGasPrice } from '../helpers/getGasPrice'
+
+import Random from 'meteor-random'
 
 const requestPullRequests = () => ({
   type: REQUEST_PULLREQUESTS
@@ -43,11 +46,6 @@ const requestPullRequest = id => ({
 
 const receivePullRequest = pullRequest => ({
   type: RECEIVE_PULLREQUEST,
-  pullRequest
-})
-
-const submitPullRequestAction = pullRequest => ({
-  type: SUBMIT_PULLREQUEST,
   pullRequest
 })
 
@@ -137,27 +135,25 @@ export const addPullRequest = ({ taskId, prNum }) => async (
   const task = await getTaskByID(taskId)
 
   const _id = Random.hexString(10) + '-' + prNum
-
-  const pullRequest = Object.assign(
-    {},
-    {
-      _id,
-      taskId, // id of task one is submitting pull request for
-      prNum, // url pointing to Github pr of completed work
-      createdAt: new Date(),
-      createdBy: coinbase,
-      taskTitle: task && task.title ? task.title : 'not available',
-      tags: task && task.tags ? task.tags : [],
-      taskReward: task && task.reward
-    }
+  const createdAt = new Date()
+  const pullRequest = constructInitialPullRequest(
+    _id,
+    createdAt,
+    coinbase,
+    taskId,
+    task,
+    prNum
   )
 
-  dispatch(submitPullRequestAction(pullRequest))
-
-  const addedPullRequest = await addPullRequest(pullRequest._id, taskId, {
-    from: coinbase,
-    gasPrice: 3000000000
-  })
+  const addedPullRequest = await addPullRequest(
+    pullRequest._id,
+    taskId,
+    prNum,
+    {
+      from: coinbase,
+      gasPrice: getGasPrice()
+    }
+  )
 
   if (addedPullRequest) console.log(`successful pull request add`)
 
@@ -180,7 +176,7 @@ export const approvePullRequest = prId => async (dispatch, getState) => {
 
   receipt = await approvePullRequest(prId, {
     from: coinbase,
-    gasPrice: 3000000000 // TODO use ethgasstation for this
+    gasPrice: getGasPrice()
   })
 
   if (receipt) console.log(`got tx receipt`)

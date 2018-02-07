@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import _ from 'lodash'
 
-import { RECEIVE_PARAMETERS } from '../constants/constants'
+import { RECEIVE_PARAMETERS } from '../constants/actionTypes'
 
 const parameters = (state = [], action) => {
   switch (action.type) {
@@ -12,11 +12,31 @@ const parameters = (state = [], action) => {
   }
 }
 
+const parameterValueByTitle = (state = {}, action) => {
+  switch (action.type) {
+    case RECEIVE_PARAMETERS:
+      return {
+        ...state,
+        ...(action.parameters || []).reduce((obj, parameter) => {
+          obj[parameter.title] = parameter.value
+          return obj
+        }, {})
+      }
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
-  parameters
-  // pendingVoteOnParameter
+  parameters,
+  parameterValueByTitle
 })
 
 export const getParameters = state => {
   return state.parameters.parameters
 }
+
+export const getParameterValueByTitle = (
+  { parameters: { parameterValueByTitle } },
+  _title
+) => parameterValueByTitle[_title]

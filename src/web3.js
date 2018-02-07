@@ -1,25 +1,11 @@
-import Web3 from 'web3'
 import contract from 'truffle-contract'
-
-//  If https://disten.se version this will connect to node running on same machine
-let provider = new Web3.providers.HttpProvider('https://rinkeby.disten.se')
-//  If can't connect on 127.0.0.1:4000 likely running locally, check for local node
-if (!provider.isConnected()) {
-  console.log(`No node running on localhost:4000 or no web3 provider found`)
-  console.log(`LOCAL_NODE true, looking for local node running on port 7545`)
-  provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545')
-  if (!provider.isConnected())
-    provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545')
-}
-
-const web3 = new Web3(provider)
-
-export default web3
 
 export const selectContractInstance = contractBuild => {
   return new Promise(resolve => {
     const myContract = contract(contractBuild)
-    myContract.setProvider(provider)
+    /*global web3*/
+    /*eslint no-undef: "error"*/
+    myContract.setProvider(web3.currentProvider)
     myContract.defaults({
       gas: 2e6
     })

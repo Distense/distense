@@ -1,6 +1,6 @@
 {
   "name": "distense-frontend",
-  "version": "0.1.1",
+  "version": "0.1.11",
   "private": true,
   "homepage": "./",
   "scripts": {
@@ -21,7 +21,7 @@
   "dependencies": {
     "babel-preset-react-app": "^3.0.2",
     "babel-runtime": "^6.26.0",
-    "distense-contracts": "^0.3.68",
+    "distense-contracts": "^0.3",
     "fs-extra": "^5.0.0",
     "lodash": "^4.17.4",
     "meteor-random": "0.0.3",
@@ -43,7 +43,8 @@
     "styled-jsx": "^1.0.11",
     "truffle-contract": "^2.0.5",
     "web3": "^0.20.0",
-    "web3-utils": "^1.0.0-beta.27"
+    "web3-utils": "^1.0.0-beta.27",
+    "webpack": "^3.5.1"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
@@ -85,7 +86,7 @@
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "0.5.9",
-    "webpack": "^3.5.1",
+    "webpack-auto-inject-version": "^1.0.0",
     "webpack-dev-server": "2.7.1",
     "webpack-manifest-plugin": "1.2.1"
   },
@@ -97,8 +98,7 @@
       "<rootDir>/config/polyfills.js"
     ],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.js?(x)",
-      "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
+      "<rootDir>/test/**/*.test.js?(x)"
     ],
     "testEnvironment": "node",
     "testURL": "http://localhost",

@@ -10,7 +10,7 @@ import { getAllPullRequests } from '../reducers/pullRequests'
 
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
-import PullRequestListItem from '../pages/PullRequestListItem'
+import PullRequestListItem from '../components/PullRequestListItem'
 
 class PullRequests extends Component {
   constructor(props) {
