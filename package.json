@@ -43,7 +43,8 @@
     "styled-jsx": "^1.0.11",
     "truffle-contract": "^2.0.5",
     "web3": "^0.20.0",
-    "web3-utils": "^1.0.0-beta.27"
+    "web3-utils": "^1.0.0-beta.27",
+    "webpack": "^3.5.1"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
@@ -85,7 +86,6 @@
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "0.5.9",
-    "webpack": "^3.5.1",
     "webpack-auto-inject-version": "^1.0.0",
     "webpack-dev-server": "2.7.1",
     "webpack-manifest-plugin": "1.2.1"
