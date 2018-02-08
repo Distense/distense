@@ -11,7 +11,7 @@ export default class GetStarted extends Component {
         <Head title="Get Started" />
         <Container text>
           <Header as="h1">Get Started</Header>
-          <List ordered>
+          <List>
             <List.Item as="h2">Get an Ethereum Account</List.Item>
             <List.List as="ul">
               <List.Item as="li">
@@ -99,26 +99,6 @@ export default class GetStarted extends Component {
               <List.Item as="li">
                 Once you've completed the work and are ready to submit a pull
                 request, navigate to the appropriate repo on Github
-                <List.List as="ul">
-                  <List.Item as="li">
-                    <a
-                      target="_blank"
-                      href="https://github.com/Distense/distense-ui"
-                      rel="noopener noreferrer"
-                    >
-                      distense-ui
-                    </a>
-                  </List.Item>
-                  <List.Item as="li">
-                    <a
-                      target="_blank"
-                      href="https://github.com/Distense/distense-contracts"
-                      rel="noopener noreferrer"
-                    >
-                      distense-contracts
-                    </a>
-                  </List.Item>
-                </List.List>
               </List.Item>
               <List.Item as="li">
                 Once you see a task that you like, click the blue task title to
