@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Header, List } from 'semantic-ui-react'
+import { Button, Container, Header, List } from 'semantic-ui-react'
 import Head from '../components/common/Head'
 import Layout from '../components/Layout'
 
@@ -15,19 +15,20 @@ export default class GetStarted extends Component {
             <List.Item as="h2">Get an Ethereum Account</List.Item>
             <List.List as="ul">
               <List.Item as="li">
-                This section applies even if you don't want to contribute to
-                Distense
+                This section is helpful if you don't have an Ethereum address
+                and even if you don't want to contribute to Distense.
               </List.Item>
               <List.Item as="li">
-                Ethereum addresses are how you authenticate to the Distense as a
+                Ethereum addresses are how you are known to Distense as a
                 contributor. They are also how we keep track of DID balances.
+                You can also use them to send and receive ether.
               </List.Item>
               <List.Item as="li">
-                You'll need Metamask to use Distense, so, to make things easier,
-                we suggest creating an address with Metamask.
+                You'll need MetaMask to use Distense, so, to make things easier,
+                we suggest creating an address with MetaMask.
                 <List.List as="ol">
                   <List.Item as="li">
-                    Install Metamask:
+                    Install MetaMask:
                     <List.List as="ul">
                       <List.Item as="li">
                         <a
@@ -41,7 +42,7 @@ export default class GetStarted extends Component {
                       <List.Item as="li">
                         <a
                           target="_blank"
-                          href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en"
+                          href="https://chrome.google.com/webstore/detail/MetaMask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en"
                           rel="noopener noreferrer"
                         >
                           Chrome
@@ -50,23 +51,24 @@ export default class GetStarted extends Component {
                     </List.List>
                   </List.Item>
                   <List.Item as="li">
-                    Open Metamask. Click the fox at the top-right of your
+                    Open MetaMask by clicking the fox at the top-right of your
                     browser:
                     <img
                       style={{ display: 'inline', margin: '-26px -5px' }}
-                      alt="metamask logo"
-                      src="/public/metamask-image-tiny.png"
+                      alt="MetaMask logo"
+                      src="/public/MetaMask-image-tiny.png"
                     />
                   </List.Item>
-                  <List.Item as="li">Accept the terms</List.Item>
+                  <List.Item as="li">Accept MetaMask's terms</List.Item>
                   <List.Item as="li">
                     Enter a ludicrously strong password that will encrypt your
                     "den" which is a collection of Ethereum addresses you can
-                    import into or create with Metamask
+                    import into or create with MetaMask. Store this password
+                    somewhere super safe.
                   </List.Item>
                   <List.Item as="li">
                     Save your seed phrase. This is super important. That's why
-                    Metamask asks you three times if you've done so.
+                    MetaMask asks you three times if you've done this.
                   </List.Item>
                   <List.Item>
                     On the next screen you'll see "Account One" and below that
@@ -82,32 +84,73 @@ export default class GetStarted extends Component {
                 Navigate to our{' '}
                 <Link target="_blank" to={'tasks'}>
                   tasks page
-                </Link>
+                </Link>{' '}
+                or our{' '}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/Distense/distense-ui/issues"
+                >
+                  issues
+                </a>{' '}
+                on Github.
               </List.Item>
               <List.Item as="li">
-                Once you see a task that you like, click the blue title to
-                navigate to the task's page.
+                Once you see a task you would like to work on, click the blue
+                task title to navigate to the task's page. If you found the task
+                on Github, return to the list of{' '}
+                <Link target="_blank" to={'tasks'}>
+                  tasks
+                </Link>{' '}
+                to find the task.
               </List.Item>
               <List.Item as="li">
                 Once you're on the task's page, you can click the blue "Issue
                 URL" link to view even more details and discussion about how to
-                complete the task
+                complete the task on Github
               </List.Item>
             </List.List>
             <List.Item as="h2">Submit your work</List.Item>
             <List.List as="ol">
               <List.Item as="li">
-                Once you've completed the work and are ready to submit a pull
-                request, navigate to the appropriate repo on Github
+                To submit work we need two things:
+                <List.List as="ul">
+                  <List.Item as="li">
+                    The pull request number from Github{' '}
+                  </List.Item>
+                  <List.Item as="li">The task ID</List.Item>
+                </List.List>
               </List.Item>
               <List.Item as="li">
-                Once you see a task that you like, click the blue task title to
-                navigate to the task's page.
+                To get the pull request number, simply create a{' '}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/Distense/distense-ui/pulls"
+                >
+                  pull request
+                </a>{' '}
+                on Github like you're used to doing. The number of the pull
+                request is the "155" in this URL:{' '}
+                <em>https://github.com/Distense/distense-ui/pull/155</em>
               </List.Item>
               <List.Item as="li">
-                Once you're on the task's page, you can click the blue "Issue
-                URL" link to view even more details and discussion about how to
-                complete the task
+                You can find the task ID in one of two ways. Both of the
+                following ways will pre-populate the task ID in the Submit Pull
+                Request page so you don't have to copy it to your clipboard.
+                <List.List as="ol">
+                  <List.Item as="li">
+                    Return to the task in the tasks list and click the{' '}
+                    <Button size="tiny" color="green" type="submit">
+                      Submit
+                    </Button>
+                    button on the right of the task.
+                    <List.Item as="li">
+                      Go to the individual task's page and click the green
+                      Submit button there.
+                    </List.Item>
+                  </List.Item>
+                </List.List>
               </List.Item>
             </List.List>
           </List>
