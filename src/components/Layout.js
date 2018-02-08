@@ -63,6 +63,15 @@ export default ({ children, title }) => (
             link
             as={Link}
             position="right"
+            to="/getstarted"
+          >
+            Get Started
+          </Menu.Item>
+          <Menu.Item
+            style={{ textDecoration: 'underline' }}
+            color="blue"
+            link
+            as={Link}
             to="/FAQ"
           >
             FAQ

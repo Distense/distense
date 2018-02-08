@@ -27,6 +27,7 @@ import PullRequests from './pages/PullRequests'
 import PullRequest from './pages/PullRequest'
 import Parameters from './pages/Parameters'
 import FourOhFour from './pages/FourOhFour'
+import GetStarted from './pages/GetStarted'
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
 
@@ -42,6 +43,7 @@ const Root = () => (
       <Route exact path="/events" component={Events} />
       <Route exact path="/exchange" component={Exchange} />
       <Route exact path="/FAQ" component={FAQ} />
+      <Route exact path="/getstarted" component={GetStarted} />
       <Route path="/tasks/:title/:id" component={Task} />
       <Route path="/tasks/add" component={AddTask} />
       <Route exact path="/tasks" component={Tasks} />
