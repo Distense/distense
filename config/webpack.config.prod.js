@@ -13,6 +13,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
 const paths = require('./paths')
 const getClientEnvironment = require('./env')
 const WebpackAutoInject = require('webpack-auto-inject-version')
+const CompressionPlugin = require('compression-webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -72,6 +73,7 @@ module.exports = {
     devtoolModuleFilenameTemplate: info =>
       path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/')
   },
+
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
     // We placed these paths second because we want `node_modules` to "win"
@@ -92,30 +94,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web'
-    },
-    plugins: [
-      // Prevents users from importing files from outside of src/ (or node_modules/).
-      // This often causes confusion because we only process files within src/ with babel.
-      // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
-      // please link the files into your node_modules/ and let module-resolution kick in.
-      // Make sure your source files are compiled, as they will not be processed in any way.
-      new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
-      new WebpackAutoInject({
-        components: {
-          AutoIncreaseVersion: false,
-          InjectAsComment: true
-        },
-        componentsOptions: {
-          AutoIncreaseVersion: {
-            runInWatchMode: false,
-            InjectAsComment: {
-              tag: 'Build version: {version} - {date}',
-              dateFormat: 'dddd, mmmm dS, yyyy, h:MM:ss TT'
-            }
-          }
-        }
-      })
-    ]
+    }
   },
   module: {
     strictExportPresence: true,
@@ -162,7 +141,7 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               compact: true,
-              plugins: ['styled-jsx/babel']
+              plugins: [['styled-jsx/babel', { optimizeForSpeed: true }]]
             }
           },
           // The notation here is somewhat confusing.
@@ -335,7 +314,35 @@ module.exports = {
     // solution that requires the user to opt into importing specific locales.
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    // Prevents users from importing files from outside of src/ (or node_modules/).
+    // This often causes confusion because we only process files within src/ with babel.
+    // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
+    // please link the files into your node_modules/ and let module-resolution kick in.
+    // Make sure your source files are compiled, as they will not be processed in any way.
+    new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+    new WebpackAutoInject({
+      components: {
+        AutoIncreaseVersion: false,
+        InjectAsComment: true
+      },
+      componentsOptions: {
+        AutoIncreaseVersion: {
+          runInWatchMode: false,
+          InjectAsComment: {
+            tag: 'Build version: {version} - {date}',
+            dateFormat: 'dddd, mmmm dS, yyyy, h:MM:ss TT'
+          }
+        }
+      }
+    }),
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
