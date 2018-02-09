@@ -56,7 +56,7 @@ export default class GetStarted extends Component {
                     <img
                       style={{ display: 'inline', margin: '-26px -5px' }}
                       alt="MetaMask logo"
-                      src="/public/MetaMask-image-tiny.png"
+                      src="/public/metamask-image-tiny.png"
                     />
                   </List.Item>
                   <List.Item as="li">Accept MetaMask's terms</List.Item>
