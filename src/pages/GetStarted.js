@@ -78,6 +78,24 @@ export default class GetStarted extends Component {
                 </List.List>
               </List.Item>
             </List.List>
+            <List.Item as="h2">Using MetaMask</List.Item>
+            <List.List as="ul">
+              <List.Item as="li">
+                Learning to use MetaMask, or another method of signing
+                transactions, is a fundamental aspect of Ethereum. In the five
+                or so different blockchain transactions Distense has, you will
+                need to confirm these transactions in MetaMask.
+              </List.Item>
+              <List.Item as="li">
+                Basically when you click "Submit" or "Add" in Distense you will
+                get popup allowing you to adjust the Ethereum gas consumed and
+                gas price of each transaction. We suggest setting the gas price
+                low, to ~5 GWEI, as most Distense transactions are not
+                time-sensitive. An exception is when you are submitting a pull
+                request and are concerned about someone submitting one before
+                you.
+              </List.Item>
+            </List.List>
             <List.Item as="h2">View available tasks</List.Item>
             <List.List as="ol">
               <List.Item as="li">
@@ -135,12 +153,16 @@ export default class GetStarted extends Component {
                 <em>https://github.com/Distense/distense-ui/pull/155</em>
               </List.Item>
               <List.Item as="li">
-                You can find the task ID in one of two ways. Both of the
-                following ways will pre-populate the task ID in the Submit Pull
-                Request page so you don't have to copy it to your clipboard.
+                You can find the task ID in one of two ways. Both ways will
+                pre-populate the task ID in the Submit Pull Request page so you
+                don't have to copy it.
                 <List.List as="ol">
                   <List.Item as="li">
-                    Return to the task in the tasks list and click the{' '}
+                    Return to the task in the{' '}
+                    <Link target="_blank" to={'tasks'}>
+                      tasks list
+                    </Link>{' '}
+                    and click the{' '}
                     <Button size="tiny" color="green" type="submit">
                       Submit
                     </Button>
@@ -151,6 +173,11 @@ export default class GetStarted extends Component {
                     </List.Item>
                   </List.Item>
                 </List.List>
+              </List.Item>
+              <List.Item as="li">
+                That will take you to a page where the only thing to do is enter
+                your pull request number. Click Submit and confirm the tx in
+                Metamask.
               </List.Item>
             </List.List>
           </List>
