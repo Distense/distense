@@ -60,7 +60,7 @@ class AddTask extends Component {
 
   onChangeTags(e, data) {
     const tags = data.value
-    if (tags.length < 1) {
+    if (tags.length < 3) {
       this.setState({ tags })
       let tagsString = ''
       tags.forEach((tag, i) => {
