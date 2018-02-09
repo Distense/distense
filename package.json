@@ -1,13 +1,13 @@
 {
   "name": "distense-frontend",
-  "version": "0.1.11",
+  "version": "0.2.0",
   "private": true,
   "homepage": "/",
   "scripts": {
     "analyze": "source-map-explorer build/main.*",
     "build": "node scripts/build.js",
-    "deploy": "node scripts/build.js && cp -r build /www",
     "dev": "DEV=true node scripts/start.js",
+    "build": "node scripts/build.js",
     "start": "node scripts/start.js",
     "test": "node scripts/test.js --env=jsdom"
   },

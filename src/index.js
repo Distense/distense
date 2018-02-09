@@ -16,7 +16,7 @@ import { fetchParameters } from './actions/parameters'
 
 import Home from './pages/Home'
 import Events from './pages/Events'
-import CreateTask from './pages/AddTask'
+import AddTask from './pages/AddTask'
 import Exchange from './pages/Exchange'
 import FAQ from './pages/FAQ'
 import HowItWorks from './pages/HowItWorks'
@@ -26,6 +26,7 @@ import AddPullRequest from './pages/AddPullRequest'
 import PullRequests from './pages/PullRequests'
 import PullRequest from './pages/PullRequest'
 import Parameters from './pages/Parameters'
+import FourOhFour from './pages/FourOhFour'
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
 
@@ -42,12 +43,13 @@ const Root = () => (
       <Route exact path="/exchange" component={Exchange} />
       <Route exact path="/FAQ" component={FAQ} />
       <Route path="/tasks/:title/:id" component={Task} />
-      <Route path="/tasks/add" component={CreateTask} />
+      <Route path="/tasks/add" component={AddTask} />
       <Route exact path="/tasks" component={Tasks} />
-      <Route path="/pullrequests/add/:id?" component={AddPullRequest} />
+      <Route path="/pullrequests/add" component={AddPullRequest} />
       <Route exact path="/pullrequests/:id" component={PullRequest} />
       <Route exact path="/pullrequests" component={PullRequests} />
       <Route exact path="/parameters" component={Parameters} />
+      <Route component={FourOhFour} />
     </Switch>
   </Router>
 )
