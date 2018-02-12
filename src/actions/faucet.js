@@ -11,15 +11,25 @@ export const submitFaucetRequest = () => async (dispatch, getState) => {
     return
   }
 
-  const { requestEther } = await contracts.Faucet // Get contract function from Tasks contract instance
+  const { requestEther } = await contracts.Faucet
 
   updateStatusMessage('requesting ether from faucet')
 
   if (cb) {
-    await requestEther(cb, {
-      from: cb,
-      gasPrice: getGasPrice()
-    })
+    const requestSuccessful = await requestEther(
+      {},
+      {
+        from: cb,
+        gasPrice: getGasPrice()
+      }
+    )
+    if (requestSuccessful) {
+      console.log(`faucet request successful`)
+      return true
+    } else {
+      console.log(`faucet request failful`)
+      return false
+    }
   }
 
   dispatch(setDefaultStatus())
