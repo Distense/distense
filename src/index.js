@@ -14,10 +14,11 @@ import { selectUserAccountInfo } from './actions/user'
 import { getContractEvents } from './actions/events'
 import { fetchParameters } from './actions/parameters'
 
-import FAQ from './pages/FAQ'
 import Home from './pages/Home'
 import Events from './pages/Events'
 import Exchange from './pages/Exchange'
+import Faucet from './pages/Faucet'
+import FAQ from './pages/FAQ'
 import HowItWorks from './pages/HowItWorks'
 import Layout from './components/Layout'
 import AddTask from './pages/AddTask'
@@ -58,6 +59,7 @@ export const Routes = () => (
       <DefaultLayout exact path="/exchange" component={Exchange} />
       <DefaultLayout path="/faq" component={FAQ} />
       <DefaultLayout path="/FAQ" component={FAQ} />
+      <DefaultLayout exact path="/faucet" component={Faucet} />
       <DefaultLayout exact path="/getstarted" component={GetStarted} />
       <DefaultLayout path="/tasks/:title/:id" component={Task} />
       <DefaultLayout path="/tasks/add" component={AddTask} />
@@ -78,15 +80,21 @@ export const App = () => (
 )
 
 window.addEventListener('load', function() {
+  const rinkebyProvider = new Web3.providers.HttpProvider(
+    'https://rinkeby.disten.se'
+  )
   if (typeof web3 !== 'undefined') {
     /*global web3 */
     /*eslint no-undef: "error"*/
     new Web3(web3.currentProvider)
-  } else {
+  } else if (rinkebyProvider) {
     console.log(`Falling back to localhost`)
-    new Web3(new Web3.providers.HttpProvider('https://rinkeby.disten.se'))
+    new Web3(rinkebyProvider)
+  } else {
+    console.log(`Using localhost provider`)
+    new Web3.providers.HttpProvider('http://127.0.0.1:7545')
   }
 
-  ReactDOM.render(App, document.getElementById('root'))
+  ReactDOM.render(App(), document.getElementById('root'))
   registerServiceWorker()
 })
