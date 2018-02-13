@@ -1,6 +1,6 @@
 import React from 'react'
 import sinon from 'sinon'
-import { shallow, mount, render } from 'enzyme'
+import { shallow } from 'enzyme'
 import { expect } from 'chai'
 
 import { Button, Form, Grid, Header, Message } from 'semantic-ui-react'
