@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { List } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 
 import Head from '../components/common/Head'
+import EventItem from '../components/common/EventItem'
 
-class Events extends Component {
+export class Events extends React.Component {
   shouldComponentUpdate(nextProps) {
     return this.props.events !== nextProps.events
   }
@@ -25,18 +25,6 @@ class Events extends Component {
     )
   }
 }
-
-const EventItem = ({ e }) => (
-  <List.Item>
-    <List.Header>{e.title}</List.Header>
-    <List.Content>{e.contract} contract</List.Content>
-    <List.Description>
-      <Link target="_blank" to={`https://etherscan.io/tx/${e.txHash}`}>
-        View tx ()
-      </Link>
-    </List.Description>
-  </List.Item>
-)
 
 const mapStateToProps = state => ({
   events: state.events.events

@@ -1,27 +1,16 @@
 import React from 'react'
 import sinon from 'sinon'
-import { shallow, mount, render } from 'enzyme'
+import { shallow } from 'enzyme'
 import { expect } from 'chai'
 
-import {
-  Button,
-  Dropdown,
-  Input,
-  Form,
-  Grid,
-  Header,
-  List,
-  Message
-} from 'semantic-ui-react'
+import { Button, Dropdown, Form, Grid, List, Message } from 'semantic-ui-react'
 
 import Head from '../../../src/components/common/Head'
-import Layout from '../../../src/components/Layout'
 
 import { AddTask } from '../../../src/pages/AddTask'
 
 describe('<AddTask /> page component', function() {
   let wrapper
-  let mounted
   const defaultProps = {
     title: '',
     tagsString: '',
@@ -31,16 +20,24 @@ describe('<AddTask /> page component', function() {
     redirect: false
   }
 
+  const mountedProps = {
+    params: { id: '12341234' }
+  }
+
+  let fakeComponentDidMount
   beforeEach(() => {
-    wrapper = shallow(<AddTask {...defaultProps} />)
+    fakeComponentDidMount = sinon.stub(AddTask.prototype, 'componentDidMount')
+    wrapper = shallow(<AddTask match={mountedProps} {...defaultProps} />)
+  })
+
+  afterEach(function() {
+    fakeComponentDidMount.restore()
   })
 
   it('should contain some basic subcomponents', function() {
-    expect(wrapper.find(Layout).length).to.equal(1)
     expect(wrapper.find(Grid).length).to.equal(1)
     expect(wrapper.find(Head).length).to.equal(1)
     expect(wrapper.find(Grid.Row).length).to.equal(5)
-    expect(wrapper.find(Grid.Column).length).to.equal(8)
     expect(wrapper.find(Form).length).to.equal(2)
     expect(wrapper.find(Form.Field).length).to.equal(4)
     expect(wrapper.find(Dropdown).length).to.equal(2)
@@ -59,5 +56,9 @@ describe('<AddTask /> page component', function() {
 
   it('should contain a button with text "Submit"', function() {
     expect(wrapper.find(Button).length).to.equal(1)
+  })
+
+  it('should call componentDidMount', () => {
+    expect(fakeComponentDidMount.called).to.equal(true)
   })
 })
