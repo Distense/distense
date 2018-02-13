@@ -7,7 +7,6 @@
     "analyze": "source-map-explorer build/main.*",
     "build": "node scripts/build.js",
     "dev": "DEV=true node scripts/start.js",
-    "build": "node scripts/build.js",
     "start": "node scripts/start.js",
     "test": "node scripts/test.js --env=jsdom"
   },
@@ -68,6 +67,8 @@
     "compression-webpack-plugin": "^1.1.6",
     "css-loader": "0.28.4",
     "dotenv": "4.0.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.15.0",
     "eslint-config-react-app": "^2.0.1",
     "eslint-loader": "^1.9.0",
@@ -84,6 +85,7 @@
     "postcss-loader": "2.0.6",
     "prettier": "1.10.2",
     "react-dev-utils": "^3.1.0",
+    "sinon": "^4.3.0",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "0.5.9",
@@ -122,6 +124,7 @@
       "web.jsx",
       "jsx",
       "node"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/test/enzymeSetup.js"
   }
 }

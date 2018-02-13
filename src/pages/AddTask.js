@@ -22,7 +22,7 @@ import Layout from '../components/Layout'
 import { tagsOptions } from '../tagsOptions'
 import { getParameterValueByTitle } from '../reducers/parameters'
 
-class AddTask extends Component {
+export class AddTask extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -225,7 +225,7 @@ class AddTask extends Component {
                   <List.Item>Enter the title of your task/proposal</List.Item>
                   <List.Item>
                     Limit the length of the title: the more characters the more
-                    gas it will cost you :)
+                    gas it will cost you
                   </List.Item>
                   <List.Item>
                     Example: 'Build this amazing new dapp that will change the
@@ -258,10 +258,6 @@ class AddTask extends Component {
                 <Message.Header>Repo</Message.Header>
                 <List bulleted>
                   <List.Item>Choose the one that best fits</List.Item>
-                  <List.Item>
-                    TODO decide on whether to have general purpose repo
-                    (probably)
-                  </List.Item>
                 </List>
               </Message>
             </Grid.Column>
