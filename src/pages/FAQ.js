@@ -70,6 +70,25 @@ export default class FAQ extends Component {
               request, DID are automatically issued on the blockchain.
             </p>
             <p style={{ fontSize: '1.33em', marginTop: '2.2em' }}>
+              <Header as="h3">What id DID?</Header>
+            </p>
+            <p style={{ fontSize: '1.10em' }}>
+              1.)DID are our economic and {'\n'}governance token
+</p>
+            <p style={{ fontSize: '1.10em' }}>
+              2.)They represent ownership of Distense</p>
+            <p style={{ fontSize: '1.10em' }}>
+              3.)They give the owner the right to: 
+            </p>
+            <p style={{ fontSize: '1.10em' }}>i.Propose/add tasks to Distense
+            </p>
+            <p style={{ fontSize: '1.10em' }}>ii.Vote on Distense <Link to="/Parameters">parameters</Link>
+            </p>
+            <p style={{ fontSize: '1.10em' }}>iii.Approve work
+            </p>
+            <p style={{ fontSize: '1.10em' }}>iv.Receive dividends if Distense earns money
+            </p>
+            <p style={{ fontSize: '1.33em', marginTop: '2.2em' }}>
               <Header as="h3">Why should I contribute and earn DID?</Header>
             </p>
             <p style={{ fontSize: '1.10em' }}>
