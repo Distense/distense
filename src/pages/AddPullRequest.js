@@ -29,7 +29,7 @@ export class AddPullRequest extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentDidMount() {
+  componentWillMount() {
     //  If taskId param exists prefill the input
     const taskId = this.props.match.params.id
     if (taskId) this.selectTask(taskId)
@@ -42,11 +42,7 @@ export class AddPullRequest extends Component {
 
   selectTask(taskId) {
     this.setState({ taskId: taskId })
-
-    //  Don't query for task until it is at least the length of an IPFS hash
-    if (taskId.length >= 32) {
-      this.props.selectTask(taskId)
-    }
+    this.props.selectTask(taskId)
   }
 
   onChangePRNum = ({ target: { value } }) => {

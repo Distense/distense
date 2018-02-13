@@ -61,7 +61,7 @@ const Root = () => (
       <DefaultLayout path="/tasks/:title/:id" component={Task} />
       <DefaultLayout path="/tasks/add" component={AddTask} />
       <DefaultLayout exact path="/tasks" component={Tasks} />
-      <DefaultLayout path="/pullrequests/add" component={AddPullRequest} />
+      <DefaultLayout path="/pullrequests/add/:id" component={AddPullRequest} />
       <DefaultLayout exact path="/pullrequests/:id" component={PullRequest} />
       <DefaultLayout exact path="/pullrequests" component={PullRequests} />
       <DefaultLayout exact path="/parameters" component={Parameters} />
