@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  Container,
-  Grid,
-  Header,
-  Icon,
-  List,
-  Menu,
-  Segment
-} from 'semantic-ui-react'
+import { Container, Grid, Header, Icon, List, Segment } from 'semantic-ui-react'
 import Scroll from 'react-scroll'
 import Head from '../components/common/Head'
 
@@ -49,39 +41,9 @@ export default class HowItWorks extends Component {
     return (
       <div>
         <Head title="How It Works" />
-        <Segment
-          inverted
-          textAlign="center"
-          style={{
-            minHeight: '50px',
-            padding: '0em'
-          }}
-          vertical
-        >
-          <Menu borderless className="inconsolata" inverted size="large">
-            <Container textAlign="center">
-              <Menu.Item to="/" as={Link} position="left">
-                Distense
-              </Menu.Item>
-              <Menu.Item to="/tasks/create" as={Link}>
-                Propose
-              </Menu.Item>
-              <Menu.Item to="/tasks" as={Link}>
-                View
-              </Menu.Item>
-              <Menu.Item to="/pullrequests/submit" as={Link}>
-                Submit
-              </Menu.Item>
-              <Menu.Item to="/pullrequests" as={Link}>
-                Approve
-              </Menu.Item>
-              <Menu.Item position="right">18330 Total DID</Menu.Item>
-            </Container>
-          </Menu>
-        </Segment>
 
         <Container text>
-          <Segment style={{ padding: '7em 0em' }} textAlign="center" vertical>
+          <Segment style={{ padding: '5em 0em' }} textAlign="center" vertical>
             <Header
               className="landing-header"
               as="h3"
@@ -165,10 +127,11 @@ export default class HowItWorks extends Component {
                 Propose a task or change
               </Header>
               <p style={{ fontSize: '1.33em' }}>
-                Anyone who owns more than 0 DID can propose a new task, whether
-                that's fixing a bug or building a feature for an existing DApp.
-                Want to build a DApp under the Distense umbrella? Simply propose
-                the DApp and other Distense contributors can work with you.
+                Anyone who owns more than 100 DID can propose a new task,
+                whether that's fixing a bug or building a feature for an
+                existing DApp. Want to build a DApp under the Distense umbrella?
+                Simply propose the DApp and other Distense contributors can work
+                with you.
               </p>
               <p style={{ fontSize: '1.33em' }}>
                 Proposing tasks is simple. Discussion can happen on Github and a

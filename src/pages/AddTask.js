@@ -18,7 +18,6 @@ import { getPendingTask } from '../reducers/tasks'
 import { NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 import { tagsOptions } from '../tagsOptions'
 import { getParameterValueByTitle } from '../reducers/parameters'
 
@@ -101,7 +100,7 @@ export class AddTask extends Component {
     if (redirect) return <Redirect to="/tasks" />
 
     return (
-      <Layout>
+      <div>
         <Head title="Add Task" />
         <Grid>
           <Grid.Row>
@@ -263,7 +262,7 @@ export class AddTask extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </Layout>
+      </div>
     )
   }
 }

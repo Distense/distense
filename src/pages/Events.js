@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 
 class Events extends Component {
   shouldComponentUpdate(nextProps) {
@@ -15,14 +14,14 @@ class Events extends Component {
     const { events } = this.props
 
     return (
-      <Layout>
+      <div>
         <Head title="Add Task" />
         <List celled>
           {events.length > 0
             ? events.map(event => <EventItem key={event.txHash} e={event} />)
             : events.length === 0 ? 'No events' : 'Loading events...'}
         </List>
-      </Layout>
+      </div>
     )
   }
 }

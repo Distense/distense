@@ -8,7 +8,6 @@ import { fetchTasks } from '../actions/tasks'
 import { getAllTasks } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
 
 class Tasks extends Component {
@@ -63,7 +62,7 @@ class Tasks extends Component {
     const { tasks } = this.props
 
     return (
-      <Layout>
+      <div>
         <Head title="Available Tasks" />
         <Table sortable striped>
           <Table.Header>
@@ -121,7 +120,7 @@ class Tasks extends Component {
             )}
           </Table.Body>
         </Table>
-      </Layout>
+      </div>
     )
   }
 }

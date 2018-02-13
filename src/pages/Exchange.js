@@ -14,7 +14,6 @@ import { connect } from 'react-redux'
 import { investEtherForDID, exchangeDIDForEther } from '../actions/exchange'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 
 class Exchange extends Component {
   constructor(props) {
@@ -65,7 +64,7 @@ class Exchange extends Component {
     const { numDID, numEther, numDIDOwned } = this.state
 
     return (
-      <Layout>
+      <div>
         <Head title="Add Task" />
         <Grid>
           <Grid.Row>
@@ -167,7 +166,7 @@ class Exchange extends Component {
           </Grid.Row>
           <Grid.Row />
         </Grid>
-      </Layout>
+      </div>
     )
   }
 }

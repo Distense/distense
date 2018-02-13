@@ -11,7 +11,6 @@ import { fetchTask } from '../actions/tasks'
 import { getTask } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 
 class PullRequest extends Component {
   constructor(props) {
@@ -47,7 +46,7 @@ class PullRequest extends Component {
     const { pullRequest } = this.props
 
     return (
-      <Layout>
+      <div>
         <Head title="Pull Request" />
         <div>
           {pullRequest ? (
@@ -81,7 +80,7 @@ class PullRequest extends Component {
             'Loading pull request...'
           )}
         </div>
-      </Layout>
+      </div>
     )
   }
 }

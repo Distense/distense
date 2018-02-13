@@ -15,7 +15,6 @@ import { fetchTask, voteOnTaskReward } from '../actions/tasks'
 import { getTask } from '../reducers/tasks'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 import Tags from '../components/common/Tags'
 
 class Task extends Component {
@@ -72,7 +71,7 @@ class Task extends Component {
     }
 
     return (
-      <Layout>
+      <div>
         <Head title="Task" />
         <div className="task">
           {task ? (
@@ -122,7 +121,7 @@ class Task extends Component {
             'Loading task...'
           )}
         </div>
-      </Layout>
+      </div>
     )
   }
 }

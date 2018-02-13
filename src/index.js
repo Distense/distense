@@ -14,12 +14,13 @@ import { selectUserAccountInfo } from './actions/user'
 import { getContractEvents } from './actions/events'
 import { fetchParameters } from './actions/parameters'
 
+import FAQ from './pages/FAQ'
 import Home from './pages/Home'
 import Events from './pages/Events'
-import AddTask from './pages/AddTask'
 import Exchange from './pages/Exchange'
-import FAQ from './pages/FAQ'
 import HowItWorks from './pages/HowItWorks'
+import Layout from './components/Layout'
+import AddTask from './pages/AddTask'
 import Tasks from './pages/Tasks'
 import Task from './pages/Task'
 import AddPullRequest from './pages/AddPullRequest'
@@ -35,23 +36,36 @@ store.dispatch(selectUserAccountInfo())
 store.dispatch(getContractEvents())
 store.dispatch(fetchParameters())
 
+const DefaultLayout = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={matchProps => (
+        <Layout>
+          <Component {...matchProps} />
+        </Layout>
+      )}
+    />
+  )
+}
+
 const Root = () => (
   <Router>
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/howitworks" component={HowItWorks} />
-      <Route exact path="/events" component={Events} />
-      <Route exact path="/exchange" component={Exchange} />
-      <Route exact path="/FAQ" component={FAQ} />
-      <Route exact path="/getstarted" component={GetStarted} />
-      <Route path="/tasks/:title/:id" component={Task} />
-      <Route path="/tasks/add" component={AddTask} />
-      <Route exact path="/tasks" component={Tasks} />
-      <Route path="/pullrequests/add" component={AddPullRequest} />
-      <Route exact path="/pullrequests/:id" component={PullRequest} />
-      <Route exact path="/pullrequests" component={PullRequests} />
-      <Route exact path="/parameters" component={Parameters} />
-      <Route component={FourOhFour} />
+      <DefaultLayout exact path="/howitworks" component={HowItWorks} />
+      <DefaultLayout exact path="/events" component={Events} />
+      <DefaultLayout exact path="/exchange" component={Exchange} />
+      <DefaultLayout exact path="/FAQ" component={FAQ} />
+      <DefaultLayout exact path="/getstarted" component={GetStarted} />
+      <DefaultLayout path="/tasks/:title/:id" component={Task} />
+      <DefaultLayout path="/tasks/add" component={AddTask} />
+      <DefaultLayout exact path="/tasks" component={Tasks} />
+      <DefaultLayout path="/pullrequests/add" component={AddPullRequest} />
+      <DefaultLayout exact path="/pullrequests/:id" component={PullRequest} />
+      <DefaultLayout exact path="/pullrequests" component={PullRequests} />
+      <DefaultLayout exact path="/parameters" component={Parameters} />
+      <DefaultLayout component={FourOhFour} />
     </Switch>
   </Router>
 )
