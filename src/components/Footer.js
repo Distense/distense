@@ -9,7 +9,7 @@ import { Container, Menu, Segment } from 'semantic-ui-react'
 
 import Status from './Status'
 
-export default ({ children }) => (
+export default () => (
   <Segment vertical style={{ margin: '3em 0em 0em', padding: '5em 0em' }}>
     <Menu className="inconsolata" borderless fixed="bottom">
       <Container>

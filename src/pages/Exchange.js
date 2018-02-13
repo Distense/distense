@@ -15,7 +15,7 @@ import { investEtherForDID, exchangeDIDForEther } from '../actions/exchange'
 
 import Head from '../components/common/Head'
 
-class Exchange extends Component {
+export class Exchange extends Component {
   constructor(props) {
     super(props)
     this.state = {

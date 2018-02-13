@@ -3,22 +3,7 @@ import sinon from 'sinon'
 import { shallow, mount, render } from 'enzyme'
 import { expect } from 'chai'
 
-import { spy } from 'sinon'
-import { MemoryRouter } from 'react-router-dom'
-
-const middlewares = []
-const didMount = sinon.spy()
-
-import {
-  Button,
-  Dropdown,
-  Input,
-  Form,
-  Grid,
-  Header,
-  List,
-  Message
-} from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Message } from 'semantic-ui-react'
 
 import Head from '../../../src/components/common/Head'
 

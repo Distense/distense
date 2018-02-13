@@ -10,7 +10,6 @@ import { Events } from '../../../src/pages/Events'
 
 describe('<Events /> page component', function() {
   let wrapper
-
   beforeEach(() => {
     wrapper = shallow(<Events events={[]} />)
   })
