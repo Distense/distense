@@ -20,6 +20,15 @@ export default () => (
           link
           as={Link}
           position="right"
+          to="/faucet"
+        >
+          Faucet
+        </Menu.Item>
+        <Menu.Item
+          style={{ textDecoration: 'underline' }}
+          color="blue"
+          link
+          as={Link}
           to="/getstarted"
         >
           Get Started

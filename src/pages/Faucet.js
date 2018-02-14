@@ -4,7 +4,6 @@ import { Button, Form, Grid, Header, List, Message } from 'semantic-ui-react'
 
 import { Link } from 'react-router-dom'
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 import { submitFaucetRequest } from '../actions/faucet'
 import { getCoinbase } from '../reducers/user'
 
@@ -28,7 +27,7 @@ class Faucet extends Component {
   }
 
   render() {
-    const { coinbase, hasWeb3 } = this.props
+    const { coinbase, hasWeb3, numEther } = this.props
 
     return (
       <div>
@@ -39,6 +38,35 @@ class Faucet extends Component {
               <Header as="h1">Ropsten Ether Faucet</Header>
               <Grid.Row>
                 <Message>
+                  {!numEther && (
+                    <List bulleted>
+                      <List.Item>
+                        Your account, {coinbase} has no ether so this faucet
+                        will not work.
+                      </List.Item>
+                      <List.Item>
+                        You will need a tiny bit of ether in your account to
+                        send the transaction requesting ether.
+                      </List.Item>
+                      <List.Item>
+                        To get some initial ether you can either:
+                        <List bulleted>
+                          <List.Item>
+                            DM us on Twitter{' '}
+                            <a href="https://twitter.com/Distenseorg">
+                              @DistenseOrg
+                            </a>
+                          </List.Item>
+                          <List.Item>
+                            Or{' '}
+                            <a href="mailto:faucet@disten.se?Subject=Faucet%20request">
+                              Email us
+                            </a>
+                          </List.Item>
+                        </List>
+                      </List.Item>
+                    </List>
+                  )}
                   <List bulleted>
                     {coinbase && hasWeb3 ? (
                       <List.Item>
@@ -61,10 +89,6 @@ class Faucet extends Component {
                         </List>
                       </List.Item>
                     )}
-                    <List.Item>
-                      See the first section of our getting started guide if you
-                      don't know what we're talking about
-                    </List.Item>
                     <List.Item>
                       Support this faucet by starring us on Github:
                       <a
@@ -104,7 +128,8 @@ class Faucet extends Component {
 
 const mapStateToProps = state => ({
   coinbase: getCoinbase(state),
-  hasWeb3: state.user.user.hasWeb3
+  hasWeb3: state.user.user.hasWeb3,
+  numEther: state.user.user.numEther
 })
 
 const mapDispatchToProps = dispatch => ({
