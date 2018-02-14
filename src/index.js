@@ -87,6 +87,6 @@ window.addEventListener('load', function() {
     new Web3(new Web3.providers.HttpProvider('https://rinkeby.disten.se'))
   }
 
-  ReactDOM.render(App, document.getElementById('root'))
+  ReactDOM.render(App(), document.getElementById('root'))
   registerServiceWorker()
 })
