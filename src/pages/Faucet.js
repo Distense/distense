@@ -38,11 +38,11 @@ class Faucet extends Component {
               <Header as="h1">Ropsten Ether Faucet</Header>
               <Grid.Row>
                 <Message>
-                  {!numEther && (
+                  {numEther < 0.0000021 ? (
                     <List bulleted>
                       <List.Item>
-                        Your account, {coinbase} has no ether so this faucet
-                        will not work.
+                        Your account, {coinbase} has 0 ether so this faucet will
+                        not work.
                       </List.Item>
                       <List.Item>
                         You will need a tiny bit of ether in your account to
@@ -66,11 +66,27 @@ class Faucet extends Component {
                         </List>
                       </List.Item>
                     </List>
+                  ) : numEther > 5 ? (
+                    <List bulleted>
+                      <List.Item>
+                        Your account, {coinbase} has more than 5 ether ({
+                          numEther
+                        }) so this faucet will not send.
+                      </List.Item>
+                    </List>
+                  ) : (
+                    <List bulleted>
+                      <List.Item>
+                        Your account, {coinbase} has the correct number of ether
+                        to receive so the contract will pay you
+                      </List.Item>
+                    </List>
                   )}
                   <List bulleted>
                     {coinbase && hasWeb3 ? (
                       <List.Item>
-                        You will receive Ropsten ether into: {coinbase}
+                        You will receive 10 Ropsten ether into: {coinbase} if
+                        your account owns less than 5 ether
                       </List.Item>
                     ) : (
                       <List.Item>
@@ -90,23 +106,21 @@ class Faucet extends Component {
                       </List.Item>
                     )}
                     <List.Item>
-                      Support this faucet by starring us on Github:
+                      Support this faucet by starring us on{' '}
                       <a
-                        className="github-button"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         href="https://github.com/distense/distense-ui"
-                        data-icon="octicon-star"
-                        data-size="large"
-                        aria-label="Star distense/distense-ui on GitHub"
                       >
-                        Star
+                        Github
                       </a>
                     </List.Item>
                     <List.Item>
-                      Support this faucet by following us on Twitter:{' '}
+                      Or by following us on Twitter:{' '}
                       <a
-                        className="twitter-follow-button"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         href="https://twitter.com/Distenseorg"
-                        data-size="large"
                       >
                         @DistenseOrg
                       </a>
