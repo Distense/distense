@@ -12,7 +12,6 @@ import Task from '../src/pages/Task'
 import AddPullRequest from '../src/pages/AddPullRequest'
 import PullRequests from '../src/pages/PullRequests'
 import Parameters from '../src/pages/Parameters'
-import FourOhFour from '../src/pages/FourOhFour'
 import PullRequest from '../src/pages/PullRequest'
 import FAQ from '../src/pages/FAQ'
 import Exchange from '../src/pages/Exchange'
@@ -55,7 +54,7 @@ describe('Routes', () => {
     expect(pathMap['/getstarted']).toBe(GetStarted)
     expect(pathMap['/parameters']).toBe(Parameters)
 
-    //  TODO change pathMap code to handle 404
+    //  TODO change pathMap code above to handle 404
     expect(pathMap['/pwned']).toBe(undefined)
     expect(pathMap['/nonexistent/:id']).toBe(undefined)
     expect(pathMap['/tasks/:id']).toBe(undefined)

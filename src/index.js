@@ -71,6 +71,12 @@ export const Routes = () => (
   </Router>
 )
 
+export const App = () => (
+  <Provider store={store}>
+    <Routes />
+  </Provider>
+)
+
 window.addEventListener('load', function() {
   if (typeof web3 !== 'undefined') {
     /*global web3 */
@@ -81,12 +87,6 @@ window.addEventListener('load', function() {
     new Web3(new Web3.providers.HttpProvider('https://rinkeby.disten.se'))
   }
 
-  ReactDOM.render(
-    <Provider store={store}>
-      <Routes />
-    </Provider>,
-    document.getElementById('root')
-  )
-
+  ReactDOM.render(App, document.getElementById('root'))
   registerServiceWorker()
 })
