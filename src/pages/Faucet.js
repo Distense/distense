@@ -19,7 +19,7 @@ class Faucet extends Component {
 
   onSubmit = async e => {
     e.preventDefault()
-    const requestSuccessful = await this.props.submitFaucetRequest()
+    const requestSuccessful = this.props.submitFaucetRequest()
     this.setState({
       requestStatus: requestSuccessful
         ? 'Ether faucet request successful'
@@ -31,7 +31,7 @@ class Faucet extends Component {
     const { coinbase, hasWeb3 } = this.props
 
     return (
-      <Layout>
+      <div>
         <Head title="Distense Faucet" />
         <Grid columns={1}>
           <Grid.Row width={4} columns={1}>
@@ -40,19 +40,14 @@ class Faucet extends Component {
               <Grid.Row>
                 <Message>
                   <List bulleted>
-                    <List.Item>
-                      Connect to the Ropsten testnet in MetaMask if you haven't
-                      already
-                    </List.Item>
                     {coinbase && hasWeb3 ? (
                       <List.Item>
-                        If your request is successful you will receive Ropsten
-                        ether into your current MetaMask account: {coinbase}
+                        You will receive Ropsten ether into: {coinbase}
                       </List.Item>
                     ) : (
                       <List.Item>
                         Right now you have no unlocked Ethereum account in
-                        MetaMask.
+                        Metamask.
                         <List bulleted>
                           <List.Item>
                             To receive faucet ether the account you are
@@ -67,39 +62,30 @@ class Faucet extends Component {
                       </List.Item>
                     )}
                     <List.Item>
-                      You will need a tiny bit of ether in your account to send
-                      the transaction requesting ether.
+                      See the first section of our getting started guide if you
+                      don't know what we're talking about
                     </List.Item>
                     <List.Item>
-                      If your account has zero ether and you need some
-                      <List bulleted>
-                        <List.Item>
-                          DM us on Twitter{' '}
-                          <a href="https://twitter.com/Distenseorg">
-                            @DistenseOrg
-                          </a>
-                        </List.Item>
-                        <List.Item>
-                          Or{' '}
-                          <a href="mailto:faucet@disten.se?Subject=Faucet%20request">
-                            Email us
-                          </a>
-                        </List.Item>
-                      </List>
+                      Support this faucet by starring us on Github:
+                      <a
+                        className="github-button"
+                        href="https://github.com/distense/distense-ui"
+                        data-icon="octicon-star"
+                        data-size="large"
+                        aria-label="Star distense/distense-ui on GitHub"
+                      >
+                        Star
+                      </a>
                     </List.Item>
                     <List.Item>
-                      See the first section of our{' '}
-                      <Link to="/gettingstarted">getting started guide </Link>{' '}
-                      if you don't know what we're talking about
-                    </List.Item>
-                    <List.Item>
-                      Support us by following us on Twitter:{' '}
-                      <a href="https://twitter.com/Distenseorg">@DistenseOrg</a>{' '}
-                      and{' '}
-                      <a href="https://github.com/distense/distense-ui">
-                        starring us
-                      </a>{' '}
-                      on Github
+                      Support this faucet by following us on Twitter:{' '}
+                      <a
+                        className="twitter-follow-button"
+                        href="https://twitter.com/Distenseorg"
+                        data-size="large"
+                      >
+                        @DistenseOrg
+                      </a>
                     </List.Item>
                   </List>
                 </Message>
@@ -111,7 +97,7 @@ class Faucet extends Component {
             </Form>
           </Grid.Row>
         </Grid>
-      </Layout>
+      </div>
     )
   }
 }
