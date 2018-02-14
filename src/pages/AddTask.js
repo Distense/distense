@@ -18,11 +18,10 @@ import { getPendingTask } from '../reducers/tasks'
 import { NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 import { tagsOptions } from '../tagsOptions'
 import { getParameterValueByTitle } from '../reducers/parameters'
 
-class AddTask extends Component {
+export class AddTask extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -101,7 +100,7 @@ class AddTask extends Component {
     if (redirect) return <Redirect to="/tasks" />
 
     return (
-      <Layout>
+      <div>
         <Head title="Add Task" />
         <Grid>
           <Grid.Row>
@@ -225,7 +224,7 @@ class AddTask extends Component {
                   <List.Item>Enter the title of your task/proposal</List.Item>
                   <List.Item>
                     Limit the length of the title: the more characters the more
-                    gas it will cost you :)
+                    gas it will cost you
                   </List.Item>
                   <List.Item>
                     Example: 'Build this amazing new dapp that will change the
@@ -258,16 +257,12 @@ class AddTask extends Component {
                 <Message.Header>Repo</Message.Header>
                 <List bulleted>
                   <List.Item>Choose the one that best fits</List.Item>
-                  <List.Item>
-                    TODO decide on whether to have general purpose repo
-                    (probably)
-                  </List.Item>
                 </List>
               </Message>
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </Layout>
+      </div>
     )
   }
 }

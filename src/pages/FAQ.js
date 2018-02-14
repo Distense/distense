@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Header, Segment } from 'semantic-ui-react'
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 
 export default class FAQ extends Component {
   render() {
     return (
-      <Layout>
+      <div>
         <Head title="Frequently Asked Questions" />
         <Container text>
           <Segment style={{ padding: '1em 0em' }} textAlign="center" vertical>
@@ -97,7 +96,7 @@ export default class FAQ extends Component {
             margin-top: 4rem !important;
           }
         `}</style>
-      </Layout>
+      </div>
     )
   }
 }

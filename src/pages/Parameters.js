@@ -6,7 +6,6 @@ import { voteOnParameter } from '../actions/parameters'
 import { getParameters } from '../reducers/parameters'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 import { constructClientParameterDetails } from '../helpers/parameters/constructClientParameterDetails'
 
 class Parameters extends Component {
@@ -56,7 +55,7 @@ class Parameters extends Component {
     const { parameterValue } = this.state
 
     return (
-      <Layout>
+      <div>
         <Head title="Votable Parameters" />
         <Message>
           <Message.Header>Parameters</Message.Header>
@@ -106,7 +105,7 @@ class Parameters extends Component {
             width: 366px !important;
           }
         `}</style>
-      </Layout>
+      </div>
     )
   }
 }
