@@ -36,7 +36,7 @@ store.dispatch(selectUserAccountInfo())
 store.dispatch(getContractEvents())
 store.dispatch(fetchParameters())
 
-const DefaultLayout = ({ component: Component, ...rest }) => {
+export const DefaultLayout = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -49,14 +49,15 @@ const DefaultLayout = ({ component: Component, ...rest }) => {
   )
 }
 
-const Root = () => (
+export const Routes = () => (
   <Router>
     <Switch>
       <Route exact path="/" component={Home} />
       <DefaultLayout exact path="/howitworks" component={HowItWorks} />
       <DefaultLayout exact path="/events" component={Events} />
       <DefaultLayout exact path="/exchange" component={Exchange} />
-      <DefaultLayout exact path="/FAQ" component={FAQ} />
+      <DefaultLayout path="/faq" component={FAQ} />
+      <DefaultLayout path="/FAQ" component={FAQ} />
       <DefaultLayout exact path="/getstarted" component={GetStarted} />
       <DefaultLayout path="/tasks/:title/:id" component={Task} />
       <DefaultLayout path="/tasks/add" component={AddTask} />
@@ -65,7 +66,7 @@ const Root = () => (
       <DefaultLayout exact path="/pullrequests/:id" component={PullRequest} />
       <DefaultLayout exact path="/pullrequests" component={PullRequests} />
       <DefaultLayout exact path="/parameters" component={Parameters} />
-      <DefaultLayout component={FourOhFour} />
+      <DefaultLayout path="*" component={FourOhFour} />
     </Switch>
   </Router>
 )
@@ -82,7 +83,7 @@ window.addEventListener('load', function() {
 
   ReactDOM.render(
     <Provider store={store}>
-      <Root />
+      <Routes />
     </Provider>,
     document.getElementById('root')
   )

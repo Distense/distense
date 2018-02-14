@@ -29,7 +29,7 @@ export class AddPullRequest extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     //  If taskId param exists prefill the input
     const taskId = this.props.match.params.id
     if (taskId) this.selectTask(taskId)
