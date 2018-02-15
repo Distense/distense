@@ -14,6 +14,7 @@ import PullRequests from '../src/pages/PullRequests'
 import Parameters from '../src/pages/Parameters'
 import PullRequest from '../src/pages/PullRequest'
 import FAQ from '../src/pages/FAQ'
+import Faucet from '../src/pages/Faucet'
 import Exchange from '../src/pages/Exchange'
 import GetStarted from '../src/pages/GetStarted'
 import HowItWorks from '../src/pages/HowItWorks'
@@ -51,6 +52,7 @@ describe('Routes', () => {
     expect(pathMap['/exchange']).toBe(Exchange)
     expect(pathMap['/FAQ']).toBe(FAQ)
     expect(pathMap['/faq']).toBe(FAQ)
+    expect(pathMap['/faucet']).toBe(Faucet)
     expect(pathMap['/getstarted']).toBe(GetStarted)
     expect(pathMap['/parameters']).toBe(Parameters)
 

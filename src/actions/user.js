@@ -5,7 +5,8 @@ import {
   RECEIVE_HAS_WEB3,
   RECEIVE_IS_CONNECTED,
   RECEIVE_USER_NOT_AUTHENTICATED,
-  RECEIVE_USER_NUM_DID
+  RECEIVE_USER_NUM_DID,
+  RECEIVE_USER_NUM_ETHER
 } from '../constants/actionTypes'
 
 import { setDefaultStatus } from './status'
@@ -32,6 +33,11 @@ export const receiveAccountNumDID = numDIDOwned => ({
   numDIDOwned
 })
 
+export const receiveAccountNumEther = numEther => ({
+  type: RECEIVE_USER_NUM_ETHER,
+  numEther
+})
+
 export const getNumDIDByAddress = async address => {
   const { balances } = await contracts.DIDToken
   return await balances(address)
@@ -48,11 +54,17 @@ export const selectUserAccountInfo = () => async dispatch => {
       console.log(`web3: isConnected`)
       const accounts = web3.eth.accounts
       if (accounts && accounts.length) {
-        dispatch(receiveAccountAction(accounts[0]))
-        let numDIDOwned = await getNumDIDByAddress(accounts[0])
+        const coinbase = accounts[0]
+        dispatch(receiveAccountAction(coinbase))
+        let numDIDOwned = await getNumDIDByAddress(coinbase)
         numDIDOwned = numDIDOwned.toString()
-        console.log(`coinbase: ${accounts[0]} owns ${numDIDOwned} DID`)
+        console.log(`coinbase owns: ${coinbase} ${numDIDOwned} DID`)
         dispatch(receiveAccountNumDID(numDIDOwned))
+        web3.eth.getBalance(coinbase, (err, numEther) => {
+          numEther = web3.fromWei(numEther)
+          console.log(`coinbase owns: ${numEther} ether`)
+          dispatch(receiveAccountNumEther(numEther.toString()))
+        })
       } else {
         console.error(`No accounts found`)
       }
