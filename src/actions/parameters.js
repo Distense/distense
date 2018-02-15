@@ -35,7 +35,7 @@ export const fetchParameter = async title => {
     {},
     {
       title,
-      value: convertSolidityIntToInt(parameter[1].toNumber())
+      value: parameter[1].toNumber()
     }
   )
 }
@@ -63,7 +63,6 @@ export const voteOnParameter = ({ title, vote }) => async (
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     console.log(`User not authenticated...`)
-    // dispatch(receiveUserNotAuthenticated())
     return
   }
   const { voteOnParameter } = await contracts.Distense // Get callable function from Tasks contract instance
