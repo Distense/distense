@@ -29,6 +29,7 @@ class Faucet extends Component {
   render() {
     const { coinbase, hasWeb3, numEther } = this.props
 
+    const hasAcceptableNumEther = numEther < 5 && numEther > 0.00021
     return (
       <div>
         <Head title="Distense Faucet" />
@@ -41,15 +42,15 @@ class Faucet extends Component {
               </Header>
               <Grid.Row>
                 <Message>
-                  {numEther < 0.0000021 ? (
+                  {coinbase && numEther < 0.0000021 ? (
                     <List bulleted>
                       <List.Item>
                         Selected account has 0 ether so this faucet will not
                         work.
                       </List.Item>
                       <List.Item>
-                        You will need a tiny bit of ether in your account to
-                        send the transaction requesting ether.
+                        You need a tiny bit of ether in your account to send
+                        this transaction.
                       </List.Item>
                       <List.Item>
                         To get some initial ether you can either:
@@ -69,44 +70,46 @@ class Faucet extends Component {
                         </List>
                       </List.Item>
                     </List>
-                  ) : numEther > 5 ? (
+                  ) : coinbase && numEther > 5 ? (
                     <List bulleted>
                       <List.Item>
-                        MetMask-selected account has more than 5 ether (
+                        MetaMask-selected account has more than 5 ether (
                         {numEther}) so this faucet will not send.
                       </List.Item>
                     </List>
-                  ) : (
+                  ) : !coinbase ? (
+                    <List bulleted>
+                      <List.Item>No coinbase and/or MetaMask found</List.Item>
+                    </List>
+                  ) : hasAcceptableNumEther ? (
                     <List bulleted>
                       <List.Item>
                         Your account, {coinbase} has the correct number of ether
                         to receive so the contract will pay you
                       </List.Item>
                     </List>
+                  ) : (
+                    <List bulleted />
                   )}
                   <List bulleted>
-                    {coinbase && hasWeb3 ? (
-                      <List.Item>
-                        You will receive 10 Ropsten ether into: {coinbase} if
-                        your account owns less than 5 ether
-                      </List.Item>
-                    ) : (
-                      <List.Item>
-                        Right now you have no unlocked Ethereum account in
-                        Metamask.
-                        <List bulleted>
-                          <List.Item>
-                            To receive faucet ether the account you are
-                            requesting for must be selected in MetaMask.
-                          </List.Item>
-                          <List.Item>
-                            Check out our{' '}
-                            <Link to="/gettingstarted">getting started</Link>{' '}
-                            page to learn how to do this.
-                          </List.Item>
-                        </List>
-                      </List.Item>
-                    )}
+                    {!coinbase &&
+                      hasWeb3 && (
+                        <List.Item>
+                          Right now you have no unlocked Ethereum account in
+                          Metamask.
+                          <List bulleted>
+                            <List.Item>
+                              To receive faucet ether the account you are
+                              requesting for must be selected in MetaMask.
+                            </List.Item>
+                            <List.Item>
+                              Check out our{' '}
+                              <Link to="/gettingstarted">getting started</Link>{' '}
+                              page to learn how to do this.
+                            </List.Item>
+                          </List>
+                        </List.Item>
+                      )}
                     <List.Item>
                       Support this faucet by starring us on{' '}
                       <a

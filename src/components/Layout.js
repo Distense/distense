@@ -54,6 +54,9 @@ export default ({ children }) => (
       .inconsolata {
         font-family: 'Inconsolata', sans-serif !important;
       }
+      .item {
+        font-size: 1.1rem;
+      }
     `}</style>
   </div>
 )
