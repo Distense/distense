@@ -20,7 +20,7 @@ export default () => (
           link
           as={Link}
           position="right"
-          to="/faucet"
+          to="/ropsten/faucet"
         >
           Faucet
         </Menu.Item>

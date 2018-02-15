@@ -52,7 +52,7 @@ describe('Routes', () => {
     expect(pathMap['/exchange']).toBe(Exchange)
     expect(pathMap['/FAQ']).toBe(FAQ)
     expect(pathMap['/faq']).toBe(FAQ)
-    expect(pathMap['/faucet']).toBe(Faucet)
+    expect(pathMap['/ropsten/faucet']).toBe(Faucet)
     expect(pathMap['/getstarted']).toBe(GetStarted)
     expect(pathMap['/parameters']).toBe(Parameters)
 

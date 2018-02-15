@@ -59,7 +59,7 @@ export const Routes = () => (
       <DefaultLayout exact path="/exchange" component={Exchange} />
       <DefaultLayout path="/faq" component={FAQ} />
       <DefaultLayout path="/FAQ" component={FAQ} />
-      <DefaultLayout exact path="/faucet" component={Faucet} />
+      <DefaultLayout exact path="/ropsten/faucet" component={Faucet} />
       <DefaultLayout exact path="/getstarted" component={GetStarted} />
       <DefaultLayout path="/tasks/:title/:id" component={Task} />
       <DefaultLayout path="/tasks/add" component={AddTask} />
