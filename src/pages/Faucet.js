@@ -36,13 +36,16 @@ class Faucet extends Component {
           <Grid.Row width={4} columns={1}>
             <Form onSubmit={this.onSubmit}>
               <Header as="h1">Ropsten Ether Faucet</Header>
+              <Header as="h2">
+                Receive ether into selected MetaMask account
+              </Header>
               <Grid.Row>
                 <Message>
                   {numEther < 0.0000021 ? (
                     <List bulleted>
                       <List.Item>
-                        Your account, {coinbase} has 0 ether so this faucet will
-                        not work.
+                        Selected account has 0 ether so this faucet will not
+                        work.
                       </List.Item>
                       <List.Item>
                         You will need a tiny bit of ether in your account to
@@ -69,9 +72,8 @@ class Faucet extends Component {
                   ) : numEther > 5 ? (
                     <List bulleted>
                       <List.Item>
-                        Your account, {coinbase} has more than 5 ether ({
-                          numEther
-                        }) so this faucet will not send.
+                        MetMask-selected account has more than 5 ether (
+                        {numEther}) so this faucet will not send.
                       </List.Item>
                     </List>
                   ) : (
@@ -130,7 +132,7 @@ class Faucet extends Component {
               </Grid.Row>
               <Form.Field required />
               <Button size="large" color="green" type="submit">
-                Request Ether
+                Request 10 Ether
               </Button>
             </Form>
           </Grid.Row>
