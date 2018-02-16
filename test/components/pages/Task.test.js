@@ -16,7 +16,7 @@ describe('<Task /> page component', function() {
       _id: '12344312',
       title: 'some title',
       tags: ['Contracts'],
-      created: new Date(),
+      createdAt: new Date(),
       issueURL: 'https://github.com/Distense/distense-ui/issue/1'
     }
   }
