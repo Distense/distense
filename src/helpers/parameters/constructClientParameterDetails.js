@@ -15,19 +15,19 @@ export const constructClientParameterDetails = p => {
 
   if (p.title === params.proposalPctDIDToApproveParameter.title) {
     value = value + '%'
-    title = 'Percent of DID required to approve task proposal'
+    title = 'Percent of DID that must vote on task rewards'
     placeholder = ''
   }
 
   if (p.title === params.pctDIDRequiredToMergePullRequestParameter.title) {
     value = value + '%'
-    title = 'Percent of DID that must approve pull requests'
+    title = 'Percent of DID that must vote to approve pull requests'
     placeholder = ''
   }
 
   if (p.title === params.maxRewardParameter.title) {
     value = value + ' DID'
-    title = 'Maximum DID Reward for Tasks'
+    title = 'Maximum Reward in DID'
     placeholder = ''
   }
 
@@ -35,7 +35,8 @@ export const constructClientParameterDetails = p => {
     p.title === params.numDIDRequiredToApproveVotePullRequestParameter.title
   ) {
     value = value + ' DID'
-    title = 'Number of DID required to approve pull requests'
+    title =
+      'Number of DID that must be owned in order to vote to approve pull requests'
     placeholder = ''
   }
 
@@ -47,7 +48,7 @@ export const constructClientParameterDetails = p => {
 
   if (p.title === params.numDIDRequiredToAddTaskParameter.title) {
     value = value + ' DID'
-    title = 'Number of DID required to add tasks'
+    title = 'Number of DID required to propose tasks'
     placeholder = ''
   }
 
