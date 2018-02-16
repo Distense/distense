@@ -19,11 +19,12 @@ class DIDOwnership extends Component {
 
   render() {
     const { numDID, totalSupplyDid } = this.props
+
     let pctDID = (numDID / totalSupplyDid).toFixed(2)
     pctDID = isNaN(pctDID) ? 0 : pctDID
 
     return (
-      <Menu.Item title="The number of DID the accounts available in web3 own">
+      <Menu.Item title="The number of and percentage of total DID the current account owns">
         DID owned: {numDID} ({pctDID}%)
       </Menu.Item>
     )
