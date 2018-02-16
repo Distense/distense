@@ -14,13 +14,14 @@ class DIDOwnership extends Component {
   }
 
   render() {
-    let { numDID, totalSupplyDid } = this.props
+    const { numDID, totalSupplyDid } = this.props
+    const pctDIDOwned = (numDID / totalSupplyDid).toFixed(2);
 
     return (
       <Menu.Item title="The number of DID the accounts available in web3 own">
         DID owned: {numDID}
-        { totalSupplyDid > 0 &&
-          <span>({totalSupplyDid}%)</span>
+        { pctDIDOwned > 0 &&
+          <span>({pctDIDOwned}%)</span>
         }
       </Menu.Item>
     )
