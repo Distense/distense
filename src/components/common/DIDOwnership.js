@@ -17,7 +17,7 @@ class DIDOwnership extends Component {
     const pctDIDOwned = (numDID/totalSupplyDID).toFixed(2)
     return (
       <Menu.Item title="The number of DID the accounts available in web3 own">
-        <span>DIDOwnership{pctDIDOwned}%</span>
+        <span>DIDOwnership: {pctDIDOwned}%</span>
       </Menu.Item>
     )
   }
