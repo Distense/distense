@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {
-  Button,
-  Card,
-  Grid,
-  Header,
-  List,
-  Message,
-  Segment
-} from 'semantic-ui-react'
+import { Button, Card, Grid, Header, Segment } from 'semantic-ui-react'
 
 import { voteOnParameter } from '../actions/parameters'
 import { getParameters } from '../reducers/parameters'
