@@ -8,7 +8,6 @@ import {
 
 import * as contracts from '../contracts'
 import { setDefaultStatus, updateStatusMessage } from './status'
-import { convertSolidityIntToInt } from '../utils'
 import { getGasPrice } from '../helpers/getGasPrice'
 
 const requestParameters = () => ({
