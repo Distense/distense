@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import EthereumAuthenticated from './common/EthereumAuthenticated'
 // import GasEstimate from './common/GasEstimate'
 import NumberDIDOwned from './common/NumberDIDOwned'
+import DIDOwnership from './common/DIDOwnership'
 import HasWeb3 from './common/HasWeb3'
 
 import { Container, Menu, Segment } from 'semantic-ui-react'
@@ -62,6 +63,7 @@ export default () => (
         </Menu.Item>
         <Status />
         <NumberDIDOwned />
+        <DIDOwnership />
         {/*<GasEstimate />*/}
         <HasWeb3 />
         <EthereumAuthenticated />
