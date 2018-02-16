@@ -76,6 +76,21 @@ export default class FAQ extends Component {
               rights to dividends, but also voting & governance rights for the
               future of Distense.
             </p>
+            <p style={{ fontSize: '1.33em', marginTop: '2.2em' }}>
+              <Header as="h3">
+                Why don't you use username and password authentication?
+              </Header>
+            </p>
+            <p style={{ fontSize: '1.10em' }}>
+              Because being able to work anonymously, free from fears of biases
+              is a core value of Distense. Working anonymously avoids IP issues
+              for those who have signed IP agreements which are often onerous.
+              Ethereum authentication is way more secure than a username and
+              password. Distense contributors already need an Ethereum account
+              to interact with Distense, so it prevents you from having multiple
+              authentication methods! We don't have a centralized database and
+              those aren't decentralized.
+            </p>
             <p style={{ fontSize: '1.33em', marginTop: '2.5em' }}>
               <Header as="h3">How do I make money from Distense?</Header>
             </p>
