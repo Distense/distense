@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Card, Grid, List, Message, Segment } from 'semantic-ui-react'
+import { Button, Card, Grid, Header, Segment } from 'semantic-ui-react'
 
 import { voteOnParameter } from '../actions/parameters'
 import { getParameters } from '../reducers/parameters'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 import { constructClientParameterDetails } from '../helpers/parameters/constructClientParameterDetails'
 
 class Parameters extends Component {
@@ -56,31 +55,10 @@ class Parameters extends Component {
     const { parameterValue } = this.state
 
     return (
-      <Layout>
+      <div>
         <Head title="Votable Parameters" />
-        <Message>
-          <Message.Header>Parameters</Message.Header>
-          <List bulleted>
-            <List.Item>
-              This page displays the parameters of Distense and their current
-              values
-            </List.Item>
-            <List.Item>You must own greater than zero DID to vote</List.Item>
-            <List.Item>
-              Basically the maximum you can change the value is by the
-              percentage of DID you own
-            </List.Item>
-            <List.Item>
-              We should probably just have up or down buttons here
-            </List.Item>
-            <List.Item>
-              <b>
-                Your vote simply affects the value up or down by your percentage
-                DID ownership
-              </b>
-            </List.Item>
-          </List>
-        </Message>
+        <Header as="h1">Parameters</Header>
+        <Header as="h3">Govern if you dare (and own DID)</Header>
         <Grid.Row>
           <Card.Group>
             {parameters.length > 0 ? (
@@ -106,7 +84,7 @@ class Parameters extends Component {
             width: 366px !important;
           }
         `}</style>
-      </Layout>
+      </div>
     )
   }
 }

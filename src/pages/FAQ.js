@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Header, Segment } from 'semantic-ui-react'
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 
 export default class FAQ extends Component {
   render() {
     return (
-      <Layout>
+      <div>
         <Head title="Frequently Asked Questions" />
         <Container text>
           <Segment style={{ padding: '1em 0em' }} textAlign="center" vertical>
@@ -20,8 +19,11 @@ export default class FAQ extends Component {
               </Header>
             </p>
             <p style={{ fontSize: '1.10em', marginTop: '2.2em' }}>
-              Distense is a decentralized company whose contributors own it. Distense doesn't connect third parties with one another nor do Distense's contributors work for third parties. The purpose of Distense is to build novel blockchain applications that will generate revenue from third parties. 
-      
+              Distense is a decentralized company whose contributors own it.
+              Distense doesn't connect third parties with one another nor do
+              Distense's contributors work for third parties. The purpose of
+              Distense is to build novel blockchain applications that will
+              generate revenue from third parties.
             </p>
             <p style={{ fontSize: '1.33em', marginTop: '2.5em' }}>
               <Header as="h3">
@@ -52,9 +54,10 @@ export default class FAQ extends Component {
             </p>
             <p style={{ fontSize: '1.10em' }}>
               Once you've completed work, it's easy to submit your submitted
-              work in the form of a normal Github pull request. Distense uses familiar infrastructure until its
-              contributors can reimplement custom software tooling. The only information we need to
-              know is the task ID and the pull request URL.
+              work in the form of a normal Github pull request. Distense uses
+              familiar infrastructure until its contributors can reimplement
+              custom software tooling. The only information we need to know is
+              the task ID and the pull request URL.
             </p>
             <p style={{ fontSize: '1.33em', marginTop: '2.2em' }}>
               <Header as="h3">
@@ -92,14 +95,12 @@ export default class FAQ extends Component {
               rights to dividends, but also voting & governance rights for the
               future of Distense.
             </p>
-      <p style={{ fontSize: '1.33em', marginTop: '2.5em' }}>
-              <Header as="h3">
-                How do I make money from Distense?
-              </Header>
+            <p style={{ fontSize: '1.33em', marginTop: '2.5em' }}>
+              <Header as="h3">How do I make money from Distense?</Header>
             </p>
             <p style={{ fontSize: '1.10em' }}>
-              The DID you earn may be exchanged into ether on our <Link to="/exchange">exchange webpage 
-        </Link>.
+              The DID you earn may be exchanged into ether on our{' '}
+              <Link to="/exchange">exchange webpage</Link>.
             </p>
           </Segment>
         </Container>
@@ -114,7 +115,7 @@ export default class FAQ extends Component {
             margin-top: 4rem !important;
           }
         `}</style>
-      </Layout>
+      </div>
     )
   }
 }

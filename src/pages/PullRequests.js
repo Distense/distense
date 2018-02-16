@@ -9,7 +9,6 @@ import { approvePullRequest, fetchPullRequests } from '../actions/pullRequests'
 import { getAllPullRequests } from '../reducers/pullRequests'
 
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
 import PullRequestListItem from '../components/PullRequestListItem'
 
 class PullRequests extends Component {
@@ -69,7 +68,7 @@ class PullRequests extends Component {
     const { column, direction, loading, pullRequests } = this.state
 
     return (
-      <Layout>
+      <div>
         <Head title="Reviewable Pull Requests" />
         <Table sortable striped>
           <Table.Header>
@@ -143,7 +142,7 @@ class PullRequests extends Component {
             )}
           </Table.Body>
         </Table>
-      </Layout>
+      </div>
     )
   }
 }

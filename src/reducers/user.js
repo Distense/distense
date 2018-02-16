@@ -8,7 +8,8 @@ import {
   RECEIVE_HAS_WEB3,
   RECEIVE_IS_CONNECTED,
   RECEIVE_USER_NUM_DID,
-  RECEIVE_NETWORK_ID
+  RECEIVE_NETWORK_ID,
+  RECEIVE_USER_NUM_ETHER
 } from '../constants/actionTypes'
 
 const user = (
@@ -17,7 +18,8 @@ const user = (
     isConnected: false,
     accountUnlocked: false,
     numDID: 0,
-    network: null
+    network: null,
+    numEther: 0
   },
   action
 ) => {
@@ -37,6 +39,10 @@ const user = (
     case RECEIVE_USER_NUM_DID:
       return Object.assign({}, state, {
         numDID: action.numDIDOwned
+      })
+    case RECEIVE_USER_NUM_ETHER:
+      return Object.assign({}, state, {
+        numEther: action.numEther
       })
     case RECEIVE_NETWORK_ID:
       return Object.assign({}, state, {

@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import { Link } from 'react-router-dom'
-import { Button, Table } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 
 import { fetchTasks } from '../actions/tasks'
 import { getAllTasks } from '../reducers/tasks'
-
+import { TasksListItem } from '../components/common/TasksListItem'
 import Head from '../components/common/Head'
-import Layout from '../components/Layout'
-import Tags from '../components/common/Tags'
 
-class Tasks extends Component {
+export class Tasks extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -63,7 +60,7 @@ class Tasks extends Component {
     const { tasks } = this.props
 
     return (
-      <Layout>
+      <div>
         <Head title="Available Tasks" />
         <Table sortable striped>
           <Table.Header>
@@ -121,46 +118,10 @@ class Tasks extends Component {
             )}
           </Table.Body>
         </Table>
-      </Layout>
+      </div>
     )
   }
 }
-
-const TasksListItem = ({ task }) => (
-  <Table.Row key={task._id}>
-    <Table.Cell>
-      <Link to={`/tasks/${task.title.split(' ').join('-')}/${task._id}`}>
-        {task.title}
-      </Link>
-    </Table.Cell>
-    <Table.Cell>
-      <Tags tags={task.tags} />
-    </Table.Cell>
-    <Table.Cell>{task.status}</Table.Cell>
-    <Table.Cell>
-      {task.reward} ({task.rewardStatus})
-    </Table.Cell>
-    <Table.Cell>{task.votingStatus}</Table.Cell>
-    <Table.Cell collapsing textAlign="right">
-      {task.created && task.created.toDateString()}
-    </Table.Cell>
-    <Table.Cell>
-      <Button
-        basic
-        color="green"
-        compact={true}
-        floated="right"
-        fluid={true}
-        size="mini"
-        as={Link}
-        title="Submit work for this task"
-        to={`/pullrequests/add/${task._id}`}
-      >
-        Submit
-      </Button>
-    </Table.Cell>
-  </Table.Row>
-)
 
 const mapStateToProps = state => ({
   tasks: getAllTasks(state)

@@ -4,8 +4,8 @@
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
   <meta name='theme-color' content='#000000'>
-  <link rel='manifest' href='%PUBLIC_URL%/public/manifest.json'>
-  <link rel='shortcut icon' href='%PUBLIC_URL%/public/favicon.png'>
+  <link rel='manifest' href='/asset-manifest.json'>
+  <link rel='shortcut icon' href='/public/favicon.png'>
   <title>Distense</title>
   <link href='//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'/>
   <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
@@ -19,8 +19,8 @@
       ga('create', 'UA-105723277-1', 'auto')
       ga('send', 'pageview')
     }
+
   </script>
-  <script async src='https://www.google-analytics.com/analytics.js'></script>
   <style>
     html {
       font-size: 90%;
@@ -32,7 +32,6 @@
       font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont, sans-serif !important;
     }
 
-    /* TODO setup proper semantic ui overriding */
     .ui.text.container, .button {
       font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -88,5 +87,7 @@
   You need to enable JavaScript to run this app.
 </noscript>
 <div id='root'></div>
+<script async defer src='https://www.google-analytics.com/analytics.js'></script>
+<script defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

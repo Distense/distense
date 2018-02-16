@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Label } from 'semantic-ui-react'
 
-export default class Tags extends Component {
+export default class extends Component {
   constructor(props) {
     super(props)
     this.createTagsList = this.createTagsList.bind(this)

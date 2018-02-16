@@ -1,16 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Menu, Segment } from 'semantic-ui-react'
-
-import EthereumAuthenticated from './common/EthereumAuthenticated'
-// import GasEstimate from './common/GasEstimate'
-import NumberDIDOwned from './common/NumberDIDOwned'
-import HasWeb3 from './common/HasWeb3'
 import TotalDID from './common/TotalDID'
 
-import Status from './Status'
+import Footer from './Footer'
 
-export default ({ children, title }) => (
+export default ({ children }) => (
   <div>
     <Segment
       inverted
@@ -51,52 +46,16 @@ export default ({ children, title }) => (
       </Menu>
     </Segment>
 
-    <Container style={{ marginTop: '4em' }}>{children}</Container>
+    <Container style={{ marginTop: '3em' }}>{children}</Container>
 
-    <Segment vertical style={{ margin: '3em 0em 0em', padding: '5em 0em' }}>
-      <Menu className="inconsolata" borderless fixed="bottom">
-        <Container>
-          <Menu.Item>© {new Date().getFullYear()} Distense</Menu.Item>
-          <Menu.Item
-            style={{ textDecoration: 'underline' }}
-            color="blue"
-            link
-            as={Link}
-            position="right"
-            to="/FAQ"
-          >
-            FAQ
-          </Menu.Item>
-          <Menu.Item
-            style={{ textDecoration: 'underline' }}
-            color="blue"
-            link
-            as={Link}
-            to="/parameters"
-          >
-            Parameters
-          </Menu.Item>
-          <Menu.Item
-            style={{ textDecoration: 'underline' }}
-            color="blue"
-            link
-            as={Link}
-            to="/events"
-          >
-            Event Feed
-          </Menu.Item>
-          <Status />
-          <NumberDIDOwned />
-          {/*<GasEstimate />*/}
-          <HasWeb3 />
-          <EthereumAuthenticated />
-        </Container>
-      </Menu>
-    </Segment>
+    <Footer />
     {/*language=CSS*/}
     <style global jsx>{`
       .inconsolata {
         font-family: 'Inconsolata', sans-serif !important;
+      }
+      .item {
+        font-size: 1.1rem;
       }
     `}</style>
   </div>
