@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+
 import { fetchTotalSupplyDID } from '../../actions/status'
 import { getTotalSupplyDID } from '../../reducers/status'
 
@@ -10,19 +11,20 @@ class DIDOwnership extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    return this.props.numDID !== nextProps.numDID
+    return (
+      this.props.numDID !== nextProps.numDID ||
+      this.props.totalSupplyDid !== nextProps.totalSupplyDid
+    )
   }
 
   render() {
     const { numDID, totalSupplyDid } = this.props
-    const pctDIDOwned = (numDID / totalSupplyDid).toFixed(2);
+    let pctDID = (numDID / totalSupplyDid).toFixed(2)
+    pctDID = isNaN(pctDID) ? 0 : pctDID
 
     return (
       <Menu.Item title="The number of DID the accounts available in web3 own">
-        DID owned: {numDID}
-        { pctDIDOwned > 0 &&
-          <span>({pctDIDOwned}%)</span>
-        }
+        DID owned: {numDID} ({pctDID}%)
       </Menu.Item>
     )
   }
