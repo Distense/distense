@@ -19,9 +19,10 @@ class DIDOwnership extends Component {
 
   render() {
     const { numDID, totalSupplyDid } = this.props
-
-    let pctDID = (numDID / totalSupplyDid).toFixed(2)
+    let pctDID = (numDID / totalSupplyDid)
     pctDID = isNaN(pctDID) ? 0 : pctDID
+    pctDID *= 100
+    pctDID = pctDID.toFixed(2)
 
     return (
       <Menu.Item title="The number of and percentage of total DID the current account owns">
