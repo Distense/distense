@@ -98,6 +98,24 @@ export default class FAQ extends Component {
               The DID you earn may be exchanged into ether on our{' '}
               <Link to="/exchange">exchange webpage</Link>.
             </p>
+            <p style={{ fontSize: '1.33em', marginTop: '2.2em' }}>
+              <Header as="h3">What are DID?</Header>
+            </p>
+            <p style={{ fontSize: '1.10em' }}>
+              <div class="ui bulleted list">
+              <div class="item">DID are our economic and governance token</div>
+	      <div class="item">They represent ownership of Distense</div>
+              <div class="item">They give the owner the right to: </div>
+	      <div class="item1">
+                 <ul>
+    		 <li value="-">Propose/add tasks to Distense</li>
+     		 <li value="-">Vote on Distense <Link to="/parameters">parameters</Link></li>
+     		 <li value="-">Approve work</li>
+     		 <li value="-">Receive dividends if Distense earns money</li>
+                </ul>
+  	       </div>
+              </div>
+            </p>
           </Segment>
         </Container>
 
