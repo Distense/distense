@@ -45,8 +45,8 @@ export const getNumDIDByAddress = async address => {
 
 export const selectUserAccountInfo = () => async dispatch => {
   /*global web3 */
-  /*eslint no-undef: "error"*/
-  const hasWeb3 = web3
+
+  const hasWeb3 = window.web3 !== undefined
   let isConnected = false
   if (hasWeb3) {
     isConnected = web3.isConnected()

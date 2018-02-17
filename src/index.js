@@ -7,7 +7,6 @@ import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import registerServiceWorker from './registerServiceWorker'
 import Web3 from 'web3'
-
 import reducers from './reducers'
 
 import { selectUserAccountInfo } from './actions/user'
@@ -80,19 +79,12 @@ export const App = () => (
 )
 
 window.addEventListener('load', function() {
-  const rinkebyProvider = new Web3.providers.HttpProvider(
-    'https://rinkeby.disten.se'
-  )
-  if (typeof web3 !== 'undefined') {
-    /*global web3 */
-    /*eslint no-undef: "error"*/
-    new Web3(web3.currentProvider)
-  } else if (rinkebyProvider) {
-    console.log(`Falling back to localhost`)
-    new Web3(rinkebyProvider)
-  } else {
-    console.log(`Using localhost provider`)
-    new Web3.providers.HttpProvider('http://127.0.0.1:7545')
+  // const ropstenProvider = new Web3.providers.HttpProvider(
+  //   'https://ropsten.disten.se'
+  // )
+
+  if (typeof window.web3 !== 'undefined') {
+    new Web3(window.web3.currentProvider)
   }
 
   ReactDOM.render(App(), document.getElementById('root'))
