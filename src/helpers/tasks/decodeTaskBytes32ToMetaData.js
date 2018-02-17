@@ -7,7 +7,7 @@ import { getRepoNameFromNumber } from './getRepoNameFromNumber'
 export const decodeTaskBytes32ToMetaData = taskId => {
   //  example taskId: 1515514023593a1f4b21c0
   const decodedTaskId = taskIdDecoded(taskId)
-  const created = new Date(decodedTaskId.slice(0, 10) * 1000)
+  const createdAt = new Date(decodedTaskId.slice(0, 10) * 1000)
 
   const tags = []
 
@@ -30,7 +30,7 @@ export const decodeTaskBytes32ToMetaData = taskId => {
   const repoName = getRepoNameFromNumber(decodedTaskId.slice(repoIndex + 1))
 
   return {
-    created,
+    createdAt,
     tags,
     repoName,
     issueNum

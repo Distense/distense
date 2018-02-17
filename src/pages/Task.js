@@ -87,7 +87,7 @@ export class Task extends Component {
                         </a>
                       </Item.Description>
                       <Item.Meta>
-                        Created: {task.created.toDateString()}
+                        Created: {task.createdAt.toDateString()}
                       </Item.Meta>
                       <Item.Extra>
                         <Button
