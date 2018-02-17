@@ -22,7 +22,8 @@ class DIDOwnership extends Component {
 
     let pctDID = (numDID / totalSupplyDid).toFixed(2)
     pctDID = isNaN(pctDID) ? 0 : pctDID
-
+    pctDID *= 100
+    
     return (
       <Menu.Item title="The number of and percentage of total DID the current account owns">
         DID owned: {numDID} ({pctDID}%)
