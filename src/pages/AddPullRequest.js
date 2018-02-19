@@ -17,6 +17,7 @@ import { getSelectedTask } from '../reducers/tasks'
 import { addPullRequest } from '../actions/pullRequests'
 
 import Head from '../components/common/Head'
+import PageTitling from '../components/common/PageTitling'
 
 export class AddPullRequest extends Component {
   constructor(props) {
@@ -72,68 +73,79 @@ export class AddPullRequest extends Component {
       <div>
         <Head title="Add PullRequest" />
         <Grid columns={1}>
+          <Grid.Row>
+            <PageTitling
+              title="Submit Pull Request"
+              subtitle="Anyone may submit pull requests"
+            />
+          </Grid.Row>
           <Grid.Row width={4} columns={1}>
-            <Form onSubmit={this.onSubmit}>
-              <Header as="h1">Submit Pull Request</Header>
-              <Form.Field required>
-                <Input
-                  label="Pull Request Number"
-                  type="text"
-                  placeholder=""
-                  onChange={this.onChangePRNum}
-                  name="url"
-                  value={prNum}
-                />
-              </Form.Field>
-              <Form.Field required>
-                <Input
-                  label="Task Id"
-                  name="id"
-                  onChange={this.onChangeTaskId}
-                  placeholder="hash"
-                  type="text"
-                  value={taskId}
-                />
-              </Form.Field>
-              <Button size="large" color="green" type="submit">
-                Submit
-              </Button>
-            </Form>
+            <Grid.Column width={8}>
+              <Form onSubmit={this.onSubmit}>
+                <Form.Field required>
+                  <Input
+                    label="Pull Request Number"
+                    type="text"
+                    placeholder=""
+                    onChange={this.onChangePRNum}
+                    name="url"
+                    value={prNum}
+                  />
+                </Form.Field>
+                <Form.Field required>
+                  <Input
+                    label="Task Id"
+                    name="id"
+                    onChange={this.onChangeTaskId}
+                    placeholder="hash"
+                    type="text"
+                    value={taskId}
+                  />
+                </Form.Field>
+                <Button size="large" color="green" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Message>
-              <Message.Header>Pull Request number</Message.Header>
-              <List bulleted>
-                <List.Item>First submit a pull request on Github</List.Item>
-                <List.Item>
-                  Enter the number found in your PR URL in the top box of this
-                  web page
-                </List.Item>
-                <List.Item>
-                  The number is the last part of your pull request URL. Example:
-                  https://github.com/Distense/distense-ui/pulls/<b>321</b>
-                </List.Item>
-                <List.Item>Enter just the number: 123</List.Item>
-              </List>
-            </Message>
-            <Message>
-              <Message.Header>Task ID</Message.Header>
-              <List bulleted>
-                <List.Item>
-                  Find the Task ID of the task your pull request completes
-                </List.Item>
-                <List.Item>
-                  The Task ID can be found by clicking the corresponding task
-                  found in the&nbsp;
-                  <Link to="/tasks">tasks list</Link>
-                  &nbsp;page.
-                </List.Item>
-                <List.Item>
-                  If you know the URL of your task, the Task ID is the last part
-                  and will look like: 1515652690755a0f3f4b21c0
-                </List.Item>
-              </List>
-            </Message>
+            <Grid.Column>
+              <Message>
+                <Message.Header>Pull Request number</Message.Header>
+                <List bulleted>
+                  <List.Item>First submit a pull request on Github</List.Item>
+                  <List.Item>
+                    Enter the number found in your PR URL in the top box of this
+                    web page
+                  </List.Item>
+                  <List.Item>
+                    The number is the last part of your pull request URL.
+                    Example: https://github.com/Distense/distense-ui/pulls/<b>
+                      321
+                    </b>
+                  </List.Item>
+                  <List.Item>Enter just the number: 123</List.Item>
+                </List>
+              </Message>
+              <Message>
+                <Message.Header>Task ID</Message.Header>
+                <List bulleted>
+                  <List.Item>
+                    Find the Task ID of the task your pull request completes
+                  </List.Item>
+                  <List.Item>
+                    The Task ID can be found by clicking the corresponding task
+                    found in the&nbsp;
+                    <Link to="/tasks">tasks list</Link>
+                    &nbsp;page.
+                  </List.Item>
+                  <List.Item>
+                    If you know the URL of your task, the Task ID is the last
+                    part and will look like: 1515652690755a0f3f4b21c0
+                  </List.Item>
+                </List>
+              </Message>
+            </Grid.Column>
           </Grid.Row>
         </Grid>
         {task && (

@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PageTitling /> snapshot 1`] = `
+<div
+  className="column"
+>
+  <h2
+    className="ui header"
+  >
+    Title
+  </h2>
+  <p
+    className="pagetitling-subtitle"
+  >
+    Subtitle
+  </p>
+  <style
+    jsx={true}
+  >
+    
+        .pagetitling-subtitle {
+          font-size: 1.25rem;
+        }
+      
+  </style>
+</div>
+`;

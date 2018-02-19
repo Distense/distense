@@ -1,19 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  Button,
-  Input,
-  Form,
-  Grid,
-  Header,
-  List,
-  Message
-} from 'semantic-ui-react'
+import { Button, Input, Form, Grid, List, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import { investEtherForDID, exchangeDIDForEther } from '../actions/exchange'
 
 import Head from '../components/common/Head'
+import PageTitling from '../components/common/PageTitling'
 
 export class Exchange extends Component {
   constructor(props) {
@@ -69,7 +62,10 @@ export class Exchange extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column>
-              <Header as="h1">Exchange</Header>
+              <PageTitling
+                title="Exchange"
+                subtitle="DID holders may exchange their DID into ether or vice versa"
+              />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={2}>
@@ -134,13 +130,12 @@ export class Exchange extends Component {
                   />
                 </Form.Field>
                 <Button basic size="large" color="green" type="submit">
-                  Invest ether for DID (probably a dumb idea)
+                  Invest ether for DID
                 </Button>
               </Form>
               <Message>
                 <Message.Header>Invest Ether for DID</Message.Header>
                 <List bulleted>
-                  <List.Item>This is probably a dumb idea</List.Item>
                   <List.Item>
                     You may exchange ether only to the extent you have
                     contributed to Distense. I.e, according to the number of DID
