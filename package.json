@@ -87,6 +87,7 @@
     "postcss-loader": "2.0.6",
     "prettier": "1.10.2",
     "react-dev-utils": "^3.1.0",
+    "react-test-renderer": "^16.2.0",
     "react-web3": "^0.4.5",
     "sinon": "^4.3.0",
     "style-loader": "0.18.2",
