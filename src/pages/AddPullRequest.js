@@ -80,9 +80,8 @@ export class AddPullRequest extends Component {
           <Form onSubmit={this.onSubmit}>
             <Form.Field required>
               <Input
-                label="Pull Request Number"
                 type="text"
-                placeholder=""
+                placeholder="Pull Request Number"
                 onChange={this.onChangePRNum}
                 name="url"
                 value={prNum}
@@ -90,10 +89,9 @@ export class AddPullRequest extends Component {
             </Form.Field>
             <Form.Field required>
               <Input
-                label="Task Id"
                 name="id"
                 onChange={this.onChangeTaskId}
-                placeholder="hash"
+                placeholder="Task ID"
                 type="text"
                 value={taskId}
               />
@@ -118,7 +116,7 @@ export class AddPullRequest extends Component {
                       321
                     </b>
                   </List.Item>
-                  <List.Item>Enter just the number: 123</List.Item>
+                  <List.Item>Enter just the number: 321</List.Item>
                 </List>
               </Message>
               <Message>

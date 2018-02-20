@@ -60,15 +60,11 @@ export class Exchange extends Component {
       <div>
         <Head title="Add Task" />
         <Grid>
-          <Grid.Row>
-            <Grid.Column>
-              <PageTitling
-                title="Exchange"
-                subtitle="DID holders may exchange their DID into ether or vice versa"
-              />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row columns={2}>
+          <PageTitling
+            title="Exchange"
+            subtitle="DID holders may exchange their DID into ether or vice versa"
+          />
+          <Grid.Row style={{ paddingTop: '0px' }} columns={2}>
             <Grid.Column width={8}>
               <Form onSubmit={this.onSubmitExchangeDIDForEther}>
                 <Form.Field>

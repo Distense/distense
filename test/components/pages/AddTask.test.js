@@ -37,7 +37,7 @@ describe('<AddTask /> page component', function() {
   it('should contain some basic subcomponents', function() {
     expect(wrapper.find(Grid).length).to.equal(1)
     expect(wrapper.find(Head).length).to.equal(1)
-    expect(wrapper.find(Grid.Row).length).to.equal(3)
+    expect(wrapper.find(Grid.Row).length).to.equal(4)
     expect(wrapper.find(Form).length).to.equal(2)
     expect(wrapper.find(Form.Field).length).to.equal(4)
     expect(wrapper.find(Dropdown).length).to.equal(2)

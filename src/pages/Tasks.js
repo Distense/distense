@@ -63,7 +63,7 @@ export class Tasks extends Component {
     return (
       <div>
         <Head title="Available Tasks" />
-        <PageTitling title="Tasks" subtitle="Anyone can complete tasks" />
+        <PageTitling title="Tasks" subtitle="Anyone can complete our tasks" />
         <Table sortable striped>
           <Table.Header>
             <Table.Row>
