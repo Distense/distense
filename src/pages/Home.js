@@ -7,6 +7,9 @@ import {
   Header,
   Input,
   List,
+  Label,
+  Item,
+  Icon,
   Menu,
   Segment
 } from 'semantic-ui-react'
@@ -166,34 +169,28 @@ class Home extends Component {
             <Header as="h3" style={{ fontSize: '1.7em' }}>
               Work is broken
             </Header>
-            <Grid divided inverted stackable>
-              <Grid.Row className="landing-work-broken" textAlign="center">
+            <Grid centered inverted stackable relaxed className="landing-work-broken">
+              <Grid.Row>
                 <Grid.Column textAlign="right" width={8}>
-                  <List relaxed={true}>
-                    <List.Item>
-                      <List.Icon name="rupee" />
-                      <List.Icon name="usd" />
-                      <List.Icon name="eur" />
-                      <List.Content>Wealth Inequality</List.Content>
-                    </List.Item>
-                    <List.Item>
-                      <List.Icon name="frown" />
-                      <List.Content>Harrassment and biases</List.Content>
-                    </List.Item>
-                  </List>
+                  <Icon name="rupee" size="small" />
+                  <Icon name="usd" size="small" />
+                  <Icon name="eur" size="small" />
+                  Wealth Inequality
                 </Grid.Column>
-                <Grid.Column width={8}>
-                  <List relaxed={true}>
-                    <List.Item>
-                      <List.Icon name="drivers license" />
-                      <List.Content>Nationality Requirements</List.Content>
-                    </List.Item>
-                    <List.Item>
-                      <List.Icon name="group" />
-                      <List.Icon name="wait" />
-                      <List.Content>Commutes and bosses</List.Content>
-                    </List.Item>
-                  </List>
+                <Grid.Column textAlign="left" width={8}>
+                  <Icon name="drivers license" size="small" />
+                  Nationality Requirements
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column textAlign="right" width={8}>
+                  <Icon name="frown" size="small" />
+                  Harrassment and biases
+                </Grid.Column>
+                <Grid.Column textAlign="left" width={8}>
+                  <Icon name="group" size="small" />
+                  <Icon name="wait" size="small" />
+                  Commutes and bosses
                 </Grid.Column>
               </Grid.Row>
             </Grid>
@@ -334,13 +331,18 @@ class Home extends Component {
             padding: 1rem 0;
           }
 
-          .landing-work-broken .item .content {
+          .landing-work-broken .column {
             font-size: 1.33em;
           }
-
-          @media only screen and (min-width: 767px) {
-            .landing-work-broken .column:first-child .list {
-              float: right;
+          .landing-work-broken .column > .icon:last-child {
+            margin-right:15px;
+          }
+          .landing-work-broken > .row {
+            padding-bottom: 0 !important;
+          }
+          @media only screen and (max-width: 767px) {
+            .landing-work-broken .column {
+              text-align:center !important;
             }
           }
 
