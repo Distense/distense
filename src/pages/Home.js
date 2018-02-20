@@ -337,6 +337,18 @@ class Home extends Component {
           .landing-work-broken .item .content {
             font-size: 1.33em;
           }
+        @media screen and (max-width: 767px) {
+               .item {
+                text-align: -webkit-center;
+                text-align:  -o-center;
+                text-align: -moz-center;
+                text-align: -ms-center;
+            }
+
+            .ui.relaxed.right.floated.list {
+                float: none;
+            }
+      }
         `}</style>
       </div>
     )
