@@ -169,7 +169,7 @@ class Home extends Component {
             <Grid divided inverted stackable>
               <Grid.Row className="landing-work-broken" textAlign="center">
                 <Grid.Column textAlign="right" width={8}>
-                  <List floated="right" relaxed={true}>
+                  <List relaxed={true}>
                     <List.Item>
                       <List.Icon name="rupee" />
                       <List.Icon name="usd" />
@@ -337,6 +337,13 @@ class Home extends Component {
           .landing-work-broken .item .content {
             font-size: 1.33em;
           }
+
+          @media only screen and (min-width: 767px) {
+            .landing-work-broken .column:first-child .list {
+              float: right;
+            }
+          }
+
         `}</style>
       </div>
     )
