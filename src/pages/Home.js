@@ -7,8 +7,6 @@ import {
   Header,
   Input,
   List,
-  Label,
-  Item,
   Icon,
   Menu,
   Segment
