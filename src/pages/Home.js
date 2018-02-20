@@ -338,7 +338,7 @@ class Home extends Component {
             font-size: 1.33em;
           }
         @media screen and (max-width: 767px) {
-               .item {
+               .ui.relaxed>.item {
                 text-align: -webkit-center;
                 text-align:  -o-center;
                 text-align: -moz-center;
