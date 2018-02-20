@@ -2,7 +2,7 @@
 
 exports[`<PageTitling /> snapshot 1`] = `
 <div
-  className="column"
+  className="sixteen wide column"
 >
   <h2
     className="ui header"
@@ -19,7 +19,7 @@ exports[`<PageTitling /> snapshot 1`] = `
   >
     
         .pagetitling-subtitle {
-          font-size: 1.25rem;
+          font-size: 1.3rem;
         }
       
   </style>
