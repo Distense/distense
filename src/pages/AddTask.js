@@ -103,78 +103,74 @@ export class AddTask extends Component {
       <div>
         <Head title="Add Task" />
         <Grid>
-          <Grid.Row>
-            <PageTitling
-              title="Propose"
-              subtitle="DID holders can propose new work here"
-            />
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Form onSubmit={this.onSubmit}>
-                <Form.Field>
-                  <Input
-                    onChange={this.onChangeIssueNum}
-                    placeholder="Github Issue Number"
-                    value={issueNum}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Input
-                    type="text"
-                    placeholder="Title (<70 chars)"
-                    onChange={this.onChangeTitle}
-                    className=""
-                    name="title"
-                    value={title}
-                  />
-                </Form.Field>
-                <Button size="large" color="green" type="submit">
-                  Submit
-                </Button>
-              </Form>
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <Form>
-                <Form.Field>
-                  <Dropdown
-                    fluid
-                    multiple
-                    onChange={this.onChangeTags}
-                    options={tagsOptions}
-                    placeholder="Tags"
-                    search
-                    selection
-                    scrolling
-                    value={tags}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Dropdown
-                    fluid
-                    onChange={this.onChangeRepo}
-                    options={[
-                      {
-                        key: 'ui',
-                        value: 'ui',
-                        text: 'UI'
-                      },
-                      {
-                        key: 'contracts',
-                        value: 'contracts',
-                        text: 'Contracts'
-                      }
-                    ]}
-                    placeholder="Repo"
-                    search
-                    selection
-                    scrolling
-                    value={repo}
-                  />
-                </Form.Field>
-              </Form>
-            </Grid.Column>
-          </Grid.Row>
+          <PageTitling
+            title="Propose"
+            subtitle="DID holders can propose new work here"
+          />
+          <Grid.Column width={8}>
+            <Form onSubmit={this.onSubmit}>
+              <Form.Field>
+                <Input
+                  onChange={this.onChangeIssueNum}
+                  placeholder="Github Issue Number"
+                  value={issueNum}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Input
+                  type="text"
+                  placeholder="Title (<70 chars)"
+                  onChange={this.onChangeTitle}
+                  className=""
+                  name="title"
+                  value={title}
+                />
+              </Form.Field>
+              <Button size="large" color="green" type="submit">
+                Submit
+              </Button>
+            </Form>
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <Form>
+              <Form.Field>
+                <Dropdown
+                  fluid
+                  multiple
+                  onChange={this.onChangeTags}
+                  options={tagsOptions}
+                  placeholder="Tags"
+                  search
+                  selection
+                  scrolling
+                  value={tags}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Dropdown
+                  fluid
+                  onChange={this.onChangeRepo}
+                  options={[
+                    {
+                      key: 'ui',
+                      value: 'ui',
+                      text: 'UI'
+                    },
+                    {
+                      key: 'contracts',
+                      value: 'contracts',
+                      text: 'Contracts'
+                    }
+                  ]}
+                  placeholder="Repo"
+                  search
+                  selection
+                  scrolling
+                  value={repo}
+                />
+              </Form.Field>
+            </Form>
+          </Grid.Column>
           <Grid.Row>
             <Grid.Column width={16}>
               <Message>

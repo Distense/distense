@@ -73,41 +73,35 @@ export class AddPullRequest extends Component {
       <div>
         <Head title="Add PullRequest" />
         <Grid columns={1}>
-          <Grid.Row>
-            <PageTitling
-              title="Submit Pull Request"
-              subtitle="Anyone may submit pull requests"
-            />
-          </Grid.Row>
-          <Grid.Row width={4} columns={1}>
-            <Grid.Column width={8}>
-              <Form onSubmit={this.onSubmit}>
-                <Form.Field required>
-                  <Input
-                    label="Pull Request Number"
-                    type="text"
-                    placeholder=""
-                    onChange={this.onChangePRNum}
-                    name="url"
-                    value={prNum}
-                  />
-                </Form.Field>
-                <Form.Field required>
-                  <Input
-                    label="Task Id"
-                    name="id"
-                    onChange={this.onChangeTaskId}
-                    placeholder="hash"
-                    type="text"
-                    value={taskId}
-                  />
-                </Form.Field>
-                <Button size="large" color="green" type="submit">
-                  Submit
-                </Button>
-              </Form>
-            </Grid.Column>
-          </Grid.Row>
+          <PageTitling
+            title="Submit Pull Request"
+            subtitle="Anyone may submit pull requests"
+          />
+          <Form onSubmit={this.onSubmit}>
+            <Form.Field required>
+              <Input
+                label="Pull Request Number"
+                type="text"
+                placeholder=""
+                onChange={this.onChangePRNum}
+                name="url"
+                value={prNum}
+              />
+            </Form.Field>
+            <Form.Field required>
+              <Input
+                label="Task Id"
+                name="id"
+                onChange={this.onChangeTaskId}
+                placeholder="hash"
+                type="text"
+                value={taskId}
+              />
+            </Form.Field>
+            <Button size="large" color="green" type="submit">
+              Submit
+            </Button>
+          </Form>
           <Grid.Row>
             <Grid.Column>
               <Message>
