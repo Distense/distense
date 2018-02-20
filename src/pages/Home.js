@@ -338,17 +338,17 @@ class Home extends Component {
             font-size: 1.33em;
           }
         @media screen and (max-width: 767px) {
-               .ui.relaxed>.item {
+              .landing-work-broken .ui.relaxed>.item {
                 text-align: -webkit-center;
                 text-align:  -o-center;
                 text-align: -moz-center;
                 text-align: -ms-center;
             }
 
-            .ui.relaxed.right.floated.list {
+           .landing-work-broken .ui.relaxed.right.floated.list {
                 float: none;
             }
-      }
+        }
         `}</style>
       </div>
     )
