@@ -21,7 +21,7 @@ class EthereumAuthenticated extends Component {
         (title = 'No unlocked Ethereum account'))
 
     return (
-      <Menu.Item title={title}>
+      <Menu.Item className="footer-item" title={title}>
         <EthereumSVGIcon width="20" height="20" />
         <Icon color={color} name={icon} />
         {coinbase && coinbase.substring(0, 6)}...

@@ -34,7 +34,10 @@ export class DIDOwnership extends Component {
     const pctDID = this.calculatePercentageOwned()
 
     return (
-      <Menu.Item title="The number of and percentage of total DID the current account owns">
+      <Menu.Item
+        className="footer-item"
+        title="The number of and percentage of total DID the current account owns"
+      >
         DID owned: {numDID} ({pctDID}%)
       </Menu.Item>
     )

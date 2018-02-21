@@ -6,16 +6,14 @@ import {
   RECEIVE_ACCOUNTS,
   RECEIVE_ACCOUNT_UNLOCKED,
   RECEIVE_HAS_WEB3,
-  RECEIVE_IS_CONNECTED,
   RECEIVE_USER_NUM_DID,
-  RECEIVE_NETWORK_ID,
+  RECEIVE_NETWORK,
   RECEIVE_USER_NUM_ETHER
 } from '../constants/actionTypes'
 
 const user = (
   state = {
     hasWeb3: false,
-    isConnected: false,
     accountUnlocked: false,
     numDID: 0,
     network: null,
@@ -27,10 +25,6 @@ const user = (
     case RECEIVE_HAS_WEB3:
       return Object.assign({}, state, {
         hasWeb3: true
-      })
-    case RECEIVE_IS_CONNECTED:
-      return Object.assign({}, state, {
-        isConnected: true
       })
     case RECEIVE_ACCOUNT_UNLOCKED:
       return Object.assign({}, state, {
@@ -44,7 +38,7 @@ const user = (
       return Object.assign({}, state, {
         numEther: action.numEther
       })
-    case RECEIVE_NETWORK_ID:
+    case RECEIVE_NETWORK:
       return Object.assign({}, state, {
         network: action.network
       })

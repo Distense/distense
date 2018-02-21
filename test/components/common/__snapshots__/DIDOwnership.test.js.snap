@@ -2,7 +2,7 @@
 
 exports[`<DIDOwnership /> snapshot 1`] = `
 <div
-  className="item"
+  className="item footer-item"
   onClick={[Function]}
   title="The number of and percentage of total DID the current account owns"
 >
