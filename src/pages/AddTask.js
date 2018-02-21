@@ -6,7 +6,6 @@ import {
   Input,
   Form,
   Grid,
-  Header,
   List,
   Message
 } from 'semantic-ui-react'
@@ -18,6 +17,7 @@ import { getPendingTask } from '../reducers/tasks'
 import { NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
 
 import Head from '../components/common/Head'
+import PageTitling from '../components/common/PageTitling'
 import { tagsOptions } from '../tagsOptions'
 import { getParameterValueByTitle } from '../reducers/parameters'
 
@@ -103,13 +103,12 @@ export class AddTask extends Component {
       <div>
         <Head title="Add Task" />
         <Grid>
-          <Grid.Row>
+          <PageTitling
+            title="Propose"
+            subtitle="DID holders can propose new work"
+          />
+          <Grid.Row style={{ paddingTop: '0px' }} columns={2}>
             <Grid.Column>
-              <Header as="h1">Propose</Header>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={8}>
               <Form onSubmit={this.onSubmit}>
                 <Form.Field>
                   <Input

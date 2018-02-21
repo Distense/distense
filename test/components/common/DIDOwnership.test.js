@@ -10,11 +10,11 @@ function setup(numDID = 0, totalSupplyDid = 0) {
   const props = {
     fetchTotalSupplyDID: jest.fn(),
     totalSupplyDid,
-    numDID,
-  };
-  const comp = shallow(<DIDOwnership {...props} />);
+    numDID
+  }
+  const comp = shallow(<DIDOwnership {...props} />)
 
-  return { comp, props };
+  return { comp, props }
 }
 
 describe('<DIDOwnership />', () => {
@@ -40,7 +40,7 @@ describe('<DIDOwnership />', () => {
     })
 
     it('when a user owns a percentage that calculates to an even tenth (54.1) it should render two decimal places (54.10)', () => {
-      const { comp } = setup(25.20, 100)
+      const { comp } = setup(25.2, 100)
       expect(comp.instance().calculatePercentageOwned()).toEqual('25.20')
     })
   })
@@ -49,13 +49,15 @@ describe('<DIDOwnership />', () => {
     const { props } = setup()
     const mockstore = configureMockStore()
     const store = mockstore({})
-    const tree = renderer.create((
-      <Provider store={store} >
-        <MemoryRouter>
-          <DIDOwnership {...props} />
-        </MemoryRouter>
-      </Provider>
-    )).toJSON()
+    const tree = renderer
+      .create(
+        <Provider store={store}>
+          <MemoryRouter>
+            <DIDOwnership {...props} />
+          </MemoryRouter>
+        </Provider>
+      )
+      .toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
