@@ -93,6 +93,24 @@ export default class GetStarted extends Component {
               concerned about someone submitting one before you.
             </List.Item>
           </List.List>
+          <List.Item as="h2">Getting some Test Ethers</List.Item>
+          <List.List as="ul">
+            <List.Item as="li">
+              You will need some DID to test Distense and to upvote parameters or propose tasks which is turn is exchanged with ethers.
+            </List.Item>
+            <List.Item as="li">
+              To get some test ethers,Choose Ropsten Test Network in your mMetamask Account.Then go to our <Link target="_blank" to={'ropsten/Faucet'}>
+                Faucet page
+              </Link>{' '}.Then click on the <Button size="tiny" color="green" type="submit">
+                    Request 10 Ether
+                  </Button>button.
+            </List.Item>
+           <List.Item as="li">
+              Now you have test ethers in your account and now go to the <Link target="_blank" to={'Exchange'}>
+                Exchange page
+              </Link>{' '} and exchange the ethers with DID.And you're are now free to upvote parameters, propose tasks and approve pull requests.
+            </List.Item>
+          </List.List>
           <List.Item as="h2">View available tasks</List.Item>
           <List.List as="ol">
             <List.Item as="li">
@@ -176,7 +194,7 @@ export default class GetStarted extends Component {
               your pull request number. Click Submit and confirm the tx in
               Metamask.
             </List.Item>
-          </List.List>
+         </List.List>
         </List>
 
         {/*language=CSS*/}
