@@ -6,6 +6,7 @@ import { Table } from 'semantic-ui-react'
 import { fetchTasks } from '../actions/tasks'
 import { getAllTasks } from '../reducers/tasks'
 import { TasksListItem } from '../components/common/TasksListItem'
+import PageTitling from '../components/common/PageTitling'
 import Head from '../components/common/Head'
 
 export class Tasks extends Component {
@@ -62,6 +63,7 @@ export class Tasks extends Component {
     return (
       <div>
         <Head title="Available Tasks" />
+        <PageTitling title="Tasks" subtitle="Anyone can complete our tasks" />
         <Table sortable striped>
           <Table.Header>
             <Table.Row>

@@ -1,9 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import EthereumAuthenticated from './common/EthereumAuthenticated'
-// import GasEstimate from './common/GasEstimate'
 import DIDOwnership from './common/DIDOwnership'
-import HasWeb3 from './common/HasWeb3'
+import ConnectedNetwork from './common/ConnectedNetwork'
 
 import { Container, Menu, Segment } from 'semantic-ui-react'
 
@@ -13,9 +12,11 @@ export default () => (
   <Segment vertical style={{ margin: '3em 0em 0em', padding: '5em 0em' }}>
     <Menu className="inconsolata" borderless fixed="bottom">
       <Container>
-        <Menu.Item>© {new Date().getFullYear()} Distense</Menu.Item>
+        <Menu.Item className="footer-item">
+          © {new Date().getFullYear()} Distense
+        </Menu.Item>
         <Menu.Item
-          style={{ textDecoration: 'underline' }}
+          className="footer-item"
           color="blue"
           link
           as={Link}
@@ -25,7 +26,7 @@ export default () => (
           Faucet
         </Menu.Item>
         <Menu.Item
-          style={{ textDecoration: 'underline' }}
+          className="footer-item"
           color="blue"
           link
           as={Link}
@@ -34,7 +35,7 @@ export default () => (
           Get Started
         </Menu.Item>
         <Menu.Item
-          style={{ textDecoration: 'underline' }}
+          className="footer-item"
           color="blue"
           link
           as={Link}
@@ -43,7 +44,7 @@ export default () => (
           FAQ
         </Menu.Item>
         <Menu.Item
-          style={{ textDecoration: 'underline' }}
+          className="footer-item"
           color="blue"
           link
           as={Link}
@@ -52,7 +53,7 @@ export default () => (
           Parameters
         </Menu.Item>
         <Menu.Item
-          style={{ textDecoration: 'underline' }}
+          className="footer-item"
           color="blue"
           link
           as={Link}
@@ -62,8 +63,7 @@ export default () => (
         </Menu.Item>
         <Status />
         <DIDOwnership />
-        {/*<GasEstimate />*/}
-        <HasWeb3 />
+        <ConnectedNetwork />
         <EthereumAuthenticated />
       </Container>
     </Menu>

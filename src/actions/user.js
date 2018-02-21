@@ -3,7 +3,7 @@ import * as contracts from '../contracts'
 import {
   RECEIVE_ACCOUNT,
   RECEIVE_HAS_WEB3,
-  RECEIVE_IS_CONNECTED,
+  RECEIVE_NETWORK,
   RECEIVE_USER_NOT_AUTHENTICATED,
   RECEIVE_USER_NUM_DID,
   RECEIVE_USER_NUM_ETHER
@@ -20,8 +20,9 @@ const receiveHasWeb3 = () => ({
   type: RECEIVE_HAS_WEB3
 })
 
-const receiveIsConnected = () => ({
-  type: RECEIVE_IS_CONNECTED
+export const receiveNetwork = network => ({
+  type: RECEIVE_NETWORK,
+  network
 })
 
 export const receiveUserNotAuthenticated = () => ({
@@ -45,7 +46,6 @@ export const getNumDIDByAddress = async address => {
 
 export const selectUserAccountInfo = () => async dispatch => {
   /*global web3 */
-
   const hasWeb3 = window.web3 !== undefined
   let isConnected = false
   if (hasWeb3) {
@@ -53,6 +53,9 @@ export const selectUserAccountInfo = () => async dispatch => {
     if (isConnected) {
       console.log(`web3: isConnected`)
       const accounts = web3.eth.accounts
+      const network = web3.version.network
+      console.log(`network: ${network}`)
+      dispatch(receiveNetwork(network))
       if (accounts && accounts.length) {
         const coinbase = accounts[0]
         dispatch(receiveAccountAction(coinbase))
@@ -71,6 +74,5 @@ export const selectUserAccountInfo = () => async dispatch => {
     }
   }
   dispatch(receiveHasWeb3(hasWeb3))
-  dispatch(receiveIsConnected(isConnected))
   dispatch(setDefaultStatus())
 }

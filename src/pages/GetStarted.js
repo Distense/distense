@@ -17,9 +17,9 @@ export default class GetStarted extends Component {
               even if you don't want to contribute to Distense.
             </List.Item>
             <List.Item as="li">
-              Ethereum addresses are how you are known to Distense as a
-              contributor. They are also how we keep track of DID balances.
-              You can also use them to send and receive ether.
+              Ethereum addresses are how you authenticate to Distense as a
+              contributor. They are also how we keep track of DID balances. You
+              can also use them to send and receive ether.
             </List.Item>
             <List.Item as="li">
               You'll need MetaMask to use Distense, so, to make things easier,
