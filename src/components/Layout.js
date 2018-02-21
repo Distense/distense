@@ -57,6 +57,13 @@ export default ({ children }) => (
       .item {
         font-size: 1.1rem;
       }
+      .ui.container > .footer-item {
+        padding: 0 0.75rem;
+      }
+
+      .ui.container > a.footer-item {
+        text-decoration: underline;
+      }
     `}</style>
   </div>
 )
