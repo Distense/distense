@@ -99,7 +99,7 @@ export default class GetStarted extends Component {
               You will need some DID to test Distense and to upvote parameters or propose tasks which is turn is exchanged with ethers.
             </List.Item>
             <List.Item as="li">
-              To get some test ethers,Choose Ropsten Test Network in your mMetamask Account.Then go to our <Link target="_blank" to={'ropsten/Faucet'}>
+              To get some test ethers,Choose Ropsten Test Network in your Metamask Account.Then go to our <Link target="_blank" to={'ropsten/Faucet'}>
                 Faucet page
               </Link>{' '}.Then click on the <Button size="tiny" color="green" type="submit">
                     Request 10 Ether
