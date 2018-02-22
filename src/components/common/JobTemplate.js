@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Container, Header, List, Button } from 'semantic-ui-react'
 import PageTitling from './PageTitling';
 
@@ -35,3 +36,12 @@ const JobTemplate = ({
 );
 
 export default JobTemplate;
+
+JobTemplate.propTypes = {
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  idealCandidates: PropTypes.string.isRequired,
+  skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+  salaryRange: PropTypes.string.isRequired,
+}
