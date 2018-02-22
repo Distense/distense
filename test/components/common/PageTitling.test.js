@@ -1,12 +1,12 @@
 import React from 'react'
-import { mount, shallow } from 'enzyme'
+import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 
 import { Header } from 'semantic-ui-react'
-import PageTitling from '../../src/components/common/PageTitling'
+import PageTitling from '../../../src/components/common/PageTitling'
 
 function setup(title = 'Title', subtitle = 'Subtitle') {
   const props = {

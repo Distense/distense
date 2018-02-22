@@ -28,6 +28,7 @@
     "meteor-random": "0.0.3",
     "object-assign": "4.1.1",
     "promise": "^8.0.1",
+    "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-error-overlay": "^1.0.10",
