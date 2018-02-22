@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<JobTemplate /> snapshot 1`] = `
+<div
+  className="ui container"
+>
+  <div
+    className="sixteen wide column"
+  >
+    <h2
+      className="ui header"
+    >
+      Im the title!
+    </h2>
+    <p
+      className="pagetitling-subtitle"
+    >
+      Im the subtitle.
+    </p>
+    <style
+      jsx={true}
+    >
+      
+        .pagetitling-subtitle {
+          font-size: 1.3rem;
+        }
+      
+    </style>
+  </div>
+  <hr />
+  <p>
+    This is my description.
+  </p>
+  <div
+    className="ui medium header"
+  >
+    Our ideal candidates:
+  </div>
+  <p>
+    Attributes for our ideal candidates.
+  </p>
+  <div
+    className="ui medium header"
+  >
+    You’re familiar with several points from this list:
+  </div>
+  <div
+    className="ui bulleted list"
+    role="list"
+  >
+    <div
+      className="item"
+      data-value={undefined}
+      onClick={[Function]}
+      role="listitem"
+    >
+      JavaScript
+    </div>
+    <div
+      className="item"
+      data-value={undefined}
+      onClick={[Function]}
+      role="listitem"
+    >
+      Ruby
+    </div>
+    <div
+      className="item"
+      data-value={undefined}
+      onClick={[Function]}
+      role="listitem"
+    >
+      Node.js
+    </div>
+    <div
+      className="item"
+      data-value={undefined}
+      onClick={[Function]}
+      role="listitem"
+    >
+      Solidity
+    </div>
+  </div>
+  <div
+    className="ui medium header"
+  >
+    Salary Range:
+  </div>
+  <p>
+    100 - 110k
+  </p>
+  <a
+    href="mailto:hiring@disten.se"
+  >
+    <button
+      className="ui primary button"
+      disabled={undefined}
+      onClick={[Function]}
+      role="button"
+      tabIndex={undefined}
+    >
+      Apply Now
+    </button>
+  </a>
+</div>
+`;
