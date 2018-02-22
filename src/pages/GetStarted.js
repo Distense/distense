@@ -199,7 +199,7 @@ export default class GetStarted extends Component {
             <List.Item as="li">
               That will take you to a page where the only thing to do is enter
               your pull request number. Click Submit and confirm the tx in
-              Metamask.
+              MetaMask.
             </List.Item>
           </List.List>
         </List>
