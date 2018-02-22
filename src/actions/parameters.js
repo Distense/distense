@@ -9,6 +9,7 @@ import {
 import * as contracts from '../contracts'
 import { setDefaultStatus, updateStatusMessage } from './status'
 import { getGasPrice } from '../helpers/getGasPrice'
+import { convertSolidityIntToInt } from '../utils'
 
 const requestParameters = () => ({
   type: REQUEST_PARAMETERS
@@ -30,11 +31,12 @@ export const fetchParameter = async title => {
   title = web3Utils.toAscii(title).replace(/\u0000/g, '')
   const parameter = await getParameterByTitle(title)
 
+  const value = convertSolidityIntToInt(parameter[1].toNumber())
   return Object.assign(
     {},
     {
       title,
-      value: parameter[1].toNumber()
+      value
     }
   )
 }
