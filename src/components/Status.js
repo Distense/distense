@@ -24,7 +24,7 @@ class Status extends Component {
     // const s = constructStatus(status.message)
 
     return (
-      <Menu.Item>
+      <Menu.Item className="footer-item">
         {status.message}
         {/*language=CSS*/}
         <style>{`

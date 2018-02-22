@@ -16,8 +16,7 @@ const receiveNewContractEvent = event => ({
 
 export const getContractEvents = () => async dispatch => {
   //  network id; 5777/9000 is private testnet; 1 is mainnet, others are testnets
-  /*global web3*/
-  /*eslint no-undef: "error"*/
+  let web3 = window.web3
   if (web3 && web3.version && web3.version.network) {
     const network = web3.version.network
 
@@ -130,6 +129,7 @@ export const getContractEvents = () => async dispatch => {
 const getContractEventsNamesAndHashs = artifacts => {
   const contractEvents = []
   const abi = artifacts.abi
+  let web3 = window.web3
   for (let i = 0; i < abi.length; i++) {
     const item = abi[i]
     if (item.type !== 'event') continue

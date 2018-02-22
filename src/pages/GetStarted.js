@@ -1,23 +1,29 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Header, List } from 'semantic-ui-react'
+
 import Head from '../components/common/Head'
+import { NETWORK_NAME } from '../constants/network'
 
 export default class GetStarted extends Component {
   render() {
     return (
       <div>
         <Head title="Get Started" />
-        <Header as="h1">Get Started</Header>
-        <List>
-          <List.Item as="h2">Get an Ethereum Account</List.Item>
+        <Header as="h1" style={{ marginTop: '10px' }}>
+          Get Started
+        </Header>
+        <List style={{ textAlign: 'justify' }}>
+          <List.Item as="h1" style={{ fontWeight: '700', fontSize: '18px' }}>
+            Get an Ethereum Account
+          </List.Item>
           <List.List as="ul">
             <List.Item as="li">
               This section is helpful if you don't have an Ethereum address and
               even if you don't want to contribute to Distense.
             </List.Item>
             <List.Item as="li">
-              Ethereum addresses are how you are known to Distense as a
+              Ethereum addresses are how you authenticate to Distense as a
               contributor. They are also how we keep track of DID balances. You
               can also use them to send and receive ether.
             </List.Item>
@@ -49,15 +55,15 @@ export default class GetStarted extends Component {
                   </List.List>
                 </List.Item>
                 <List.Item as="li">
-                  Open MetaMask by clicking the fox at the top-right of your
-                  browser:
+                  Open MetaMask by clicking the fox{' '}
                   <img
                     style={{ display: 'inline', margin: '-26px -5px' }}
                     alt="MetaMask logo"
                     src="/public/metamask-image-tiny.png"
-                  />
+                  />{' '}
+                  at the top-right of your browser:
                 </List.Item>
-                <List.Item as="li">Accept MetaMask's terms</List.Item>
+                <List.Item as="li">Accept MetaMask's terms.</List.Item>
                 <List.Item as="li">
                   Enter a ludicrously strong password that will encrypt your
                   "den" which is a collection of Ethereum addresses you can
@@ -68,16 +74,22 @@ export default class GetStarted extends Component {
                   Save your seed phrase. This is super important. That's why
                   MetaMask asks you three times if you've done this.
                 </List.Item>
-                <List.Item>
-                  On the next screen you'll see "Account One" and below that
-                  some numbers that begin with 0x. That's your Ethereum
+                <List.Item style={{ marginTop: '3px' }}>
+                  On the next screen you'll see <b>"Account One"</b> and below
+                  that some numbers that begin with 0x. That's your Ethereum
                   address!!
                 </List.Item>
               </List.List>
             </List.Item>
           </List.List>
-          <List.Item as="h2">Using MetaMask</List.Item>
+          <List.Item as="h1" style={{ fontWeight: '700', fontSize: '18px' }}>
+            Using MetaMask
+          </List.Item>
           <List.List as="ul">
+            <List.Item as="li">
+              In order to use Distense, please connect to the {NETWORK_NAME}
+              network in MetaMask.
+            </List.Item>
             <List.Item as="li">
               Learning to use MetaMask, or another method of signing
               transactions, is a fundamental aspect of Ethereum. In the five or
@@ -93,7 +105,9 @@ export default class GetStarted extends Component {
               concerned about someone submitting one before you.
             </List.Item>
           </List.List>
-          <List.Item as="h2">View available tasks</List.Item>
+          <List.Item as="h1" style={{ fontWeight: '700', fontSize: '18px' }}>
+            View available tasks
+          </List.Item>
           <List.List as="ol">
             <List.Item as="li">
               Navigate to our{' '}
@@ -111,9 +125,18 @@ export default class GetStarted extends Component {
               on Github.
             </List.Item>
             <List.Item as="li">
-              Once you see a task you would like to work on, click the blue task
-              title to navigate to the task's page. If you found the task on
-              Github, return to the list of{' '}
+              Once you see a task you would like to work on, click the{' '}
+              <span
+                style={{
+                  textDecoration: 'underline',
+                  textDecorationColor: 'blue',
+                  color: 'blue'
+                }}
+              >
+                blue
+              </span>{' '}
+              task title to navigate to the task's page. If you found the task
+              on Github, return to the list of{' '}
               <Link target="_blank" to={'tasks'}>
                 tasks
               </Link>{' '}
@@ -122,10 +145,12 @@ export default class GetStarted extends Component {
             <List.Item as="li">
               Once you're on the task's page, you can click the blue "Issue URL"
               link to view even more details and discussion about how to
-              complete the task on Github
+              complete the task on Github.
             </List.Item>
           </List.List>
-          <List.Item as="h2">Submit your work</List.Item>
+          <List.Item as="h1" style={{ fontWeight: '700', fontSize: '18px' }}>
+            Submit your work
+          </List.Item>
           <List.List as="ol">
             <List.Item as="li">
               To submit work we need two things:

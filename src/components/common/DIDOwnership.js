@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { fetchTotalSupplyDID } from '../../actions/status'
 import { getTotalSupplyDID } from '../../reducers/status'
 
-class DIDOwnership extends Component {
+export class DIDOwnership extends Component {
   componentDidMount() {
     this.props.fetchTotalSupplyDID()
   }
@@ -17,14 +17,27 @@ class DIDOwnership extends Component {
     )
   }
 
-  render() {
+  calculatePercentageOwned() {
     const { numDID, totalSupplyDid } = this.props
 
-    let pctDID = (numDID / totalSupplyDid).toFixed(2)
-    pctDID = isNaN(pctDID) ? 0 : pctDID
+    let pctDID = (numDID / totalSupplyDid * 100).toFixed(2)
+
+    pctDID = isNaN(pctDID) ? '0' : pctDID
+    pctDID = pctDID === '0.00' ? '0' : pctDID
+    pctDID = pctDID === '100.00' ? '100' : pctDID
+
+    return pctDID
+  }
+
+  render() {
+    const { numDID } = this.props
+    const pctDID = this.calculatePercentageOwned()
 
     return (
-      <Menu.Item title="The number of and percentage of total DID the current account owns">
+      <Menu.Item
+        className="footer-item"
+        title="The number of and percentage of total DID the current account owns"
+      >
         DID owned: {numDID} ({pctDID}%)
       </Menu.Item>
     )

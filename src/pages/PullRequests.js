@@ -9,6 +9,7 @@ import { approvePullRequest, fetchPullRequests } from '../actions/pullRequests'
 import { getAllPullRequests } from '../reducers/pullRequests'
 
 import Head from '../components/common/Head'
+import PageTitling from '../components/common/PageTitling'
 import PullRequestListItem from '../components/PullRequestListItem'
 
 class PullRequests extends Component {
@@ -70,6 +71,10 @@ class PullRequests extends Component {
     return (
       <div>
         <Head title="Reviewable Pull Requests" />
+        <PageTitling
+          title="PullRequests"
+          subtitle="DID holders can approve pull requests"
+        />
         <Table sortable striped>
           <Table.Header>
             <Table.Row>

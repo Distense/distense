@@ -10,7 +10,9 @@ export const constructClientTask = (taskId, contractTask) => {
   const pctDIDVoted = convertSolidityIntToInt(contractTask[4].toString())
   const numVotes = contractTask[5].toString()
 
-  const { created, tags, issueNum, repo } = decodeTaskBytes32ToMetaData(taskId)
+  const { createdAt, tags, issueNum, repo } = decodeTaskBytes32ToMetaData(
+    taskId
+  )
 
   const status =
     rewardStatusEnumInteger === 0 || rewardStatusEnumInteger === 1
@@ -38,7 +40,7 @@ export const constructClientTask = (taskId, contractTask) => {
     {
       _id: decodedTaskId,
       createdBy,
-      created,
+      createdAt,
       reward,
       rewardStatus,
       votingStatus,

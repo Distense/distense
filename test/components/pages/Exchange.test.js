@@ -31,7 +31,7 @@ describe('<Exchange /> page component', function() {
     expect(wrapper.find(Button).length).to.equal(2)
     expect(wrapper.find(Grid).length).to.equal(1)
     expect(wrapper.find(Head).length).to.equal(1)
-    expect(wrapper.find(Grid.Row).length).to.equal(3)
+    expect(wrapper.find(Grid.Row).length).to.equal(2)
     expect(wrapper.find(Form).length).to.equal(2)
     expect(wrapper.find(Form.Field).length).to.equal(2)
     expect(wrapper.find(List).length).to.equal(2)

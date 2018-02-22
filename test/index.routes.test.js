@@ -43,7 +43,8 @@ describe('Routes', () => {
     expect(pathMap['/tasks/add']).toBe(AddTask)
     expect(pathMap['/tasks']).toBe(Tasks)
 
-    expect(pathMap['/pullrequests/add/:id']).toBe(AddPullRequest)
+    expect(pathMap['/pullrequests/add/:id?']).toBe(AddPullRequest)
+    expect(pathMap['/pullrequests/add/:id']).toBe(undefined)
     expect(pathMap['/pullrequests']).toBe(PullRequests)
     expect(pathMap['/pullrequests/:id']).toBe(PullRequest)
 

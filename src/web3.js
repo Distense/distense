@@ -2,14 +2,15 @@ import contract from 'truffle-contract'
 
 export const selectContractInstance = contractBuild => {
   return new Promise(resolve => {
-    const myContract = contract(contractBuild)
-    /*global web3*/
-    /*eslint no-undef: "error"*/
-    myContract.setProvider(web3.currentProvider)
-    myContract.defaults({
-      gas: 2e6
-    })
-    myContract.deployed().then(instance => resolve(instance))
+    const web3 = window.web3
+    if (web3 && web3.currentProvider) {
+      const myContract = contract(contractBuild)
+      myContract.setProvider(web3.currentProvider)
+      myContract.defaults({
+        gas: 2e6
+      })
+      myContract.deployed().then(instance => resolve(instance))
+    }
   })
 }
 

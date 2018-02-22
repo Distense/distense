@@ -20,7 +20,7 @@ export const TasksListItem = ({ task }) => (
     </Table.Cell>
     <Table.Cell>{task.votingStatus}</Table.Cell>
     <Table.Cell collapsing textAlign="right">
-      {task.created && task.created.toDateString()}
+      {task.createdAt && task.createdAt.toDateString()}
     </Table.Cell>
     <Table.Cell>
       <Button
