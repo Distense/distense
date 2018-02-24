@@ -3,7 +3,7 @@ import { taskIdDecoded } from './taskIdDecoded'
 import { convertSolidityIntToInt } from '../../utils'
 
 export const constructClientTask = (taskId, contractTask) => {
-  const title = contractTask[0]
+  const title = contractTask[0].replace(/(\/)/g, '-')
   const createdBy = contractTask[1]
   const reward = convertSolidityIntToInt(contractTask[2].toNumber())
   const rewardStatusEnumInteger = contractTask[3].toNumber()
