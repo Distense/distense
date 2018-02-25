@@ -53,7 +53,7 @@ class Home extends Component {
   }
 
   render() {
-    const { email, emailSubmitSuccess, footerSubmitSuccess} = this.state
+    const { email, emailSubmitSuccess, footerSubmitSuccess } = this.state
 
     return (
       <div>
