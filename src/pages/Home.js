@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Container,
+  Popup,
   Form,
   Grid,
   Header,
@@ -68,24 +69,42 @@ class Home extends Component {
         >
           <Menu borderless className="inconsolata" inverted size="large">
             <Container textAlign="center">
+              <Popup trigger={
               <Menu.Item to="/" as={Link} position="left">
                 Distense
-              </Menu.Item>
+              </Menu.Item>}
+              content="Go to Distense Home"
+              basic/>
+              <Popup trigger={
               <Menu.Item to="/tasks/add" as={Link}>
                 Propose
-              </Menu.Item>
+              </Menu.Item>}
+              content="You may add up an issue or propose a enhancement"
+              basic/>
+             <Popup trigger={
               <Menu.Item to="/tasks" as={Link}>
                 View
-              </Menu.Item>
+              </Menu.Item>}
+              content="View available tasks"
+              basic/>
+              <Popup trigger={
               <Menu.Item to="/pullrequests/add" as={Link}>
                 Submit
-              </Menu.Item>
+              </Menu.Item>}
+              content="Submit your work here"
+              basic/>
+              <Popup trigger={
               <Menu.Item to="/pullrequests" as={Link}>
                 Approve
-              </Menu.Item>
+              </Menu.Item>}
+              content="Approve other's Pull requests"
+              basic/>
+              <Popup trigger={
               <Menu.Item to="/exchange" as={Link}>
                 Exchange
-              </Menu.Item>
+              </Menu.Item>}
+              content="Exchange DID for ether or vice versa"
+              basic/>
               <TotalDID />
             </Container>
           </Menu>
