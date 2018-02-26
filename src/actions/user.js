@@ -61,7 +61,8 @@ export const selectUserAccountInfo = () => async dispatch => {
         dispatch(receiveAccountAction(coinbase))
         let numDIDOwned = await getNumDIDByAddress(coinbase)
         numDIDOwned = numDIDOwned.toString()
-        console.log(`coinbase owns: ${coinbase} ${numDIDOwned} DID`)
+        console.log(`coinbase: ${coinbase}`)
+        console.log(`coinbase owns: ${numDIDOwned} DID`)
         dispatch(receiveAccountNumDID(numDIDOwned))
         web3.eth.getBalance(coinbase, (err, numEther) => {
           numEther = web3.fromWei(numEther)
@@ -69,7 +70,7 @@ export const selectUserAccountInfo = () => async dispatch => {
           dispatch(receiveAccountNumEther(numEther.toString()))
         })
       } else {
-        console.error(`No accounts found`)
+        console.error(`no accounts found`)
       }
     }
   }
