@@ -1,13 +1,17 @@
 import { decodeTaskBytes32ToMetaData } from './decodeTaskBytes32ToMetaData'
 import { taskIdDecoded } from './taskIdDecoded'
-import { convertSolidityIntToInt } from '../../utils'
+import {
+  convertSolidityIntToInt,
+  convertDIDRewardToEtherReward
+} from '../../utils'
 
-export const constructClientTask = (taskId, contractTask) => {
+export const constructClientTask = (taskId, contractTask, didPerEtherValue) => {
   const title = contractTask[0].replace(/(\/)/g, '-')
   const createdBy = contractTask[1]
-  const reward = convertSolidityIntToInt(contractTask[2].toNumber())
+  const didReward = convertSolidityIntToInt(contractTask[2].toNumber())
   const rewardStatusEnumInteger = contractTask[3].toNumber()
-  const pctDIDVoted = convertSolidityIntToInt(contractTask[4].toString())
+  let pctDIDVoted = convertSolidityIntToInt(contractTask[4].toString())
+  pctDIDVoted = pctDIDVoted === 0 ? '00.00' : pctDIDVoted
   const numVotes = contractTask[5].toString()
 
   const { createdAt, tags, issueNum, repo } = decodeTaskBytes32ToMetaData(
@@ -24,8 +28,13 @@ export const constructClientTask = (taskId, contractTask) => {
       ? 'TENTATIVE'
       : rewardStatusEnumInteger === 1 ? 'DETERMINED' : 'PAID'
 
-  const votingStatus =
-    pctDIDVoted + `% voted\xa0\xa0\xa0` + numVotes + ' vote(s)'
+  const etherReward = convertDIDRewardToEtherReward(didReward, didPerEtherValue)
+  const rewardString =
+    rewardStatusEnumInteger === 1
+      ? `${didReward} DID\xa0\xa0${etherReward} ETH`
+      : 'n/a'
+
+  const votingStatus = pctDIDVoted + `% voted\xa0` + numVotes + ' votes'
 
   const repoString =
     repo === 'distense-contracts' ? 'distense-contracts' : 'distense-ui'
@@ -41,7 +50,7 @@ export const constructClientTask = (taskId, contractTask) => {
       _id: decodedTaskId,
       createdBy,
       createdAt,
-      reward,
+      rewardString,
       rewardStatus,
       votingStatus,
       pctDIDVoted,

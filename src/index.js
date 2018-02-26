@@ -30,7 +30,10 @@ import Parameters from './pages/Parameters'
 import FourOhFour from './pages/FourOhFour'
 import GetStarted from './pages/GetStarted'
 
-const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
+export const store = createStore(
+  reducers,
+  composeWithDevTools(applyMiddleware(thunk))
+)
 
 store.dispatch(selectUserAccountInfo())
 store.dispatch(getContractEvents())

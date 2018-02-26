@@ -23,7 +23,7 @@ describe('<Tasks /> page component', function() {
     expect(wrapper.find(Table.Header).length).to.equal(1)
     expect(wrapper.find(Table.Body).length).to.equal(1)
     expect(wrapper.find(Table.Row).length).to.equal(1)
-    expect(wrapper.find(Table.HeaderCell).length).to.equal(7)
+    expect(wrapper.find(Table.HeaderCell).length).to.equal(8)
   })
 
   it('should set the initial state correctly', function() {
