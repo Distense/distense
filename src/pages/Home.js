@@ -337,18 +337,18 @@ class Home extends Component {
           .landing-work-broken .item .content {
             font-size: 1.33em;
           }
-        @media screen and (max-width: 767px) {
-              .landing-work-broken .ui.relaxed>.item {
-                text-align: -webkit-center;
-                text-align:  -o-center;
-                text-align: -moz-center;
-                text-align: -ms-center;
+          @media screen and (max-width: 767px) {
+            .landing-work-broken .ui.relaxed > .item {
+              text-align: -webkit-center;
+              text-align: -o-center;
+              text-align: -moz-center;
+              text-align: -ms-center;
             }
 
-           .landing-work-broken .ui.relaxed.right.floated.list {
-                float: none;
+            .landing-work-broken .ui.relaxed.right.floated.list {
+              float: none;
             }
-        }
+          }
         `}</style>
       </div>
     )
