@@ -32,7 +32,7 @@ describe('<PageTitling />', () => {
       )
 
       const title = <Header as="h2">{props.title}</Header>
-      const subtitle = <p className="pagetitling-subtitle">{props.subtitle}</p>
+      const subtitle = <p style={{ fontSize: '1.3rem' }}>{props.subtitle}</p>
 
       expect(comp.contains(subtitle)).toEqual(true)
       expect(comp.contains(title)).toEqual(true)

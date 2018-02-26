@@ -13,19 +13,14 @@ exports[`<JobTemplate /> snapshot 1`] = `
       Im the title!
     </h2>
     <p
-      className="pagetitling-subtitle"
+      style={
+        Object {
+          "fontSize": "1.3rem",
+        }
+      }
     >
       Im the subtitle.
     </p>
-    <style
-      jsx={true}
-    >
-      
-        .pagetitling-subtitle {
-          font-size: 1.3rem;
-        }
-      
-    </style>
   </div>
   <hr />
   <p>
