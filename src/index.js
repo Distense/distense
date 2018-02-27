@@ -29,7 +29,7 @@ import PullRequest from './pages/PullRequest'
 import Parameters from './pages/Parameters'
 import FourOhFour from './pages/FourOhFour'
 import GetStarted from './pages/GetStarted'
-import SolidityEngineerJob from './pages/SolidityEngineerJob'
+import SolidityEngineerJob from './pages/SolidityEngineer'
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
 
