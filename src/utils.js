@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 export const convertSolidityIntToInt = function(integer) {
   return integer / 100
 }
@@ -14,8 +16,6 @@ export const convertIntToSolidityInt = function(integer) {
  * based on the value of our didPerEther parameter
  */
 export const convertDIDRewardToEtherReward = (numDID, didPerEtherValue) => {
-  const BigNumber = require('bignumber.js')
-
   BigNumber.config({ ROUNDING_MODE: 1 }) // round down for conservatism
   numDID = new BigNumber(numDID)
 
