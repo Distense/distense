@@ -1,7 +1,6 @@
 import React from 'react'
-import { List, Grid } from 'semantic-ui-react'
-import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
-import { Icon } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
+import { Dimmer, Loader, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import Head from '../components/common/Head'
@@ -27,7 +26,7 @@ export class Events extends React.Component {
           {events.length > 0
             ? events.map(event => <EventItem key={event.txHash} e={event} />)
             : events.length === 0 ? 'No events' : 
-            '<Segment><Dimmer active><Loading...</Loader></Dimmer></Segment>'}
+            <Segment><Dimmer active><Loader>Loading...</Loader></Dimmer></Segment>}
         </Grid.Row>
         </Grid>
       </div>

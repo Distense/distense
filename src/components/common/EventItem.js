@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { List } from 'semantic-ui-react'
 import { Card } from 'semantic-ui-react'
 import { Grid } from 'semantic-ui-react'
 
