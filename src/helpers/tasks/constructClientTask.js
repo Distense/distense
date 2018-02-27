@@ -30,8 +30,8 @@ export const constructClientTask = (taskId, contractTask, didPerEtherValue) => {
 
   const etherReward = convertDIDRewardToEtherReward(didReward, didPerEtherValue)
   const rewardString =
-    rewardStatusEnumInteger === 1
-      ? `${didReward} DID\xa0\xa0${etherReward} ETH`
+    rewardStatusEnumInteger === 1 || rewardStatusEnumInteger === 2
+      ? `\xa0${etherReward} ETH || ${didReward} DID`
       : 'n/a'
 
   const votingStatus = pctDIDVoted + `% voted\xa0` + numVotes + ' votes'
