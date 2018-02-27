@@ -3,10 +3,10 @@ import { Container, Header, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import PageTitling from '../components/common/PageTitling'
 
-export default () => (
+const FrontendEngineer = () => (
   <Container>
     <PageTitling
-      title="Solidity Engineer"
+      title="Frontend Engineer - Web3, React, Redux"
       subtitle="Distense is a decentralized code cooperative."
     />
     <hr />
@@ -44,21 +44,18 @@ export default () => (
       <Header size="medium">The Ideal Candidate</Header>
       <ul>
         <li>
-          <p>Knows Solidity</p>
-        </li>
-        <li>
-          <p>Has tested Solidity with Javascript</p>
+          <p>Knows React & Redux</p>
         </li>
         <li>
           <p>
-            Understands that testing Solidity is the primary way of interacting
-            with Ethereum smart contracts.
+            Knows how to build or wants to learn how to build decentralized
+            applications
           </p>
         </li>
       </ul>
       <p>
-        To apply, tell us about your preferred way of debugging Solidity via
-        email.
+        To apply, tell us about why you're interested in build decentralized
+        applications and what most excites you about Distense.
       </p>
       <a href="mailto:hiring@disten.se">
         <Button basic color="green">
@@ -74,3 +71,5 @@ export default () => (
     `}</style>
   </Container>
 )
+
+export default FrontendEngineer

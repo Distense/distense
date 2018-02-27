@@ -19,6 +19,8 @@ import Exchange from '../src/pages/Exchange'
 import GetStarted from '../src/pages/GetStarted'
 import HowItWorks from '../src/pages/HowItWorks'
 import Events from '../src/pages/Events'
+import FrontendEngineer from '../src/pages/FrontendEngineer'
+import SolidityEngineer from '../src/pages/SolidityEngineer'
 
 describe('Routes', () => {
   const wrapper = shallow(<Routes />)
@@ -56,6 +58,9 @@ describe('Routes', () => {
     expect(pathMap['/ropsten/faucet']).toBe(Faucet)
     expect(pathMap['/getstarted']).toBe(GetStarted)
     expect(pathMap['/parameters']).toBe(Parameters)
+
+    expect(pathMap['/jobs/engineer/frontend']).toBe(FrontendEngineer)
+    expect(pathMap['/jobs/engineer/solidity']).toBe(SolidityEngineer)
 
     //  TODO change pathMap code above to handle 404
     expect(pathMap['/pwned']).toBe(undefined)

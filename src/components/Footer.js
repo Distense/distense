@@ -21,6 +21,15 @@ export default () => (
           link
           as={Link}
           position="right"
+          to="/jobs"
+        >
+          Jobs
+        </Menu.Item>
+        <Menu.Item
+          className="footer-item"
+          color="blue"
+          link
+          as={Link}
           to="/ropsten/faucet"
         >
           Faucet
