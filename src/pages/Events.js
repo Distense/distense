@@ -19,9 +19,9 @@ export class Events extends React.Component {
 
     return (
       <div>
-        <Head subtitle="Add Task" style={{marginBottom:'15px'}}/>
-        <PageTitling title="Important Distense events" subtitle="Including DID issuances, task reward determinations and pull request approvals appear here"/>
-        <Grid >
+        <Head subtitle="Add Task"/>
+        <PageTitling title="Important Distense events" subtitle="Including DID issuances, task reward determinations and pull request approvals appear here" />
+        <Grid>
         <Grid.Row columns={1}>
 
           {events.length > 0
