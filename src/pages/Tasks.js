@@ -31,7 +31,7 @@ export class Tasks extends Component {
         loading: false,
         tasks: this.props.tasks
       })
-    }, 2500)
+    }, 300)
   }
 
   componentWillUnmount() {
@@ -65,7 +65,7 @@ export class Tasks extends Component {
         <Head title="Available Tasks" />
         <PageTitling
           title="Tasks"
-          subtitle="Anyone can complete our tasks and immediately ether or our DID token"
+          subtitle="Anyone can complete our tasks and immediately ether or DID"
         />
         <Table sortable striped>
           <Table.Header>
