@@ -1,16 +1,16 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import renderer from 'react-test-renderer';
+import { MemoryRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import configureMockStore from 'redux-mock-store'
+import renderer from 'react-test-renderer'
 import { Exchange } from '../../../src/pages/Exchange'
 
 function setup(numDIDOwned = null) {
   const props = {
     numDIDOwned,
     investEtherForDID: jest.fn(),
-    exchangeDIDForEther: jest.fn(),
+    exchangeDIDForEther: jest.fn()
   }
   let wrapper = shallow(<Exchange {...props} />)
 
@@ -19,7 +19,7 @@ function setup(numDIDOwned = null) {
 
 describe('<Exchange /> page component', () => {
   it('should contain some basic subcomponents', () => {
-    const { wrapper } = setup();
+    const { wrapper } = setup()
     expect(wrapper.find('Button').length).toEqual(2)
     expect(wrapper.find('Grid').length).toEqual(1)
     expect(wrapper.find('Head').length).toEqual(0)
@@ -45,8 +45,20 @@ describe('<Exchange /> page component', () => {
 
   it('should contain two buttons (exchange DID for ether, invest ether for DID)', () => {
     const { wrapper } = setup()
-    expect(wrapper.find('Button').first().children().text()).toEqual('Exchange DID for ether')
-    expect(wrapper.find('Button').at(1).children().text()).toEqual('Invest ether for DID')
+    expect(
+      wrapper
+        .find('Button')
+        .first()
+        .children()
+        .text()
+    ).toEqual('Exchange DID for ether')
+    expect(
+      wrapper
+        .find('Button')
+        .at(1)
+        .children()
+        .text()
+    ).toEqual('Invest ether for DID')
   })
 
   it('should set state when onSubmitExchangeDIDForEther is called', async () => {
@@ -78,16 +90,18 @@ describe('<Exchange /> page component', () => {
   })
 
   test('snapshot', () => {
-    const { props } = setup('executive');
-    const mockstore = configureMockStore();
-    const store = mockstore({});
-    const tree = renderer.create((
-      <Provider store={store} >
-        <MemoryRouter>
-          <Exchange {...props} />
-        </MemoryRouter>
-      </Provider>
-    )).toJSON();
-    expect(tree).toMatchSnapshot();
-  });
+    const { props } = setup('executive')
+    const mockstore = configureMockStore()
+    const store = mockstore({})
+    const tree = renderer
+      .create(
+        <Provider store={store}>
+          <MemoryRouter>
+            <Exchange {...props} />
+          </MemoryRouter>
+        </Provider>
+      )
+      .toJSON()
+    expect(tree).toMatchSnapshot()
+  })
 })
