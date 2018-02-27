@@ -11,14 +11,17 @@ export const TasksListItem = ({ task }) => (
         {task.title}
       </Link>
     </Table.Cell>
-    <Table.Cell>
+    <Table.Cell style={{ whiteSpace: 'nowrap' }}>
       <Tags tags={task.tags} />
     </Table.Cell>
     <Table.Cell>{task.status}</Table.Cell>
-    <Table.Cell>
-      {task.reward} ({task.rewardStatus})
+    <Table.Cell>{task.rewardStatus}</Table.Cell>
+    <Table.Cell style={{ whiteSpace: 'nowrap' }}>
+      {task.rewardString}
     </Table.Cell>
-    <Table.Cell>{task.votingStatus}</Table.Cell>
+    <Table.Cell style={{ whiteSpace: 'nowrap' }}>
+      {task.votingStatus}
+    </Table.Cell>
     <Table.Cell collapsing textAlign="right">
       {task.createdAt && task.createdAt.toDateString()}
     </Table.Cell>

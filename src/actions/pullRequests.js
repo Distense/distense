@@ -99,7 +99,7 @@ export const fetchPullRequests = () => async dispatch => {
   const { getNumPullRequests } = await contracts.PullRequests
   dispatch(receivePullRequestsInstance())
   const numPRs = +await getNumPullRequests()
-  console.log(`Found ${numPRs} PRs in contract`)
+  console.log(`Found ${numPRs} PRs`)
 
   dispatch(setNumPullRequests(numPRs))
   const pullRequests = await Promise.all(

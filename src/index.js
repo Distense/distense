@@ -33,7 +33,10 @@ import GetStarted from './pages/GetStarted'
 import SolidityEngineer from './pages/SolidityEngineer'
 import FrontendEngineer from './pages/FrontendEngineer'
 
-const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
+export const store = createStore(
+  reducers,
+  composeWithDevTools(applyMiddleware(thunk))
+)
 
 store.dispatch(selectUserAccountInfo())
 store.dispatch(getContractEvents())

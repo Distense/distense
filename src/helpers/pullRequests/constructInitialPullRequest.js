@@ -8,7 +8,6 @@ export const constructInitialPullRequest = (
   task,
   prNum
 ) => {
-  console.log(`task.reward: ${task.reward}`)
   return Object.assign(
     {},
     {
