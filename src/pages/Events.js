@@ -1,9 +1,13 @@
 import React from 'react'
-import { List } from 'semantic-ui-react'
+import { List, Grid } from 'semantic-ui-react'
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import Head from '../components/common/Head'
 import EventItem from '../components/common/EventItem'
+import PageTitling from '../components/common/PageTitling'
+
 
 export class Events extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -15,12 +19,17 @@ export class Events extends React.Component {
 
     return (
       <div>
-        <Head title="Add Task" />
-        <List celled>
+        <Head subtitle="Add Task" style={{marginBottom:'15px'}}/>
+        <PageTitling title="Important Distense events" subtitle="Including DID issuances, task reward determinations and pull request approvals appear here"/>
+        <Grid >
+        <Grid.Row columns={1}>
+
           {events.length > 0
             ? events.map(event => <EventItem key={event.txHash} e={event} />)
-            : events.length === 0 ? 'No events' : 'Loading events...'}
-        </List>
+            : events.length === 0 ? 'No events' : 
+            '<Segment><Dimmer active><Loading...</Loader></Dimmer></Segment>'}
+        </Grid.Row>
+        </Grid>
       </div>
     )
   }

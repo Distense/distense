@@ -20,6 +20,7 @@ import Faucet from './pages/Faucet'
 import FAQ from './pages/FAQ'
 import HowItWorks from './pages/HowItWorks'
 import Layout from './components/Layout'
+import JobTemplate from './pages/JobTemplate'
 import AddTask from './pages/AddTask'
 import Tasks from './pages/Tasks'
 import Task from './pages/Task'
@@ -60,6 +61,7 @@ export const Routes = () => (
       <DefaultLayout path="/FAQ" component={FAQ} />
       <DefaultLayout exact path="/ropsten/faucet" component={Faucet} />
       <DefaultLayout exact path="/getstarted" component={GetStarted} />
+      <DefaultLayout exact path="/job" component={JobTemplate} />
       <DefaultLayout path="/tasks/:title/:id" component={Task} />
       <DefaultLayout path="/tasks/add" component={AddTask} />
       <DefaultLayout exact path="/tasks" component={Tasks} />
