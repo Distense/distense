@@ -5,13 +5,7 @@ export default ({ title, subtitle }) => {
   return (
     <Grid.Column width={16}>
       <Header as="h2">{title}</Header>
-      <p className="pagetitling-subtitle">{subtitle}</p>
-      {/*language=CSS*/}
-      <style jsx>{`
-        .pagetitling-subtitle {
-          font-size: 1.3rem;
-        }
-      `}</style>
+      <p style={{ fontSize: '1.3rem' }}>{subtitle}</p>
     </Grid.Column>
   )
 }
