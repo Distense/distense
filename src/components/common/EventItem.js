@@ -1,6 +1,5 @@
 import React from 'react'
-import { Card } from 'semantic-ui-react'
-import { Grid } from 'semantic-ui-react'
+import { Card, Grid} from 'semantic-ui-react'
 
 export default ({ e }) => (
 	<Grid.Column>
