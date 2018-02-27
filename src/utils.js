@@ -22,6 +22,6 @@ export const convertDIDRewardToEtherReward = (numDID, didPerEtherValue) => {
   didPerEtherValue = new BigNumber(didPerEtherValue)
   return numDID
     .div(didPerEtherValue)
-    .round(3)
+    .dp(3)
     .toString()
 }
