@@ -150,7 +150,7 @@ class Home extends Component {
             >
               <Link
                 style={{
-                  color: 'green',
+                  color: '#0df679',
                   textDecoration: 'underline'
                 }}
                 to="/howitworks"
