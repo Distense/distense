@@ -23,14 +23,20 @@ import Layout from './components/Layout'
 import AddTask from './pages/AddTask'
 import Tasks from './pages/Tasks'
 import Task from './pages/Task'
+import Jobs from './pages/Jobs'
 import AddPullRequest from './pages/AddPullRequest'
 import PullRequests from './pages/PullRequests'
 import PullRequest from './pages/PullRequest'
 import Parameters from './pages/Parameters'
 import FourOhFour from './pages/FourOhFour'
 import GetStarted from './pages/GetStarted'
+import SolidityEngineer from './pages/SolidityEngineer'
+import FrontendEngineer from './pages/FrontendEngineer'
 
-const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
+export const store = createStore(
+  reducers,
+  composeWithDevTools(applyMiddleware(thunk))
+)
 
 store.dispatch(selectUserAccountInfo())
 store.dispatch(getContractEvents())
@@ -58,6 +64,7 @@ export const Routes = () => (
       <DefaultLayout exact path="/exchange" component={Exchange} />
       <DefaultLayout path="/faq" component={FAQ} />
       <DefaultLayout path="/FAQ" component={FAQ} />
+      <DefaultLayout exact path="/jobs" component={Jobs} />
       <DefaultLayout exact path="/ropsten/faucet" component={Faucet} />
       <DefaultLayout exact path="/getstarted" component={GetStarted} />
       <DefaultLayout path="/tasks/:title/:id" component={Task} />
@@ -67,6 +74,16 @@ export const Routes = () => (
       <DefaultLayout exact path="/pullrequests/:id" component={PullRequest} />
       <DefaultLayout exact path="/pullrequests" component={PullRequests} />
       <DefaultLayout exact path="/parameters" component={Parameters} />
+      <DefaultLayout
+        exact
+        path="/jobs/engineer/solidity"
+        component={SolidityEngineer}
+      />
+      <DefaultLayout
+        exact
+        path="/jobs/engineer/frontend"
+        component={FrontendEngineer}
+      />
       <DefaultLayout path="*" component={FourOhFour} />
     </Switch>
   </Router>

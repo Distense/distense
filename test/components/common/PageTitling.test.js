@@ -1,12 +1,12 @@
 import React from 'react'
-import { mount, shallow } from 'enzyme'
+import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 
 import { Header } from 'semantic-ui-react'
-import PageTitling from '../../src/components/common/PageTitling'
+import PageTitling from '../../../src/components/common/PageTitling'
 
 function setup(title = 'Title', subtitle = 'Subtitle') {
   const props = {
@@ -32,7 +32,7 @@ describe('<PageTitling />', () => {
       )
 
       const title = <Header as="h2">{props.title}</Header>
-      const subtitle = <p className="pagetitling-subtitle">{props.subtitle}</p>
+      const subtitle = <p style={{ fontSize: '1.3rem' }}>{props.subtitle}</p>
 
       expect(comp.contains(subtitle)).toEqual(true)
       expect(comp.contains(title)).toEqual(true)

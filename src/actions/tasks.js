@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import * as contracts from '../contracts'
 
+import { getParameterValueByTitle } from '../reducers/parameters'
 import { receiveUserNotAuthenticated } from './user'
 import { setDefaultStatus, updateStatusMessage } from './status'
 import {
@@ -17,6 +18,8 @@ import { constructClientTask } from '../helpers/tasks/constructClientTask'
 import { encodeTaskMetaDataToBytes32 } from '../helpers/tasks/encodeTaskMetaDataToBytes32'
 import { convertIntToSolidityInt } from '../utils'
 import { getGasPrice } from '../helpers/getGasPrice'
+import { DID_PER_ETHER_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
+import { store } from '../index'
 
 const requestTasks = () => ({
   type: REQUEST_TASKS
@@ -62,7 +65,7 @@ export const fetchTasks = () => async dispatch => {
 
   dispatch(receiveTasksInstance())
   const numTasks = +await getNumTasks()
-  console.log(`found ${numTasks} tasks in blockchain`)
+  console.log(`found ${numTasks} tasks`)
   dispatch(setNumTasks(numTasks))
   dispatch(requestTasks())
 
@@ -88,8 +91,11 @@ export const getTaskByID = async taskId => {
     const { getTaskById } = await contracts.Tasks
 
     const contractTask = await getTaskById(taskId)
-
-    return constructClientTask(taskId, contractTask)
+    const didPerEtherValue = getParameterValueByTitle(
+      store.getState(),
+      DID_PER_ETHER_PARAMETER_TITLE
+    )
+    return constructClientTask(taskId, contractTask, didPerEtherValue)
   } catch (error) {
     console.error(error)
   }

@@ -10,18 +10,13 @@ exports[`<PageTitling /> snapshot 1`] = `
     Title
   </h2>
   <p
-    className="pagetitling-subtitle"
+    style={
+      Object {
+        "fontSize": "1.3rem",
+      }
+    }
   >
     Subtitle
   </p>
-  <style
-    jsx={true}
-  >
-    
-        .pagetitling-subtitle {
-          font-size: 1.3rem;
-        }
-      
-  </style>
 </div>
 `;

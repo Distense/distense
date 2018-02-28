@@ -31,7 +31,7 @@ export class Tasks extends Component {
         loading: false,
         tasks: this.props.tasks
       })
-    }, 2500)
+    }, 300)
   }
 
   componentWillUnmount() {
@@ -63,7 +63,10 @@ export class Tasks extends Component {
     return (
       <div>
         <Head title="Available Tasks" />
-        <PageTitling title="Tasks" subtitle="Anyone can complete our tasks" />
+        <PageTitling
+          title="Tasks"
+          subtitle="Anyone can complete our tasks and immediately ether or DID"
+        />
         <Table sortable striped>
           <Table.Header>
             <Table.Row>
@@ -84,6 +87,12 @@ export class Tasks extends Component {
                 onClick={this.handleSort('status')}
               >
                 Status
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={column === 'Reward Status' ? direction : null}
+                onClick={this.handleSort('reward')}
+              >
+                Reward Status
               </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'Reward' ? direction : null}
