@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
 
-import { List } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
 import Head from '../../../src/components/common/Head'
 
@@ -16,6 +16,6 @@ describe('<Events /> page component', function() {
 
   it('should contain some basic subcomponents', function() {
     expect(wrapper.find(Head).length).to.equal(1)
-    expect(wrapper.find(List).length).to.equal(1)
+    expect(wrapper.find(Grid).length).to.equal(1)
   })
 })

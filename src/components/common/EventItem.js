@@ -1,15 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { List } from 'semantic-ui-react'
+import { Card, Grid} from 'semantic-ui-react'
 
 export default ({ e }) => (
-  <List.Item>
-    <List.Header>{e.title}</List.Header>
-    <List.Content>{e.contract} contract</List.Content>
-    <List.Description>
-      <Link target="_blank" to={`https://etherscan.io/tx/${e.txHash}`}>
-        View tx ()
-      </Link>
-    </List.Description>
-  </List.Item>
+	<Grid.Column>
+    <Card 
+      href={`https://etherscan.io/tx/${e.txHash}`}
+      header={e.title}
+      description={e.contract + " Contract"}
+      style={{width:'100vw',marginBottom:'10px',marginTop:'10px',
+      boxShadow: '0 10px 10px rgba(0,0,0,0.22)'}}
+      link
+      />
+  </Grid.Column>
 )
