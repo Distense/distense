@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Home from './pages/Home'
 import Events from './pages/Events'
-import Exchange from './pages/Exchange'
+import ExchangeContainer from './pages/Exchange/ExchangeContainer'
 import Faucet from './pages/Faucet'
 import FAQ from './pages/FAQ'
 import HowItWorks from './pages/HowItWorks'
@@ -41,7 +41,7 @@ export const Routes = () => (
       <Route exact path="/" component={Home} />
       <DefaultLayout exact path="/howitworks" component={HowItWorks} />
       <DefaultLayout exact path="/events" component={Events} />
-      <DefaultLayout exact path="/exchange" component={Exchange} />
+      <DefaultLayout exact path="/exchange" component={ExchangeContainer} />
       <DefaultLayout path="/faq" component={FAQ} />
       <DefaultLayout path="/FAQ" component={FAQ} />
       <DefaultLayout exact path="/jobs" component={Jobs} />
