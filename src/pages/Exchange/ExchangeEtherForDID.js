@@ -9,7 +9,7 @@ export default class ExchangeEtherForDID extends Component {
     super(props)
     this.state = {
       numEtherToInvest: '',
-      numDIDWillReceive: ''
+      numDIDUserWillReceive: ''
     }
 
     this.onChangeNumEther = this.onChangeNumEther.bind(this)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { DefaultLayout, Routes } from '../src/index'
+import { DefaultLayout, Routes } from '../src/routes'
 
 import { Route } from 'react-router'
 
@@ -15,7 +15,7 @@ import Parameters from '../src/pages/Parameters'
 import PullRequest from '../src/pages/PullRequest'
 import FAQ from '../src/pages/FAQ'
 import Faucet from '../src/pages/Faucet'
-import Exchange from '../src/pages/Exchange'
+import ExchangeContainer from '../src/pages/Exchange/ExchangeContainer'
 import GetStarted from '../src/pages/GetStarted'
 import HowItWorks from '../src/pages/HowItWorks'
 import Events from '../src/pages/Events'
@@ -52,7 +52,7 @@ describe('Routes', () => {
 
     expect(pathMap['/howitworks']).toBe(HowItWorks)
     expect(pathMap['/events']).toBe(Events)
-    expect(pathMap['/exchange']).toBe(Exchange)
+    expect(pathMap['/exchange']).toBe(ExchangeContainer)
     expect(pathMap['/FAQ']).toBe(FAQ)
     expect(pathMap['/faq']).toBe(FAQ)
     expect(pathMap['/ropsten/faucet']).toBe(Faucet)

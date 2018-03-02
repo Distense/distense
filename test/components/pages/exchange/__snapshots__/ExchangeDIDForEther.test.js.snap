@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ExchangeDIDForEther /> page component snapshot 1`] = `
+<div
+  className="eight wide column"
+>
+  <form
+    action={undefined}
+    className="ui form"
+    onSubmit={[Function]}
+  >
+    <div
+      className="field"
+    >
+      <div
+        className="ui input"
+      >
+        <input
+          disabled={undefined}
+          onChange={[Function]}
+          placeholder="number of DID you want to exchange into ether"
+          tabIndex={undefined}
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <button
+      className="ui green medium button"
+      disabled={undefined}
+      onClick={[Function]}
+      role="button"
+      tabIndex={undefined}
+      type="submit"
+    >
+      Exchange 
+      
+       DID for 
+      
+       ether
+    </button>
+  </form>
+  <div
+    className="ui message"
+  >
+    <div
+      className="header"
+    >
+      Exchange DID For ETH
+    </div>
+    <div
+      className="ui bulleted list"
+      role="list"
+    >
+      <div
+        className="item"
+        data-value={undefined}
+        onClick={[Function]}
+        role="listitem"
+      >
+        You don't own any DID in the selected Ethereum account so you have no DID to exchange
+      </div>
+      <div
+        className="item"
+        data-value={undefined}
+        onClick={[Function]}
+        role="listitem"
+      >
+        You are relinquishing Distense governance/voting rights by exchanging your DID for ether.
+      </div>
+      <div
+        className="item"
+        data-value={undefined}
+        onClick={[Function]}
+        role="listitem"
+      >
+        This is a permanent, non-reversible, undoable, final action. There is no one who can undo this.
+      </div>
+      <div
+        className="item"
+        data-value={undefined}
+        onClick={[Function]}
+        role="listitem"
+      >
+        If this says you can't invest, try reloading the page or ensure MetaMask is unlocked
+      </div>
+    </div>
+  </div>
+</div>
+`;

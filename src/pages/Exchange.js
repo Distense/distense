@@ -12,7 +12,7 @@ export default class Exchange extends Component {
   render() {
     return (
       <div>
-        <Head title="Exchange DID for ETH" />
+        <Head title="Exchange DID for ETH and vice versa" />
         <Grid>
           <PageTitling
             title="Exchange"

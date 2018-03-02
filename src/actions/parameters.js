@@ -94,9 +94,7 @@ export const fetchParameters = () => async dispatch => {
         console.log(
           `DIDToken contract bank account balance: ${didTokenContractEtherBalance} ether`
         )
-        dispatch(
-          receiveBankAccountNumEther(didTokenContractEtherBalance.toString())
-        )
+        dispatch(receiveBankAccountNumEther(didTokenContractEtherBalance))
 
         const didPerEther = getParameterValueByTitle(
           store.getState(),
@@ -120,9 +118,7 @@ export const fetchParameters = () => async dispatch => {
               : numDIDOwned
 
           console.log(`user may exchange: ${numDIDUserMayExchange} DID`)
-          dispatch(
-            receiveNumDIDUserMayExchange(numDIDUserMayExchange.toString())
-          )
+          dispatch(receiveNumDIDUserMayExchange(numDIDUserMayExchange))
 
           const maxPotentialEtherAccountCouldInvest = new BigNumber(
             numDIDOwned
@@ -135,9 +131,7 @@ export const fetchParameters = () => async dispatch => {
               : maxPotentialEtherAccountCouldInvest
 
           console.log(`user may invest: ${numDIDUserMayExchange} ETH`)
-          dispatch(
-            receiveNumEtherUserMayInvest(numEtherUserMayInvest.toString())
-          )
+          dispatch(receiveNumEtherUserMayInvest(numEtherUserMayInvest))
         }
       })
     }

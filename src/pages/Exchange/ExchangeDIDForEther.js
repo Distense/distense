@@ -16,8 +16,8 @@ export default class ExchangeDIDForEther extends Component {
   }
 
   onChangeNumDID = ({ target: { value } }) => {
-    const numDIDUserMayExchange = +this.props.numDIDUserMayExchange
-    const didPerEtherExchangeRate = +this.props.didPerEtherExchangeRate
+    const numDIDUserMayExchange = this.props.numDIDUserMayExchange
+    const didPerEtherExchangeRate = this.props.didPerEtherExchangeRate
 
     value = +value
     if (value > numDIDUserMayExchange) value = numDIDUserMayExchange

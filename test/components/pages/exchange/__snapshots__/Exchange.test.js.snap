@@ -24,6 +24,42 @@ exports[`<Exchange /> page component snapshot 1`] = `
       </p>
     </div>
     <div
+      className="eight wide column"
+    >
+      <div
+        className="ui message"
+      >
+        <div
+          className="header"
+        >
+          Distense Finances
+        </div>
+        <div
+          className="ui bulleted list"
+          role="list"
+        >
+          <div
+            className="item"
+            data-value={undefined}
+            onClick={[Function]}
+            role="listitem"
+          >
+            ETH in Distense bank account: 
+            executive
+          </div>
+          <div
+            className="item"
+            data-value={undefined}
+            onClick={[Function]}
+            role="listitem"
+          >
+            Exchange rate: 
+             DID per ETH
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
       className="two column row"
       style={
         Object {
@@ -48,7 +84,7 @@ exports[`<Exchange /> page component snapshot 1`] = `
               <input
                 disabled={undefined}
                 onChange={[Function]}
-                placeholder="receive ether, give up DID"
+                placeholder="number of DID you want to exchange into ether"
                 tabIndex={undefined}
                 type="text"
                 value=""
@@ -56,14 +92,18 @@ exports[`<Exchange /> page component snapshot 1`] = `
             </div>
           </div>
           <button
-            className="ui green large basic button"
+            className="ui green medium button"
             disabled={undefined}
             onClick={[Function]}
             role="button"
             tabIndex={undefined}
             type="submit"
           >
-            Exchange DID for ether
+            Exchange 
+            
+             DID for 
+            
+             ether
           </button>
         </form>
         <div
@@ -72,7 +112,7 @@ exports[`<Exchange /> page component snapshot 1`] = `
           <div
             className="header"
           >
-            Exchange DID For Ether
+            Exchange DID For ETH
           </div>
           <div
             className="ui bulleted list"
@@ -84,7 +124,7 @@ exports[`<Exchange /> page component snapshot 1`] = `
               onClick={[Function]}
               role="listitem"
             >
-              You may exchange your DID for ether.
+              You don't own any DID in the selected Ethereum account so you have no DID to exchange
             </div>
             <div
               className="item"
@@ -92,41 +132,7 @@ exports[`<Exchange /> page component snapshot 1`] = `
               onClick={[Function]}
               role="listitem"
             >
-              With the current Ethereum coinbase account you are logged in with, you may exchange 
-              executive
-               DID
-            </div>
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              This option is available because not everyone can work solely for equity, unfortunately. We understand.
-            </div>
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              The current exchange rate is 1000 DID per ether. This rate may be voted on in the
-               
-              <a
-                href="/parameters"
-                onClick={[Function]}
-              >
-                parameters
-              </a>
-               page
-            </div>
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              You are relinquishing Distense voting rights by exchanging your DID for ether.
+              You are relinquishing Distense governance/voting rights by exchanging your DID for ether.
             </div>
             <div
               className="item"
@@ -135,6 +141,14 @@ exports[`<Exchange /> page component snapshot 1`] = `
               role="listitem"
             >
               This is a permanent, non-reversible, undoable, final action. There is no one who can undo this.
+            </div>
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              If this says you can't invest, try reloading the page or ensure MetaMask is unlocked
             </div>
           </div>
         </div>
@@ -157,7 +171,7 @@ exports[`<Exchange /> page component snapshot 1`] = `
                 disabled={undefined}
                 name="title"
                 onChange={[Function]}
-                placeholder="receive DID, give up ether"
+                placeholder="number of ETH you want to invest in exchange for DID"
                 tabIndex={undefined}
                 type="text"
                 value=""
@@ -165,14 +179,17 @@ exports[`<Exchange /> page component snapshot 1`] = `
             </div>
           </div>
           <button
-            className="ui green large basic button"
+            className="ui green medium button"
             disabled={undefined}
             onClick={[Function]}
             role="button"
             tabIndex={undefined}
             type="submit"
           >
-            Invest ether for DID
+            Invest 
+            
+             ether for 
+             DID
           </button>
         </form>
         <div
@@ -193,7 +210,16 @@ exports[`<Exchange /> page component snapshot 1`] = `
               onClick={[Function]}
               role="listitem"
             >
-              You may exchange ether only to the extent you have contributed to Distense. I.e, according to the number of DID you 
+              You don't own any DID in the selected Ethereum account so you have no DID to exchange
+            </div>
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              You may exchange ether only to the extent you have contributed to Distense. I.e, according to the number of DID you
+               
               <em>
                 continue
               </em>
@@ -221,7 +247,7 @@ exports[`<Exchange /> page component snapshot 1`] = `
               onClick={[Function]}
               role="listitem"
             >
-              This is a permanent, non-reversible, undoable, final action. There is no one who can undo this.
+              This is a permanent, non-reversible, undoable, final action. There is no one who can undo this. Ever.
             </div>
           </div>
         </div>
