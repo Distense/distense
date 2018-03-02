@@ -1,61 +1,92 @@
 import React from 'react'
-import sinon from 'sinon'
 import { shallow } from 'enzyme'
-import { expect } from 'chai'
-
-import { Button, Item, Grid, Header, Message } from 'semantic-ui-react'
-
-import Head from '../../../src/components/common/Head'
+import { MemoryRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import configureMockStore from 'redux-mock-store'
+import renderer from 'react-test-renderer'
 import { Task } from '../../../src/pages/Task'
 
-describe('<Task /> page component', function() {
-  let wrapper
-  const defaultProps = {
-    reward: '',
+jest.useFakeTimers();
+
+function setup() {
+  const props = {
+    fetchTask: jest.fn(),
+    voteOnTaskReward: jest.fn(),
     task: {
-      _id: '12344312',
-      title: 'some title',
-      tags: ['Contracts'],
       createdAt: new Date(),
-      issueURL: 'https://github.com/Distense/distense-ui/issue/1'
-    }
+      _id: 25,
+    },
+    match: {
+      params: {
+        id: 37,
+      },
+    },
   }
+  let wrapper = shallow(<Task {...props} />)
 
-  const mountedProps = {
-    params: {
-      id: '12341234',
-      fetchTask: () => {}
-    }
-  }
+  return { wrapper, props }
+}
 
-  let fakeComponentWillMount
-  beforeEach(() => {
-    fakeComponentWillMount = sinon.stub(Task.prototype, 'componentWillMount')
-    wrapper = shallow(<Task match={mountedProps} {...defaultProps} />)
-  })
-
-  afterEach(function() {
-    fakeComponentWillMount.restore()
-  })
+describe('<Task /> page component', function() {
+  it('renders without crashing', () => {
+    const { wrapper } = setup();
+    expect(wrapper).toBeDefined();
+  });
 
   it('should contain some subcomponents', function() {
-    expect(wrapper.find(Button).length).to.equal(1)
-    expect(wrapper.find(Grid).length).to.equal(1)
-    expect(wrapper.find(Grid.Row).length).to.equal(1)
-    expect(wrapper.find(Grid.Column).length).to.equal(2)
-    expect(wrapper.find(Head).length).to.equal(1)
-    expect(wrapper.find(Header).length).to.equal(1)
-    expect(wrapper.find(Item).length).to.equal(1)
-    expect(wrapper.find(Item.Content).length).to.equal(1)
+    const { wrapper } = setup()
+    expect(wrapper.find('Button').length).toEqual(1)
+    expect(wrapper.find('Grid').length).toEqual(1)
+    expect(wrapper.find('GridRow').length).toEqual(1)
+    expect(wrapper.find('GridColumn').length).toEqual(2)
+    expect(wrapper.find('Head').length).toEqual(0)
+    expect(wrapper.find('Header').length).toEqual(1)
+    expect(wrapper.find('Item').length).toEqual(1)
+    expect(wrapper.find('ItemContent').length).toEqual(1)
   })
 
   it('should set the initial state correctly', function() {
-    expect(wrapper.state('reward')).to.equal('')
+    const { wrapper } = setup()
+    expect(wrapper.state('reward')).toEqual('')
   })
 
-  it('should contain a button with text "Submit"', function() {})
+  it('should contain a button with text "Submit"', function() {
+    const { wrapper } = setup()
+    expect(wrapper.find('Button').length).toEqual(1)
+  })
 
-  it('should call componentWillMount', () => {
-    expect(fakeComponentWillMount.called).to.equal(true)
+  it('should call fetchTask with correct id on mount', () => {
+    const { props } = setup()
+    expect(props.fetchTask).toHaveBeenCalledWith(37)
+  })
+
+  it('should set reward state correctly when onChangeReward is called', () => {
+    const { wrapper } = setup()
+    wrapper.instance().onChangeReward({ target: { value: '577 DID' } })
+    expect(wrapper.state('reward')).toEqual('577')
+  })
+
+  it('should set state correctly when onSubmitReward is called', () => {
+    const { wrapper, props } = setup()
+    const mockedEvent = { preventDefault: () => {} }
+    wrapper.instance().onSubmitReward(mockedEvent)
+    expect(props.voteOnTaskReward).toHaveBeenCalledWith({ reward: '', taskId: 25 })
+    expect(wrapper.state('reward')).toEqual('Vote submitted to blockchain. Redirecting to tasks list')
+    jest.runAllTimers();
+    expect(wrapper.state('redirect')).toEqual(true)
+  })
+
+  test('snapshot', () => {
+    const { props } = setup()
+    const mockstore = configureMockStore()
+    const store = mockstore({})
+    const tree = renderer.create((
+      <Provider store={store}>
+        <MemoryRouter>
+          <Task {...props} />
+        </MemoryRouter>
+      </Provider>
+    )).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

@@ -92,9 +92,7 @@ exports[`<Exchange /> page component snapshot 1`] = `
               onClick={[Function]}
               role="listitem"
             >
-              With the current Ethereum coinbase account you are logged in with, you may exchange 
-              executive
-               DID
+              You don't own any DID in your current coinbase account so you have no DID to exchange
             </div>
             <div
               className="item"

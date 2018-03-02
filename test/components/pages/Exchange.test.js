@@ -18,6 +18,11 @@ function setup(numDIDOwned = null) {
 }
 
 describe('<Exchange /> page component', () => {
+  it('renders without crashing', () => {
+    const { wrapper } = setup();
+    expect(wrapper).toBeDefined();
+  });
+
   it('should contain some basic subcomponents', () => {
     const { wrapper } = setup()
     expect(wrapper.find('Button').length).toEqual(2)
@@ -90,18 +95,16 @@ describe('<Exchange /> page component', () => {
   })
 
   test('snapshot', () => {
-    const { props } = setup('executive')
+    const { props } = setup()
     const mockstore = configureMockStore()
     const store = mockstore({})
-    const tree = renderer
-      .create(
-        <Provider store={store}>
-          <MemoryRouter>
-            <Exchange {...props} />
-          </MemoryRouter>
-        </Provider>
-      )
-      .toJSON()
+    const tree = renderer.create((
+      <Provider store={store}>
+        <MemoryRouter>
+          <Exchange {...props} />
+        </MemoryRouter>
+      </Provider>
+    )).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
