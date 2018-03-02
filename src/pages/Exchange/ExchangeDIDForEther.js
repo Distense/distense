@@ -56,12 +56,7 @@ export default class ExchangeDIDForEther extends Component {
   render() {
     const { numDIDToExchange, numEtherUserWillReceive } = this.state
 
-    const {
-      didPerEtherExchangeRate,
-      numDIDUserMayExchange,
-      numBankAccountEther,
-      numDIDOwned
-    } = this.props
+    const { numDIDUserMayExchange, numDIDOwned } = this.props
 
     return (
       <Grid.Column width={8}>
@@ -73,19 +68,13 @@ export default class ExchangeDIDForEther extends Component {
               value={numDIDToExchange}
             />
           </Form.Field>
-          <Button basic size="large" color="green" type="submit">
+          <Button size="medium" color="green" type="submit">
             Exchange {numDIDToExchange} DID for {numEtherUserWillReceive} ether
           </Button>
         </Form>
         <Message>
           <Message.Header>Exchange DID For ETH</Message.Header>
           <List bulleted>
-            <List.Item>
-              ETH in Distense bank account: {numBankAccountEther}
-            </List.Item>
-            <List.Item>
-              Exchange rate: {didPerEtherExchangeRate} DID per ETH
-            </List.Item>
             {numDIDOwned ? (
               <List.Item>
                 DID exchangeable by you: {numDIDUserMayExchange} DID
@@ -103,6 +92,10 @@ export default class ExchangeDIDForEther extends Component {
             <List.Item>
               This is a permanent, non-reversible, undoable, final action. There
               is no one who can undo this.
+            </List.Item>
+            <List.Item>
+              If this says you can't invest, try reloading the page or ensure
+              MetaMask is unlocked
             </List.Item>
           </List>
         </Message>

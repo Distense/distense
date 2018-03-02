@@ -1,11 +1,13 @@
 import _ from 'lodash'
 import web3Utils from 'web3-utils'
+import { BigNumber } from 'bignumber.js'
 
 import {
   REQUEST_PARAMETERS,
   RECEIVE_PARAMETERS,
   RECEIVE_BANK_ACCOUNT_NUM_ETHER,
-  RECEIVE_NUM_DID_EXCHANGEABLE
+  RECEIVE_NUM_DID_EXCHANGEABLE,
+  RECEIVE_NUM_ETHER_USER_MAY_INVEST
 } from '../constants/actionTypes'
 
 import DIDTokenArtifacts from 'distense-contracts/build/contracts/DIDToken.json'
@@ -36,6 +38,11 @@ export const receiveBankAccountNumEther = numBankAccountEther => ({
 export const receiveNumDIDExchangeAbleTotal = numDIDExchangeAbleTotal => ({
   type: RECEIVE_NUM_DID_EXCHANGEABLE,
   numDIDExchangeAbleTotal
+})
+
+const receiveNumEtherUserMayInvest = numEtherUserMayInvest => ({
+  type: RECEIVE_NUM_ETHER_USER_MAY_INVEST,
+  numEtherUserMayInvest
 })
 
 export const fetchParameterByIndex = async index => {
@@ -115,6 +122,21 @@ export const fetchParameters = () => async dispatch => {
           console.log(`user may exchange: ${numDIDUserMayExchange} DID`)
           dispatch(
             receiveNumDIDUserMayExchange(numDIDUserMayExchange.toString())
+          )
+
+          const maxPotentialEtherAccountCouldInvest = new BigNumber(
+            numDIDOwned
+          ).div(didPerEther)
+
+          const numEtherUserMayInvest =
+            maxPotentialEtherAccountCouldInvest.toNumber() >
+            didTokenContractEtherBalance.toNumber()
+              ? didTokenContractEtherBalance
+              : maxPotentialEtherAccountCouldInvest
+
+          console.log(`user may invest: ${numDIDUserMayExchange} ETH`)
+          dispatch(
+            receiveNumEtherUserMayInvest(numEtherUserMayInvest.toString())
           )
         }
       })

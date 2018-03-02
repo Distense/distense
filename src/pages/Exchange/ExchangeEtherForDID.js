@@ -8,57 +8,84 @@ export default class ExchangeEtherForDID extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      numEtherUserWantsToExchange: '',
-      didPerEtherExchangeRate: this.props.didPerEtherExchangeRate || 0
+      numEtherToInvest: '',
+      numDIDWillReceive: ''
     }
+
     this.onChangeNumEther = this.onChangeNumEther.bind(this)
   }
 
-  componentDidMount() {
-    const numDIDOwned = this.props.numDIDOwned
-    this.setState({
-      numDIDOwnedByUser: numDIDOwned,
-      didPerEtherExchangeRate: this.props.didPerEtherExchangeRate
-    })
-  }
-
   onChangeNumEther = ({ target: { value } }) => {
-    this.setState({ numEtherUserWantsToExchange: value })
+    const numEtherUserMayInvest = this.props.numEtherUserMayInvest
+    const didPerEtherExchangeRate = this.props.didPerEtherExchangeRate
+
+    value = +value
+    if (value > numEtherUserMayInvest) value = numEtherUserMayInvest
+
+    const numDIDUserWillReceive = new BigNumber(value)
+      .times(didPerEtherExchangeRate)
+      .dp(4)
+      .toString()
+
+    if (value > 0 && value <= numEtherUserMayInvest) {
+      this.setState({
+        numDIDUserWillReceive,
+        numEtherToInvest: value
+      })
+    } else if (value > numEtherUserMayInvest) {
+      this.setState({
+        numEtherToInvest: numEtherUserMayInvest,
+        numDIDUserWillReceive
+      })
+    } else {
+      this.setState({
+        numEtherToInvest: '',
+        numDIDUserWillReceive
+      })
+    }
   }
 
   onSubmitInvestEtherForDID = async e => {
     e.preventDefault()
 
-    const { numEtherUserWantsToExchange } = this.state
+    const { numEtherToExchange } = this.state
 
-    investEtherForDID({ numEtherUserWantsToExchange })
+    investEtherForDID({ numEtherToExchange })
   }
 
   render() {
-    const { numEtherToExchange } = this.state
+    const { numEtherToInvest, numDIDWillReceive } = this.state
 
-    const { numDIDOwned } = this.props
-
+    const { numEtherUserMayInvest } = this.props
     return (
       <Grid.Column width={8}>
         <Form onSubmit={this.onSubmitInvestEtherForDID}>
           <Form.Field>
             <Input
               type="text"
-              placeholder="receive DID, give up ether"
+              placeholder={`number of ETH you want to invest in exchange for DID`}
               onChange={this.onChangeNumEther}
               className=""
               name="title"
-              value={numEtherToExchange}
+              value={numEtherToInvest}
             />
           </Form.Field>
-          <Button basic size="large" color="green" type="submit">
-            Invest ether for DID
+          <Button size="medium" color="green" type="submit">
+            Invest {numEtherToInvest} ether for {numDIDWillReceive} DID
           </Button>
         </Form>
         <Message>
           <Message.Header>Invest Ether for DID</Message.Header>
           <List bulleted>
+            {numEtherUserMayInvest ? (
+              <List.Item>You may invest {numEtherUserMayInvest} ETH</List.Item>
+            ) : (
+              // <List.Item>For a maximum of: {num} DID</List.Item>
+              <List.Item>
+                You don't own any DID in the selected Ethereum account so you
+                have no DID to exchange
+              </List.Item>
+            )}
             <List.Item>
               You may exchange ether only to the extent you have contributed to
               Distense. I.e, according to the number of DID you{' '}

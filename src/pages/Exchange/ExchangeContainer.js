@@ -14,6 +14,7 @@ export class ExchangeContainer extends Component {
 const mapStateToProps = state => ({
   numDIDOwned: state.user.user.numDID,
   numDIDUserMayExchange: state.user.user.numDIDUserMayExchange,
+  numEtherUserMayInvest: state.user.user.numEtherUserMayInvest,
   numBankAccountEther: state.status.distense.numBankAccountEther,
   numDIDExchangeAbleTotal: state.status.distense.numDIDExchangeAbleTotal,
   didPerEtherExchangeRate: getParameterValueByTitle(

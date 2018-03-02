@@ -9,7 +9,8 @@ import {
   RECEIVE_USER_NUM_DID,
   RECEIVE_NETWORK,
   RECEIVE_USER_NUM_ETHER,
-  RECEIVE_NUM_DID_USER_MAY_EXCHANGE
+  RECEIVE_NUM_DID_USER_MAY_EXCHANGE,
+  RECEIVE_NUM_ETHER_USER_MAY_INVEST
 } from '../constants/actionTypes'
 
 const user = (
@@ -48,6 +49,11 @@ const user = (
       return Object.assign({}, state, {
         numDIDUserMayExchange: action.numDIDUserMayExchange
       })
+    case RECEIVE_NUM_ETHER_USER_MAY_INVEST:
+      return Object.assign({}, state, {
+        numEtherUserMayInvest: action.numEtherUserMayInvest
+      })
+
     default:
       return state
   }
