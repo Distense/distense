@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Task /> page component snapshot 1`] = `
+<div>
+  <div
+    className="task"
+  >
+    <div
+      className="ui vertically divided grid"
+    >
+      <div
+        className="two column row"
+      >
+        <div
+          className="column"
+        >
+          <div
+            className="item"
+          >
+            <div
+              className="content"
+            >
+              <h2
+                className="ui header"
+              />
+              <div
+                className="description"
+              >
+                Tags: 
+                <span />
+              </div>
+              <div
+                className="description"
+              >
+                Issue URL:
+                <a
+                  className=""
+                  href={undefined}
+                  target="_blank"
+                />
+              </div>
+              <div
+                className="meta"
+              >
+                Created: 
+                Fri Mar 02 2018
+              </div>
+              <div
+                className="extra"
+              >
+                <a
+                  className="ui green large compact button"
+                  disabled={undefined}
+                  href="/pullrequests/add/25"
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex={undefined}
+                >
+                  Submit PR
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="column"
+        >
+          <div
+            className="ui message"
+          >
+            <form
+              action={undefined}
+              className="ui form"
+              onSubmit={[Function]}
+            >
+              <div
+                className="required field"
+              >
+                <label>
+                  DID Token Reward Min: 0 Max: 5000
+                </label>
+                <div
+                  className="ui input"
+                >
+                  <input
+                    disabled={undefined}
+                    name="reward"
+                    onChange={[Function]}
+                    placeholder="positive numeric reward value"
+                    tabIndex={undefined}
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <button
+                className="ui green small inverted button"
+                disabled={undefined}
+                onClick={[Function]}
+                role="button"
+                tabIndex={undefined}
+                type="submit"
+              >
+                Vote on Reward
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
