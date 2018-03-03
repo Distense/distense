@@ -4,16 +4,19 @@ import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import renderer from 'react-test-renderer'
+import moment from 'moment-timezone'
+
 import { Task } from '../../../src/pages/Task'
 
 jest.useFakeTimers()
 
 function setup() {
+  moment.tz.setDefault('EST')
   const props = {
     fetchTask: jest.fn(),
     voteOnTaskReward: jest.fn(),
     task: {
-      createdAt: new Date('Fri Mar 02 2018 16:16:57 GMT-0800 (PST)'),
+      createdAt: new Date(moment('2018-03-02 09:30:00')),
       _id: 25
     },
     match: {
