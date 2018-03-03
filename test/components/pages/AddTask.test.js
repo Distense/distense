@@ -9,7 +9,7 @@ import { AddTask } from '../../../src/pages/AddTask'
 function setup(numDIDRequiredToAddTask = null) {
   const props = {
     numDIDRequiredToAddTask,
-    addTask: jest.fn(),
+    addTask: jest.fn()
   }
   let wrapper = shallow(<AddTask {...props} />)
 
@@ -72,8 +72,12 @@ describe('<AddTask /> page component', function() {
 
   it('should set the repo state to the data value passed into onChangeRepo', () => {
     const { wrapper } = setup()
-    wrapper.instance().onChangeRepo({}, { value: 'https://github.com/Distense/distense-ui' })
-    expect(wrapper.state('repo')).toEqual('https://github.com/Distense/distense-ui')
+    wrapper
+      .instance()
+      .onChangeRepo({}, { value: 'https://github.com/Distense/distense-ui' })
+    expect(wrapper.state('repo')).toEqual(
+      'https://github.com/Distense/distense-ui'
+    )
   })
 
   it('should call addTask and set redirect to true after calling onSubmit', () => {
@@ -84,7 +88,7 @@ describe('<AddTask /> page component', function() {
       issueNum: '',
       repo: '',
       tagsString: '',
-      title: '',
+      title: ''
     })
     expect(wrapper.state('redirect')).toEqual(true)
   })
@@ -93,13 +97,15 @@ describe('<AddTask /> page component', function() {
     const { props } = setup()
     const mockstore = configureMockStore()
     const store = mockstore({})
-    const tree = renderer.create((
-      <Provider store={store}>
-        <MemoryRouter>
-          <AddTask {...props} />
-        </MemoryRouter>
-      </Provider>
-    )).toJSON()
+    const tree = renderer
+      .create(
+        <Provider store={store}>
+          <MemoryRouter>
+            <AddTask {...props} />
+          </MemoryRouter>
+        </Provider>
+      )
+      .toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

@@ -6,21 +6,21 @@ import configureMockStore from 'redux-mock-store'
 import renderer from 'react-test-renderer'
 import { Task } from '../../../src/pages/Task'
 
-jest.useFakeTimers();
+jest.useFakeTimers()
 
 function setup() {
   const props = {
     fetchTask: jest.fn(),
     voteOnTaskReward: jest.fn(),
     task: {
-      createdAt: new Date(),
-      _id: 25,
+      createdAt: new Date('Fri Mar 02 2018 16:16:57 GMT-0800 (PST)'),
+      _id: 25
     },
     match: {
       params: {
-        id: 37,
-      },
-    },
+        id: 37
+      }
+    }
   }
   let wrapper = shallow(<Task {...props} />)
 
@@ -29,9 +29,9 @@ function setup() {
 
 describe('<Task /> page component', function() {
   it('renders without crashing', () => {
-    const { wrapper } = setup();
-    expect(wrapper).toBeDefined();
-  });
+    const { wrapper } = setup()
+    expect(wrapper).toBeDefined()
+  })
 
   it('should contain some subcomponents', function() {
     const { wrapper } = setup()
@@ -70,9 +70,14 @@ describe('<Task /> page component', function() {
     const { wrapper, props } = setup()
     const mockedEvent = { preventDefault: () => {} }
     wrapper.instance().onSubmitReward(mockedEvent)
-    expect(props.voteOnTaskReward).toHaveBeenCalledWith({ reward: '', taskId: 25 })
-    expect(wrapper.state('reward')).toEqual('Vote submitted to blockchain. Redirecting to tasks list')
-    jest.runAllTimers();
+    expect(props.voteOnTaskReward).toHaveBeenCalledWith({
+      reward: '',
+      taskId: 25
+    })
+    expect(wrapper.state('reward')).toEqual(
+      'Vote submitted to blockchain. Redirecting to tasks list'
+    )
+    jest.runAllTimers()
     expect(wrapper.state('redirect')).toEqual(true)
   })
 
@@ -80,13 +85,15 @@ describe('<Task /> page component', function() {
     const { props } = setup()
     const mockstore = configureMockStore()
     const store = mockstore({})
-    const tree = renderer.create((
-      <Provider store={store}>
-        <MemoryRouter>
-          <Task {...props} />
-        </MemoryRouter>
-      </Provider>
-    )).toJSON()
+    const tree = renderer
+      .create(
+        <Provider store={store}>
+          <MemoryRouter>
+            <Task {...props} />
+          </MemoryRouter>
+        </Provider>
+      )
+      .toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
