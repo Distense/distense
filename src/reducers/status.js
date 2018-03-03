@@ -81,26 +81,6 @@ const status = (
       return Object.assign({}, state, {
         message: 'Received pull request'
       })
-    case actions.REQUEST_IPFS_NODE:
-      return Object.assign({}, state, {
-        message: 'Requesting IPFS node'
-      })
-    case actions.RECEIVE_IPFS_NODE:
-      return Object.assign({}, state, {
-        message: 'Received IPFS node'
-      })
-    case actions.SUBMIT_IPFS_HASH:
-      return Object.assign({}, state, {
-        message: 'Adding IPFS hash'
-      })
-    case actions.RECEIVE_IPFS_HASH:
-      return Object.assign({}, state, {
-        message: 'Receiving IPFS hash'
-      })
-    case actions.REQUEST_IPFS_HASH:
-      return Object.assign({}, state, {
-        message: 'Requested IPFS hash'
-      })
     case actions.RECEIVE_HAS_WEB3:
       return Object.assign({}, state, {
         message: 'Found web3 instance'
@@ -180,8 +160,8 @@ const distense = (
     totalSupplyDID: 0,
     numTasks: 0,
     numPullRequests: 0,
-    numContributors: 0,
-    numCountries: 0
+    numBankAccountEther: 0,
+    numDIDExchangeAbleTotal: 0
   },
   action
 ) => {
@@ -190,6 +170,16 @@ const distense = (
       return Object.assign({}, state, {
         totalSupplyDID: action.totalSupplyDID
       })
+    case actions.RECEIVE_BANK_ACCOUNT_NUM_ETHER:
+      return Object.assign({}, state, {
+        numBankAccountEther: action.numBankAccountEther
+      })
+
+    case actions.RECEIVE_NUM_DID_EXCHANGEABLE:
+      return Object.assign({}, state, {
+        numDIDExchangeAbleTotal: action.numDIDExchangeAbleTotal
+      })
+
     default:
       return state
   }

@@ -1,0 +1,261 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Exchange /> page component snapshot 1`] = `
+<div>
+  <div
+    className="ui grid"
+  >
+    <div
+      className="sixteen wide column"
+    >
+      <h2
+        className="ui header"
+      >
+        Exchange
+      </h2>
+      <p
+        style={
+          Object {
+            "fontSize": "1.3rem",
+          }
+        }
+      >
+        DID holders may exchange their DID into ether or vice versa
+      </p>
+    </div>
+    <div
+      className="eight wide column"
+    >
+      <div
+        className="ui message"
+      >
+        <div
+          className="header"
+        >
+          Distense Finances
+        </div>
+        <div
+          className="ui bulleted list"
+          role="list"
+        >
+          <div
+            className="item"
+            data-value={undefined}
+            onClick={[Function]}
+            role="listitem"
+          >
+            ETH in Distense bank account: 
+            executive
+          </div>
+          <div
+            className="item"
+            data-value={undefined}
+            onClick={[Function]}
+            role="listitem"
+          >
+            Exchange rate: 
+             DID per ETH
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="two column row"
+      style={
+        Object {
+          "paddingTop": "0px",
+        }
+      }
+    >
+      <div
+        className="eight wide column"
+      >
+        <form
+          action={undefined}
+          className="ui form"
+          onSubmit={[Function]}
+        >
+          <div
+            className="field"
+          >
+            <div
+              className="ui input"
+            >
+              <input
+                disabled={undefined}
+                onChange={[Function]}
+                placeholder="number of DID you want to exchange into ether"
+                tabIndex={undefined}
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+          <button
+            className="ui green medium button"
+            disabled={undefined}
+            onClick={[Function]}
+            role="button"
+            tabIndex={undefined}
+            type="submit"
+          >
+            Exchange 
+            
+             DID for 
+            
+             ether
+          </button>
+        </form>
+        <div
+          className="ui message"
+        >
+          <div
+            className="header"
+          >
+            Exchange DID For ETH
+          </div>
+          <div
+            className="ui bulleted list"
+            role="list"
+          >
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              You don't own any DID in the selected Ethereum account so you have no DID to exchange
+            </div>
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              You are relinquishing Distense governance/voting rights by exchanging your DID for ether.
+            </div>
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              This is a permanent, non-reversible, undoable, final action. There is no one who can undo this.
+            </div>
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              If this says you can't invest, try reloading the page or ensure MetaMask is unlocked
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="eight wide column"
+      >
+        <form
+          action={undefined}
+          className="ui form"
+          onSubmit={[Function]}
+        >
+          <div
+            className="field"
+          >
+            <div
+              className="ui input"
+            >
+              <input
+                disabled={undefined}
+                name="title"
+                onChange={[Function]}
+                placeholder="number of ETH you want to invest in exchange for DID"
+                tabIndex={undefined}
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+          <button
+            className="ui green medium button"
+            disabled={undefined}
+            onClick={[Function]}
+            role="button"
+            tabIndex={undefined}
+            type="submit"
+          >
+            Invest 
+            
+             ether for 
+             DID
+          </button>
+        </form>
+        <div
+          className="ui message"
+        >
+          <div
+            className="header"
+          >
+            Invest Ether for DID
+          </div>
+          <div
+            className="ui bulleted list"
+            role="list"
+          >
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              You don't own any DID in the selected Ethereum account so you have no DID to exchange
+            </div>
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              You may exchange ether only to the extent you have contributed to Distense. I.e, according to the number of DID you
+               
+              <em>
+                continue
+              </em>
+               to own
+            </div>
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              DID have a very high chance of being worthless. DID are not traded on any exchange and are non-transferable. Lots has to happen for DID to be worth anything.
+            </div>
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              If you are idealistically aligned with Distense, have a super long-term timeframe in mind, then maybe, just maybe, you should consider giving up your precious ether for DID.
+            </div>
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              This is a permanent, non-reversible, undoable, final action. There is no one who can undo this. Ever.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="row"
+    />
+  </div>
+</div>
+`;

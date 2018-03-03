@@ -8,7 +8,9 @@ import {
   RECEIVE_HAS_WEB3,
   RECEIVE_USER_NUM_DID,
   RECEIVE_NETWORK,
-  RECEIVE_USER_NUM_ETHER
+  RECEIVE_USER_NUM_ETHER,
+  RECEIVE_NUM_DID_USER_MAY_EXCHANGE,
+  RECEIVE_NUM_ETHER_USER_MAY_INVEST
 } from '../constants/actionTypes'
 
 const user = (
@@ -17,7 +19,8 @@ const user = (
     accountUnlocked: false,
     numDID: 0,
     network: null,
-    numEther: 0
+    numEther: 0,
+    numDIDUserMayExchange: 0
   },
   action
 ) => {
@@ -42,6 +45,15 @@ const user = (
       return Object.assign({}, state, {
         network: action.network
       })
+    case RECEIVE_NUM_DID_USER_MAY_EXCHANGE:
+      return Object.assign({}, state, {
+        numDIDUserMayExchange: action.numDIDUserMayExchange
+      })
+    case RECEIVE_NUM_ETHER_USER_MAY_INVEST:
+      return Object.assign({}, state, {
+        numEtherUserMayInvest: action.numEtherUserMayInvest
+      })
+
     default:
       return state
   }

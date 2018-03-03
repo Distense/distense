@@ -6,7 +6,6 @@ import Head from '../components/common/Head'
 import EventItem from '../components/common/EventItem'
 import PageTitling from '../components/common/PageTitling'
 
-
 export class Events extends React.Component {
   shouldComponentUpdate(nextProps) {
     return this.props.events !== nextProps.events
@@ -17,16 +16,25 @@ export class Events extends React.Component {
 
     return (
       <div>
-        <Head subtitle="Add Task"/>
-        <PageTitling title="Important Distense events" subtitle="Including DID issuances, task reward determinations and pull request approvals appear here" />
+        <Head subtitle="Add Task" />
+        <PageTitling
+          title="Important Distense events"
+          subtitle="Including DID issuances, task reward determinations and pull request approvals appear here"
+        />
         <Grid>
-        <Grid.Row columns={1}>
-
-          {events.length > 0
-            ? events.map(event => <EventItem key={event.txHash} e={event} />)
-            : events.length === 0 ? 'No events' : 
-            <Segment><Dimmer active><Loader>Loading...</Loader></Dimmer></Segment>}
-        </Grid.Row>
+          <Grid.Row columns={1}>
+            {events.length > 0 ? (
+              events.map(event => <EventItem key={event.txHash} e={event} />)
+            ) : events.length === 0 ? (
+              'No events'
+            ) : (
+              <Segment>
+                <Dimmer active>
+                  <Loader>Loading...</Loader>
+                </Dimmer>
+              </Segment>
+            )}
+          </Grid.Row>
         </Grid>
       </div>
     )

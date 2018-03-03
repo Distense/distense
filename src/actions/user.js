@@ -6,7 +6,8 @@ import {
   RECEIVE_NETWORK,
   RECEIVE_USER_NOT_AUTHENTICATED,
   RECEIVE_USER_NUM_DID,
-  RECEIVE_USER_NUM_ETHER
+  RECEIVE_USER_NUM_ETHER,
+  RECEIVE_NUM_DID_USER_MAY_EXCHANGE
 } from '../constants/actionTypes'
 
 import { setDefaultStatus } from './status'
@@ -44,6 +45,11 @@ export const getNumDIDByAddress = async address => {
   return await balances(address)
 }
 
+export const receiveNumDIDUserMayExchange = numDIDUserMayExchange => ({
+  type: RECEIVE_NUM_DID_USER_MAY_EXCHANGE,
+  numDIDUserMayExchange
+})
+
 export const selectUserAccountInfo = () => async dispatch => {
   /*global web3 */
   const hasWeb3 = window.web3 !== undefined
@@ -54,7 +60,6 @@ export const selectUserAccountInfo = () => async dispatch => {
       console.log(`web3: isConnected`)
       const accounts = web3.eth.accounts
       const network = web3.version.network
-      console.log(`network: ${network}`)
       dispatch(receiveNetwork(network))
       if (accounts && accounts.length) {
         const coinbase = accounts[0]
@@ -64,6 +69,7 @@ export const selectUserAccountInfo = () => async dispatch => {
         console.log(`coinbase: ${coinbase}`)
         console.log(`coinbase owns: ${numDIDOwned} DID`)
         dispatch(receiveAccountNumDID(numDIDOwned))
+
         web3.eth.getBalance(coinbase, (err, numEther) => {
           numEther = web3.fromWei(numEther)
           console.log(`coinbase owns: ${numEther} ether`)

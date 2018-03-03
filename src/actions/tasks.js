@@ -19,7 +19,7 @@ import { encodeTaskMetaDataToBytes32 } from '../helpers/tasks/encodeTaskMetaData
 import { convertIntToSolidityInt } from '../utils'
 import { getGasPrice } from '../helpers/getGasPrice'
 import { DID_PER_ETHER_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
-import { store } from '../index'
+import { store } from '../store'
 
 const requestTasks = () => ({
   type: REQUEST_TASKS
