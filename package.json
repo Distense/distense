@@ -9,7 +9,7 @@
     "dev": "DEV=true node scripts/start.js",
     "start": "node scripts/start.js",
     "test": "node scripts/test.js --env=jsdom",
-    "codecov": "codecov"
+    "coverage": "istanbul cover scripts/test.js"
   },
   "babel": {
     "presets": [
@@ -83,7 +83,9 @@
     "extract-text-webpack-plugin": "3.0.0",
     "file-loader": "0.11.2",
     "html-webpack-plugin": "^2.29.0",
+    "istanbul": "^0.4.5",
     "jest": "^22.1.4",
+    "jsdom": "11.6.2",
     "mocha": "^5.0.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
@@ -111,7 +113,7 @@
     "testMatch": [
       "<rootDir>/test/**/*.test.js?(x)"
     ],
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "testURL": "http://localhost",
     "transform": {
       "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
