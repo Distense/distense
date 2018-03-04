@@ -9,7 +9,7 @@
     "dev": "DEV=true node scripts/start.js",
     "start": "node scripts/start.js",
     "test": "node scripts/test.js --env=jsdom",
-    "coverage": "istanbul cover scripts/test.js"
+    "coverage": "node scripts/test.js --env=jsdom --coverage"
   },
   "babel": {
     "presets": [
@@ -20,11 +20,9 @@
     "extends": "react-app"
   },
   "dependencies": {
-    "babel-preset-react-app": "^3.0.2",
     "babel-runtime": "^6.26.0",
     "bignumber.js": "^6.0.0",
     "distense-contracts": "^1.0.0",
-    "fs-extra": "^5.0.0",
     "lodash": "^4.17.4",
     "meteor-random": "0.0.3",
     "object-assign": "4.1.1",
@@ -34,7 +32,6 @@
     "react-dom": "^16.0.0",
     "react-error-overlay": "^1.0.10",
     "react-helmet": "^5.1.3",
-    "react-markdown": "^2.5.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.1.2",
     "react-router-dom": "^4.1.2",
@@ -51,6 +48,7 @@
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
+    "babel-preset-react-app": "^3.0.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
@@ -86,8 +84,8 @@
     "istanbul": "^0.4.5",
     "jest": "^22.1.4",
     "jsdom": "11.6.2",
-    "mocha": "^5.0.0",
     "moment-timezone": "^0.5.14",
+    "nyc": "^11.4.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
     "prettier": "1.10.2",
