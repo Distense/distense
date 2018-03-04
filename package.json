@@ -104,6 +104,7 @@
   "jest": {
     "coverageDirectory": "./coverage/",
     "collectCoverageFrom": [
+     "!src/**/(GetStarted|registerServiceWorker|SolidityEngineer|FAQ|FourOhFour|Jobs)*.js",
       "src/**/*.{js,jsx}"
     ],
     "setupFiles": [
