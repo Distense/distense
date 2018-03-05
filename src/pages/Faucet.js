@@ -32,7 +32,7 @@ class Faucet extends Component {
     const hasAcceptableNumEther = numEther < 5 && numEther > 0.00021
     return (
       <div>
-        <Head title="Distense Faucet" />
+        <Head title="Distense Ropsten Faucet" />
         <Grid columns={1}>
           <Grid.Row width={4} columns={1}>
             <Form onSubmit={this.onSubmit}>
