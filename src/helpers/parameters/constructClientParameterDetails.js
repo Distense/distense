@@ -64,7 +64,7 @@ export const constructClientParameterDetails = p => {
 
   if (p.title === params.didPerEtherParameter.title) {
     value = p.value + ' DID'
-    title = 'Conversion ratio of DID per ether'
+    title = 'DID/ETH exchange rate'
     placeholder = ''
   }
 
