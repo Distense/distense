@@ -1,5 +1,5 @@
-import { constructClientParameterDetails } from '../../../src/parameters/constructClientParameterDetails'
+import { constructClientParameterDetails } from '../../../src/features/parameters/operations/constructClientParameterDetails'
 
 describe('constructClientParameterDetails', function() {
-  it.only('should properly return the value, title and placeholder for each parameter', function() {})
+  it('should properly return the value, title and placeholder for each parameter', function() {})
 })

@@ -4,10 +4,17 @@ import chaiJestDiff from 'chai-jest-diff'
 import { BigNumber } from 'bignumber.js'
 chai.use(chaiJestDiff())
 
-import { constructClientTask } from '../../../src/tasks/constructClientTask'
-import { CONTRACTS_REPO_NAME, FRONTEND_REPO_NAME } from '../../../src/repoNames'
-import { DETERMINED, PAID, TENTATIVE } from '../../../src/rewardStatuses'
-import { taskIdDecoded } from '../../../src/tasks/taskIdDecoded'
+import { constructClientTask } from '../../../src/features/tasks/operations/constructClientTask'
+import {
+  CONTRACTS_REPO_NAME,
+  FRONTEND_REPO_NAME
+} from '../../../src/features/tasks/operations/repoNames'
+import {
+  DETERMINED,
+  PAID,
+  TENTATIVE
+} from '../../../src/features/tasks/operations/rewardStatuses'
+import { taskIdDecoded } from '../../../src/features/tasks/operations/taskIdDecoded'
 
 describe('constructClientTask', function() {
   it('should properly construct client tasks', async function() {

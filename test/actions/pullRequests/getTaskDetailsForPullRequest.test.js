@@ -4,7 +4,7 @@ import chaiJestDiff from 'chai-jest-diff'
 
 chai.use(chaiJestDiff())
 
-import { getTaskDetailsForPullRequest } from '../../../src/pullRequests/getTaskDetailsForPullRequest'
+import { getTaskDetailsForPullRequest } from '../../../src/features/pullRequests/operations/getTaskDetailsForPullRequest'
 
 describe('getTaskDetailsForPullRequest', () => {
   it('should properly create task details for pull requests', () => {

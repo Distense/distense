@@ -6,7 +6,7 @@ chai.use(chaiJestDiff())
 
 import web3Utils from 'web3-utils'
 
-import { constructInitialPullRequest } from '../../../src/pullRequests/constructInitialPullRequest'
+import { constructInitialPullRequest } from '../../../src/features/pullRequests/operations/constructInitialPullRequest'
 
 describe('constructInitialPullRequest', function() {
   it('should properly construct initial pullRequests', async function() {

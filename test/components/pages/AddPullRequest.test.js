@@ -3,11 +3,11 @@ import sinon from 'sinon'
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
 
-import { Button, Form, Grid, Header, Message } from 'semantic-ui-react'
+import { Button, Form, Grid, Message } from 'semantic-ui-react'
 
 import Head from '../../../src/components/Head'
 
-import { AddPullRequest } from '../../../src/features/AddPullRequest'
+import { AddPullRequest } from '../../../src/features/pullRequests-add/AddPullRequest'
 
 describe('<AddPullRequest /> page component', function() {
   let wrapper
