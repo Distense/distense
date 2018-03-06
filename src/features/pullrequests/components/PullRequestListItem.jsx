@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Table } from 'semantic-ui-react'
-import { PAID } from '../constants/rewardStatuses'
+import { PAID } from '../../tasks/operations/rewardStatuses'
 
-import { approvePullRequest } from '../actions/pullRequests'
+import { approvePullRequest } from '../../pullRequests/actions'
 
-import Tags from '../components/common/Tags'
+import Tags from '../../tasks/components/Tags'
 
 class PullRequestsListItem extends Component {
   constructor(props) {

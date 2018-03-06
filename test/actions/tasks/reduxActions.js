@@ -5,7 +5,7 @@ import chaiJestDiff from 'chai-jest-diff'
 
 chai.use(chaiJestDiff())
 import * as actions from '../../../src/actions/tasks'
-import * as types from '../../../src/constants/ActionTypes'
+import * as types from '../../../src/ActionTypes'
 
 describe('actions', () => {
   it('should create an action', () => {

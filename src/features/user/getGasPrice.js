@@ -1,4 +1,4 @@
-import { MAINNET_GAS_PRICE, TESTNET_GAS_PRICE } from '../constants/gasPrices'
+import { MAINNET_GAS_PRICE, TESTNET_GAS_PRICE } from './gasPrices'
 
 export const getGasPrice = () => {
   /*global web3 */

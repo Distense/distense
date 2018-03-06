@@ -11,8 +11,8 @@ import {
   Segment
 } from 'semantic-ui-react'
 
-import Head from '../components/common/Head'
-import TotalDID from '../components/common/TotalDID'
+import Head from '../components/Head'
+import TotalDID from '../components/TotalDID'
 
 class Home extends Component {
   constructor(props) {

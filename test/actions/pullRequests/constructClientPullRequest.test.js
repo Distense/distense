@@ -4,8 +4,8 @@ import chaiJestDiff from 'chai-jest-diff'
 
 chai.use(chaiJestDiff())
 
-import { constructPullRequestFromContractDetails } from '../../../src/helpers/pullRequests/constructPullRequestFromContractDetails.js'
-import { FRONTEND_REPO_NAME } from '../../../src/constants/repoNames'
+import { constructPullRequestFromContractDetails } from '../../../src/pullRequests/constructPullRequestFromContractDetails.js'
+import { FRONTEND_REPO_NAME } from '../../../src/repoNames'
 
 describe('constructPullRequestFromContractDetails', function() {
   it('should properly construct client pullRequests', async function() {

@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
-import { DIDOwnership } from '../../../src/components/common/DIDOwnership'
+import { DIDOwnership } from '../../../src/components/DIDOwnership'
 
 function setup(numDID = 0, totalSupplyDid = 0) {
   const props = {

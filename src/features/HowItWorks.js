@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Grid, Header, Icon, List, Segment } from 'semantic-ui-react'
 import Scroll from 'react-scroll'
-import Head from '../components/common/Head'
+import Head from '../components/Head'
 
 const ScrollLink = Scroll.Link
 const Element = Scroll.Element

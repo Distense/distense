@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Grid, Dimmer, Loader, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import Head from '../components/common/Head'
-import EventItem from '../components/common/EventItem'
-import PageTitling from '../components/common/PageTitling'
+import Head from '../../components/Head'
+import EventItem from '../events/components/EventItem'
+import PageTitling from '../../components/PageTitling'
 
-export class Events extends React.Component {
+export class Events extends Component {
   shouldComponentUpdate(nextProps) {
     return this.props.events !== nextProps.events
   }

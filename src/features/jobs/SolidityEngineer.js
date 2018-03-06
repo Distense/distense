@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Header, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import PageTitling from '../components/common/PageTitling'
+import PageTitling from '../../components/PageTitling'
 
 export default () => (
   <Container>

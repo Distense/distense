@@ -12,12 +12,12 @@ import {
 } from 'semantic-ui-react'
 import { Link, Redirect } from 'react-router-dom'
 
-import { fetchTask, selectTask } from '../actions/tasks'
-import { getSelectedTask } from '../reducers/tasks'
-import { addPullRequest } from '../actions/pullRequests'
+import { fetchTask, selectTask } from '../tasks/actions'
+import { getSelectedTask } from '../tasks/reducers'
+import { addPullRequest } from '../pullRequests/actions'
 
-import Head from '../components/common/Head'
-import PageTitling from '../components/common/PageTitling'
+import Head from '../../components/Head'
+import PageTitling from '../../components/PageTitling'
 
 export class AddPullRequest extends Component {
   constructor(props) {

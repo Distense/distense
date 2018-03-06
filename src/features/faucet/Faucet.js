@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { Button, Form, Grid, Header, List, Message } from 'semantic-ui-react'
 
 import { Link } from 'react-router-dom'
-import Head from '../components/common/Head'
-import { submitFaucetRequest } from '../actions/faucet'
-import { getCoinbase } from '../reducers/user'
+import Head from '../../components/Head'
+import { submitFaucetRequest } from '../faucet/actions'
+import { getCoinbase } from '../user/reducers'
 
 class Faucet extends Component {
   constructor(props) {

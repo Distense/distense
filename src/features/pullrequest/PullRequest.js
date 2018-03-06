@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import { Grid, Header, Item } from 'semantic-ui-react'
 
-import { fetchPullRequest } from '../actions/pullRequests'
-import { getPullRequest } from '../reducers/pullRequests'
+import { fetchPullRequest } from '../pullRequests/actions'
+import { getPullRequest } from '../pullRequests/reducers'
 
-import { fetchTask } from '../actions/tasks'
-import { getTask } from '../reducers/tasks'
+import { fetchTask } from '../tasks/actions'
+import { getTask } from '../tasks/reducers'
 
-import Head from '../components/common/Head'
+import Head from '../../components/Head'
 
 export class PullRequest extends Component {
   constructor(props) {

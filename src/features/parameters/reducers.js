@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import _ from 'lodash'
 
-// Parameters
-export const PARAMETERS_REQUEST = 'PARAMETERS_REQUEST'
-export const PARAMETERS_RECEIVE = 'PARAMETERS_RECEIVE'
-export const RECEIVE_EVENT = 'RECEIVE_EVENT'
+const PARAMETERS_RECEIVE = 'PARAMETERS_RECEIVE'
+const PARAMETERS_REQUEST = 'PARAMETERS_REQUEST'
+
+export { PARAMETERS_RECEIVE, PARAMETERS_REQUEST }
 
 const parameters = (state = [], action) => {
   switch (action.type) {

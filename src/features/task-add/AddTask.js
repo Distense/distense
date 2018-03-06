@@ -12,14 +12,14 @@ import {
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 
-import { addTask } from '../actions/tasks'
-import { getPendingTask } from '../reducers/tasks'
-import { NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
+import { addTask } from '../tasks/actions'
+import { getPendingTask } from '../tasks/reducers'
+import { NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE } from '../parameters/operations/parameterTitles'
 
-import Head from '../components/common/Head'
-import PageTitling from '../components/common/PageTitling'
-import { tagsOptions } from '../tagsOptions'
-import { getParameterValueByTitle } from '../reducers/parameters'
+import Head from '../../components/Head'
+import PageTitling from '../../components/PageTitling'
+import { tagsOptions } from '../tasks/tagsOptions'
+import { getParameterValueByTitle } from '../parameters/reducers'
 
 export class AddTask extends Component {
   constructor(props) {

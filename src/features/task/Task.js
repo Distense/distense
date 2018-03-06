@@ -11,11 +11,11 @@ import {
   Message
 } from 'semantic-ui-react'
 
-import { fetchTask, voteOnTaskReward } from '../actions/tasks'
-import { getTask } from '../reducers/tasks'
+import { fetchTask, voteOnTaskReward } from '../tasks/actions'
+import { getTask } from '../tasks/reducers'
 
-import Head from '../components/common/Head'
-import Tags from '../components/common/Tags'
+import Head from '../../components/Head'
+import Tags from '../tasks/components/Tags'
 
 export class Task extends Component {
   constructor(props) {

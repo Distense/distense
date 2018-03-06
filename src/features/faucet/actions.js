@@ -1,8 +1,8 @@
-import * as contracts from '../contracts'
+import * as contracts from '../../contracts'
 
-import { setDefaultStatus, updateStatusMessage } from './status'
-import { receiveUserNotAuthenticated } from './user'
-import { getGasPrice } from '../helpers/getGasPrice'
+import { setDefaultStatus, updateStatusMessage } from '../status/actions'
+import { receiveUserNotAuthenticated } from '../user/actions'
+import { getGasPrice } from '../user/getGasPrice'
 
 export const submitFaucetRequest = () => async (dispatch, getState) => {
   const cb = getState().user.accounts[0]

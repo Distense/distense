@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import * as contracts from '../contracts'
+import * as contracts from '../../contracts'
 
 import {
   REQUEST_PULLREQUESTS,
@@ -10,15 +10,15 @@ import {
   REQUEST_PULLREQUEST,
   PULLREQUEST_RECEIVE,
   PULLREQUESTS_RECEIVE_NUM
-} from '../constants/actionTypes'
+} from './reducers'
 
-import { constructInitialPullRequest } from '../helpers/pullRequests/constructInitialPullRequest'
+import { constructInitialPullRequest } from '../pullRequests/constructInitialPullRequest'
 import { receiveUserNotAuthenticated } from './user'
 import { getTaskByID } from './tasks'
 import { setDefaultStatus, updateStatusMessage } from './status'
-import { constructPullRequestFromContractDetails } from '../helpers/pullRequests/constructPullRequestFromContractDetails'
-import { getTaskDetailsForPullRequest } from '../helpers/pullRequests/getTaskDetailsForPullRequest'
-import { getGasPrice } from '../helpers/getGasPrice'
+import { constructPullRequestFromContractDetails } from '../pullRequests/constructPullRequestFromContractDetails'
+import { getTaskDetailsForPullRequest } from '../pullRequests/getTaskDetailsForPullRequest'
+import { getGasPrice } from '../getGasPrice'
 
 import Random from 'meteor-random'
 

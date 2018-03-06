@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { Icon, Menu } from 'semantic-ui-react'
 import EthereumSVGIcon from './EthereumSVGIcon'
-import { getCoinbase } from '../../reducers/user'
+import { getCoinbase } from '../user/reducers'
 
 class EthereumAuthenticated extends Component {
   render() {

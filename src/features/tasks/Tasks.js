@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import { Table } from 'semantic-ui-react'
 
-import { fetchTasks } from '../actions/tasks'
-import { getAllTasks } from '../reducers/tasks'
-import { TasksListItem } from '../components/common/TasksListItem'
-import PageTitling from '../components/common/PageTitling'
-import Head from '../components/common/Head'
+import { fetchTasks } from '../tasks/actions'
+import { getAllTasks } from '../tasks/reducers'
+import { TasksListItem } from '../tasks/components/TasksListItem'
+import PageTitling from '../../components/PageTitling'
+import Head from '../../components/Head'
 
 export class Tasks extends Component {
   constructor(props) {

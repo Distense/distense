@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import { Table } from 'semantic-ui-react'
 
-import { fetchTasks } from '../actions/tasks'
-import { getAllTasks } from '../reducers/tasks'
-import { approvePullRequest, fetchPullRequests } from '../actions/pullRequests'
-import { getAllPullRequests } from '../reducers/pullRequests'
+import { fetchTasks } from '../tasks/actions'
+import { getAllTasks } from '../tasks/reducers'
+import { approvePullRequest, fetchPullRequests } from '../pullRequests/actions'
+import { getAllPullRequests } from '../pullRequests/reducers'
 
-import Head from '../components/common/Head'
-import PageTitling from '../components/common/PageTitling'
-import PullRequestListItem from '../components/PullRequestListItem'
+import Head from '../../components/Head'
+import PageTitling from '../../components/PageTitling'
+import PullRequestListItem from './components/PullRequestListItem'
 
 class PullRequests extends Component {
   constructor(props) {

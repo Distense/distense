@@ -1,4 +1,4 @@
-import * as contracts from '../contracts'
+import * as contracts from '../../contracts'
 
 import {
   RECEIVE_ACCOUNT,
@@ -8,7 +8,7 @@ import {
   RECEIVE_USER_NUM_DID,
   RECEIVE_USER_NUM_ETHER,
   RECEIVE_NUM_DID_USER_MAY_EXCHANGE
-} from '../constants/actionTypes'
+} from './reducers'
 
 import { setDefaultStatus } from './status'
 

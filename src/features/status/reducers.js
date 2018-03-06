@@ -5,7 +5,9 @@ import { SUBMIT_TASK, TASK_RECEIVE } from './tasks'
 export const SET_DEFAULT_STATUS = 'SET_DEFAULT_STATUS'
 export const SET_STATUS_MESSAGE = 'SET_STATUS_MESSAGE'
 export const RECEIVE_NUM_DID_EXCHANGEABLE = 'RECEIVE_NUM_DID_EXCHANGEABLE'
-
+// RECEIVE_BANK_ACCOUNT_NUM_ETHER,
+// RECEIVE_NUM_DID_EXCHANGEABLE,
+// RECEIVE_NUM_ETHER_USER_MAY_INVEST
 /**
  * Standard redux reducer used to control the state of Status component that is always located in footer.  Basically the idea is to update the user
  * as to
@@ -133,7 +135,7 @@ const status = (
       return Object.assign({}, state, {
         message: 'Awaiting total supply of DID'
       })
-    case action.RECEIVE_EVENT:
+    case action.EVENT_RECEIVE:
       return Object.assign({}, state, {
         message: 'Received new event'
       })

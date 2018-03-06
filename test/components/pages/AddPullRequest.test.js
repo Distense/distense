@@ -5,7 +5,7 @@ import { expect } from 'chai'
 
 import { Button, Form, Grid, Header, Message } from 'semantic-ui-react'
 
-import Head from '../../../src/components/common/Head'
+import Head from '../../../src/components/Head'
 
 import { AddPullRequest } from '../../../src/features/AddPullRequest'
 

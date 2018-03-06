@@ -1,24 +1,24 @@
 import _ from 'lodash'
 import * as contracts from '../../contracts'
 
-import { getParameterValueByTitle } from '../../reducers/parameters'
-import { receiveUserNotAuthenticated } from './user'
-import { setDefaultStatus, updateStatusMessage } from './status'
+import { getParameterValueByTitle } from '../parameters/reducers'
+import { receiveUserNotAuthenticated } from '../user/actions'
+import { setDefaultStatus, updateStatusMessage } from '../status/actions'
 import {
   TASK_REQUEST,
   TASK_RECEIVE,
   TASKS_REQUEST,
   TASKS_RECEIVE,
-  SET_NUM_TASKS,
+  TASKS_SET_NUM,
   TASK_SELECT,
   TASKS_REQUEST_INSTANCE,
   TASKS_RECEIVE_INSTANCE
-} from '../constants/actionTypes'
-import { constructClientTask } from '../helpers/tasks/constructClientTask'
-import { encodeTaskMetaDataToBytes32 } from '../helpers/tasks/encodeTaskMetaDataToBytes32'
-import { convertIntToSolidityInt } from '../utils'
-import { getGasPrice } from '../helpers/getGasPrice'
-import { DID_PER_ETHER_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
+} from './reducers'
+import { constructClientTask } from '../tasks/operations/constructClientTask'
+import { encodeTaskMetaDataToBytes32 } from '../tasks/operations/encodeTaskMetaDataToBytes32'
+import { convertIntToSolidityInt } from '../../utils'
+import { getGasPrice } from '../user/getGasPrice'
+import { DID_PER_ETHER_PARAMETER_TITLE } from '../parameters/operations/parameterTitles'
 import { store } from '../../store'
 
 const requestTasks = () => ({
@@ -54,7 +54,7 @@ export const receiveTasksInstance = () => ({
 })
 
 export const setNumTasks = numTasks => ({
-  type: SET_NUM_TASKS,
+  type: TASKS_SET_NUM,
   numTasks
 })
 

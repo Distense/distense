@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { repoNameAndNumbers } from '../../constants/repoNameAndNumbers'
+import { repoNameAndNumbers } from './repoNameAndNumbers'
 
 export const getRepoNameFromNumber = repoNumber => {
   const repo = _.find(repoNameAndNumbers, function(obj) {

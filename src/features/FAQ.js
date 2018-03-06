@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Header, Segment } from 'semantic-ui-react'
-import Head from '../components/common/Head'
+import Head from '../components/Head'
 
 export default class FAQ extends Component {
   render() {

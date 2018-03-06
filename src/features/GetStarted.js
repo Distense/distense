@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Header, List } from 'semantic-ui-react'
 
-import Head from '../components/common/Head'
-import { NETWORK_NAME } from '../constants/network'
+import Head from '../components/Head'
+import { NETWORK_NAME } from './user/network'
 
 export default class GetStarted extends Component {
   render() {

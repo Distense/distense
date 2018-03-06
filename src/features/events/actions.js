@@ -1,8 +1,8 @@
 import _ from 'lodash'
 
-import { RECEIVE_EVENT } from '../constants/actionTypes'
+import { EVENT_RECEIVE } from './reducers'
 
-import { setDefaultStatus } from './status'
+import { setDefaultStatus } from '../../features/status/actions'
 
 import DidTokenArtifacts from 'distense-contracts/build/contracts/DIDToken.json'
 import DistenseArtifacts from 'distense-contracts/build/contracts/Distense.json'
@@ -10,7 +10,7 @@ import PullRequestsArtifacts from 'distense-contracts/build/contracts/PullReques
 import TasksArtifacts from 'distense-contracts/build/contracts/Tasks.json'
 
 const receiveNewContractEvent = event => ({
-  type: RECEIVE_EVENT,
+  type: EVENT_RECEIVE,
   event
 })
 

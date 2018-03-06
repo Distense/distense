@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Card, Grid, Header, Segment } from 'semantic-ui-react'
 
-import { voteOnParameter } from '../actions/parameters'
-import { getParameters } from '../reducers/parameters'
+import { voteOnParameter } from '../parameters/actions'
+import { getParameters } from '../parameters/reducers'
 
-import Head from '../components/common/Head'
-import { constructClientParameterDetails } from '../helpers/parameters/constructClientParameterDetails'
+import Head from '../../components/Head'
+import { constructClientParameterDetails } from '../parameters/operations/constructClientParameterDetails'
 
 class Parameters extends Component {
   constructor(props) {

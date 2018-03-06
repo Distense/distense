@@ -1,4 +1,4 @@
-import * as params from '../../constants/parameters/parameterDetails'
+import * as params from './parameterDetails'
 
 export const constructClientParameterDetails = p => {
   let title

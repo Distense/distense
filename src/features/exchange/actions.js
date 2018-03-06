@@ -1,4 +1,4 @@
-import * as contracts from '../contracts'
+import * as contracts from '../../contracts'
 
 import { receiveUserNotAuthenticated } from './user'
 import { setDefaultStatus } from './status'

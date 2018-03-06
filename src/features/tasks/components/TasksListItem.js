@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Table } from 'semantic-ui-react'
 
-import Tags from '../common/Tags'
+import Tags from './Tags'
 
 export const TasksListItem = ({ task }) => (
   <Table.Row key={task._id}>

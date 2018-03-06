@@ -4,7 +4,7 @@ import { expect } from 'chai'
 
 import { Grid } from 'semantic-ui-react'
 
-import Head from '../../../src/components/common/Head'
+import Head from '../../../src/components/Head'
 
 import { Events } from '../../../src/features/Events'
 

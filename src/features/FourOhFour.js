@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Header, Segment } from 'semantic-ui-react'
-import Head from '../components/common/Head'
+import Head from '../components/Head'
 
 export default () => {
   return (

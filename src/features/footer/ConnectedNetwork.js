@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Icon, Menu } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import { NETWORK, NETWORK_NAME } from '../../constants/network'
+import { NETWORK, NETWORK_NAME } from '../user/network'
 
 export class ConnectedNetwork extends Component {
   constructor(props) {

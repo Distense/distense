@@ -1,10 +1,7 @@
 import { assert } from 'chai'
 
-import {
-  FRONTEND_REPO_NAME,
-  CONTRACTS_REPO_NAME
-} from '../../../src/constants/repoNames'
-import { getRepoNumber } from '../../../src/helpers/tasks/getRepoNumber'
+import { FRONTEND_REPO_NAME, CONTRACTS_REPO_NAME } from '../../../src/repoNames'
+import { getRepoNumber } from '../../../src/tasks/getRepoNumber'
 
 describe('getRepoNumber', function() {
   it('should properly return the repo number for the frontend repo', function() {

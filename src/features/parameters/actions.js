@@ -2,33 +2,24 @@ import _ from 'lodash'
 import web3Utils from 'web3-utils'
 import { BigNumber } from 'bignumber.js'
 
-import {
-  PARAMETERS_REQUEST,
-  PARAMETERS_RECEIVE,
-  RECEIVE_BANK_ACCOUNT_NUM_ETHER,
-  RECEIVE_NUM_DID_EXCHANGEABLE,
-  RECEIVE_NUM_ETHER_USER_MAY_INVEST
-} from '../constants/actionTypes'
+import { PARAMETERS_REQUEST, PARAMETERS_RECEIVE } from './reducers'
 
 import DIDTokenArtifacts from 'distense-contracts/build/contracts/DIDToken.json'
 
-import * as contracts from '../contracts'
-import { setDefaultStatus, updateStatusMessage } from './status'
-import { getGasPrice } from '../helpers/getGasPrice'
-import { convertSolidityIntToInt } from '../utils'
-import { store } from '../store'
-import { getParameterValueByTitle } from '../reducers/parameters'
-import { DID_PER_ETHER_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
-import { receiveNumDIDUserMayExchange } from '../action/user'
+import * as contracts from '../../contracts'
+import { setDefaultStatus, updateStatusMessage } from '../status/actions'
+import { getGasPrice } from '../user/getGasPrice'
+import { convertSolidityIntToInt } from '../../utils'
+import { store } from '../../store'
+import { getParameterValueByTitle } from '../parameters/reducers'
+import { DID_PER_ETHER_PARAMETER_TITLE } from '../parameters/operations/parameterTitles'
+import { receiveNumDIDUserMayExchange } from '../user/actions'
 
-const requestParameters = () => ({
-  type: PARAMETERS_REQUEST
-})
+const RECEIVE_BANK_ACCOUNT_NUM_ETHER = 'RECEIVE_BANK_ACCOUNT_NUM_ETHER'
 
-const receiveParameters = parameters => ({
-  type: PARAMETERS_RECEIVE,
-  parameters
-})
+const RECEIVE_NUM_DID_EXCHANGEABLE = 'RECEIVE_NUM_DID_EXCHANGEABLE'
+
+const RECEIVE_NUM_ETHER_USER_MAY_INVEST = 'RECEIVE_NUM_ETHER_USER_MAY_INVEST'
 
 export const receiveBankAccountNumEther = numBankAccountEther => ({
   type: RECEIVE_BANK_ACCOUNT_NUM_ETHER,
@@ -43,6 +34,15 @@ export const receiveNumDIDExchangeAbleTotal = numDIDExchangeAbleTotal => ({
 const receiveNumEtherUserMayInvest = numEtherUserMayInvest => ({
   type: RECEIVE_NUM_ETHER_USER_MAY_INVEST,
   numEtherUserMayInvest
+})
+
+const requestParameters = () => ({
+  type: PARAMETERS_REQUEST
+})
+
+const receiveParameters = parameters => ({
+  type: PARAMETERS_RECEIVE,
+  parameters
 })
 
 export const fetchParameterByIndex = async index => {

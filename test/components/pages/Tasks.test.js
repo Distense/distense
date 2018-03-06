@@ -4,7 +4,7 @@ import { expect } from 'chai'
 
 import { Table } from 'semantic-ui-react'
 import { Tasks } from '../../../src/featuresTasks'
-import Head from '../../../src/components/common/Head'
+import Head from '../../../src/components/Head'
 
 describe('<Tasks /> page component', function() {
   let wrapper

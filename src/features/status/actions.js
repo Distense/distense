@@ -1,11 +1,8 @@
-import * as contracts from '../contracts'
+import * as contracts from '../../contracts'
 
-import {
-  RECEIVE_TOTAL_SUPPLY_DID,
-  SET_DEFAULT_STATUS,
-  SET_STATUS_MESSAGE
-} from '../constants/actionTypes'
+import { SET_DEFAULT_STATUS, SET_STATUS_MESSAGE } from './reducers'
 
+const RECEIVE_TOTAL_SUPPLY_DID = 'RECEIVE_TOTAL_SUPPLY_DID'
 export const setStatusMessage = text => ({
   type: SET_STATUS_MESSAGE,
   text

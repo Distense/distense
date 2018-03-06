@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import EthereumAuthenticated from './common/EthereumAuthenticated'
-import DIDOwnership from './common/DIDOwnership'
-import ConnectedNetwork from './common/ConnectedNetwork'
+import EthereumAuthenticated from './EthereumAuthenticated'
+import DIDOwnership from '../user/DIDOwnership'
+import ConnectedNetwork from './ConnectedNetwork'
 
 import { Container, Menu, Segment } from 'semantic-ui-react'
 
-import Status from './Status'
+import Status from '../status/Status'
 
 export default () => (
   <Segment vertical style={{ margin: '3em 0em 0em', padding: '5em 0em' }}>
