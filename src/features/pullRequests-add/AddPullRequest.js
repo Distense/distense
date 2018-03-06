@@ -14,7 +14,7 @@ import { Link, Redirect } from 'react-router-dom'
 
 import { fetchTask, selectTask } from '../tasks/actions'
 import { getSelectedTask } from '../tasks/reducers'
-import { addPullRequest } from '../pullRequests/actions'
+import { addPullRequest } from './actions'
 
 import Head from '../../components/Head'
 import PageTitling from '../../components/PageTitling'

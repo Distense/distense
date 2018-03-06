@@ -3,7 +3,7 @@ import { taskIdDecoded } from './taskIdDecoded'
 import {
   convertSolidityIntToInt,
   convertDIDRewardToEtherReward
-} from '/src/utils'
+} from '../../../utils'
 
 /**
  * A Client Task is what gets shown to the user in a table on our list of tasks page: /tasks

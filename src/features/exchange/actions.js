@@ -1,8 +1,11 @@
 import * as contracts from '../../contracts'
 
-import { receiveUserNotAuthenticated } from './user'
-import { setDefaultStatus } from './status'
-import { getNumDIDByAddress, receiveAccountNumDID } from './user'
+import { setDefaultStatus } from '../status/actions'
+import {
+  getNumDIDByAddress,
+  receiveAccountNumDID,
+  receiveUserNotAuthenticated
+} from '../user/actions'
 
 export const exchangeDIDForEther = ({ numDID }) => async (
   dispatch,

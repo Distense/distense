@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { Menu } from 'semantic-ui-react'
-import { fetchTotalSupplyDID } from '../../actions/status'
-import { getTotalSupplyDID } from '../../reducers/status'
+import { fetchTotalSupplyDID } from '../features/status/actions'
+import { getTotalSupplyDID } from '../features/status/reducers'
 
 class TotalDID extends Component {
   shouldComponentUpdate(nextProps) {

@@ -1,6 +1,6 @@
 import web3Utils from 'web3-utils'
-import { convertSolidityIntToInt } from '../../utils'
-import { decodeTaskBytes32ToMetaData } from '../tasks/decodeTaskBytes32ToMetaData'
+import { convertSolidityIntToInt } from '../../../utils'
+import { decodeTaskBytes32ToMetaData } from '../../tasks/operations/decodeTaskBytes32ToMetaData'
 
 export const constructPullRequestFromContractDetails = (prId, contractPR) => {
   const createdBy = contractPR[0]

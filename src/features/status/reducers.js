@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux'
 
-import { SUBMIT_TASK, TASK_RECEIVE } from './tasks'
-
 export const SET_DEFAULT_STATUS = 'SET_DEFAULT_STATUS'
 export const SET_STATUS_MESSAGE = 'SET_STATUS_MESSAGE'
 export const RECEIVE_NUM_DID_EXCHANGEABLE = 'RECEIVE_NUM_DID_EXCHANGEABLE'
@@ -40,7 +38,7 @@ const status = (
   action
 ) => {
   switch (action.type) {
-    case action.SUBMIT_TASK:
+    case action.TASK_SUBMIT:
       return Object.assign({}, state, {
         message: 'Adding task to blockchain',
         txSubmitted: true
@@ -126,7 +124,7 @@ const status = (
         message: `Found ${action.numPullRequests} pull requests`,
         numPullRequests: action.numPullRequests
       })
-    case action.SET_NUM_TASKS:
+    case action.TASKS_SET_NUM:
       return Object.assign({}, state, {
         message: `Found ${action.numTasks} tasks`,
         numTasks: action.numTasks

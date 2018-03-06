@@ -1,5 +1,3 @@
-// import Random from 'meteor-random'
-
 export const constructInitialPullRequest = (
   _id,
   coinbase,

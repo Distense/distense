@@ -3,34 +3,31 @@ import _ from 'lodash'
 import * as contracts from '../../contracts'
 
 import {
-  REQUEST_PULLREQUESTS,
-  REQUEST_PULLREQUESTS_INSTANCE,
   PULLREQUESTS_RECEIVE_INSTANCE,
   PULLREQUESTS_RECEIVE,
-  REQUEST_PULLREQUEST,
   PULLREQUEST_RECEIVE,
-  PULLREQUESTS_RECEIVE_NUM
+  PULLREQUESTS_RECEIVE_NUM,
+  PULLREQUEST_REQUEST,
+  PULLREQUESTS_REQUEST,
+  PULLREQUESTS_REQUEST_INSTANCE
 } from './reducers'
 
-import { constructInitialPullRequest } from '../pullRequests/constructInitialPullRequest'
-import { receiveUserNotAuthenticated } from './user'
-import { getTaskByID } from './tasks'
-import { setDefaultStatus, updateStatusMessage } from './status'
-import { constructPullRequestFromContractDetails } from '../pullRequests/constructPullRequestFromContractDetails'
-import { getTaskDetailsForPullRequest } from '../pullRequests/getTaskDetailsForPullRequest'
-import { getGasPrice } from '../getGasPrice'
-
-import Random from 'meteor-random'
+import { receiveUserNotAuthenticated } from '../user/actions'
+import { getTaskByID } from '../tasks/actions'
+import { setDefaultStatus, updateStatusMessage } from '../status/actions'
+import { constructPullRequestFromContractDetails } from '../pullRequests/operations/constructPullRequestFromContractDetails'
+import { getTaskDetailsForPullRequest } from '../pullRequests/operations/getTaskDetailsForPullRequest'
+import { getGasPrice } from '../user/getGasPrice'
 
 const requestPullRequests = () => ({
-  type: REQUEST_PULLREQUESTS
+  type: PULLREQUESTS_REQUEST
 })
 
 const requestPullRequestsInstance = () => ({
-  type: REQUEST_PULLREQUESTS_INSTANCE
+  type: PULLREQUESTS_REQUEST_INSTANCE
 })
 
-const receivePullRequestsInstance = () => ({
+export const receivePullRequestsInstance = () => ({
   type: PULLREQUESTS_RECEIVE_INSTANCE
 })
 
@@ -40,11 +37,11 @@ const receivePullRequests = pullRequests => ({
 })
 
 const requestPullRequest = id => ({
-  type: REQUEST_PULLREQUEST,
+  type: PULLREQUEST_REQUEST,
   id
 })
 
-const receivePullRequest = pullRequest => ({
+export const receivePullRequest = pullRequest => ({
   type: PULLREQUEST_RECEIVE,
   pullRequest
 })
@@ -114,52 +111,6 @@ export const fetchPullRequest = id => async dispatch => {
   dispatch(requestPullRequest(id))
   const pullRequest = await getPullRequestById(id)
   dispatch(receivePullRequest(pullRequest))
-}
-
-export const addPullRequest = ({ taskId, prNum }) => async (
-  dispatch,
-  getState
-) => {
-  taskId = taskId.replace(/\0/g, '')
-  dispatch(requestPullRequestsInstance())
-  const { addPullRequest } = await contracts.PullRequests
-
-  dispatch(receivePullRequestsInstance())
-
-  const coinbase = getState().user.accounts[0] //TODO make better
-  if (!coinbase) {
-    dispatch(receiveUserNotAuthenticated())
-    return
-  }
-
-  const task = await getTaskByID(taskId)
-
-  const _id = Random.hexString(10) + '-' + prNum
-  const createdAt = new Date()
-  const pullRequest = constructInitialPullRequest(
-    _id,
-    createdAt,
-    coinbase,
-    taskId,
-    task,
-    prNum
-  )
-
-  const addedPullRequest = await addPullRequest(
-    pullRequest._id,
-    taskId,
-    prNum,
-    {
-      from: coinbase,
-      gasPrice: getGasPrice()
-    }
-  )
-
-  if (addedPullRequest) console.log(`successful pull request add`)
-
-  dispatch(receivePullRequest(pullRequest))
-  dispatch(setDefaultStatus())
-  return pullRequest
 }
 
 export const approvePullRequest = prId => async (dispatch, getState) => {

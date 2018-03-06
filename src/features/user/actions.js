@@ -10,7 +10,7 @@ import {
   RECEIVE_NUM_DID_USER_MAY_EXCHANGE
 } from './reducers'
 
-import { setDefaultStatus } from './status'
+import { setDefaultStatus } from '../status/actions'
 
 const receiveAccountAction = account => ({
   type: RECEIVE_ACCOUNT,

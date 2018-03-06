@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { tagsOptions } from '/src/features/tasks/tagsOptions'
+import { tagsOptions } from './tagsOptions'
 import { taskIdDecoded } from './taskIdDecoded'
 import { getRepoNameFromNumber } from './getRepoNameFromNumber'
 

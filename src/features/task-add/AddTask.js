@@ -18,7 +18,7 @@ import { NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE } from '../parameters/oper
 
 import Head from '../../components/Head'
 import PageTitling from '../../components/PageTitling'
-import { tagsOptions } from '../tasks/tagsOptions'
+import { tagsOptions } from '../tasks/operations/tagsOptions'
 import { getParameterValueByTitle } from '../parameters/reducers'
 
 export class AddTask extends Component {

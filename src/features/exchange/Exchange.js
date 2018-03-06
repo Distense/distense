@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 
 import { Grid, List, Message } from 'semantic-ui-react'
 
-import ExchangeDIDForEther from '../Exchange/ExchangeDIDForEther'
-import ExchangeEtherForDID from '../Exchange/ExchangeEtherForDID'
+import ExchangeDIDForEther from './components/ExchangeDIDForEther'
+import ExchangeEtherForDID from './components/ExchangeEtherForDID'
 
 import Head from '../../components/Head'
 import PageTitling from '../../components/PageTitling'

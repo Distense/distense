@@ -1,4 +1,4 @@
-import { decodeTaskBytes32ToMetaData } from '../tasks/decodeTaskBytes32ToMetaData'
+import { decodeTaskBytes32ToMetaData } from '../../tasks/operations/decodeTaskBytes32ToMetaData'
 
 /**
  *

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { BigNumber } from 'bignumber.js'
 import { Button, Input, Form, Grid, List, Message } from 'semantic-ui-react'
 
-import { exchangeDIDForEther } from '../../actions/exchange'
+import { exchangeDIDForEther } from '../actions'
 
 export default class ExchangeDIDForEther extends Component {
   constructor(props) {
