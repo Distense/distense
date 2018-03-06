@@ -83,12 +83,6 @@ export class Tasks extends Component {
                 Tags
               </Table.HeaderCell>
               <Table.HeaderCell
-                sorted={column === 'Status' ? direction : null}
-                onClick={this.handleSort('status')}
-              >
-                Status
-              </Table.HeaderCell>
-              <Table.HeaderCell
                 sorted={column === 'Reward Status' ? direction : null}
                 onClick={this.handleSort('reward')}
               >

@@ -32,7 +32,7 @@ export const decodeTaskBytes32ToMetaData = taskId => {
   return {
     createdAt,
     tags,
-    repoName,
-    issueNum
+    issueNum,
+    repoName
   }
 }

@@ -14,7 +14,6 @@ export const TasksListItem = ({ task }) => (
     <Table.Cell style={{ whiteSpace: 'nowrap' }}>
       <Tags tags={task.tags} />
     </Table.Cell>
-    <Table.Cell>{task.status}</Table.Cell>
     <Table.Cell>{task.rewardStatus}</Table.Cell>
     <Table.Cell style={{ whiteSpace: 'nowrap' }}>
       {task.rewardString}
