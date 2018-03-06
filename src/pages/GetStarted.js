@@ -99,7 +99,7 @@ export default class GetStarted extends Component {
             <List.Item as="li">
               Basically when you click "Submit" or "Add" in Distense you will
               get popup allowing you to adjust the Ethereum gas consumed and gas
-              price of each transaction. We suggest setting the gas price low,
+              price of each transaction (<a href="https://media.consensys.net/ethereum-gas-fuel-and-fees-3333e17fe1dc">What is Ethereum gas?</a>). We suggest setting the gas price low,
               to ~5 GWEI, as most Distense transactions are not time-sensitive.
               An exception is when you are submitting a pull request and are
               concerned about someone submitting one before you.
