@@ -1,15 +1,13 @@
+import _ from 'lodash'
+import { combineReducers } from 'redux'
+
 const TASK_REQUEST = 'TASK_REQUEST'
 const TASK_RECEIVE = 'TASK_RECEIVE'
 const TASK_SELECT = 'TASK_SELECT'
 const TASK_SUBMIT = 'TASK_SUBMIT'
-const TASKS_SET_NUM = 'TASK_SET_NUM'
-
-import _ from 'lodash'
-import { combineReducers } from 'redux'
-
 const TASKS_REQUEST = 'TASKS_REQUEST'
 const TASKS_RECEIVE = 'TASKS_RECEIVE'
-
+const TASKS_SET_NUM = 'TASK_SET_NUM'
 const TASKS_REQUEST_INSTANCE = 'TASKS_REQUEST_INSTANCE'
 const TASKS_RECEIVE_INSTANCE = 'TASKS_RECEIVE_INSTANCE'
 const TASK_SUBMIT_REWARD_VOTE = 'TASK_SUBMIT_REWARD_VOTE'

@@ -1,19 +1,19 @@
 import { combineReducers } from 'redux'
 
 // User/web3
-export const RECEIVE_ACCOUNT = 'RECEIVE_ACCOUNT'
-export const RECEIVE_ACCOUNTS = 'RECEIVE_ACCOUNTS'
-export const RECEIVE_HAS_WEB3 = 'RECEIVE_HAS_WEB3'
+export const ACCOUNT_RECEIVE = 'ACCOUNT_RECEIVE'
+export const ACCOUNTS_RECEIVE = 'ACCOUNTS_RECEIVE'
+export const HAS_WEB3_RECEIVE = 'HAS_WEB3_RECEIVE'
 // export const RECEIVE_IS_CONNECTED = 'RECEIVE_IS_CONNECTED'
-export const RECEIVE_ACCOUNT_UNLOCKED = 'RECEIVE_ACCOUNT_UNLOCKED'
-export const RECEIVE_COINBASE = 'RECEIVE_COINBASE'
-export const RECEIVE_ACCOUNT_TRANSACTIONS = 'RECEIVE_ACCOUNT_TRANSACTIONS'
-export const RECEIVE_USER_NOT_AUTHENTICATED = 'RECEIVE_USER_NOT_AUTHENTICATED'
-export const RECEIVE_USER_NUM_DID = 'RECEIVE_USER_NUM_DID'
-export const RECEIVE_TOTAL_SUPPLY_DID = 'RECEIVE_TOTAL_SUPPLY_DID'
-export const RECEIVE_NETWORK = 'RECEIVE_NETWORK'
-export const RECEIVE_USER_NUM_ETHER = 'RECEIVE_USER_NUM_ETHER'
-export const RECEIVE_BANK_ACCOUNT_NUM_ETHER = 'RECEIVE_BANK_ACCOUNT_NUM_ETHER'
+export const ACCOUNT_UNLOCKED_RECEIVE = 'ACCOUNT_UNLOCKED_RECEIVE'
+export const COINBASE_RECEIVE = 'COINBASE_RECEIVE'
+export const ACCOUNT_TRANSACTIONS_RECEIVE = 'ACCOUNT_TRANSACTIONS_RECEIVE'
+export const USER_NOT_AUTHENTICATED_RECEIVE = 'USER_NOT_AUTHENTICATED_RECEIVE'
+export const USER_NUM_DID_RECEIVE = 'USER_NUM_DID_RECEIVE'
+export const TOTAL_SUPPLY_DID_RECEIVE = 'TOTAL_SUPPLY_DID_RECEIVE'
+export const NETWORK_RECEIVE = 'NETWORK_RECEIVE'
+export const USER_NUM_ETHER_RECEIVE = 'USER_NUM_ETHER_RECEIVE'
+export const BANK_ACCOUNT_NUM_ETHER_RECEIVE = 'BANK_ACCOUNT_NUM_ETHER_RECEIVE'
 export const RECEIVE_NUM_DID_USER_MAY_EXCHANGE =
   'RECEIVE_NUM_DID_USER_MAY_EXCHANGE'
 export const RECEIVE_NUM_ETHER_USER_MAY_INVEST =
@@ -31,23 +31,23 @@ const user = (
   action
 ) => {
   switch (action.type) {
-    case RECEIVE_HAS_WEB3:
+    case HAS_WEB3_RECEIVE:
       return Object.assign({}, state, {
         hasWeb3: true
       })
-    case RECEIVE_ACCOUNT_UNLOCKED:
+    case ACCOUNT_UNLOCKED_RECEIVE:
       return Object.assign({}, state, {
         accountUnlocked: action.accountUnlocked
       })
-    case RECEIVE_USER_NUM_DID:
+    case USER_NUM_DID_RECEIVE:
       return Object.assign({}, state, {
         numDID: action.numDIDOwned
       })
-    case RECEIVE_USER_NUM_ETHER:
+    case USER_NUM_ETHER_RECEIVE:
       return Object.assign({}, state, {
         numEther: action.numEther
       })
-    case RECEIVE_NETWORK:
+    case NETWORK_RECEIVE:
       return Object.assign({}, state, {
         network: action.network
       })
@@ -67,7 +67,7 @@ const user = (
 
 const accountByAddress = (state = {}, action) => {
   switch (action.type) {
-    case RECEIVE_ACCOUNTS:
+    case ACCOUNTS_RECEIVE:
       return {
         ...state,
         ...(action.accounts || []).reduce((obj, account) => {
@@ -82,7 +82,7 @@ const accountByAddress = (state = {}, action) => {
 
 const accounts = (state = [], action) => {
   switch (action.type) {
-    case RECEIVE_ACCOUNT:
+    case ACCOUNT_RECEIVE:
       return [...state, action.account]
     default:
       return state
@@ -91,7 +91,7 @@ const accounts = (state = [], action) => {
 
 const transactions = (state = [], action) => {
   switch (action.type) {
-    case RECEIVE_ACCOUNT_TRANSACTIONS:
+    case ACCOUNT_TRANSACTIONS_RECEIVE:
       return (action.transactions || []).map(transaction => transaction)
     default:
       return state

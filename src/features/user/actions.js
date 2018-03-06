@@ -1,42 +1,42 @@
 import * as contracts from '../../contracts'
 
 import {
-  RECEIVE_ACCOUNT,
-  RECEIVE_HAS_WEB3,
-  RECEIVE_NETWORK,
-  RECEIVE_USER_NOT_AUTHENTICATED,
-  RECEIVE_USER_NUM_DID,
-  RECEIVE_USER_NUM_ETHER,
+  ACCOUNT_RECEIVE,
+  HAS_WEB3_RECEIVE,
+  NETWORK_RECEIVE,
+  USER_NOT_AUTHENTICATED_RECEIVE,
+  USER_NUM_DID_RECEIVE,
+  USER_NUM_ETHER_RECEIVE,
   RECEIVE_NUM_DID_USER_MAY_EXCHANGE
 } from './reducers'
 
 import { setDefaultStatus } from '../status/actions'
 
 const receiveAccountAction = account => ({
-  type: RECEIVE_ACCOUNT,
+  type: ACCOUNT_RECEIVE,
   account
 })
 
 const receiveHasWeb3 = () => ({
-  type: RECEIVE_HAS_WEB3
+  type: HAS_WEB3_RECEIVE
 })
 
 export const receiveNetwork = network => ({
-  type: RECEIVE_NETWORK,
+  type: NETWORK_RECEIVE,
   network
 })
 
 export const receiveUserNotAuthenticated = () => ({
-  type: RECEIVE_USER_NOT_AUTHENTICATED
+  type: USER_NOT_AUTHENTICATED_RECEIVE
 })
 
 export const receiveAccountNumDID = numDIDOwned => ({
-  type: RECEIVE_USER_NUM_DID,
+  type: USER_NUM_DID_RECEIVE,
   numDIDOwned
 })
 
 export const receiveAccountNumEther = numEther => ({
-  type: RECEIVE_USER_NUM_ETHER,
+  type: USER_NUM_ETHER_RECEIVE,
   numEther
 })
 
