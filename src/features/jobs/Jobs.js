@@ -2,8 +2,8 @@ import React from 'react'
 import { Container, Grid, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
-import Head from '../components/common/Head'
-import PageTitling from '../components/common/PageTitling'
+import Head from '../../components/common/Head'
+import PageTitling from '../../components/common/PageTitling'
 
 export default () => {
   return (

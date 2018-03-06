@@ -6,7 +6,7 @@ import { Grid } from 'semantic-ui-react'
 
 import Head from '../../../src/components/common/Head'
 
-import { Events } from '../../../src/pages/Events'
+import { Events } from '../../../src/features/Events'
 
 describe('<Events /> page component', function() {
   let wrapper

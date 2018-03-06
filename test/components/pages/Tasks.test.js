@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 
 import { Table } from 'semantic-ui-react'
-import { Tasks } from '../../../src/pages/Tasks'
+import { Tasks } from '../../../src/featuresTasks'
 import Head from '../../../src/components/common/Head'
 
 describe('<Tasks /> page component', function() {

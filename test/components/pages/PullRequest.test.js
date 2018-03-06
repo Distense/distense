@@ -6,7 +6,7 @@ import { expect } from 'chai'
 import { Button, Item, Grid, Header, Message } from 'semantic-ui-react'
 
 import Head from '../../../src/components/common/Head'
-import { PullRequest } from '../../../src/pages/PullRequest'
+import { PullRequest } from '../../../src/features/PullRequest'
 
 describe('<PullRequest /> page component', function() {
   let wrapper

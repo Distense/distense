@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import renderer from 'react-test-renderer'
-import { AddTask } from '../../../src/pages/AddTask'
+import { AddTask } from '../../../src/features/AddTask'
 
 function setup(numDIDRequiredToAddTask = null) {
   const props = {

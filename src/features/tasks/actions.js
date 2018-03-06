@@ -1,56 +1,56 @@
 import _ from 'lodash'
-import * as contracts from '../contracts'
+import * as contracts from '../../contracts'
 
-import { getParameterValueByTitle } from '../reducers/parameters'
+import { getParameterValueByTitle } from '../../reducers/parameters'
 import { receiveUserNotAuthenticated } from './user'
 import { setDefaultStatus, updateStatusMessage } from './status'
 import {
-  REQUEST_TASK,
-  RECEIVE_TASK,
-  REQUEST_TASKS,
-  RECEIVE_TASKS,
+  TASK_REQUEST,
+  TASK_RECEIVE,
+  TASKS_REQUEST,
+  TASKS_RECEIVE,
   SET_NUM_TASKS,
-  SELECT_TASK,
-  REQUEST_TASKS_INSTANCE,
-  RECEIVE_TASKS_INSTANCE
+  TASK_SELECT,
+  TASKS_REQUEST_INSTANCE,
+  TASKS_RECEIVE_INSTANCE
 } from '../constants/actionTypes'
 import { constructClientTask } from '../helpers/tasks/constructClientTask'
 import { encodeTaskMetaDataToBytes32 } from '../helpers/tasks/encodeTaskMetaDataToBytes32'
 import { convertIntToSolidityInt } from '../utils'
 import { getGasPrice } from '../helpers/getGasPrice'
 import { DID_PER_ETHER_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
-import { store } from '../store'
+import { store } from '../../store'
 
 const requestTasks = () => ({
-  type: REQUEST_TASKS
+  type: TASKS_REQUEST
 })
 
 const receiveTasks = tasks => ({
-  type: RECEIVE_TASKS,
+  type: TASKS_RECEIVE,
   tasks
 })
 
 const requestTask = id => ({
-  type: REQUEST_TASK,
+  type: TASK_REQUEST,
   id
 })
 
 const receiveTask = task => ({
-  type: RECEIVE_TASK,
+  type: TASK_RECEIVE,
   task
 })
 
 export const selectTask = id => ({
-  type: SELECT_TASK,
+  type: TASK_SELECT,
   id
 })
 
 export const requestTasksInstance = () => ({
-  type: REQUEST_TASKS_INSTANCE
+  type: TASKS_REQUEST_INSTANCE
 })
 
 export const receiveTasksInstance = () => ({
-  type: RECEIVE_TASKS_INSTANCE
+  type: TASKS_RECEIVE_INSTANCE
 })
 
 export const setNumTasks = numTasks => ({

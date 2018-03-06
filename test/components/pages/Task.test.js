@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store'
 import renderer from 'react-test-renderer'
 import moment from 'moment-timezone'
 
-import { Task } from '../../../src/pages/Task'
+import { Task } from '../../../src/featuresTask'
 
 jest.useFakeTimers()
 

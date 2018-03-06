@@ -1,15 +1,29 @@
 import _ from 'lodash'
 import { combineReducers } from 'redux'
 
-import {
-  RECEIVE_PULLREQUESTS,
-  RECEIVE_PULLREQUEST,
-  SUBMIT_PULLREQUEST
-} from '../constants/actionTypes'
+const PULLREQUEST_REQUEST = 'PULLREQUEST_REQUEST'
+const PULLREQUEST_RECEIVE = 'PULLREQUEST_RECEIVE'
+const PULLREQUESTS_RECEIVE = 'PULLREQUESTS_RECEIVE'
+const PULLREQUESTS_REQUEST = 'PULLREQUESTS_REQUEST'
+const PULLREQUEST_SUBMIT = 'PULLREQUEST_SUBMIT'
+const PULLREQUESTS_REQUEST_INSTANCE = 'PULLREQUESTS_REQUEST_INSTANCE'
+const PULLREQUESTS_RECEIVE_INSTANCE = 'PULLREQUESTS_RECEIVE_INSTANCE'
+const PULLREQUESTS_RECEIVE_NUM = 'PULLREQUESTS_RECEIVE_NUM'
+
+export {
+  PULLREQUEST_REQUEST,
+  PULLREQUESTS_RECEIVE,
+  PULLREQUESTS_REQUEST,
+  PULLREQUEST_RECEIVE,
+  PULLREQUEST_SUBMIT,
+  PULLREQUESTS_REQUEST_INSTANCE,
+  PULLREQUESTS_RECEIVE_INSTANCE,
+  PULLREQUESTS_RECEIVE_NUM
+}
 
 const pullRequestById = (state = {}, action) => {
   switch (action.type) {
-    case RECEIVE_PULLREQUESTS:
+    case PULLREQUESTS_RECEIVE:
       return {
         ...state,
         ...(action.pullRequests || []).reduce((obj, pullRequest) => {
@@ -17,14 +31,14 @@ const pullRequestById = (state = {}, action) => {
           return obj
         }, {})
       }
-    case RECEIVE_PULLREQUEST:
+    case PULLREQUEST_RECEIVE:
       return action.pullRequest
         ? {
             ...state,
             [action.pullRequest._id]: action.pullRequest
           }
         : state
-    case SUBMIT_PULLREQUEST:
+    case PULLREQUEST_SUBMIT:
       return action.pullRequest
         ? {
             ...state,
@@ -41,11 +55,11 @@ const pullRequestById = (state = {}, action) => {
 
 const pullRequests = (state = [], action) => {
   switch (action.type) {
-    case RECEIVE_PULLREQUESTS:
+    case PULLREQUESTS_RECEIVE:
       const newPullRequestIds = action.pullRequests.map(({ _id }) => _id)
       return [..._.pullAll(state, newPullRequestIds), ...newPullRequestIds]
-    case RECEIVE_PULLREQUEST:
-    case SUBMIT_PULLREQUEST:
+    case PULLREQUEST_RECEIVE:
+    case PULLREQUEST_SUBMIT:
       if (!action.pullRequest) return state
       const { _id } = action.pullRequest
       return [..._.pull(state, _id), _id]
@@ -56,9 +70,9 @@ const pullRequests = (state = [], action) => {
 
 const pendingPullRequestId = (state = null, action) => {
   switch (action.type) {
-    case SUBMIT_PULLREQUEST:
+    case PULLREQUEST_SUBMIT:
       return action.pullRequest._id
-    case RECEIVE_PULLREQUEST:
+    case PULLREQUEST_RECEIVE:
       return action.pullRequest && state === action.pullRequest._id
         ? null
         : state

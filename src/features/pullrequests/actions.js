@@ -5,11 +5,11 @@ import * as contracts from '../contracts'
 import {
   REQUEST_PULLREQUESTS,
   REQUEST_PULLREQUESTS_INSTANCE,
-  RECEIVE_PULLREQUESTS_INSTANCE,
-  RECEIVE_PULLREQUESTS,
+  PULLREQUESTS_RECEIVE_INSTANCE,
+  PULLREQUESTS_RECEIVE,
   REQUEST_PULLREQUEST,
-  RECEIVE_PULLREQUEST,
-  SET_NUM_PULLREQUESTS
+  PULLREQUEST_RECEIVE,
+  PULLREQUESTS_RECEIVE_NUM
 } from '../constants/actionTypes'
 
 import { constructInitialPullRequest } from '../helpers/pullRequests/constructInitialPullRequest'
@@ -31,11 +31,11 @@ const requestPullRequestsInstance = () => ({
 })
 
 const receivePullRequestsInstance = () => ({
-  type: RECEIVE_PULLREQUESTS_INSTANCE
+  type: PULLREQUESTS_RECEIVE_INSTANCE
 })
 
 const receivePullRequests = pullRequests => ({
-  type: RECEIVE_PULLREQUESTS,
+  type: PULLREQUESTS_RECEIVE,
   pullRequests
 })
 
@@ -45,12 +45,12 @@ const requestPullRequest = id => ({
 })
 
 const receivePullRequest = pullRequest => ({
-  type: RECEIVE_PULLREQUEST,
+  type: PULLREQUEST_RECEIVE,
   pullRequest
 })
 
 const setNumPullRequests = numPullRequests => ({
-  type: SET_NUM_PULLREQUESTS,
+  type: PULLREQUESTS_RECEIVE_NUM,
   numPullRequests
 })
 

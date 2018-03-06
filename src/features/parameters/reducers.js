@@ -1,11 +1,14 @@
 import { combineReducers } from 'redux'
 import _ from 'lodash'
 
-import { RECEIVE_PARAMETERS } from '../constants/actionTypes'
+// Parameters
+export const PARAMETERS_REQUEST = 'PARAMETERS_REQUEST'
+export const PARAMETERS_RECEIVE = 'PARAMETERS_RECEIVE'
+export const RECEIVE_EVENT = 'RECEIVE_EVENT'
 
 const parameters = (state = [], action) => {
   switch (action.type) {
-    case RECEIVE_PARAMETERS:
+    case PARAMETERS_RECEIVE:
       return [..._.pullAll(state, parameters), ...action.parameters]
     default:
       return state
@@ -14,7 +17,7 @@ const parameters = (state = [], action) => {
 
 const parameterValueByTitle = (state = {}, action) => {
   switch (action.type) {
-    case RECEIVE_PARAMETERS:
+    case PARAMETERS_RECEIVE:
       return {
         ...state,
         ...(action.parameters || []).reduce((obj, parameter) => {

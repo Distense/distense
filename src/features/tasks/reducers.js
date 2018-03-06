@@ -1,17 +1,33 @@
 import _ from 'lodash'
 import { combineReducers } from 'redux'
 
-import {
-  RECEIVE_TASKS,
-  RECEIVE_TASK,
-  SELECT_TASK,
-  SET_NUM_TASKS,
-  SUBMIT_TASK
-} from '../constants/actionTypes'
+const TASKS_REQUEST = 'TASKS_REQUEST'
+const TASKS_RECEIVE = 'TASKS_RECEIVE'
+const TASK_REQUEST = 'TASK_REQUEST'
+const TASK_RECEIVE = 'TASK_RECEIVE'
+const TASK_SELECT = 'TASK_SELECT'
+const SUBMIT_TASK = 'SUBMIT_TASK'
+const TASKS_SET_NUM = 'SET_NUM_TASKS'
+const TASKS_REQUEST_INSTANCE = 'TASKS_REQUEST_INSTANCE'
+const TASKS_RECEIVE_INSTANCE = 'TASKS_RECEIVE_INSTANCE'
+const TASK_SUBMIT_REWARD_VOTE = 'TASK_SUBMIT_REWARD_VOTE'
+
+export {
+  TASKS_REQUEST,
+  TASKS_RECEIVE,
+  TASK_REQUEST,
+  TASK_RECEIVE,
+  TASK_SELECT,
+  SUBMIT_TASK,
+  TASKS_SET_NUM,
+  TASKS_REQUEST_INSTANCE,
+  TASKS_RECEIVE_INSTANCE,
+  TASK_SUBMIT_REWARD_VOTE
+}
 
 const taskById = (state = {}, action) => {
   switch (action.type) {
-    case RECEIVE_TASKS:
+    case TASKS_RECEIVE:
       return {
         ...state,
         ...(action.tasks || []).reduce((obj, task) => {
@@ -19,7 +35,7 @@ const taskById = (state = {}, action) => {
           return obj
         }, {})
       }
-    case RECEIVE_TASK:
+    case TASK_RECEIVE:
       return action.task
         ? {
             ...state,
@@ -43,10 +59,10 @@ const taskById = (state = {}, action) => {
 
 const tasks = (state = [], action) => {
   switch (action.type) {
-    case RECEIVE_TASKS:
+    case TASKS_RECEIVE:
       const newTaskIds = action.tasks.map(({ _id }) => _id)
       return [..._.pullAll(state, newTaskIds), ...newTaskIds]
-    case RECEIVE_TASK:
+    case TASK_RECEIVE:
     case SUBMIT_TASK:
       if (!action.task) return state
       const { _id } = action.task
@@ -58,7 +74,7 @@ const tasks = (state = [], action) => {
 
 const numTasks = (state = 0, action) => {
   switch (action.type) {
-    case SET_NUM_TASKS:
+    case TASKS_SET_NUM:
       return action.numTasks
     default:
       return state
@@ -67,7 +83,7 @@ const numTasks = (state = 0, action) => {
 
 const selectedTask = (state = null, action) => {
   switch (action.type) {
-    case SELECT_TASK:
+    case TASK_SELECT:
       return action.id
     default:
       return state
@@ -78,7 +94,7 @@ const pendingTaskId = (state = null, action) => {
   switch (action.type) {
     case SUBMIT_TASK:
       return action.task._id
-    case RECEIVE_TASK:
+    case TASK_RECEIVE:
       return action.task && state === action.task._id ? null : state
     default:
       return state

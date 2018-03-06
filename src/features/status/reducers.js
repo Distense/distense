@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux'
 
-import * as actions from '../constants/actionTypes'
+import { SUBMIT_TASK, TASK_RECEIVE } from './tasks'
+
+export const SET_DEFAULT_STATUS = 'SET_DEFAULT_STATUS'
+export const SET_STATUS_MESSAGE = 'SET_STATUS_MESSAGE'
+export const RECEIVE_NUM_DID_EXCHANGEABLE = 'RECEIVE_NUM_DID_EXCHANGEABLE'
 
 /**
  * Standard redux reducer used to control the state of Status component that is always located in footer.  Basically the idea is to update the user
@@ -34,102 +38,102 @@ const status = (
   action
 ) => {
   switch (action.type) {
-    case actions.SUBMIT_TASK:
+    case action.SUBMIT_TASK:
       return Object.assign({}, state, {
         message: 'Adding task to blockchain',
         txSubmitted: true
       })
-    case actions.RECEIVE_ACCOUNT:
+    case action.RECEIVE_ACCOUNT:
       return Object.assign({}, state, {
         message: `Received account address: ${action.address}`
       })
-    case actions.RECEIVE_TASK:
+    case action.TASK_RECEIVE:
       return Object.assign({}, state, {
         message: 'Received a task'
       })
-    case actions.SUBMIT_REWARD_VOTE:
+    case action.TASK_SUBMIT_REWARD_VOTE:
       return Object.assign({}, state, {
         message: 'Submitting task reward vote to tasks contract',
         txSubmitted: true
       })
-    case actions.RECEIVE_TASKS:
+    case action.TASKS_RECEIVE:
       return Object.assign({}, state, {
         message: 'Received tasks'
       })
-    case actions.RECEIVE_PARAMETERS:
+    case action.PARAMETERS_RECEIVE:
       return Object.assign({}, state, {
         message: 'Received parameters'
       })
-    case actions.REQUEST_PULLREQUESTS_INSTANCE:
+    case action.REQUEST_PULLREQUESTS_INSTANCE:
       return Object.assign({}, state, {
         message: 'Awaiting pull requests contract'
       })
-    case actions.RECEIVE_PULLREQUESTS_INSTANCE:
+    case action.RECEIVE_PULLREQUESTS_INSTANCE:
       return Object.assign({}, state, {
         message: 'Received pull requests contract'
       })
-    case actions.SUBMIT_PULLREQUEST:
+    case action.SUBMIT_PULLREQUEST:
       return Object.assign({}, state, {
         message: 'Adding pull request to blockchain',
         txSubmitted: true
       })
-    case actions.RECEIVE_PULLREQUESTS:
+    case action.RECEIVE_PULLREQUESTS:
       return Object.assign({}, state, {
         message: 'Received pull requests'
       })
-    case actions.RECEIVE_PULLREQUEST:
+    case action.RECEIVE_PULLREQUEST:
       return Object.assign({}, state, {
         message: 'Received pull request'
       })
-    case actions.RECEIVE_HAS_WEB3:
+    case action.RECEIVE_HAS_WEB3:
       return Object.assign({}, state, {
         message: 'Found web3 instance'
       })
-    case actions.RECEIVE_IS_CONNECTED:
+    case action.RECEIVE_IS_CONNECTED:
       return Object.assign({}, state, {
         message: 'Connected to web3'
       })
-    case actions.RECEIVE_COINBASE:
+    case action.RECEIVE_COINBASE:
       return Object.assign({}, state, {
         message: 'Verified coinbase address'
       })
-    case actions.REQUEST_TASKS_INSTANCE:
+    case action.TASKS_REQUEST_INSTANCE:
       return Object.assign({}, state, {
         message: 'Awaiting tasks contract'
       })
-    case actions.RECEIVE_TASKS_INSTANCE:
+    case action.TASKS_RECEIVE_INSTANCE:
       return Object.assign({}, state, {
         message: 'Received tasks contract'
       })
-    case actions.RECEIVE_USER_NOT_AUTHENTICATED:
+    case action.RECEIVE_USER_NOT_AUTHENTICATED:
       return Object.assign({}, state, {
         message: "Can't submit transaction. Not authenticated"
       })
-    case actions.SET_DEFAULT_STATUS:
+    case action.SET_DEFAULT_STATUS:
       return Object.assign({}, state, {
         message: 'idle',
         txSubmitted: false
       })
-    case actions.SET_STATUS_MESSAGE:
+    case action.SET_STATUS_MESSAGE:
       return Object.assign({}, state, {
         message: action.text
       })
 
-    case actions.SET_NUM_PULLREQUESTS:
+    case action.SET_NUM_PULLREQUESTS:
       return Object.assign({}, state, {
         message: `Found ${action.numPullRequests} pull requests`,
         numPullRequests: action.numPullRequests
       })
-    case actions.SET_NUM_TASKS:
+    case action.SET_NUM_TASKS:
       return Object.assign({}, state, {
         message: `Found ${action.numTasks} tasks`,
         numTasks: action.numTasks
       })
-    case actions.RECEIVE_TOTAL_SUPPLY_DID:
+    case action.RECEIVE_TOTAL_SUPPLY_DID:
       return Object.assign({}, state, {
         message: 'Awaiting total supply of DID'
       })
-    case actions.RECEIVE_EVENT:
+    case action.RECEIVE_EVENT:
       return Object.assign({}, state, {
         message: 'Received new event'
       })
@@ -146,7 +150,7 @@ const txs = (
   action
 ) => {
   switch (action.type) {
-    case actions.RECEIVE_TASK:
+    case action.TASK_RECEIVE:
       return Object.assign({}, state, {
         message: 'Received a task'
       })
@@ -166,16 +170,16 @@ const distense = (
   action
 ) => {
   switch (action.type) {
-    case actions.RECEIVE_TOTAL_SUPPLY_DID:
+    case action.RECEIVE_TOTAL_SUPPLY_DID:
       return Object.assign({}, state, {
         totalSupplyDID: action.totalSupplyDID
       })
-    case actions.RECEIVE_BANK_ACCOUNT_NUM_ETHER:
+    case action.RECEIVE_BANK_ACCOUNT_NUM_ETHER:
       return Object.assign({}, state, {
         numBankAccountEther: action.numBankAccountEther
       })
 
-    case actions.RECEIVE_NUM_DID_EXCHANGEABLE:
+    case action.RECEIVE_NUM_DID_EXCHANGEABLE:
       return Object.assign({}, state, {
         numDIDExchangeAbleTotal: action.numDIDExchangeAbleTotal
       })

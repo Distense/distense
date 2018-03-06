@@ -3,8 +3,8 @@ import web3Utils from 'web3-utils'
 import { BigNumber } from 'bignumber.js'
 
 import {
-  REQUEST_PARAMETERS,
-  RECEIVE_PARAMETERS,
+  PARAMETERS_REQUEST,
+  PARAMETERS_RECEIVE,
   RECEIVE_BANK_ACCOUNT_NUM_ETHER,
   RECEIVE_NUM_DID_EXCHANGEABLE,
   RECEIVE_NUM_ETHER_USER_MAY_INVEST
@@ -19,14 +19,14 @@ import { convertSolidityIntToInt } from '../utils'
 import { store } from '../store'
 import { getParameterValueByTitle } from '../reducers/parameters'
 import { DID_PER_ETHER_PARAMETER_TITLE } from '../constants/parameters/parameterTitles'
-import { receiveNumDIDUserMayExchange } from '../actions/user'
+import { receiveNumDIDUserMayExchange } from '../action/user'
 
 const requestParameters = () => ({
-  type: REQUEST_PARAMETERS
+  type: PARAMETERS_REQUEST
 })
 
 const receiveParameters = parameters => ({
-  type: RECEIVE_PARAMETERS,
+  type: PARAMETERS_RECEIVE,
   parameters
 })
 

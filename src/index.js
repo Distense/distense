@@ -8,9 +8,9 @@ import Web3 from 'web3'
 import { store } from './store'
 import { Routes } from './routes'
 
-import { selectUserAccountInfo } from './actions/user'
-import { getContractEvents } from './actions/events'
-import { fetchParameters } from './actions/parameters'
+import { selectUserAccountInfo } from './features/user/actions'
+import { getContractEvents } from './features/events/actions'
+import { fetchParameters } from './features/parameters/actions'
 
 export const App = () => (
   <Provider store={store}>

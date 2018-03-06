@@ -7,7 +7,7 @@ import { Button, Form, Grid, Header, Message } from 'semantic-ui-react'
 
 import Head from '../../../src/components/common/Head'
 
-import { AddPullRequest } from '../../../src/pages/AddPullRequest'
+import { AddPullRequest } from '../../../src/features/AddPullRequest'
 
 describe('<AddPullRequest /> page component', function() {
   let wrapper
