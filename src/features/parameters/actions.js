@@ -15,14 +15,12 @@ import { getParameterValueByTitle } from '../parameters/reducers'
 import { DID_PER_ETHER_PARAMETER_TITLE } from '../parameters/operations/parameterTitles'
 import { receiveNumDIDUserMayExchange } from '../user/actions'
 
-const RECEIVE_BANK_ACCOUNT_NUM_ETHER = 'RECEIVE_BANK_ACCOUNT_NUM_ETHER'
-
 const RECEIVE_NUM_DID_EXCHANGEABLE = 'RECEIVE_NUM_DID_EXCHANGEABLE'
-
+const BANK_ACCOUNT_NUM_ETHER_RECEIVE = 'BANK_ACCOUNT_NUM_ETHER_RECEIVE'
 const RECEIVE_NUM_ETHER_USER_MAY_INVEST = 'RECEIVE_NUM_ETHER_USER_MAY_INVEST'
 
 export const receiveBankAccountNumEther = numBankAccountEther => ({
-  type: RECEIVE_BANK_ACCOUNT_NUM_ETHER,
+  type: BANK_ACCOUNT_NUM_ETHER_RECEIVE,
   numBankAccountEther
 })
 
@@ -94,7 +92,9 @@ export const fetchParameters = () => async dispatch => {
         console.log(
           `DIDToken contract bank account balance: ${didTokenContractEtherBalance} ether`
         )
-        dispatch(receiveBankAccountNumEther(didTokenContractEtherBalance))
+        dispatch(
+          receiveBankAccountNumEther(didTokenContractEtherBalance.toString())
+        )
 
         const didPerEther = getParameterValueByTitle(
           store.getState(),
@@ -106,9 +106,9 @@ export const fetchParameters = () => async dispatch => {
         )
         dispatch(receiveNumDIDExchangeAbleTotal(numDIDExchangeAbleTotal))
 
-        const numDIDOwned = store.getState().user.user.numDID
+        const numDIDOwned = store.getState().user.numDID
         if (numDIDOwned) {
-          const totalDIDExchangeAble = store.getState().status.distense
+          const totalDIDExchangeAble = store.getState().distense
             .numDIDExchangeAbleTotal
           console.log(`total DID exchangeable: ${totalDIDExchangeAble}`)
 

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import { fetchTotalSupplyDID } from '../status/actions'
-import { getTotalSupplyDID } from '../status/reducers'
+import { fetchTotalSupplyDID } from '../distense/actions'
+import { getTotalSupplyDID } from '../distense/reducers'
 
 export class DIDOwnership extends Component {
   componentDidMount() {

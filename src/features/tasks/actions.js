@@ -95,6 +95,7 @@ export const getTaskByID = async taskId => {
       store.getState(),
       DID_PER_ETHER_PARAMETER_TITLE
     )
+
     return constructClientTask(taskId, contractTask, didPerEtherValue)
   } catch (error) {
     console.error(error)

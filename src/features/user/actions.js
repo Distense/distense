@@ -7,7 +7,7 @@ import {
   USER_NOT_AUTHENTICATED_RECEIVE,
   USER_NUM_DID_RECEIVE,
   USER_NUM_ETHER_RECEIVE,
-  RECEIVE_NUM_DID_USER_MAY_EXCHANGE
+  NUM_DID_USER_MAY_EXCHANGE_RECEIVE
 } from './reducers'
 
 import { setDefaultStatus } from '../status/actions'
@@ -46,11 +46,11 @@ export const getNumDIDByAddress = async address => {
 }
 
 export const receiveNumDIDUserMayExchange = numDIDUserMayExchange => ({
-  type: RECEIVE_NUM_DID_USER_MAY_EXCHANGE,
+  type: NUM_DID_USER_MAY_EXCHANGE_RECEIVE,
   numDIDUserMayExchange
 })
 
-export const selectUserAccountInfo = () => async dispatch => {
+export const fetchUserAccountInfo = () => async dispatch => {
   /*global web3 */
   const hasWeb3 = window.web3 !== undefined
   let isConnected = false
@@ -61,20 +61,17 @@ export const selectUserAccountInfo = () => async dispatch => {
       const accounts = web3.eth.accounts
       const network = web3.version.network
       dispatch(receiveNetwork(network))
+
       if (accounts && accounts.length) {
         const coinbase = accounts[0]
         dispatch(receiveAccountAction(coinbase))
-        let numDIDOwned = await getNumDIDByAddress(coinbase)
-        numDIDOwned = numDIDOwned.toString()
+
+        const numDIDOwned = await getNumDIDByAddress(coinbase)
+        dispatch(receiveAccountNumDID(numDIDOwned.toString()))
+
         console.log(`coinbase: ${coinbase}`)
         console.log(`coinbase owns: ${numDIDOwned} DID`)
-        dispatch(receiveAccountNumDID(numDIDOwned))
-
-        web3.eth.getBalance(coinbase, (err, numEther) => {
-          numEther = web3.fromWei(numEther)
-          console.log(`coinbase owns: ${numEther} ether`)
-          dispatch(receiveAccountNumEther(numEther.toString()))
-        })
+        receiveAccountBalance(coinbase, dispatch)
       } else {
         console.error(`no accounts found`)
       }
@@ -82,4 +79,12 @@ export const selectUserAccountInfo = () => async dispatch => {
   }
   dispatch(receiveHasWeb3(hasWeb3))
   dispatch(setDefaultStatus())
+}
+
+function receiveAccountBalance(coinbase, dispatch) {
+  window.web3.eth.getBalance(coinbase, (err, numEther) => {
+    numEther = web3.fromWei(numEther)
+    console.log(`coinbase owns: ${numEther} ether`)
+    dispatch(receiveAccountNumEther(numEther.toString()))
+  })
 }

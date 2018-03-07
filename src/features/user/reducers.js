@@ -1,23 +1,20 @@
 import { combineReducers } from 'redux'
 
-// User/web3
 export const ACCOUNT_RECEIVE = 'ACCOUNT_RECEIVE'
 export const ACCOUNTS_RECEIVE = 'ACCOUNTS_RECEIVE'
 export const HAS_WEB3_RECEIVE = 'HAS_WEB3_RECEIVE'
-// export const RECEIVE_IS_CONNECTED = 'RECEIVE_IS_CONNECTED'
 export const ACCOUNT_UNLOCKED_RECEIVE = 'ACCOUNT_UNLOCKED_RECEIVE'
 export const COINBASE_RECEIVE = 'COINBASE_RECEIVE'
 export const ACCOUNT_TRANSACTIONS_RECEIVE = 'ACCOUNT_TRANSACTIONS_RECEIVE'
 export const USER_NOT_AUTHENTICATED_RECEIVE = 'USER_NOT_AUTHENTICATED_RECEIVE'
 export const USER_NUM_DID_RECEIVE = 'USER_NUM_DID_RECEIVE'
-export const TOTAL_SUPPLY_DID_RECEIVE = 'TOTAL_SUPPLY_DID_RECEIVE'
+
 export const NETWORK_RECEIVE = 'NETWORK_RECEIVE'
 export const USER_NUM_ETHER_RECEIVE = 'USER_NUM_ETHER_RECEIVE'
-export const BANK_ACCOUNT_NUM_ETHER_RECEIVE = 'BANK_ACCOUNT_NUM_ETHER_RECEIVE'
-export const RECEIVE_NUM_DID_USER_MAY_EXCHANGE =
-  'RECEIVE_NUM_DID_USER_MAY_EXCHANGE'
-export const RECEIVE_NUM_ETHER_USER_MAY_INVEST =
-  'RECEIVE_NUM_ETHER_USER_MAY_INVEST'
+export const NUM_DID_USER_MAY_EXCHANGE_RECEIVE =
+  'NUM_DID_USER_MAY_EXCHANGE_RECEIVE'
+export const NUM_ETHER_USER_MAY_INVEST_RECEIVE =
+  'NUM_ETHER_USER_MAY_INVEST_RECEIVE'
 
 const user = (
   state = {
@@ -51,11 +48,11 @@ const user = (
       return Object.assign({}, state, {
         network: action.network
       })
-    case RECEIVE_NUM_DID_USER_MAY_EXCHANGE:
+    case NUM_DID_USER_MAY_EXCHANGE_RECEIVE:
       return Object.assign({}, state, {
         numDIDUserMayExchange: action.numDIDUserMayExchange
       })
-    case RECEIVE_NUM_ETHER_USER_MAY_INVEST:
+    case NUM_ETHER_USER_MAY_INVEST_RECEIVE:
       return Object.assign({}, state, {
         numEtherUserMayInvest: action.numEtherUserMayInvest
       })
@@ -113,6 +110,11 @@ const selectTransactionInfo = tx => ({
   from: tx.from,
   to: tx.to
 })
+
+export const getNumDIDUserMayExchange = state =>
+  state.user.user.numDIDUserMayExchange
+export const getNumEtherUserMayInvest = state =>
+  state.user.user.numEtherUserMayInvest
 
 export const getAccounts = state => state.accounts
 export const getCoinbase = state => state.user.accounts[0]

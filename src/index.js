@@ -8,10 +8,10 @@ import Web3 from 'web3'
 import { store } from './store'
 import { Routes } from './routes'
 
-import { selectUserAccountInfo } from './features/user/actions'
+import { fetchUserAccountInfo } from './features/user/actions'
 import { getContractEvents } from './features/events/actions'
 import { fetchParameters } from './features/parameters/actions'
-
+import { fetchTotalSupplyDID } from './features/distense/actions'
 export const App = () => (
   <Provider store={store}>
     <Routes />
@@ -23,9 +23,10 @@ window.addEventListener('load', function() {
     new Web3(window.web3.currentProvider)
   }
 
-  store.dispatch(selectUserAccountInfo())
-  store.dispatch(getContractEvents())
   store.dispatch(fetchParameters())
+  store.dispatch(fetchTotalSupplyDID())
+  store.dispatch(fetchUserAccountInfo())
+  store.dispatch(getContractEvents())
 
   ReactDOM.render(App(), document.getElementById('root'))
   registerServiceWorker()

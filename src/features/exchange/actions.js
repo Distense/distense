@@ -37,10 +37,7 @@ export const exchangeDIDForEther = ({ numDID }) => async (
   return successfulExchange
 }
 
-export const investEtherForDID = ({ numEther }) => async (
-  dispatch,
-  getState
-) => {
+export const investEtherForDID = numEther => async (dispatch, getState) => {
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
