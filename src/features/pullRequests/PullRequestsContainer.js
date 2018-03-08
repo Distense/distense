@@ -8,10 +8,6 @@ import { getIsLoading } from './reducers'
 import { fetchTasks } from '../tasks/actions'
 
 export class PullRequestsContainer extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentWillMount() {
     this.props.fetchPullRequests()
   }
