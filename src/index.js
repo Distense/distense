@@ -9,9 +9,9 @@ import { store } from './store'
 import { Routes } from './routes'
 
 import { fetchUserAccountInfo } from './features/user/actions'
-import { getContractEvents } from './features/events/actions'
-import { fetchParameters } from './features/parameters/actions'
 import { fetchTotalSupplyDID } from './features/distense/actions'
+import { fetchParameters } from './features/parameters/actions'
+
 export const App = () => (
   <Provider store={store}>
     <Routes />
@@ -20,13 +20,15 @@ export const App = () => (
 
 window.addEventListener('load', function() {
   if (typeof window.web3 !== 'undefined') {
-    new Web3(window.web3.currentProvider)
+    new Web3(
+      new Web3.providers.HttpProvider(
+        'https://ropsten.infura.io/7b9DnEAJNDLIo9StzcvI'
+      )
+    )
   }
-
   store.dispatch(fetchParameters())
   store.dispatch(fetchTotalSupplyDID())
   store.dispatch(fetchUserAccountInfo())
-  store.dispatch(getContractEvents())
 
   ReactDOM.render(App(), document.getElementById('root'))
   registerServiceWorker()
