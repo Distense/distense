@@ -81,7 +81,6 @@ export const fetchParameters = () => async dispatch => {
 
     if (network) {
       const didTokenAddress = DIDTokenArtifacts.networks[network].address
-      console.log(`didTokenAddress: ${didTokenAddress}`)
 
       window.web3.eth.getBalance(didTokenAddress, (err, balance) => {
         // let didTokenEtherBalance = new BigNumber(balance)

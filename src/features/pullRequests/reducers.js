@@ -81,10 +81,22 @@ const pendingPullRequestId = (state = null, action) => {
   }
 }
 
+const loading = (state = false, action) => {
+  switch (action.type) {
+    case PULLREQUESTS_REQUEST:
+      return true
+    case PULLREQUESTS_RECEIVE:
+      return false
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   pullRequestById,
   pullRequests,
-  pendingPullRequestId
+  pendingPullRequestId,
+  loading
 })
 
 export const getPullRequest = ({ pullRequests: { pullRequestById } }, _id) =>
@@ -97,3 +109,5 @@ export const getPendingPullRequest = state => {
 export const getAllPullRequests = state => {
   return state.pullRequests.pullRequests.map(_id => getPullRequest(state, _id))
 }
+
+export const getIsLoading = state => state.pullRequests.loading

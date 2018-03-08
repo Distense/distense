@@ -91,6 +91,7 @@ export const getTaskByID = async taskId => {
     const { getTaskById } = await contracts.Tasks
 
     const contractTask = await getTaskById(taskId)
+
     const didPerEtherValue = getParameterValueByTitle(
       store.getState(),
       DID_PER_ETHER_PARAMETER_TITLE

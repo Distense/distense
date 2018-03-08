@@ -24,6 +24,7 @@ class PullRequestsListItem extends Component {
 
     this.setState({
       approveText: 'Approving PR',
+      loading: true,
       approveButtonDisabled: true
     })
 
@@ -31,12 +32,11 @@ class PullRequestsListItem extends Component {
   }
 
   render() {
-    const { approveText, pr } = this.state
+    const { approveText, loading, pr } = this.state
 
     let approveButtonColor
     let approveButtonDisabled
     if (pr.status === PAID) {
-      approveButtonColor = 'black'
       approveButtonDisabled = true
     } else {
       approveButtonColor = 'green'
@@ -60,6 +60,7 @@ class PullRequestsListItem extends Component {
             floated="right"
             fluid={true}
             disabled={approveButtonDisabled}
+            loading={loading}
             size="mini"
             pr={pr}
             onClick={e => this.onClickApprove(e, pr)}

@@ -13,11 +13,14 @@ import {
 } from './reducers'
 
 import { receiveUserNotAuthenticated } from '../user/actions'
-import { getTaskByID } from '../tasks/actions'
+import { getTask } from '../tasks/reducers'
 import { setDefaultStatus, updateStatusMessage } from '../status/actions'
 import { constructPullRequestFromContractDetails } from '../pullRequests/operations/constructPullRequestFromContractDetails'
 import { getTaskDetailsForPullRequest } from '../pullRequests/operations/getTaskDetailsForPullRequest'
 import { getGasPrice } from '../user/getGasPrice'
+import { store } from '../../store'
+import { taskIdDecoded } from '../tasks/operations/taskIdDecoded'
+import { getTaskByID } from '../tasks/actions'
 
 const requestPullRequests = () => ({
   type: PULLREQUESTS_REQUEST
@@ -76,7 +79,12 @@ const getPullRequestById = async prId => {
   const pctDIDApproved = contractPullRequestDetails.pctDIDApproved
 
   const taskDetails = getTaskDetailsForPullRequest(taskId)
-  const task = await getTaskByID(taskId)
+
+  const decodedTaskId = taskIdDecoded(taskId)
+  let task = getTask(store.getState(), decodedTaskId)
+  if (!task || !task.title) {
+    task = await getTaskByID(decodedTaskId)
+  }
 
   return Object.assign({}, contractPullRequestDetails, taskDetails, {
     taskTitle: task.title,

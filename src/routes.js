@@ -14,9 +14,9 @@ import Tasks from './features/tasks/Tasks'
 import Task from './features/task/Task'
 import Jobs from './features/jobs/Jobs'
 import AddPullRequest from './features/pullRequests-add/AddPullRequest'
-import PullRequests from './features/pullRequests/PullRequests'
+import PullRequestsContainer from './features/pullRequests/PullRequestsContainer'
 import PullRequest from './features/pullRequest/PullRequest'
-import Parameters from './features/parameters/Parameters'
+import ParametersContainer from './features/parameters/components/ParametersContainer'
 import FourOhFour from './features/FourOhFour'
 import GetStarted from './features/GetStarted'
 import SolidityEngineer from './features/jobs/SolidityEngineer'
@@ -52,8 +52,12 @@ export const Routes = () => (
       <DefaultLayout exact path="/tasks" component={Tasks} />
       <DefaultLayout path="/pullrequests/add/:id?" component={AddPullRequest} />
       <DefaultLayout exact path="/pullrequests/:id" component={PullRequest} />
-      <DefaultLayout exact path="/pullrequests" component={PullRequests} />
-      <DefaultLayout exact path="/parameters" component={Parameters} />
+      <DefaultLayout
+        exact
+        path="/pullrequests"
+        component={PullRequestsContainer}
+      />
+      <DefaultLayout exact path="/parameters" component={ParametersContainer} />
       <DefaultLayout
         exact
         path="/jobs/engineer/solidity"

@@ -1,50 +1,27 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import _ from 'lodash'
 import { Table } from 'semantic-ui-react'
-
-import { fetchTasks } from '../tasks/actions'
-import { getAllTasks } from '../tasks/reducers'
-import { approvePullRequest, fetchPullRequests } from '../pullRequests/actions'
-import { getAllPullRequests } from '../pullRequests/reducers'
+import _ from 'lodash'
 
 import Head from '../../components/Head'
 import PageTitling from '../../components/PageTitling'
 import PullRequestListItem from './components/PullRequestListItem'
 
-class PullRequests extends Component {
+export default class PullRequests extends Component {
   constructor(props) {
     super(props)
     this.state = {
       column: null,
-      loading: true,
       pullRequests: this.props.pullRequests || [],
       direction: null
     }
     this.handleSort = this.handleSort.bind(this)
   }
 
-  componentWillMount() {
-    this.props.fetchPullRequests()
-    this.props.fetchTasks()
-  }
-
   componentDidMount() {
-    let TheFinalCountdown = 1400
-    const lightYearsToGo = 200
-    this.someInterval = setInterval(() => {
-      TheFinalCountdown -= lightYearsToGo
-      if (TheFinalCountdown <= 0)
-        this.setState({
-          loading: false,
-          pullRequests:
-            this.props.pullRequests.length > 0 ? this.props.pullRequests : []
-        })
-    }, lightYearsToGo)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.someInterval)
+    this.setState({
+      pullRequests:
+        this.props.pullRequests.length > 0 ? this.props.pullRequests : []
+    })
   }
 
   handleSort = clickedColumn => () => {
@@ -66,7 +43,7 @@ class PullRequests extends Component {
   }
 
   render() {
-    const { column, direction, loading, pullRequests } = this.state
+    const { column, direction, pullRequests } = this.state
 
     return (
       <div>
@@ -130,13 +107,6 @@ class PullRequests extends Component {
                   pullRequest={pullRequest}
                 />
               ))
-            ) : loading ? (
-              <Table.Cell as="tr">
-                <Table.Cell>Loading pull requests...</Table.Cell>
-                <Table.Cell />
-                <Table.Cell />
-                <Table.Cell />
-              </Table.Cell>
             ) : (
               <Table.Cell as="tr">
                 <Table.Cell>No pull requests</Table.Cell>
@@ -151,16 +121,3 @@ class PullRequests extends Component {
     )
   }
 }
-
-const mapStateToProps = state => ({
-  pullRequests: getAllPullRequests(state),
-  tasks: getAllTasks(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  fetchPullRequests: () => dispatch(fetchPullRequests()),
-  fetchTasks: () => dispatch(fetchTasks()),
-  approvePullRequest: task => dispatch(approvePullRequest(task))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(PullRequests)
