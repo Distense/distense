@@ -88,7 +88,7 @@ const getPullRequestById = async prId => {
 
   return Object.assign({}, contractPullRequestDetails, taskDetails, {
     taskTitle: task.title,
-    taskReward: task.reward,
+    taskReward: task.rewardString,
     rewardStatus: task.rewardStatus,
     tags: task.tags,
     pctDIDApproved,
