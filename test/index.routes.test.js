@@ -10,8 +10,8 @@ import AddTask from '../src/features/task-add/AddTask'
 import Tasks from '../src/features/tasks/Tasks'
 import Task from '../src/features/task/Task'
 import AddPullRequest from '../src/features/pullRequests-add/AddPullRequest'
-import PullRequests from '../src/features/pullRequests/PullRequests'
-import Parameters from '../src/features/parameters/Parameters'
+import PullRequestsContainer from '../src/features/pullRequests/components/PullRequestsContainer'
+import ParametersContainer from '../src/features/parameters/components/ParametersContainer'
 import PullRequest from '../src/features/pullRequest/PullRequest'
 import FAQ from '../src/features/FAQ'
 import Faucet from '../src/features/faucet/Faucet'
@@ -47,7 +47,7 @@ describe('Routes', () => {
 
     expect(pathMap['/pullrequests/add/:id?']).toBe(AddPullRequest)
     expect(pathMap['/pullrequests/add/:id']).toBe(undefined)
-    expect(pathMap['/pullrequests']).toBe(PullRequests)
+    expect(pathMap['/pullrequests']).toBe(PullRequestsContainer)
     expect(pathMap['/pullrequests/:id']).toBe(PullRequest)
 
     expect(pathMap['/howitworks']).toBe(HowItWorks)
@@ -57,7 +57,7 @@ describe('Routes', () => {
     expect(pathMap['/faq']).toBe(FAQ)
     expect(pathMap['/ropsten/faucet']).toBe(Faucet)
     expect(pathMap['/getstarted']).toBe(GetStarted)
-    expect(pathMap['/parameters']).toBe(Parameters)
+    expect(pathMap['/parameters']).toBe(ParametersContainer)
 
     expect(pathMap['/jobs/engineer/frontend']).toBe(FrontendEngineer)
     expect(pathMap['/jobs/engineer/solidity']).toBe(SolidityEngineer)

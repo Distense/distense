@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import PullRequests from './PullRequests'
-import { fetchPullRequests } from '../pullRequests/actions'
-import { getAllPullRequests } from '../pullRequests/reducers'
-import { getIsLoading } from './reducers'
-import { fetchTasks } from '../tasks/actions'
+import { fetchPullRequests } from '../actions'
+import { getAllPullRequests } from '../reducers'
+import { getIsLoading } from '../reducers'
+import { fetchTasks } from '../../tasks/actions'
 
 export class PullRequestsContainer extends Component {
   componentWillMount() {

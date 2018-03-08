@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Table } from 'semantic-ui-react'
 import _ from 'lodash'
 
-import Head from '../../components/Head'
-import PageTitling from '../../components/PageTitling'
-import PullRequestListItem from './components/PullRequestListItem'
+import Head from '../../../components/Head'
+import PageTitling from '../../../components/PageTitling'
+import PullRequestListItem from './PullRequestListItem'
 
 export default class PullRequests extends Component {
   constructor(props) {
