@@ -7,14 +7,18 @@ const getSuggestions = (issues, value) => {
   return inputLength === 0
     ? []
     : issues.filter(
-        issue => issue.toLowerCase().slice(0, inputLength) === inputValue
+        issue => issue.title.toLowerCase().slice(0, inputLength) === inputValue
       )
 }
 
-const getSuggestionValue = suggestion => suggestion
+const getSuggestionValue = suggestion => `${suggestion.title}`
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
-  return <div className={isHighlighted ? 'bold' : ''}>{suggestion}</div>
+  return (
+    <div className={isHighlighted ? 'bold' : ''}>
+      {suggestion.title} (Issue #{suggestion.number})
+    </div>
+  )
 }
 
 export { getSuggestions, getSuggestionValue, renderSuggestion }

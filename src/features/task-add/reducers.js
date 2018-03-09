@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { combineReducers } from 'redux'
 
 export const ISSUES_REQUEST = 'ISSUES_REQUEST'
@@ -33,5 +34,5 @@ export default combineReducers({
 })
 
 export const getIssues = state => {
-  return state.issues.issues.issues.map(issue => issue.title)
+  return state.issues.issues.issues
 }

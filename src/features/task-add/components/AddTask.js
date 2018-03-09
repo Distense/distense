@@ -1,16 +1,9 @@
 import React, { Component } from 'react'
 import Autosuggest from 'react-autosuggest'
+import _ from 'lodash'
 
 import { Link } from 'react-router-dom'
-import {
-  Button,
-  Dropdown,
-  Input,
-  Form,
-  Grid,
-  List,
-  Message
-} from 'semantic-ui-react'
+import { Button, Dropdown, Form, Grid, List, Message } from 'semantic-ui-react'
 import { Redirect } from 'react-router'
 
 import Head from '../../../components/Head'
@@ -30,7 +23,6 @@ export default class AddTask extends Component {
       tagsString: '',
       issueNum: '',
       issues: [],
-      repo: '',
       redirect: false
     }
 
@@ -38,14 +30,18 @@ export default class AddTask extends Component {
     this.onChangeTags = this.onChangeTags.bind(this)
   }
 
+  componentDidMount() {}
+
   onChangeTitle = (event, { newValue }) => {
+    const issue = _.find(this.state.issues, issue => {
+      return issue.title === newValue
+    })
     //  make sure not to have any slashes for future URLs
     if (newValue) newValue = newValue.replace('/', '-')
-    this.setState({ value: newValue })
-  }
-
-  onChangeIssueNum = ({ target: { value } }) => {
-    this.setState({ issueNum: value })
+    this.setState({
+      value: newValue,
+      issueNum: 123
+    })
   }
 
   onChangeTags(e, data) {
@@ -93,15 +89,7 @@ export default class AddTask extends Component {
   }
 
   render() {
-    const {
-      issueNum,
-      issues,
-      loading,
-      redirect,
-      repo,
-      value,
-      tags
-    } = this.state
+    const { issues, loading, redirect, value, tags } = this.state
 
     const { numDIDRequiredToAddTask } = this.props
 
@@ -110,7 +98,7 @@ export default class AddTask extends Component {
     if (loading) return <p>Loading ...</p>
 
     const titleProps = {
-      placeholder: `Select from existing issue titles and we'll handle the rest`,
+      placeholder: `Select existing issue`,
       onChange: this.onChangeTitle,
       value
     }
@@ -139,14 +127,7 @@ export default class AddTask extends Component {
                     onSuggestionsClearRequested={
                       this.onSuggestionsClearRequested
                     }
-                    highlightFirstSuggestion={true}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Input
-                    placeholder="Tags"
-                    onChange={this.onChangeIssueNum}
-                    value={issueNum}
+                    // highlightFirstSuggestion={true}
                   />
                 </Form.Field>
                 <Button size="large" color="green" type="submit">
@@ -167,29 +148,6 @@ export default class AddTask extends Component {
                     selection
                     scrolling
                     value={tags}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Dropdown
-                    fluid
-                    onChange={this.onChangeRepo}
-                    options={[
-                      {
-                        key: 'ui',
-                        value: 'ui',
-                        text: 'UI'
-                      },
-                      {
-                        key: 'contracts',
-                        value: 'contracts',
-                        text: 'Contracts'
-                      }
-                    ]}
-                    placeholder="Repo"
-                    search
-                    selection
-                    scrolling
-                    value={repo ? repo : 'ui'}
                   />
                 </Form.Field>
               </Form>
@@ -220,25 +178,7 @@ export default class AddTask extends Component {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column width={8}>
-              <Message>
-                <Message.Header>Github Issue Number</Message.Header>
-                <List bulleted>
-                  <List.Item>
-                    Create an issue in the appropriate Github repository to
-                    determine the Github issue number
-                  </List.Item>
-                  <List.Item>
-                    Your proposal can be anything, it doesn't necessarily have
-                    to be <em>work</em>.
-                  </List.Item>
-                  <List.Item>
-                    Discussion will happen on Github in the issue you create
-                  </List.Item>
-                </List>
-              </Message>
-            </Grid.Column>
-            <Grid.Column width={8}>
+            <Grid.Column width={16}>
               <Message>
                 <Message.Header>Title</Message.Header>
                 <List bulleted>
@@ -256,12 +196,6 @@ export default class AddTask extends Component {
                     as your Github issue
                   </List.Item>
                 </List>
-              </Message>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Message>
                 <Message.Header>Tags</Message.Header>
                 <List bulleted>
                   <List.Item>
@@ -270,14 +204,6 @@ export default class AddTask extends Component {
                   <List.Item>
                     Examples are: 'contracts', 'frontend', 'governance'
                   </List.Item>
-                </List>
-              </Message>
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <Message>
-                <Message.Header>Repo</Message.Header>
-                <List bulleted>
-                  <List.Item>Choose the one that best fits</List.Item>
                 </List>
               </Message>
             </Grid.Column>
@@ -293,16 +219,24 @@ export default class AddTask extends Component {
             font-size: 1.25rem;
           }
 
+          .bold {
+            font-weight: 900;
+          }
+
+          .suggestion-content {
+            display: flex;
+            align-items: center;
+            background-repeat: no-repeat;
+          }
+
           .react-autosuggest__suggestion {
             border: 1px solid gray;
             border-radius: 3px 3px 3px 3px;
             -moz-border-radius: 3px 3px 3px 3px;
             -webkit-border-radius: 3px 3px 3px 3px;
-            /*color: #888888;*/
-            line-height: 2.9rem;
+            line-height: 2.8rem;
             margin-left: -38px;
             padding: 2px 10px;
-            font-size: large;
           }
         `}</style>
       </div>

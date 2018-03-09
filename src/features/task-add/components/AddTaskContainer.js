@@ -14,17 +14,7 @@ import { store } from '../../../store'
 export class AddTaskContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      title: '',
-      tagsString: '',
-      issueNum: '',
-      issuesTitles: [],
-      repo: '',
-      redirect: false
-    }
-
-    this.onChangeRepo = this.onChangeRepo.bind(this)
-    this.onChangeTags = this.onChangeTags.bind(this)
+    this.state = { issues: [] }
   }
 
   componentDidMount() {
@@ -48,43 +38,6 @@ export class AddTaskContainer extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.issuesInterval)
-  }
-
-  onChangeTitle = ({ target: { value } }) => {
-    //  make sure not to have any slashes for URLs
-    value = value.replace('/', '')
-    if (value.length <= 70) {
-      this.setState({ title: value })
-    }
-  }
-
-  onChangeTags(e, data) {
-    const tags = data.value
-    if (tags.length < 3) {
-      this.setState({ tags })
-      let tagsString = ''
-      tags.forEach((tag, i) => {
-        if (i === 0) tagsString = tag
-        else tagsString += ':' + tag
-      })
-      this.setState({ tagsString })
-    }
-  }
-
-  onChangeRepo(e, data) {
-    this.setState({
-      repo: data.value
-    })
-  }
-
-  onSubmit = async e => {
-    e.preventDefault()
-
-    const { title, tagsString, issueNum, repo } = this.state
-
-    this.setState({
-      redirect: true
-    })
   }
 
   render() {
