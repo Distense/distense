@@ -64,6 +64,9 @@ export default ({ children }) => (
       .ui.container > a.footer-item {
         text-decoration: underline;
       }
+      .bold {
+        font-weight: 900;
+      }
     `}</style>
   </div>
 )

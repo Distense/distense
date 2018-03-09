@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Autosuggest from 'react-autosuggest'
+
 import { Link } from 'react-router-dom'
 import {
   Button,
@@ -9,26 +11,25 @@ import {
   List,
   Message
 } from 'semantic-ui-react'
-import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 
-import { addTask } from '../tasks/actions'
-import { getPendingTask } from '../tasks/reducers'
-import { NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE } from '../parameters/operations/parameterTitles'
+import Head from '../../../components/Head'
+import PageTitling from '../../../components/PageTitling'
+import { tagsOptions } from '../../tasks/operations/tagsOptions'
+import {
+  getSuggestions,
+  getSuggestionValue,
+  renderSuggestion
+} from '../autosuggestHelpers'
 
-import Head from '../../components/Head'
-import PageTitling from '../../components/PageTitling'
-import { tagsOptions } from '../tasks/operations/tagsOptions'
-import { getParameterValueByTitle } from '../parameters/reducers'
-
-export class AddTask extends Component {
+export default class AddTask extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: '',
+      value: '',
       tagsString: '',
       issueNum: '',
-      numDIDRequiredToAddTask: this.props.numDIDRequiredToAddTask || 120,
+      issues: [],
       repo: '',
       redirect: false
     }
@@ -37,20 +38,10 @@ export class AddTask extends Component {
     this.onChangeTags = this.onChangeTags.bind(this)
   }
 
-  componentDidMount() {
-    this.someTimeout = setTimeout(() => {
-      this.setState({
-        numDIDRequiredToAddTask: this.props.numDIDRequiredToAddTask
-      })
-    }, 2000)
-  }
-
-  onChangeTitle = ({ target: { value } }) => {
-    //  make sure not to have any slashes for URLs
-    value = value.replace('/', '')
-    if (value.length <= 70) {
-      this.setState({ title: value })
-    }
+  onChangeTitle = (event, { newValue }) => {
+    //  make sure not to have any slashes for future URLs
+    if (newValue) newValue = newValue.replace('/', '-')
+    this.setState({ value: newValue })
   }
 
   onChangeIssueNum = ({ target: { value } }) => {
@@ -81,23 +72,48 @@ export class AddTask extends Component {
 
     const { title, tagsString, issueNum, repo } = this.state
 
-    this.props.addTask({ title, tagsString, issueNum, repo })
+    if (title && tagsString && issueNum && repo) {
+      this.props.addTask({ title, tagsString, issueNum, repo })
+      this.setState({
+        redirect: true
+      })
+    }
+  }
+
+  onSuggestionsFetchRequested = ({ value }) => {
     this.setState({
-      redirect: true
+      issues: getSuggestions(this.props.issues, value)
+    })
+  }
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      issues: []
     })
   }
 
   render() {
     const {
-      title,
-      tags,
       issueNum,
-      numDIDRequiredToAddTask,
+      issues,
+      loading,
+      redirect,
       repo,
-      redirect
+      value,
+      tags
     } = this.state
 
+    const { numDIDRequiredToAddTask } = this.props
+
     if (redirect) return <Redirect to="/tasks" />
+
+    if (loading) return <p>Loading ...</p>
+
+    const titleProps = {
+      placeholder: `Select from existing issue titles and we'll handle the rest`,
+      onChange: this.onChangeTitle,
+      value
+    }
 
     return (
       <div>
@@ -111,20 +127,26 @@ export class AddTask extends Component {
             <Grid.Column>
               <Form onSubmit={this.onSubmit}>
                 <Form.Field>
-                  <Input
-                    onChange={this.onChangeIssueNum}
-                    placeholder="Github Issue Number"
-                    value={issueNum}
+                  <Autosuggest
+                    alwaysRenderSuggestions={true}
+                    suggestions={issues}
+                    getSuggestionValue={getSuggestionValue}
+                    renderSuggestion={renderSuggestion}
+                    onSuggestionsFetchRequested={
+                      this.onSuggestionsFetchRequested
+                    }
+                    inputProps={titleProps}
+                    onSuggestionsClearRequested={
+                      this.onSuggestionsClearRequested
+                    }
+                    highlightFirstSuggestion={true}
                   />
                 </Form.Field>
                 <Form.Field>
                   <Input
-                    type="text"
-                    placeholder="Title (<70 chars)"
-                    onChange={this.onChangeTitle}
-                    className=""
-                    name="title"
-                    value={title}
+                    placeholder="Tags"
+                    onChange={this.onChangeIssueNum}
+                    value={issueNum}
                   />
                 </Form.Field>
                 <Button size="large" color="green" type="submit">
@@ -167,7 +189,7 @@ export class AddTask extends Component {
                     search
                     selection
                     scrolling
-                    value={repo}
+                    value={repo ? repo : 'ui'}
                   />
                 </Form.Field>
               </Form>
@@ -261,21 +283,29 @@ export class AddTask extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+        {/*language=CSS*/}
+        <style global jsx>{`
+          .react-autosuggest__suggestions-list {
+            list-style-type: none;
+          }
+
+          .ui.form {
+            font-size: 1.25rem;
+          }
+
+          .react-autosuggest__suggestion {
+            border: 1px solid gray;
+            border-radius: 3px 3px 3px 3px;
+            -moz-border-radius: 3px 3px 3px 3px;
+            -webkit-border-radius: 3px 3px 3px 3px;
+            /*color: #888888;*/
+            line-height: 2.9rem;
+            margin-left: -38px;
+            padding: 2px 10px;
+            font-size: large;
+          }
+        `}</style>
       </div>
     )
   }
 }
-
-const mapStateToProps = state => ({
-  pendingTask: getPendingTask(state),
-  numDIDRequiredToAddTask: getParameterValueByTitle(
-    state,
-    NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE
-  )
-})
-
-const mapDispatchToProps = dispatch => ({
-  addTask: task => dispatch(addTask(task))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddTask)

@@ -11,7 +11,6 @@ class PullRequestsListItem extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      pr: this.props.pullRequest,
       approveText:
         this.props.pullRequest.status === 'PAID' ? 'Approved' : 'Approve ',
       approveButtonDisabled: false
@@ -19,29 +18,29 @@ class PullRequestsListItem extends Component {
     this.onClickApprove = this.onClickApprove.bind(this)
   }
 
+  componentDidMount() {
+    const pr = this.props.pullRequest
+    this.setState({
+      disabled: pr.status === PAID && true,
+      color: pr.state === PAID ? 'black' : 'green'
+    })
+  }
+
   onClickApprove = async event => {
     event.preventDefault()
 
     this.setState({
-      approveText: 'Approving PR',
+      text: 'Approving PR',
       loading: true,
-      approveButtonDisabled: true
+      disabled: true
     })
 
     this.props.approvePullRequest(this.state.pr._id)
   }
 
   render() {
-    const { approveText, loading, pr } = this.state
-
-    let approveButtonColor
-    let approveButtonDisabled
-    if (pr.status === PAID) {
-      approveButtonDisabled = true
-    } else {
-      approveButtonColor = 'green'
-      approveButtonDisabled = false
-    }
+    const { text, color, disabled, loading } = this.state
+    const pr = this.props.pullRequest
 
     return (
       <Table.Row key={pr._id}>
@@ -55,17 +54,17 @@ class PullRequestsListItem extends Component {
         <Table.Cell>
           <Button
             basic
-            color={approveButtonColor}
+            color={color}
             compact={true}
             floated="right"
             fluid={true}
-            disabled={approveButtonDisabled}
+            disabled={disabled}
             loading={loading}
             size="mini"
             pr={pr}
             onClick={e => this.onClickApprove(e, pr)}
           >
-            {approveText}
+            {text}
           </Button>
         </Table.Cell>
         <Table.Cell>

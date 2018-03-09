@@ -48,7 +48,6 @@ exports[`<AddTask /> page component snapshot 1`] = `
               <input
                 disabled={undefined}
                 onChange={[Function]}
-                placeholder="Github Issue Number"
                 tabIndex={undefined}
                 type="text"
                 value=""
@@ -59,16 +58,28 @@ exports[`<AddTask /> page component snapshot 1`] = `
             className="field"
           >
             <div
-              className="ui input"
+              className="react-autosuggest__container"
             >
               <input
-                disabled={undefined}
-                name="title"
+                aria-activedescendant={null}
+                aria-autocomplete="list"
+                aria-expanded={false}
+                aria-haspopup={false}
+                aria-owns="react-autowhatever-1"
+                autoComplete="off"
+                className="react-autosuggest__input"
+                onBlur={[Function]}
                 onChange={[Function]}
-                placeholder="Title (<70 chars)"
-                tabIndex={undefined}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Choose from existing Github issues or choose to create one"
+                role="combobox"
                 type="text"
                 value=""
+              />
+              <div
+                className="react-autosuggest__suggestions-container"
+                id="react-autowhatever-1"
               />
             </div>
           </div>
@@ -441,7 +452,6 @@ exports[`<AddTask /> page component snapshot 1`] = `
               role="listitem"
             >
               You must own at least 
-              120
                DID to propose. This number changes according to the
                
               <a
@@ -642,5 +652,29 @@ exports[`<AddTask /> page component snapshot 1`] = `
       </div>
     </div>
   </div>
+  <style
+    global={true}
+    jsx={true}
+  >
+    
+          .react-autosuggest__suggestions-list {
+            list-style-type: none;
+          }
+
+          .ui.form {
+            font-size: 1.25rem;
+          }
+
+          .react-autosuggest__suggestion {
+            line-height: 2.9rem;
+            margin-left: -38px;
+            border: 1px solid gray;
+            padding: 2px 10px;
+            border-radius: 3px 3px 3px 3px;
+            -moz-border-radius: 3px 3px 3px 3px;
+            -webkit-border-radius: 3px 3px 3px 3px;
+          }
+        
+  </style>
 </div>
 `;

@@ -19,13 +19,14 @@ export const App = () => (
 )
 
 window.addEventListener('load', function() {
-  if (typeof window.web3 !== 'undefined') {
-    new Web3(
-      new Web3.providers.HttpProvider(
-        'https://ropsten.infura.io/7b9DnEAJNDLIo9StzcvI'
-      )
-    )
-  }
+  // if (typeof window.web3 !== 'undefined') {
+  //   new Web3(
+  //     new Web3.providers.HttpProvider(
+  //       'https://ropsten.infura.io/7b9DnEAJNDLIo9StzcvI'
+  //     )
+  //   )
+  // }
+  new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
   store.dispatch(fetchParameters())
   store.dispatch(fetchTotalSupplyDID())
   store.dispatch(fetchUserAccountInfo())

@@ -9,7 +9,7 @@ import Faucet from './features/faucet/Faucet'
 import FAQ from './features/FAQ'
 import HowItWorks from './features/HowItWorks'
 import Layout from './components/Layout'
-import AddTask from './features/task-add/AddTask'
+import AddTaskContainer from './features/task-add/components/AddTaskContainer'
 import Tasks from './features/tasks/Tasks'
 import Task from './features/task/Task'
 import Jobs from './features/jobs/Jobs'
@@ -48,7 +48,7 @@ export const Routes = () => (
       <DefaultLayout exact path="/ropsten/faucet" component={Faucet} />
       <DefaultLayout exact path="/getstarted" component={GetStarted} />
       <DefaultLayout path="/tasks/:title/:id" component={Task} />
-      <DefaultLayout path="/tasks/add" component={AddTask} />
+      <DefaultLayout path="/tasks/add" component={AddTaskContainer} />
       <DefaultLayout exact path="/tasks" component={Tasks} />
       <DefaultLayout path="/pullrequests/add/:id?" component={AddPullRequest} />
       <DefaultLayout exact path="/pullrequests/:id" component={PullRequest} />

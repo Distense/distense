@@ -6,7 +6,7 @@ import { Route } from 'react-router'
 
 //  Pages
 import Home from '../src/features/Home'
-import AddTask from '../src/features/task-add/AddTask'
+import AddTaskContainer from '../src/features/task-add/components/AddTaskContainer'
 import Tasks from '../src/features/tasks/Tasks'
 import Task from '../src/features/task/Task'
 import AddPullRequest from '../src/features/pullRequests-add/AddPullRequest'
@@ -42,7 +42,7 @@ describe('Routes', () => {
 
     expect(pathMap['/tasks']).toBe(Tasks)
     expect(pathMap['/tasks/:title/:id']).toBe(Task)
-    expect(pathMap['/tasks/add']).toBe(AddTask)
+    expect(pathMap['/tasks/add']).toBe(AddTaskContainer)
     expect(pathMap['/tasks']).toBe(Tasks)
 
     expect(pathMap['/pullrequests/add/:id?']).toBe(AddPullRequest)
