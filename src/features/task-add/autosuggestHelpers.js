@@ -32,8 +32,8 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
             {part.text}
           </span>
         )
-      })}
-      {suggestion.title} (Issue #{suggestion.number})
+      })}{' '}
+      (Issue #{suggestion.number})
     </divs>
   )
 }

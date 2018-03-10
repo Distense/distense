@@ -13,7 +13,8 @@ import { tagsOptions } from '../../tasks/operations/tagsOptions'
 import {
   getSuggestions,
   getSuggestionValue,
-  renderSuggestion
+  renderSuggestion,
+  renderSectionTitle
 } from '../autosuggestHelpers'
 
 export default class AddTask extends Component {
@@ -34,14 +35,21 @@ export default class AddTask extends Component {
   componentDidMount() {}
 
   onChangeTitle = (event, { newValue }) => {
-    const issue = _.find(this.state.issues, issue => {
-      return issue.title === newValue
-    })
     //  make sure not to have any slashes for future URLs
-    if (newValue) newValue = newValue.replace('/', '-')
     this.setState({
-      value: newValue,
-      issueNum: 123
+      value: newValue
+    })
+  }
+
+  onSuggestionSelected(
+    event,
+    { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }
+  ) {
+    const issue = _.find(this.props.issues, issue => {
+      return issue.title === suggestion
+    })
+    this.setState({
+      issueNum: issue.number
     })
   }
 
@@ -70,7 +78,9 @@ export default class AddTask extends Component {
     const { title, tagsString, issueNum, repo } = this.state
 
     if (title && tagsString && issueNum && repo) {
+      const correctedTitle = title.replace('/', '-')
       this.props.addTask({ title, tagsString, issueNum, repo })
+
       this.setState({
         redirect: true
       })
@@ -99,7 +109,7 @@ export default class AddTask extends Component {
     if (loading) return <p>Loading ...</p>
 
     const titleProps = {
-      placeholder: `Select existing issue`,
+      placeholder: `Select existing issue from Github`,
       onChange: this.onChangeTitle,
       value
     }
@@ -117,7 +127,6 @@ export default class AddTask extends Component {
               <Form onSubmit={this.onSubmit}>
                 <Form.Field>
                   <Autosuggest
-                    // alwaysRenderSuggestions={true}
                     suggestions={issues}
                     getSuggestionValue={getSuggestionValue}
                     renderSuggestion={renderSuggestion}
@@ -128,7 +137,6 @@ export default class AddTask extends Component {
                     onSuggestionsClearRequested={
                       this.onSuggestionsClearRequested
                     }
-                    // highlightFirstSuggestion={true}
                   />
                 </Form.Field>
                 <Button size="large" color="green" type="submit">
@@ -196,14 +204,9 @@ export default class AddTask extends Component {
                     People will like you more if you enter the same exact title
                     as your Github issue
                   </List.Item>
-                </List>
-                <Message.Header>Tags</Message.Header>
-                <List bulleted>
                   <List.Item>
-                    Select the category of proposal you're making
-                  </List.Item>
-                  <List.Item>
-                    Examples are: 'contracts', 'frontend', 'governance'
+                    Then select the relevant categories to help others later
+                    sort tasks
                   </List.Item>
                 </List>
               </Message>
