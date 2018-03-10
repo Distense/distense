@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Menu, Segment } from 'semantic-ui-react'
-import TotalDID from './common/TotalDID'
+import TotalDID from './TotalDID'
 
-import Footer from './Footer'
+import Footer from '../features/footer/Footer'
 
 export default ({ children }) => (
   <div>
@@ -63,6 +63,9 @@ export default ({ children }) => (
 
       .ui.container > a.footer-item {
         text-decoration: underline;
+      }
+      .distense-green {
+        color: rgb(13, 246, 121);
       }
     `}</style>
   </div>

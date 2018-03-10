@@ -4,14 +4,14 @@ import chaiJestDiff from 'chai-jest-diff'
 
 chai.use(chaiJestDiff())
 
-import { getTaskDetailsForPullRequest } from '../../../src/helpers/pullRequests/getTaskDetailsForPullRequest'
+import { getTaskDetailsForPullRequest } from '../../../src/features/pullRequests/operations/getTaskDetailsForPullRequest'
 
 describe('getTaskDetailsForPullRequest', () => {
   it('should properly create task details for pull requests', () => {
     const taskId = '1516749224434a3b102c1'
     const expected = {
       repoName: 'distense-contracts',
-      tags: ['Frontend']
+      tags: ['React']
     }
     const actual = getTaskDetailsForPullRequest(taskId)
     assert.deepEqual(

@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import renderer from 'react-test-renderer'
-import Exchange from '../../../../src/pages/Exchange'
+import Exchange from '../../../../src/features/exchange/Exchange'
 
 function setup(numBankAccountEther = null, didPerEtherExchangeRate = null) {
   const props = {

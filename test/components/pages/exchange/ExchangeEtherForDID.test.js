@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import renderer from 'react-test-renderer'
-import ExchangeEtherForDID from '../../../../src/pages/Exchange/ExchangeEtherForDID'
+import ExchangeEtherForDID from '../../../../src/features/exchange/components/ExchangeEtherForDID'
 
 function setup(
   numDIDOwned = null,

@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 
 import { Header } from 'semantic-ui-react'
-import PageTitling from '../../../src/components/common/PageTitling'
+import PageTitling from '../../../src/components/PageTitling'
 
 function setup(title = 'Title', subtitle = 'Subtitle') {
   const props = {

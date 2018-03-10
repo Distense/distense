@@ -5,22 +5,22 @@ import { DefaultLayout, Routes } from '../src/routes'
 import { Route } from 'react-router'
 
 //  Pages
-import Home from '../src/pages/Home'
-import AddTask from '../src/pages/AddTask'
-import Tasks from '../src/pages/Tasks'
-import Task from '../src/pages/Task'
-import AddPullRequest from '../src/pages/AddPullRequest'
-import PullRequests from '../src/pages/PullRequests'
-import Parameters from '../src/pages/Parameters'
-import PullRequest from '../src/pages/PullRequest'
-import FAQ from '../src/pages/FAQ'
-import Faucet from '../src/pages/Faucet'
-import ExchangeContainer from '../src/pages/Exchange/ExchangeContainer'
-import GetStarted from '../src/pages/GetStarted'
-import HowItWorks from '../src/pages/HowItWorks'
-import Events from '../src/pages/Events'
-import FrontendEngineer from '../src/pages/FrontendEngineer'
-import SolidityEngineer from '../src/pages/SolidityEngineer'
+import Home from '../src/features/Home'
+import AddTaskContainer from '../src/features/task-add/components/AddTaskContainer'
+import Tasks from '../src/features/tasks/Tasks'
+import Task from '../src/features/task/Task'
+import AddPullRequest from '../src/features/pullRequests-add/AddPullRequest'
+import PullRequestsContainer from '../src/features/pullRequests/components/PullRequestsContainer'
+import ParametersContainer from '../src/features/parameters/components/ParametersContainer'
+import PullRequest from '../src/features/pullRequest/PullRequest'
+import FAQ from '../src/features/FAQ'
+import Faucet from '../src/features/faucet/Faucet'
+import ExchangeContainer from '../src/features/exchange/ExchangeContainer'
+import GetStarted from '../src/features/GetStarted'
+import HowItWorks from '../src/features/HowItWorks'
+import Events from '../src/features/events/Events'
+import FrontendEngineer from '../src/features/jobs/FrontendEngineer'
+import SolidityEngineer from '../src/features/jobs/SolidityEngineer'
 
 describe('Routes', () => {
   const wrapper = shallow(<Routes />)
@@ -42,12 +42,12 @@ describe('Routes', () => {
 
     expect(pathMap['/tasks']).toBe(Tasks)
     expect(pathMap['/tasks/:title/:id']).toBe(Task)
-    expect(pathMap['/tasks/add']).toBe(AddTask)
+    expect(pathMap['/tasks/add']).toBe(AddTaskContainer)
     expect(pathMap['/tasks']).toBe(Tasks)
 
     expect(pathMap['/pullrequests/add/:id?']).toBe(AddPullRequest)
     expect(pathMap['/pullrequests/add/:id']).toBe(undefined)
-    expect(pathMap['/pullrequests']).toBe(PullRequests)
+    expect(pathMap['/pullrequests']).toBe(PullRequestsContainer)
     expect(pathMap['/pullrequests/:id']).toBe(PullRequest)
 
     expect(pathMap['/howitworks']).toBe(HowItWorks)
@@ -57,7 +57,7 @@ describe('Routes', () => {
     expect(pathMap['/faq']).toBe(FAQ)
     expect(pathMap['/ropsten/faucet']).toBe(Faucet)
     expect(pathMap['/getstarted']).toBe(GetStarted)
-    expect(pathMap['/parameters']).toBe(Parameters)
+    expect(pathMap['/parameters']).toBe(ParametersContainer)
 
     expect(pathMap['/jobs/engineer/frontend']).toBe(FrontendEngineer)
     expect(pathMap['/jobs/engineer/solidity']).toBe(SolidityEngineer)
