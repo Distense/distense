@@ -11,7 +11,7 @@ describe('getTaskDetailsForPullRequest', () => {
     const taskId = '1516749224434a3b102c1'
     const expected = {
       repoName: 'distense-contracts',
-      tags: ['Frontend']
+      tags: ['React']
     }
     const actual = getTaskDetailsForPullRequest(taskId)
     assert.deepEqual(

@@ -111,7 +111,7 @@ describe('constructClientTask', function() {
       issueURL:
         'https://github.com/Distense/' + FRONTEND_REPO_NAME + '/issues/333',
       repoName: FRONTEND_REPO_NAME,
-      tags: ['Parameters', 'Planning', 'React']
+      tags: ['Parameters', 'Redux', 'React']
     }
 
     const actual = constructClientTask(taskId, contractTask, 1000)

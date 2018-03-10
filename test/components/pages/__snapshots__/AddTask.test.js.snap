@@ -43,21 +43,6 @@ exports[`<AddTask /> page component snapshot 1`] = `
             className="field"
           >
             <div
-              className="ui input"
-            >
-              <input
-                disabled={undefined}
-                onChange={[Function]}
-                tabIndex={undefined}
-                type="text"
-                value=""
-              />
-            </div>
-          </div>
-          <div
-            className="field"
-          >
-            <div
               className="react-autosuggest__container"
             >
               <input
@@ -72,7 +57,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
-                placeholder="Choose from existing Github issues or choose to create one"
+                placeholder="Select from existing issues on Github"
                 role="combobox"
                 type="text"
                 value=""
@@ -170,7 +155,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
                   <span
                     className="text"
                   >
-                    Contracts
+                    Solidity
                   </span>
                 </div>
                 <div
@@ -230,7 +215,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
                   <span
                     className="text"
                   >
-                    Frontend
+                    React
                   </span>
                 </div>
                 <div
@@ -290,7 +275,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
                   <span
                     className="text"
                   >
-                    Planning
+                    Redux
                   </span>
                 </div>
                 <div
@@ -330,95 +315,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
                   <span
                     className="text"
                   >
-                    Security
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="field"
-          >
-            <div
-              aria-busy={undefined}
-              aria-disabled={undefined}
-              aria-expanded={false}
-              className="ui fluid search selection scrolling dropdown"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              role="combobox"
-              tabIndex={undefined}
-            >
-              <input
-                aria-autocomplete="list"
-                autoComplete="off"
-                className="search"
-                onChange={[Function]}
-                style={
-                  Object {
-                    "width": undefined,
-                  }
-                }
-                tabIndex={0}
-                type="text"
-                value=""
-              />
-              <div
-                aria-live="polite"
-                className="default text"
-                role="alert"
-              >
-                Repo
-              </div>
-              <i
-                aria-hidden="true"
-                className="dropdown icon"
-                onClick={[Function]}
-              />
-              <div
-                aria-multiselectable={undefined}
-                className="menu transition"
-                role="listbox"
-              >
-                <div
-                  aria-checked={false}
-                  aria-disabled={undefined}
-                  aria-selected={true}
-                  className="selected item"
-                  onClick={[Function]}
-                  role="option"
-                  style={
-                    Object {
-                      "pointerEvents": "all",
-                    }
-                  }
-                >
-                  <span
-                    className="text"
-                  >
-                    UI
-                  </span>
-                </div>
-                <div
-                  aria-checked={false}
-                  aria-disabled={undefined}
-                  aria-selected={false}
-                  className="item"
-                  onClick={[Function]}
-                  role="option"
-                  style={
-                    Object {
-                      "pointerEvents": "all",
-                    }
-                  }
-                >
-                  <span
-                    className="text"
-                  >
-                    Contracts
+                    Text
                   </span>
                 </div>
               </div>
@@ -439,12 +336,28 @@ exports[`<AddTask /> page component snapshot 1`] = `
           <div
             className="header"
           >
-            Rules
+            Info
           </div>
           <div
             className="ui bulleted list"
             role="list"
           >
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              Select your task from existing ones on Github on the left.
+            </div>
+            <div
+              className="item"
+              data-value={undefined}
+              onClick={[Function]}
+              role="listitem"
+            >
+              Select the appropriate tags on the right.
+            </div>
             <div
               className="item"
               data-value={undefined}
@@ -461,7 +374,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
                 proposalPctDIDToApprove
               </a>
                
-              parameter
+              parameter.
             </div>
             <div
               className="item"
@@ -469,7 +382,8 @@ exports[`<AddTask /> page component snapshot 1`] = `
               onClick={[Function]}
               role="listitem"
             >
-              Your proposal can be anything, it doesn't necessarily have to be 
+              You can propose anything, it doesn't necessarily have to be
+               
               <em>
                 work
               </em>
@@ -482,170 +396,6 @@ exports[`<AddTask /> page component snapshot 1`] = `
               role="listitem"
             >
               Remember that when you propose, it is likely that DID will be issued for the completion of the task. The fewer DID the better.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="row"
-    >
-      <div
-        className="eight wide column"
-      >
-        <div
-          className="ui message"
-        >
-          <div
-            className="header"
-          >
-            Github Issue Number
-          </div>
-          <div
-            className="ui bulleted list"
-            role="list"
-          >
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              Create an issue in the appropriate Github repository to determine the Github issue number
-            </div>
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              Your proposal can be anything, it doesn't necessarily have to be 
-              <em>
-                work
-              </em>
-              .
-            </div>
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              Discussion will happen on Github in the issue you create
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className="eight wide column"
-      >
-        <div
-          className="ui message"
-        >
-          <div
-            className="header"
-          >
-            Title
-          </div>
-          <div
-            className="ui bulleted list"
-            role="list"
-          >
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              Enter the title of your task/proposal
-            </div>
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              Limit the length of the title: the more characters the more gas it will cost you
-            </div>
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              Example: 'Build this amazing new dapp that will change the world'
-            </div>
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              People will like you more if you enter the same exact title as your Github issue
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="row"
-    >
-      <div
-        className="eight wide column"
-      >
-        <div
-          className="ui message"
-        >
-          <div
-            className="header"
-          >
-            Tags
-          </div>
-          <div
-            className="ui bulleted list"
-            role="list"
-          >
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              Select the category of proposal you're making
-            </div>
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              Examples are: 'contracts', 'frontend', 'governance'
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className="eight wide column"
-      >
-        <div
-          className="ui message"
-        >
-          <div
-            className="header"
-          >
-            Repo
-          </div>
-          <div
-            className="ui bulleted list"
-            role="list"
-          >
-            <div
-              className="item"
-              data-value={undefined}
-              onClick={[Function]}
-              role="listitem"
-            >
-              Choose the one that best fits
             </div>
           </div>
         </div>
@@ -665,14 +415,29 @@ exports[`<AddTask /> page component snapshot 1`] = `
             font-size: 1.25rem;
           }
 
+          .suggestion-content {
+            display: flex;
+            align-items: center;
+            background-repeat: no-repeat;
+          }
+
+          .react-autosuggest__suggestion--highlighted {
+            background-color: lightgray;
+          }
+
+          .bold {
+            font-weight: 900;
+            font-size: 22px;
+          }
+
           .react-autosuggest__suggestion {
-            line-height: 2.9rem;
-            margin-left: -38px;
-            border: 1px solid gray;
-            padding: 2px 10px;
+            border: 1px solid darkgray;
             border-radius: 3px 3px 3px 3px;
             -moz-border-radius: 3px 3px 3px 3px;
             -webkit-border-radius: 3px 3px 3px 3px;
+            line-height: 2.8rem;
+            margin-left: -38px;
+            padding: 2px 10px;
           }
         
   </style>

@@ -106,17 +106,6 @@ export class AddPullRequest extends Component {
                 <Message.Header>Pull Request number</Message.Header>
                 <List bulleted>
                   <List.Item>First submit a pull request on Github</List.Item>
-                  <List.Item>
-                    Enter the number found in your PR URL in the top box of this
-                    web page
-                  </List.Item>
-                  <List.Item>
-                    The number is the last part of your pull request URL.
-                    Example: https://github.com/Distense/distense-ui/pulls/<b>
-                      321
-                    </b>
-                  </List.Item>
-                  <List.Item>Enter just the number: 321</List.Item>
                 </List>
               </Message>
               <Message>
