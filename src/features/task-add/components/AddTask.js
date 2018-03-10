@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Autosuggest from 'react-autosuggest'
-
+import classNames from 'classnames'
 import _ from 'lodash'
 
 import { Link } from 'react-router-dom'
@@ -13,43 +13,29 @@ import { tagsOptions } from '../../tasks/operations/tagsOptions'
 import {
   getSuggestions,
   getSuggestionValue,
-  renderSuggestion,
-  renderSectionTitle
+  renderSuggestion
 } from '../autosuggestHelpers'
 
 export default class AddTask extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: '',
-      tagsString: '',
+      hasntSetTags: false,
       issueNum: '',
-      issues: [],
-      redirect: false
+      issues: this.props.issues || [],
+      redirect: false,
+      submitting: false,
+      tagsOptions: tagsOptions || [],
+      tagsString: '',
+      value: ''
     }
-
-    this.onChangeRepo = this.onChangeRepo.bind(this)
     this.onChangeTags = this.onChangeTags.bind(this)
   }
-
-  componentDidMount() {}
 
   onChangeTitle = (event, { newValue }) => {
     //  make sure not to have any slashes for future URLs
     this.setState({
       value: newValue
-    })
-  }
-
-  onSuggestionSelected(
-    event,
-    { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }
-  ) {
-    const issue = _.find(this.props.issues, issue => {
-      return issue.title === suggestion
-    })
-    this.setState({
-      issueNum: issue.number
     })
   }
 
@@ -62,28 +48,38 @@ export default class AddTask extends Component {
         if (i === 0) tagsString = tag
         else tagsString += ':' + tag
       })
-      this.setState({ tagsString })
+      this.setState({ hasntSetTags: false, tagsString })
     }
-  }
-
-  onChangeRepo(e, data) {
-    this.setState({
-      repo: data.value
-    })
   }
 
   onSubmit = async e => {
     e.preventDefault()
 
-    const { title, tagsString, issueNum, repo } = this.state
+    if (!this.state.tagsString) {
+      this.setState({
+        hasntSetTags: true
+      })
+      return
+    }
+    const issue = _.find(this.props.issues, issue => {
+      return issue.title === this.state.value
+    })
+    const issueNum = issue.number
+    const repo = 'distense-ui'
+    const { tagsString } = this.state
 
-    if (title && tagsString && issueNum && repo) {
-      const correctedTitle = title.replace('/', '-')
+    if (issue.title && tagsString && issueNum && repo) {
+      const correctedTitle = issue.title.replace('/', '-')
       this.props.addTask({ correctedTitle, tagsString, issueNum, repo })
 
       this.setState({
-        redirect: true
+        submitting: true
       })
+      this.redirectTimeout(() => {
+        this.setState({
+          redirect: true
+        })
+      }, 1500)
     }
   }
 
@@ -100,12 +96,11 @@ export default class AddTask extends Component {
   }
 
   render() {
-    const { issues, loading, redirect, value, tags } = this.state
+    const { hasntSetTags, issues, loading, redirect, tags, value } = this.state
 
     const { numDIDRequiredToAddTask } = this.props
 
     if (redirect) return <Redirect to="/tasks" />
-
     if (loading) return <p>Loading ...</p>
 
     const titleProps = {
@@ -122,9 +117,9 @@ export default class AddTask extends Component {
             title="Propose"
             subtitle="DID holders can propose new work"
           />
-          <Grid.Row style={{ paddingTop: '0px' }} columns={2}>
+          <Grid.Row style={{ paddingTop: '0px' }} columns={1}>
             <Grid.Column>
-              <Form onSubmit={this.onSubmit}>
+              <Form>
                 <Form.Field>
                   <Autosuggest
                     suggestions={issues}
@@ -133,25 +128,26 @@ export default class AddTask extends Component {
                     onSuggestionsFetchRequested={
                       this.onSuggestionsFetchRequested
                     }
+                    highlightFirstSuggestion={true}
                     inputProps={titleProps}
                     onSuggestionsClearRequested={
                       this.onSuggestionsClearRequested
                     }
                   />
                 </Form.Field>
-                <Button size="large" color="green" type="submit">
-                  Submit
-                </Button>
               </Form>
             </Grid.Column>
+          </Grid.Row>
+          <Grid.Row style={{ paddingTop: '0px' }} columns={1}>
             <Grid.Column width={8}>
-              <Form>
+              <Form onSubmit={this.onSubmit}>
                 <Form.Field>
                   <Dropdown
+                    className={classNames({ 'error-red': hasntSetTags })}
                     fluid
                     multiple
                     onChange={this.onChangeTags}
-                    options={tagsOptions}
+                    options={[...tagsOptions]}
                     placeholder="Tags"
                     search
                     selection
@@ -159,6 +155,9 @@ export default class AddTask extends Component {
                     value={tags}
                   />
                 </Form.Field>
+                <Button size="large" color="green" type="submit">
+                  Submit
+                </Button>
               </Form>
             </Grid.Column>
           </Grid.Row>
@@ -167,12 +166,8 @@ export default class AddTask extends Component {
               <Message>
                 <Message.Header>Info</Message.Header>
                 <List bulleted>
-                  <List.Item>
-                    Select your task from existing ones on Github on the left.
-                  </List.Item>
-                  <List.Item>
-                    Select the appropriate tags on the right.
-                  </List.Item>
+                  <List.Item>Select your task.</List.Item>
+                  <List.Item>Select the appropriate tags.</List.Item>
                   <List.Item>
                     You must own at least {numDIDRequiredToAddTask} DID to
                     propose. This number changes according to the{' '}
@@ -200,7 +195,7 @@ export default class AddTask extends Component {
           }
 
           .ui.form {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
           }
 
           .suggestion-content {
@@ -213,12 +208,19 @@ export default class AddTask extends Component {
             background-color: lightgray;
           }
 
+          .dropdown .menu .item {
+            line-height: 2rem !important;
+            font-size: 1.2rem !important;
+          }
+
           .bold {
             font-weight: 900;
             font-size: 22px;
           }
 
           .react-autosuggest__suggestion {
+            font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont,
+              sans-serif;
             border: 1px solid darkgray;
             border-radius: 3px 3px 3px 3px;
             -moz-border-radius: 3px 3px 3px 3px;
@@ -226,6 +228,11 @@ export default class AddTask extends Component {
             line-height: 2.8rem;
             margin-left: -38px;
             padding: 2px 10px;
+          }
+
+          .error-red {
+            border: 2px solid red !important;
+            background-color: lightcoral !important;
           }
         `}</style>
       </div>
