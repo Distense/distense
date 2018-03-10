@@ -79,7 +79,7 @@ export default class AddTask extends Component {
 
     if (title && tagsString && issueNum && repo) {
       const correctedTitle = title.replace('/', '-')
-      this.props.addTask({ title, tagsString, issueNum, repo })
+      this.props.addTask({ correctedTitle, tagsString, issueNum, repo })
 
       this.setState({
         redirect: true
@@ -109,7 +109,7 @@ export default class AddTask extends Component {
     if (loading) return <p>Loading ...</p>
 
     const titleProps = {
-      placeholder: `Select existing issue from Github`,
+      placeholder: `Select from existing issues on Github`,
       onChange: this.onChangeTitle,
       value
     }
@@ -165,8 +165,14 @@ export default class AddTask extends Component {
           <Grid.Row>
             <Grid.Column width={16}>
               <Message>
-                <Message.Header>Rules</Message.Header>
+                <Message.Header>Info</Message.Header>
                 <List bulleted>
+                  <List.Item>
+                    Select your task from existing ones on Github on the left.
+                  </List.Item>
+                  <List.Item>
+                    Select the appropriate tags on the right.
+                  </List.Item>
                   <List.Item>
                     You must own at least {numDIDRequiredToAddTask} DID to
                     propose. This number changes according to the{' '}
@@ -174,39 +180,13 @@ export default class AddTask extends Component {
                     parameter.
                   </List.Item>
                   <List.Item>
-                    Your proposal can be anything, it doesn't necessarily have
-                    to be <em>work</em>.
+                    You can propose anything, it doesn't necessarily have to be{' '}
+                    <em>work</em>.
                   </List.Item>
                   <List.Item>
                     Remember that when you propose, it is likely that DID will
                     be issued for the completion of the task. The fewer DID the
                     better.
-                  </List.Item>
-                </List>
-              </Message>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={16}>
-              <Message>
-                <Message.Header>Title</Message.Header>
-                <List bulleted>
-                  <List.Item>Enter the title of your task/proposal</List.Item>
-                  <List.Item>
-                    Limit the length of the title: the more characters the more
-                    gas it will cost you
-                  </List.Item>
-                  <List.Item>
-                    Example: 'Build this amazing new dapp that will change the
-                    world'
-                  </List.Item>
-                  <List.Item>
-                    People will like you more if you enter the same exact title
-                    as your Github issue
-                  </List.Item>
-                  <List.Item>
-                    Then select the relevant categories to help others later
-                    sort tasks
                   </List.Item>
                 </List>
               </Message>
