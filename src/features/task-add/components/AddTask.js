@@ -117,7 +117,7 @@ export default class AddTask extends Component {
               <Form onSubmit={this.onSubmit}>
                 <Form.Field>
                   <Autosuggest
-                    alwaysRenderSuggestions={true}
+                    // alwaysRenderSuggestions={true}
                     suggestions={issues}
                     getSuggestionValue={getSuggestionValue}
                     renderSuggestion={renderSuggestion}
@@ -163,7 +163,7 @@ export default class AddTask extends Component {
                     You must own at least {numDIDRequiredToAddTask} DID to
                     propose. This number changes according to the{' '}
                     <Link to="/parameters">proposalPctDIDToApprove</Link>{' '}
-                    parameter
+                    parameter.
                   </List.Item>
                   <List.Item>
                     Your proposal can be anything, it doesn't necessarily have
@@ -220,18 +220,23 @@ export default class AddTask extends Component {
             font-size: 1.25rem;
           }
 
-          .bold {
-            font-weight: 900;
-          }
-
           .suggestion-content {
             display: flex;
             align-items: center;
             background-repeat: no-repeat;
           }
 
+          .react-autosuggest__suggestion--highlighted {
+            background-color: lightgray;
+          }
+
+          .bold {
+            font-weight: 900;
+            font-size: 22px;
+          }
+
           .react-autosuggest__suggestion {
-            border: 1px solid gray;
+            border: 1px solid darkgray;
             border-radius: 3px 3px 3px 3px;
             -moz-border-radius: 3px 3px 3px 3px;
             -webkit-border-radius: 3px 3px 3px 3px;

@@ -18,14 +18,14 @@ const getSuggestions = (issues, value) => {
 
 const getSuggestionValue = suggestion => `${suggestion.title}`
 
-function renderSuggestion(suggestion, { query }) {
+function renderSuggestion(suggestion, { query, isHighlighted }) {
   const suggestionText = `${suggestion.title}`
   const matches = AutosuggestHighlightMatch(suggestionText, query)
   const parts = AutosuggestHighlightParse(suggestionText, matches)
   return (
     <divs>
       {parts.map((part, index) => {
-        const className = part.highlight ? 'distense-green' : null
+        const className = part.highlight ? 'distense-green bold' : null
 
         return (
           <span className={className} key={index}>
