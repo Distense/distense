@@ -218,6 +218,10 @@ export default class AddTask extends Component {
             font-size: 22px;
           }
 
+          .react-autosuggest__input {
+            font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont,
+              sans-serif !important;
+          }
           .react-autosuggest__suggestion {
             font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont,
               sans-serif;
