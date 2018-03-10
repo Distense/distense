@@ -20,6 +20,7 @@
     "extends": "react-app"
   },
   "dependencies": {
+    "autosuggest-highlight": "^3.1.1",
     "babel-runtime": "^6.26.0",
     "bignumber.js": "^6.0.0",
     "cross-fetch": "^2.0.0",

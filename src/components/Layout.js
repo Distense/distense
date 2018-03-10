@@ -67,6 +67,9 @@ export default ({ children }) => (
       .bold {
         font-weight: 900;
       }
+      .distense-green {
+        color: rgb(13, 246, 121);
+      }
     `}</style>
   </div>
 )

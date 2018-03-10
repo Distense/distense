@@ -1,4 +1,9 @@
 import React from 'react'
+// import match from 'autosuggest-highlight/match'
+// import parse from 'autosuggest-highlight/parse'
+
+import AutosuggestHighlightMatch from 'autosuggest-highlight/match'
+import AutosuggestHighlightParse from 'autosuggest-highlight/parse'
 
 const getSuggestions = (issues, value) => {
   const inputValue = value.trim().toLowerCase()
@@ -13,11 +18,23 @@ const getSuggestions = (issues, value) => {
 
 const getSuggestionValue = suggestion => `${suggestion.title}`
 
-function renderSuggestion(suggestion, { query, isHighlighted }) {
+function renderSuggestion(suggestion, { query }) {
+  const suggestionText = `${suggestion.title}`
+  const matches = AutosuggestHighlightMatch(suggestionText, query)
+  const parts = AutosuggestHighlightParse(suggestionText, matches)
   return (
-    <div className={isHighlighted ? 'bold' : ''}>
+    <divs>
+      {parts.map((part, index) => {
+        const className = part.highlight ? 'distense-green' : null
+
+        return (
+          <span className={className} key={index}>
+            {part.text}
+          </span>
+        )
+      })}
       {suggestion.title} (Issue #{suggestion.number})
-    </div>
+    </divs>
   )
 }
 
