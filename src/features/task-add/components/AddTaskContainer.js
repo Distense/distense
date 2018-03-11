@@ -51,9 +51,9 @@ export class AddTaskContainer extends Component {
     return (
       <AddTask
         addTask={addTask}
+        issues={issues}
         loading={loading}
         numDIDRequiredToAddTask={numDIDRequiredToAddTask}
-        issues={issues}
       />
     )
   }

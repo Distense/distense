@@ -20,7 +20,7 @@ export default class AddTask extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      hasntSetTags: false,
+      submittedWithoutTags: false,
       issueNum: '',
       issues: this.props.issues || [],
       redirect: false,
@@ -33,7 +33,6 @@ export default class AddTask extends Component {
   }
 
   onChangeTitle = (event, { newValue }) => {
-    //  make sure not to have any slashes for future URLs
     this.setState({
       value: newValue
     })
@@ -52,35 +51,44 @@ export default class AddTask extends Component {
     }
   }
 
-  onSubmit = async e => {
-    e.preventDefault()
-
-    if (!this.state.tagsString) {
-      this.setState({
-        hasntSetTags: true
-      })
-      return
-    }
+  getIssueNumAndRepo() {
     const issue = _.find(this.props.issues, issue => {
       return issue.title === this.state.value
     })
+    //  make sure not to have any slashes for future URLs
+    const title = issue.title.replace('/', '-')
     const issueNum = issue.number
     const repo = 'distense-ui'
-    const { tagsString } = this.state
+    return { issueNum, repo, title }
+  }
 
-    if (issue.title && tagsString && issueNum && repo) {
-      const correctedTitle = issue.title.replace('/', '-')
-      this.props.addTask({ correctedTitle, tagsString, issueNum, repo })
+  onSubmit = e => {
+    e.preventDefault()
 
+    if (!this.state.value) return
+    if (!this.state.tagsString) {
       this.setState({
-        submitting: true
+        submittedWithoutTags: true
       })
-      this.redirectTimeout(() => {
-        this.setState({
-          redirect: true
-        })
-      }, 1500)
+      return
     }
+    const { issueNum, repo, title } = this.getIssueNumAndRepo()
+
+    const tagsString = this.state.tagsString
+    this.props.addTask({ title, tagsString, issueNum, repo })
+
+    this.setState({
+      submitting: true
+    })
+    this.redirectTimeout = setTimeout(() => {
+      this.setState({
+        redirect: true
+      })
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.redirectTimeout)
   }
 
   onSuggestionsFetchRequested = ({ value }) => {
@@ -96,7 +104,15 @@ export default class AddTask extends Component {
   }
 
   render() {
-    const { hasntSetTags, issues, loading, redirect, tags, value } = this.state
+    const {
+      submittedWithoutTags,
+      issues,
+      loading,
+      redirect,
+      submitting,
+      tags,
+      value
+    } = this.state
 
     const { numDIDRequiredToAddTask } = this.props
 
@@ -104,7 +120,7 @@ export default class AddTask extends Component {
     if (loading) return <p>Loading ...</p>
 
     const titleProps = {
-      placeholder: `Select from existing issues on Github`,
+      placeholder: `Select from existing issues`,
       onChange: this.onChangeTitle,
       value
     }
@@ -143,7 +159,9 @@ export default class AddTask extends Component {
               <Form onSubmit={this.onSubmit}>
                 <Form.Field>
                   <Dropdown
-                    className={classNames({ 'error-red': hasntSetTags })}
+                    className={classNames({
+                      'error-red': submittedWithoutTags
+                    })}
                     fluid
                     multiple
                     onChange={this.onChangeTags}
@@ -155,7 +173,12 @@ export default class AddTask extends Component {
                     value={tags}
                   />
                 </Form.Field>
-                <Button size="large" color="green" type="submit">
+                <Button
+                  disabled={submitting}
+                  size="large"
+                  color="green"
+                  type="submit"
+                >
                   Submit
                 </Button>
               </Form>

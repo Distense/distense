@@ -24,7 +24,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
       </p>
     </div>
     <div
-      className="two column row"
+      className="one column row"
       style={
         Object {
           "paddingTop": "0px",
@@ -57,7 +57,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
-                placeholder="Select from existing issues on Github"
+                placeholder="Select from existing issues"
                 role="combobox"
                 type="text"
                 value=""
@@ -68,18 +68,17 @@ exports[`<AddTask /> page component snapshot 1`] = `
               />
             </div>
           </div>
-          <button
-            className="ui green large button"
-            disabled={undefined}
-            onClick={[Function]}
-            role="button"
-            tabIndex={undefined}
-            type="submit"
-          >
-            Submit
-          </button>
         </form>
       </div>
+    </div>
+    <div
+      className="one column row"
+      style={
+        Object {
+          "paddingTop": "0px",
+        }
+      }
+    >
       <div
         className="eight wide column"
       >
@@ -321,6 +320,16 @@ exports[`<AddTask /> page component snapshot 1`] = `
               </div>
             </div>
           </div>
+          <button
+            className="ui green large button"
+            disabled={undefined}
+            onClick={[Function]}
+            role="button"
+            tabIndex={undefined}
+            type="submit"
+          >
+            Submit
+          </button>
         </form>
       </div>
     </div>
@@ -348,7 +357,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
               onClick={[Function]}
               role="listitem"
             >
-              Select your task from existing ones on Github on the left.
+              Select your task.
             </div>
             <div
               className="item"
@@ -356,7 +365,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
               onClick={[Function]}
               role="listitem"
             >
-              Select the appropriate tags on the right.
+              Select the appropriate tags.
             </div>
             <div
               className="item"
@@ -365,6 +374,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
               role="listitem"
             >
               You must own at least 
+              1001
                DID to propose. This number changes according to the
                
               <a
@@ -412,7 +422,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
           }
 
           .ui.form {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
           }
 
           .suggestion-content {
@@ -425,12 +435,23 @@ exports[`<AddTask /> page component snapshot 1`] = `
             background-color: lightgray;
           }
 
+          .dropdown .menu .item {
+            line-height: 2rem !important;
+            font-size: 1.2rem !important;
+          }
+
           .bold {
             font-weight: 900;
             font-size: 22px;
           }
 
+          .react-autosuggest__input {
+            font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont,
+              sans-serif !important;
+          }
           .react-autosuggest__suggestion {
+            font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont,
+              sans-serif;
             border: 1px solid darkgray;
             border-radius: 3px 3px 3px 3px;
             -moz-border-radius: 3px 3px 3px 3px;
@@ -438,6 +459,11 @@ exports[`<AddTask /> page component snapshot 1`] = `
             line-height: 2.8rem;
             margin-left: -38px;
             padding: 2px 10px;
+          }
+
+          .error-red {
+            border: 2px solid red !important;
+            background-color: lightcoral !important;
           }
         
   </style>
