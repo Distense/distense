@@ -2,13 +2,17 @@ import React, { Component } from 'react'
 import { Button, Form, Grid, Input, List, Message } from 'semantic-ui-react'
 import { Link, Redirect } from 'react-router-dom'
 import Autosuggest from 'react-autosuggest'
+import _ from 'lodash'
 
 import Head from '../../../components/Head'
 import PageTitling from '../../../components/PageTitling'
 import {
-  getSuggestions,
+  getGithubPullRequestsSuggestions,
+  getTasksSuggestions,
   getSuggestionValue,
-  renderSuggestion
+  getTaskSuggestionValue,
+  renderSuggestion,
+  renderTaskSuggestion
 } from '../autosuggestHelpers'
 
 export class AddPullRequest extends Component {
@@ -17,19 +21,29 @@ export class AddPullRequest extends Component {
     this.state = {
       taskId: '',
       prNum: '',
-      redirect: false
+      redirect: false,
+      githubPullRequestValue: '',
+      taskIdPlaceholder: 'Click to show tasks to find the appropriate ID',
+      taskIdValue: ''
     }
     this.onSubmit = this.onSubmit.bind(this)
+    this.onChangeTaskId = this.onChangeTaskId.bind(this)
   }
 
   componentDidMount() {
     //  If taskId param exists prefill the input
-    const taskId = this.props.match.params.id
+    const taskId = this.props.taskId
     if (taskId) this.selectTask(taskId)
   }
 
-  onChangeTaskId = ({ target: { value } }) => {
-    this.selectTask(value)
+  onChangePullRequest = (event, { newValue }) => {
+    this.setState({
+      githubPullRequestValue: newValue
+    })
+  }
+
+  onChangeTaskId(e, { newValue }) {
+    this.setState({ taskIdValue: newValue })
   }
 
   selectTask(taskId) {
@@ -37,37 +51,98 @@ export class AddPullRequest extends Component {
     this.props.selectTask(taskId)
   }
 
+  getPullRequestNumFromTitle() {
+    const pullRequest = _.find(
+      this.props.githubPullRequests,
+      githubPullRequest => {
+        return githubPullRequest.title === this.state.value
+      }
+    )
+    //  make sure not to have any slashes for future URLs
+    return pullRequest.number
+  }
+
   onSubmit = e => {
     e.preventDefault()
-    const { taskId, prNum } = this.state
-    if (taskId && prNum) {
-      this.props.addPullRequest({ taskId, prNum })
+
+    const taskId = this.state.taskId
+    if (!this.state.value) return
+    if (!taskId) {
       this.setState({
-        redirect: true
+        submittedWithoutTaskId: true
       })
+      return
     }
-  }
-  onSuggestionsFetchRequested = ({ value }) => {
+    const prNum = this.getPullRequestNumFromTitle()
+    this.props.addPullRequest({ taskId, prNum })
     this.setState({
-      githubPullRequests: getSuggestions(this.props.githubPullRequests, value)
+      redirect: true
     })
   }
 
-  onSuggestionsClearRequested = () => {
+  onGithubPullRequestsSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      githubPullRequests: getGithubPullRequestsSuggestions(
+        this.props.githubPullRequests,
+        value
+      )
+    })
+  }
+
+  onTasksSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      tasks: getTasksSuggestions(this.props.tasks, value)
+    })
+  }
+
+  clearGithubPullRequestsSuggestions = () => {
     this.setState({
       githubPullRequests: []
     })
   }
 
+  clearTasksSuggestions = () => {
+    this.setState({
+      tasks: []
+    })
+  }
+
+  onTaskSelected(event, { suggestion, suggestionValue }) {
+    event.preventDefault()
+    const task = _.find(this.props.tasks, task => {
+      return task.title === this.state.value
+    })
+    let taskId
+    if (task) {
+      taskId = task.id
+      this.setState({ taskId })
+    } else {
+      this.setState({ taskIdPlaceholder: "Couldn't find task ID" })
+    }
+  }
+
   render() {
-    const { loading, taskId, redirect, submitting, value } = this.state
+    const {
+      loading,
+      taskId,
+      redirect,
+      submitting,
+      githubPullRequestValue,
+      taskIdValue
+    } = this.state
 
-    const { githubPullRequests } = this.props
+    const { githubPullRequests, tasks } = this.props
 
-    const titleProps = {
-      placeholder: `Select from existing issues`,
-      onChange: this.onChangeTitle,
-      value
+    const pullRequestsProps = {
+      placeholder: `Select from existing pull requests`,
+      onChange: this.onChangePullRequest,
+      value: githubPullRequestValue
+    }
+
+    const tasksProps = {
+      placeholder: this.state.taskIdPlaceholder,
+      onChange: this.onChangeTaskId,
+      value: taskIdValue
     }
 
     if (redirect) {
@@ -77,58 +152,84 @@ export class AddPullRequest extends Component {
     return (
       <div>
         <Head title="Add PullRequest" />
-        <Grid columns={1}>
+        <Grid>
           <PageTitling
             title="Submit Pull Request"
             subtitle="Anyone may submit pull requests"
           />
-          <Form onSubmit={this.onSubmit}>
-            <Form.Field>
-              <Autosuggest
-                suggestions={githubPullRequests}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                highlightFirstSuggestion={true}
-                inputProps={titleProps}
-                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-              />
-            </Form.Field>
-            <Form.Field required>
-              <Input
-                name="id"
-                onChange={this.onChangeTaskId}
-                placeholder="Task ID"
-                type="text"
-                value={taskId}
-              />
-            </Form.Field>
-            <Button
-              disabled={submitting}
-              size="large"
-              color="green"
-              type="submit"
-            >
-              Submit
-            </Button>
-          </Form>
+          <Grid.Row style={{ paddingTop: '0px' }} columns={1}>
+            <Grid.Column columns={1}>
+              <Form>
+                <Form.Field>
+                  <Autosuggest
+                    suggestions={githubPullRequests}
+                    getSuggestionValue={getSuggestionValue}
+                    renderSuggestion={renderSuggestion}
+                    onSuggestionsFetchRequested={
+                      this.onGithubPullRequestsSuggestionsFetchRequested
+                    }
+                    highlightFirstSuggestion={true}
+                    inputProps={pullRequestsProps}
+                    onSuggestionsClearRequested={
+                      this.clearGithubPullRequestsSuggestions
+                    }
+                  />
+                </Form.Field>
+              </Form>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row style={{ paddingTop: '0px' }} columns={1}>
+            <Grid.Column width={16}>
+              <Form onSubmit={this.onSubmit}>
+                <Form.Field required>
+                  <Autosuggest
+                    name="id"
+                    className="inconsolata"
+                    onChange={this.onChangeTaskId}
+                    placeholder="Task ID"
+                    type="text"
+                    value={taskId}
+                    suggestions={tasks}
+                    getSuggestionValue={getTaskSuggestionValue}
+                    renderSuggestion={renderTaskSuggestion}
+                    onSuggestionsFetchRequested={
+                      this.onTasksSuggestionsFetchRequested
+                    }
+                    highlightFirstSuggestion={true}
+                    inputProps={tasksProps}
+                    onSuggestionSelected={this.onTaskSelected}
+                    onSuggestionsClearRequested={this.clearTasksSuggestions}
+                  />
+                </Form.Field>
+                <Button
+                  disabled={submitting}
+                  size="large"
+                  color="green"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </Form>
+            </Grid.Column>
+          </Grid.Row>
           <Grid.Row>
             <Grid.Column>
               <Message>
-                <Message.Header>Pull Request number</Message.Header>
+                <Message.Header>Pull Request Number</Message.Header>
                 <List bulleted>
-                  <List.Item>First submit a pull request on Github</List.Item>
+                  <List.Item>
+                    Select from existing pull requests on Github
+                  </List.Item>
+                  <List.Item>Create one there if you haven't already</List.Item>
                 </List>
-              </Message>
-              <Message>
                 <Message.Header>Task ID</Message.Header>
                 <List bulleted>
                   <List.Item>
                     Find the Task ID of the task your pull request completes
                   </List.Item>
                   <List.Item>
-                    The Task ID can be found by clicking the corresponding task
-                    found in the&nbsp;
+                    The Task ID can also be found by clicking "Submit PR" the
+                    corresponding task found in the&nbsp;
                     <Link to="/tasks">tasks list</Link>
                     &nbsp;page.
                   </List.Item>
@@ -141,6 +242,62 @@ export class AddPullRequest extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+        {/*language=CSS*/}
+        <style global jsx>{`
+          .react-autosuggest__suggestions-list {
+            list-style-type: none;
+          }
+
+          .ui.form {
+            font-size: 1.2rem;
+          }
+
+          .suggestion-content {
+            display: flex;
+            align-items: center;
+            background-repeat: no-repeat;
+          }
+
+          .react-autosuggest__suggestion--highlighted {
+            background-color: lightgray;
+          }
+
+          .inconsolata {
+            font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont,
+              sans-serif !important;
+          }
+
+          .dropdown .menu .item {
+            line-height: 2rem !important;
+            font-size: 1.2rem !important;
+          }
+
+          .bold {
+            font-weight: 900;
+            font-size: 22px;
+          }
+
+          .react-autosuggest__input {
+            font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont,
+              sans-serif !important;
+          }
+          .react-autosuggest__suggestion {
+            font-family: 'Inconsolata', -apple-system, BlinkMacSystemFont,
+              sans-serif;
+            border: 1px solid darkgray;
+            border-radius: 3px 3px 3px 3px;
+            -moz-border-radius: 3px 3px 3px 3px;
+            -webkit-border-radius: 3px 3px 3px 3px;
+            line-height: 2.8rem;
+            margin-left: -38px;
+            padding: 2px 10px;
+          }
+
+          .error-red {
+            border: 2px solid red !important;
+            background-color: lightcoral !important;
+          }
+        `}</style>
       </div>
     )
   }

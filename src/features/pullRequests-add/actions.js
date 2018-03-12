@@ -80,8 +80,7 @@ export const fetchGithubPullRequests = () => dispatch => {
 }
 
 function shouldFetchPullRequests(state) {
-  const githubPullRequests =
-    state.githubPullRequests.githubPullRequests.githubPullRequests
+  const githubPullRequests = state.githubPullRequests.githubPullRequests
   if (!githubPullRequests.length) {
     return true
   } else if (githubPullRequests.isFetching || githubPullRequests) {

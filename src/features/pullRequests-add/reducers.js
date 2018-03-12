@@ -20,7 +20,7 @@ const githubPullRequests = (
         {},
         {
           isFetching: false,
-          pullRequests: action.pullRequests
+          githubPullRequests: action.githubPullRequests
         }
       )
     default:

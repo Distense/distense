@@ -107,7 +107,6 @@ export default class AddTask extends Component {
     const {
       submittedWithoutTags,
       issues,
-      loading,
       redirect,
       submitting,
       tags,
@@ -117,7 +116,6 @@ export default class AddTask extends Component {
     const { numDIDRequiredToAddTask } = this.props
 
     if (redirect) return <Redirect to="/tasks" />
-    if (loading) return <p>Loading ...</p>
 
     const titleProps = {
       placeholder: `Select from existing issues`,
