@@ -97,7 +97,6 @@ export const getTaskByID = async taskId => {
       state,
       DID_PER_ETHER_PARAMETER_TITLE
     )
-    console.log(`didPerEtherValue: ${didPerEtherValue}`)
     return constructClientTask(taskId, contractTask, didPerEtherValue)
   } catch (error) {
     console.error(error)

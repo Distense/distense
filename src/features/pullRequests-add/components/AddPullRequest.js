@@ -1,23 +1,15 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import {
-  Button,
-  Divider,
-  Form,
-  Grid,
-  Input,
-  Header,
-  List,
-  Message
-} from 'semantic-ui-react'
+import { Button, Form, Grid, Input, List, Message } from 'semantic-ui-react'
 import { Link, Redirect } from 'react-router-dom'
+import Autosuggest from 'react-autosuggest'
 
-import { fetchTask, selectTask } from '../tasks/actions'
-import { getSelectedTask } from '../tasks/reducers'
-import { addPullRequest } from './actions'
-
-import Head from '../../components/Head'
-import PageTitling from '../../components/PageTitling'
+import Head from '../../../components/Head'
+import PageTitling from '../../../components/PageTitling'
+import {
+  getSuggestions,
+  getSuggestionValue,
+  renderSuggestion
+} from '../autosuggestHelpers'
 
 export class AddPullRequest extends Component {
   constructor(props) {
@@ -38,7 +30,6 @@ export class AddPullRequest extends Component {
 
   onChangeTaskId = ({ target: { value } }) => {
     this.selectTask(value)
-    // Don't fetch the task for previewing until we've at least got enough bytes to be a complete ipfs hash
   }
 
   selectTask(taskId) {
@@ -46,29 +37,43 @@ export class AddPullRequest extends Component {
     this.props.selectTask(taskId)
   }
 
-  onChangePRNum = ({ target: { value } }) => {
-    this.setState({ prNum: value })
-  }
-
-  onSubmit = async e => {
+  onSubmit = e => {
     e.preventDefault()
     const { taskId, prNum } = this.state
     if (taskId && prNum) {
-      this.props.createPullRequest({ taskId, prNum })
+      this.props.addPullRequest({ taskId, prNum })
       this.setState({
         redirect: true
       })
     }
   }
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      githubPullRequests: getSuggestions(this.props.githubPullRequests, value)
+    })
+  }
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      githubPullRequests: []
+    })
+  }
 
   render() {
-    const { task } = this.props
-    const { taskId, prNum, redirect } = this.state
+    const { loading, taskId, redirect, submitting, value } = this.state
+
+    const { githubPullRequests } = this.props
+
+    const titleProps = {
+      placeholder: `Select from existing issues`,
+      onChange: this.onChangeTitle,
+      value
+    }
 
     if (redirect) {
       return <Redirect to="/pullrequests" />
     }
-
+    if (loading) return <p>Loading ...</p>
     return (
       <div>
         <Head title="Add PullRequest" />
@@ -78,13 +83,15 @@ export class AddPullRequest extends Component {
             subtitle="Anyone may submit pull requests"
           />
           <Form onSubmit={this.onSubmit}>
-            <Form.Field required>
-              <Input
-                type="text"
-                placeholder="Pull Request Number"
-                onChange={this.onChangePRNum}
-                name="url"
-                value={prNum}
+            <Form.Field>
+              <Autosuggest
+                suggestions={githubPullRequests}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={renderSuggestion}
+                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                highlightFirstSuggestion={true}
+                inputProps={titleProps}
+                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
               />
             </Form.Field>
             <Form.Field required>
@@ -96,7 +103,12 @@ export class AddPullRequest extends Component {
                 value={taskId}
               />
             </Form.Field>
-            <Button size="large" color="green" type="submit">
+            <Button
+              disabled={submitting}
+              size="large"
+              color="green"
+              type="submit"
+            >
               Submit
             </Button>
           </Form>
@@ -129,30 +141,7 @@ export class AddPullRequest extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        {task && (
-          // Preview task info so submitter can verify they're submitting for
-          // the right task
-          <div>
-            <Divider section />
-            <Header as="h3">Pull Request Task Verification</Header>
-            <Message>
-              <Message.Header>Title: {task.title}</Message.Header>
-            </Message>
-          </div>
-        )}
       </div>
     )
   }
 }
-
-const mapStateToProps = state => ({
-  task: getSelectedTask(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  fetchTask: id => dispatch(fetchTask(id)),
-  createPullRequest: pr => dispatch(addPullRequest(pr)),
-  selectTask: taskId => dispatch(selectTask(taskId))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddPullRequest)
