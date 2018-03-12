@@ -65,7 +65,7 @@ export const fetchTasks = () => async dispatch => {
 
   dispatch(receiveTasksInstance())
   const numTasks = +await getNumTasks()
-  console.log(`found ${numTasks} tasks`)
+  console.log(`${numTasks} tasks`)
   dispatch(setNumTasks(numTasks))
   dispatch(requestTasks())
 

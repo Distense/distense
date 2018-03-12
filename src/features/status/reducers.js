@@ -130,7 +130,7 @@ const status = (
       })
     case tasksReducers.TASKS_SET_NUM:
       return Object.assign({}, state, {
-        message: `Found ${action.numTasks} tasks`,
+        message: `${action.numTasks} tasks`,
         numTasks: action.numTasks
       })
     case TOTAL_SUPPLY_DID_RECEIVE:

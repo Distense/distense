@@ -23,8 +23,20 @@ class AddPullRequestContainer extends Component {
         .githubPullRequests.isFetching
       const receivedGithubPullRequests = store.getState().githubPullRequests
         .githubPullRequests.githubPullRequests.length
-      if (!fetchingGithubPullRequests && receivedGithubPullRequests) {
+      const fetchingTasks = store.getState().tasks.tasks.isFetching
+      const receivedTasks = store.getState().tasks.tasks.length
+      if (
+        !fetchingGithubPullRequests &&
+        receivedGithubPullRequests &&
+        receivedTasks &&
+        !fetchingTasks
+      ) {
         const githubPullRequests = getGitHubPullRequests(store.getState())
+        const tasks = getAllTasks(store.getState())
+        this.setState({
+          githubPullRequests,
+          tasks
+        })
         clearTimeout(this.githubPullRequestsInterval)
       } else {
         console.log(`no pull requests yet`)
@@ -38,7 +50,7 @@ class AddPullRequestContainer extends Component {
   render() {
     return (
       <AddPullRequest
-        createPullRequest={this.props.addPullRequest}
+        addPullRequest={this.props.addPullRequest}
         githubPullRequests={this.props.githubPullRequests}
         selectTask={this.props.selectTask}
         taskId={this.props.match.params.id}

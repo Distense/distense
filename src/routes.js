@@ -38,40 +38,40 @@ export const DefaultLayout = ({ component: Component, ...rest }) => {
 export const Routes = () => (
   <Router>
     <Switch>
-      {/*<Route exact path="/" component={Home} />*/}
+      <Route exact path="/" component={Home} />
       <DefaultLayout exact path="/howitworks" component={HowItWorks} />
       <DefaultLayout exact path="/events" component={Events} />
-      {/*<DefaultLayout exact path="/exchange" component={ExchangeContainer} />*/}
-      {/*<DefaultLayout path="/faq" component={FAQ} />*/}
-      {/*<DefaultLayout path="/FAQ" component={FAQ} />*/}
-      {/*<DefaultLayout exact path="/jobs" component={Jobs} />*/}
-      {/*<DefaultLayout exact path="/ropsten/faucet" component={Faucet} />*/}
-      {/*<DefaultLayout exact path="/getstarted" component={GetStarted} />*/}
-      {/*<DefaultLayout path="/tasks/:title/:id" component={Task} />*/}
-      {/*<DefaultLayout path="/tasks/add" component={AddTaskContainer} />*/}
-      {/*<DefaultLayout exact path="/tasks" component={Tasks} />*/}
-      {/*<DefaultLayout*/}
-      {/*path="/pullrequests/add/:id?"*/}
-      {/*component={AddPullRequestContainer}*/}
-      {/*/>*/}
-      {/*<DefaultLayout exact path="/pullrequests/:id" component={PullRequest} />*/}
-      {/*<DefaultLayout*/}
-      {/*exact*/}
-      {/*path="/pullrequests"*/}
-      {/*component={PullRequestsContainer}*/}
-      {/*/>*/}
-      {/*<DefaultLayout exact path="/parameters" component={ParametersContainer} />*/}
-      {/*<DefaultLayout*/}
-      {/*exact*/}
-      {/*path="/jobs/engineer/solidity"*/}
-      {/*component={SolidityEngineer}*/}
-      {/*/>*/}
-      {/*<DefaultLayout*/}
-      {/*exact*/}
-      {/*path="/jobs/engineer/frontend"*/}
-      {/*component={FrontendEngineer}*/}
-      {/*/>*/}
-      {/*<DefaultLayout path="*" component={FourOhFour} />*/}
+      <DefaultLayout exact path="/exchange" component={ExchangeContainer} />
+      <DefaultLayout path="/faq" component={FAQ} />
+      <DefaultLayout path="/FAQ" component={FAQ} />
+      <DefaultLayout exact path="/jobs" component={Jobs} />
+      <DefaultLayout exact path="/ropsten/faucet" component={Faucet} />
+      <DefaultLayout exact path="/getstarted" component={GetStarted} />
+      <DefaultLayout path="/tasks/:title/:id" component={Task} />
+      <DefaultLayout path="/tasks/add" component={AddTaskContainer} />
+      <DefaultLayout exact path="/tasks" component={Tasks} />
+      <DefaultLayout
+        path="/pullrequests/add/:id?"
+        component={AddPullRequestContainer}
+      />
+      <DefaultLayout exact path="/pullrequests/:id" component={PullRequest} />
+      <DefaultLayout
+        exact
+        path="/pullrequests"
+        component={PullRequestsContainer}
+      />
+      <DefaultLayout exact path="/parameters" component={ParametersContainer} />
+      <DefaultLayout
+        exact
+        path="/jobs/engineer/solidity"
+        component={SolidityEngineer}
+      />
+      <DefaultLayout
+        exact
+        path="/jobs/engineer/frontend"
+        component={FrontendEngineer}
+      />
+      <DefaultLayout path="*" component={FourOhFour} />
     </Switch>
   </Router>
 )

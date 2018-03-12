@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Form, Grid, Input, List, Message } from 'semantic-ui-react'
+import { Button, Form, Grid, List, Message } from 'semantic-ui-react'
 import { Link, Redirect } from 'react-router-dom'
 import Autosuggest from 'react-autosuggest'
 import _ from 'lodash'
+
+import { calcTheme } from '../autosuggestThemes'
 
 import Head from '../../../components/Head'
 import PageTitling from '../../../components/PageTitling'
@@ -19,6 +21,8 @@ export class AddPullRequest extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      submittedWithoutTaskId: false,
+      submittedWithoutPullRequestTitle: false,
       taskId: '',
       prNum: '',
       redirect: false,
@@ -26,8 +30,9 @@ export class AddPullRequest extends Component {
       taskIdPlaceholder: 'Click to show tasks to find the appropriate ID',
       taskIdValue: ''
     }
-    this.onSubmit = this.onSubmit.bind(this)
+    // this.onSubmit = this.onSubmit.bind(this)
     this.onChangeTaskId = this.onChangeTaskId.bind(this)
+    this.onTaskSelected = this.onTaskSelected.bind(this)
   }
 
   componentDidMount() {
@@ -55,29 +60,11 @@ export class AddPullRequest extends Component {
     const pullRequest = _.find(
       this.props.githubPullRequests,
       githubPullRequest => {
-        return githubPullRequest.title === this.state.value
+        return githubPullRequest.title === this.state.githubPullRequestValue
       }
     )
     //  make sure not to have any slashes for future URLs
     return pullRequest.number
-  }
-
-  onSubmit = e => {
-    e.preventDefault()
-
-    const taskId = this.state.taskId
-    if (!this.state.value) return
-    if (!taskId) {
-      this.setState({
-        submittedWithoutTaskId: true
-      })
-      return
-    }
-    const prNum = this.getPullRequestNumFromTitle()
-    this.props.addPullRequest({ taskId, prNum })
-    this.setState({
-      redirect: true
-    })
   }
 
   onGithubPullRequestsSuggestionsFetchRequested = ({ value }) => {
@@ -110,7 +97,7 @@ export class AddPullRequest extends Component {
   onTaskSelected(event, { suggestion, suggestionValue }) {
     event.preventDefault()
     const task = _.find(this.props.tasks, task => {
-      return task.title === this.state.value
+      return task._id === suggestion._id
     })
     let taskId
     if (task) {
@@ -121,12 +108,42 @@ export class AddPullRequest extends Component {
     }
   }
 
+  onSubmit = e => {
+    e.preventDefault()
+
+    const taskId = this.state.taskIdValue
+    const submittedWithoutTaskId = !taskId
+
+    const githubPullRequestValue = this.state.githubPullRequestValue
+    const submittedWithoutPullRequestTitle = !githubPullRequestValue
+
+    const githubPullRequestTheme = calcTheme(submittedWithoutPullRequestTitle)
+    const taskIdTheme = calcTheme(submittedWithoutTaskId)
+
+    this.setState({
+      githubPullRequestTheme,
+      taskIdTheme,
+      submittedWithoutPullRequestTitle,
+      submittedWithoutTaskId
+    })
+
+    if (submittedWithoutTaskId || submittedWithoutPullRequestTitle) return
+
+    const prNum = this.getPullRequestNumFromTitle()
+    this.props.addPullRequest({ taskId, prNum })
+    this.setState({
+      redirect: true
+    })
+  }
+
   render() {
     const {
       loading,
       taskId,
       redirect,
       submitting,
+      taskIdTheme,
+      githubPullRequestTheme,
       githubPullRequestValue,
       taskIdValue
     } = this.state
@@ -149,6 +166,7 @@ export class AddPullRequest extends Component {
       return <Redirect to="/pullrequests" />
     }
     if (loading) return <p>Loading ...</p>
+
     return (
       <div>
         <Head title="Add PullRequest" />
@@ -162,6 +180,8 @@ export class AddPullRequest extends Component {
               <Form>
                 <Form.Field>
                   <Autosuggest
+                    id="githubPullRequest"
+                    theme={githubPullRequestTheme}
                     suggestions={githubPullRequests}
                     getSuggestionValue={getSuggestionValue}
                     renderSuggestion={renderSuggestion}
@@ -183,8 +203,9 @@ export class AddPullRequest extends Component {
               <Form onSubmit={this.onSubmit}>
                 <Form.Field required>
                   <Autosuggest
-                    name="id"
-                    className="inconsolata"
+                    id="taskId"
+                    name="taskId"
+                    submittedWithoutTaskId
                     onChange={this.onChangeTaskId}
                     placeholder="Task ID"
                     type="text"
@@ -199,6 +220,7 @@ export class AddPullRequest extends Component {
                     inputProps={tasksProps}
                     onSuggestionSelected={this.onTaskSelected}
                     onSuggestionsClearRequested={this.clearTasksSuggestions}
+                    theme={taskIdTheme}
                   />
                 </Form.Field>
                 <Button
@@ -296,6 +318,7 @@ export class AddPullRequest extends Component {
           .error-red {
             border: 2px solid red !important;
             background-color: lightcoral !important;
+            color: gray;
           }
         `}</style>
       </div>

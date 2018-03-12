@@ -34,7 +34,7 @@ const renderSuggestion = (suggestion, { query }) => {
   const matches = AutosuggestHighlightMatch(suggestionText, query)
   const parts = AutosuggestHighlightParse(suggestionText, matches)
   return (
-    <divs>
+    <div>
       {parts.map((part, index) => {
         const className = part.highlight ? 'distense-green bold' : null
 
@@ -45,20 +45,18 @@ const renderSuggestion = (suggestion, { query }) => {
         )
       })}{' '}
       {/*(Issue #{suggestion.number})*/}
-    </divs>
+    </div>
   )
 }
 
 const renderTaskSuggestion = (suggestion, { query }) => {
-  const suggestionText = `${suggestion.title} 
-    ${suggestion.createdBy.substr(0, 8)} 
-    ${suggestion._id}
-    `
+  const suggestionText = `${suggestion.title}`
 
   const matches = AutosuggestHighlightMatch(suggestionText, query)
   const parts = AutosuggestHighlightParse(suggestionText, matches)
   return (
-    <divs>
+    <div>
+      "
       {parts.map((part, index) => {
         const className = part.highlight ? 'distense-green bold' : null
 
@@ -67,9 +65,9 @@ const renderTaskSuggestion = (suggestion, { query }) => {
             {part.text}
           </span>
         )
-      })}{' '}
-      {/*(Issue #{suggestion.number})*/}
-    </divs>
+      })}
+      " by: {suggestion.createdBy.substr(0, 10)}... ID: {suggestion._id}
+    </div>
   )
 }
 
