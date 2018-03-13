@@ -18,7 +18,7 @@ export const App = () => (
   </Provider>
 )
 
-window.addEventListener('load', function() {
+window.addEventListener('load', async function() {
   // if (typeof window.web3 !== 'undefined') {
   //   new Web3(
   //     new Web3.providers.HttpProvider(
@@ -26,10 +26,10 @@ window.addEventListener('load', function() {
   //     )
   //   )
   // }
-  new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
-  store.dispatch(fetchParameters())
+  // new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
+  await store.dispatch(fetchParameters())
+  await store.dispatch(fetchUserAccountInfo())
   store.dispatch(fetchTotalSupplyDID())
-  store.dispatch(fetchUserAccountInfo())
 
   ReactDOM.render(App(), document.getElementById('root'))
   registerServiceWorker()

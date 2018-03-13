@@ -9,7 +9,7 @@ import Home from '../src/features/Home'
 import AddTaskContainer from '../src/features/task-add/components/AddTaskContainer'
 import Tasks from '../src/features/tasks/Tasks'
 import Task from '../src/features/task/Task'
-import AddPullRequest from '../src/features/pullRequests-add/AddPullRequest'
+import AddPullRequestContainer from '../src/features/pullRequests-add/components/AddPullRequestContainer'
 import PullRequestsContainer from '../src/features/pullRequests/components/PullRequestsContainer'
 import ParametersContainer from '../src/features/parameters/components/ParametersContainer'
 import PullRequest from '../src/features/pullRequest/PullRequest'
@@ -45,7 +45,7 @@ describe('Routes', () => {
     expect(pathMap['/tasks/add']).toBe(AddTaskContainer)
     expect(pathMap['/tasks']).toBe(Tasks)
 
-    expect(pathMap['/pullrequests/add/:id?']).toBe(AddPullRequest)
+    expect(pathMap['/pullrequests/add/:id?']).toBe(AddPullRequestContainer)
     expect(pathMap['/pullrequests/add/:id']).toBe(undefined)
     expect(pathMap['/pullrequests']).toBe(PullRequestsContainer)
     expect(pathMap['/pullrequests/:id']).toBe(PullRequest)

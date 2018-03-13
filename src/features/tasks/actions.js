@@ -65,7 +65,7 @@ export const fetchTasks = () => async dispatch => {
 
   dispatch(receiveTasksInstance())
   const numTasks = +await getNumTasks()
-  console.log(`found ${numTasks} tasks`)
+  console.log(`${numTasks} tasks`)
   dispatch(setNumTasks(numTasks))
   dispatch(requestTasks())
 
@@ -92,11 +92,11 @@ export const getTaskByID = async taskId => {
 
     const contractTask = await getTaskById(taskId)
 
+    const state = store.getState()
     const didPerEtherValue = getParameterValueByTitle(
-      store.getState(),
+      state,
       DID_PER_ETHER_PARAMETER_TITLE
     )
-
     return constructClientTask(taskId, contractTask, didPerEtherValue)
   } catch (error) {
     console.error(error)

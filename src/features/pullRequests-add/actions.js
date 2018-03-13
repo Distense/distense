@@ -1,4 +1,5 @@
 import * as contracts from '../../contracts'
+import fetch from 'cross-fetch'
 import Random from 'meteor-random'
 
 import { getTaskByID } from '../tasks/actions'
@@ -8,6 +9,7 @@ import { setDefaultStatus } from '../status/actions'
 import { constructInitialPullRequest } from '../pullRequests/operations/constructInitialPullRequest'
 import { receivePullRequestsInstance } from '../pullRequests/actions'
 import { receiveUserNotAuthenticated } from '../user/actions'
+import { GH_PULLREQUESTS_RECEIVE, GH_PULLREQUESTS_REQUEST } from './reducers'
 
 export const addPullRequest = ({ taskId, prNum }) => async (
   dispatch,
@@ -52,4 +54,44 @@ export const addPullRequest = ({ taskId, prNum }) => async (
   dispatch(receivePullRequest(pullRequest))
   dispatch(setDefaultStatus())
   return pullRequest
+}
+
+const requestGithubPullRequests = () => ({
+  type: GH_PULLREQUESTS_REQUEST
+})
+
+const receiveGithubPullRequests = githubPullRequests => ({
+  type: GH_PULLREQUESTS_RECEIVE,
+  githubPullRequests
+})
+
+export const fetchGithubPullRequests = () => dispatch => {
+  dispatch(requestGithubPullRequests())
+  console.log(`requesting github pullRequests`)
+  return fetch(`https://api.github.com/repos/Distense/distense-ui/pulls`)
+    .then(response => response.json())
+    .then(githubPullRequests => {
+      console.log(`${githubPullRequests.length} distense-ui pullRequests`)
+      return githubPullRequests
+    })
+    .then(githubPullRequests =>
+      dispatch(receiveGithubPullRequests(githubPullRequests))
+    )
+}
+
+function shouldFetchPullRequests(state) {
+  const githubPullRequests = state.githubPullRequests.githubPullRequests
+  if (!githubPullRequests.length) {
+    return true
+  } else if (githubPullRequests.isFetching || githubPullRequests) {
+    return false
+  }
+}
+
+export function fetchGithubPullRequestsIfNeeded() {
+  return (dispatch, getState) => {
+    if (shouldFetchPullRequests(getState())) {
+      return dispatch(fetchGithubPullRequests())
+    }
+  }
 }

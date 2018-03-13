@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { combineReducers } from 'redux'
 
 export const ISSUES_REQUEST = 'ISSUES_REQUEST'

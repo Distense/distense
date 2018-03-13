@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router'
 
 import AddTask from './AddTask'
 import { addTask } from '../../tasks/actions'
@@ -41,26 +40,20 @@ export class AddTaskContainer extends Component {
   }
 
   render() {
-    const { issues, loading, redirect } = this.state
+    const { issues } = this.state
     const { numDIDRequiredToAddTask } = this.props
-
-    if (redirect) return <Redirect to="/tasks" />
-
-    if (loading) return <p>Loading ...</p>
 
     return (
       <AddTask
-        addTask={addTask}
-        loading={loading}
-        numDIDRequiredToAddTask={numDIDRequiredToAddTask}
         issues={issues}
+        addTask={addTask}
+        numDIDRequiredToAddTask={numDIDRequiredToAddTask}
       />
     )
   }
 }
 
 const mapStateToProps = state => ({
-  loading: state.issues.issues.isFetching,
   numDIDRequiredToAddTask: getParameterValueByTitle(
     state,
     NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE

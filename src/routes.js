@@ -13,7 +13,7 @@ import AddTaskContainer from './features/task-add/components/AddTaskContainer'
 import Tasks from './features/tasks/Tasks'
 import Task from './features/task/Task'
 import Jobs from './features/jobs/Jobs'
-import AddPullRequest from './features/pullRequests-add/AddPullRequest'
+import AddPullRequestContainer from './features/pullRequests-add/components/AddPullRequestContainer'
 import PullRequestsContainer from './features/pullRequests/components/PullRequestsContainer'
 import PullRequest from './features/pullRequest/PullRequest'
 import ParametersContainer from './features/parameters/components/ParametersContainer'
@@ -50,7 +50,10 @@ export const Routes = () => (
       <DefaultLayout path="/tasks/:title/:id" component={Task} />
       <DefaultLayout path="/tasks/add" component={AddTaskContainer} />
       <DefaultLayout exact path="/tasks" component={Tasks} />
-      <DefaultLayout path="/pullrequests/add/:id?" component={AddPullRequest} />
+      <DefaultLayout
+        path="/pullrequests/add/:id?"
+        component={AddPullRequestContainer}
+      />
       <DefaultLayout exact path="/pullrequests/:id" component={PullRequest} />
       <DefaultLayout
         exact
