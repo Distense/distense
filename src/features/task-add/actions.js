@@ -25,10 +25,8 @@ export const fetchIssues = () => dispatch => {
 function shouldFetchIssues(state) {
   const issues = state.issues
   if (!issues.length) {
-    console.log(`should NOT fetch issues`)
     return true
   } else if (issues.isFetching || issues) {
-    console.log(`should fetch issues`)
     return false
   }
 }
