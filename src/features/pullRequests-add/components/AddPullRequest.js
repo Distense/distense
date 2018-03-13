@@ -27,7 +27,8 @@ export class AddPullRequest extends Component {
       prNum: '',
       redirect: false,
       githubPullRequestValue: '',
-      taskIdPlaceholder: 'Click to show tasks to find the appropriate ID',
+      taskIdPlaceholder:
+        'taskId: Search tasks to find the appropriate ID or return to this page from /tasks',
       taskIdValue: ''
     }
     // this.onSubmit = this.onSubmit.bind(this)
@@ -97,7 +98,7 @@ export class AddPullRequest extends Component {
   onTaskSelected(event, { suggestion, suggestionValue }) {
     event.preventDefault()
     const task = _.find(this.props.tasks, task => {
-      return task._id === suggestion._id
+      return task._id === suggestionValue
     })
     let taskId
     if (task) {
@@ -257,7 +258,7 @@ export class AddPullRequest extends Component {
                   </List.Item>
                   <List.Item>
                     If you know the URL of your task, the Task ID is the last
-                    part and will look like: 1515652690755a0f3f4b21c0
+                    part and will look like: <em>1515652690755a0f3f4b21c0</em>
                   </List.Item>
                 </List>
               </Message>
