@@ -66,11 +66,10 @@ const renderTaskSuggestion = (suggestion, { query }) => {
           </span>
         )
       })}
-      " by: {suggestion.createdBy.substr(0, 10)}... ID: {suggestion._id}
+      " by: {suggestion.createdBy.substr(0, 10)}... taskId: {suggestion._id}
     </div>
   )
 }
-
 export {
   getGithubPullRequestsSuggestions,
   getTasksSuggestions,

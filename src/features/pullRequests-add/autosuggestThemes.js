@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import classNames from 'classnames'
 
 export const calcTheme = submittedWithout => ({
