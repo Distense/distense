@@ -25,6 +25,7 @@ export default class AddTask extends Component {
       issues: this.props.issues || [],
       redirect: false,
       submitting: false,
+      tags: [],
       tagsOptions: tagsOptions || [],
       tagsString: '',
       value: ''
@@ -163,7 +164,7 @@ export default class AddTask extends Component {
                     fluid
                     multiple
                     onChange={this.onChangeTags}
-                    options={[...tagsOptions]}
+                    options={tagsOptions}
                     placeholder="Tags"
                     search
                     selection

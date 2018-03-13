@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import ExchangeContainer from '../../../../src/features/Exchange/ExchangeContainer'
+import { ExchangeContainer } from '../../../../src/features/Exchange/ExchangeContainer'
 
 function setup(
   numDIDOwned = null,
