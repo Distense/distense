@@ -20,7 +20,7 @@ const issues = (
         {},
         {
           isFetching: false,
-          issues: action.issues
+          issues: [...action.issues, ...state.issues]
         }
       )
     default:
