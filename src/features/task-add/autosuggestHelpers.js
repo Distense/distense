@@ -20,7 +20,7 @@ function renderSuggestion(suggestion, { query }) {
   const matches = AutosuggestHighlightMatch(suggestionText, query)
   const parts = AutosuggestHighlightParse(suggestionText, matches)
   return (
-    <divs>
+    <div>
       {parts.map((part, index) => {
         const className = part.highlight ? 'distense-green bold' : null
 
@@ -31,7 +31,7 @@ function renderSuggestion(suggestion, { query }) {
         )
       })}{' '}
       (Issue #{suggestion.number})
-    </divs>
+    </div>
   )
 }
 
