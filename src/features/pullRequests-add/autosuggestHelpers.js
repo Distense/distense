@@ -33,6 +33,8 @@ const renderSuggestion = (suggestion, { query }) => {
   const suggestionText = `${suggestion.title}`
   const matches = AutosuggestHighlightMatch(suggestionText, query)
   const parts = AutosuggestHighlightParse(suggestionText, matches)
+  const repo =
+    suggestion.url.indexOf('ui') > -1 ? 'distense-ui' : 'distense-contracts'
   return (
     <div>
       {parts.map((part, index) => {
@@ -44,7 +46,7 @@ const renderSuggestion = (suggestion, { query }) => {
           </span>
         )
       })}{' '}
-      {/*(Issue #{suggestion.number})*/}
+      Issue: #{suggestion.number} Repo: {repo}
     </div>
   )
 }
@@ -54,6 +56,11 @@ const renderTaskSuggestion = (suggestion, { query }) => {
 
   const matches = AutosuggestHighlightMatch(suggestionText, query)
   const parts = AutosuggestHighlightParse(suggestionText, matches)
+  const repo =
+    suggestion.issueURL.indexOf('distense-ui') > -1
+      ? 'distense-ui'
+      : 'distense-contracts'
+
   return (
     <div>
       "
@@ -66,7 +73,8 @@ const renderTaskSuggestion = (suggestion, { query }) => {
           </span>
         )
       })}
-      " by: {suggestion.createdBy.substr(0, 10)}... taskId: {suggestion._id}
+      " by: {suggestion.createdBy.substr(0, 10)}... taskId: {suggestion._id}{' '}
+      repo: {repo}
     </div>
   )
 }

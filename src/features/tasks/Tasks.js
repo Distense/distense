@@ -106,7 +106,7 @@ export class Tasks extends Component {
               >
                 Created
               </Table.HeaderCell>
-              <Table.HeaderCell>Submit</Table.HeaderCell>
+              <Table.HeaderCell>Submit PR</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>

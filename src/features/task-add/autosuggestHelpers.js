@@ -19,8 +19,13 @@ function renderSuggestion(suggestion, { query }) {
   const suggestionText = `${suggestion.title}`
   const matches = AutosuggestHighlightMatch(suggestionText, query)
   const parts = AutosuggestHighlightParse(suggestionText, matches)
+
+  const repo =
+    suggestion.repository_url.indexOf('ui') > -1
+      ? 'distense-ui'
+      : 'distense-contracts'
   return (
-    <divs>
+    <div>
       {parts.map((part, index) => {
         const className = part.highlight ? 'distense-green bold' : null
 
@@ -30,8 +35,8 @@ function renderSuggestion(suggestion, { query }) {
           </span>
         )
       })}{' '}
-      (Issue #{suggestion.number})
-    </divs>
+      Issue #{suggestion.number}) (Repo: {repo}
+    </div>
   )
 }
 

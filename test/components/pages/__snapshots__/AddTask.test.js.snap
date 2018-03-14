@@ -125,7 +125,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
                 className="default text"
                 role="alert"
               >
-                Tags
+                Select up to two tags
               </div>
               <i
                 aria-hidden="true"

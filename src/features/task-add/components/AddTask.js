@@ -165,7 +165,7 @@ export default class AddTask extends Component {
                     multiple
                     onChange={this.onChangeTags}
                     options={tagsOptions}
-                    placeholder="Tags"
+                    placeholder="Select up to two tags"
                     search
                     selection
                     scrolling
