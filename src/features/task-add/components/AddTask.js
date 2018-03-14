@@ -230,7 +230,7 @@ export default class AddTask extends Component {
           }
 
           .react-autosuggest__suggestion--highlighted {
-            background-color: lightgray;
+            background-color: rgba(0, 0, 0, 0.06);
           }
 
           .dropdown .menu .item {
