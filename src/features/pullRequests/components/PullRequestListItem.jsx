@@ -11,9 +11,11 @@ class PullRequestsListItem extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      approveText:
-        this.props.pullRequest.status === 'PAID' ? 'Approved' : 'Approve ',
-      approveButtonDisabled: false
+      approveButtonText:
+        this.props.pullRequest.rewardStatus === 'PAID' ? 'Approved' : 'Approve',
+      approveButtonColor:
+        this.props.pullRequest.rewardStatus === 'PAID' ? 'grey' : 'green',
+      approveButtonDisabled: this.props.pullRequest.rewardStatus === 'PAID'
     }
     this.onClickApprove = this.onClickApprove.bind(this)
   }
@@ -30,16 +32,22 @@ class PullRequestsListItem extends Component {
     event.preventDefault()
 
     this.setState({
-      text: 'Approving PR',
+      approveButtonColor: 'grey',
+      approveButtonText: 'Approving',
       loading: true,
-      disabled: true
+      approveButtonDisabled: true
     })
 
-    this.props.approvePullRequest(this.state.pr._id)
+    this.props.approvePullRequest(this.props.pullRequest._id)
   }
 
   render() {
-    const { text, color, disabled, loading } = this.state
+    const {
+      approveButtonText,
+      approveButtonColor,
+      approveButtonDisabled,
+      loading
+    } = this.state
     const pr = this.props.pullRequest
 
     return (
@@ -50,21 +58,21 @@ class PullRequestsListItem extends Component {
         </Table.Cell>
         <Table.Cell>{pr.rewardStatus}</Table.Cell>
         <Table.Cell>{pr.taskReward}</Table.Cell>
-        <Table.Cell>{pr.pctDIDApproved}</Table.Cell>
+        <Table.Cell>{pr.pctDIDApproved}%</Table.Cell>
         <Table.Cell>
           <Button
             basic
-            color={color}
+            color={approveButtonColor}
             compact={true}
             floated="right"
             fluid={true}
-            disabled={disabled}
+            disabled={approveButtonDisabled}
             loading={loading}
             size="mini"
             pr={pr}
             onClick={e => this.onClickApprove(e, pr)}
           >
-            {text}
+            {approveButtonText}
           </Button>
         </Table.Cell>
         <Table.Cell>
