@@ -16,7 +16,7 @@ export const constructClientTask = (taskId, contractTask, didPerEtherValue) => {
   const title = contractTask[0].replace(/(\/)/g, '-')
   const createdBy = contractTask[1]
 
-  const didReward = convertSolidityIntToInt(contractTask[2].toNumber())
+  const didReward = contractTask[2].toNumber()
   const rewardStatusEnumInteger = contractTask[3].toNumber()
   let pctDIDVoted = convertSolidityIntToInt(contractTask[4].toString())
   pctDIDVoted = pctDIDVoted === 0 ? '00.00' : pctDIDVoted.toFixed(2)

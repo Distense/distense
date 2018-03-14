@@ -59,20 +59,23 @@ export default class AddTask extends Component {
     //  make sure not to have any slashes for future URLs
     const title = issue.title.replace('/', '-')
     const issueNum = issue.number
-    const repo = 'distense-ui'
+    const repo =
+      issue.repository_url.indexOf('ui') > -1
+        ? 'distense-ui'
+        : 'distense-contracts'
     return { issueNum, repo, title }
   }
 
-  onSubmit = e => {
+  onSubmit = async e => {
     e.preventDefault()
 
-    if (!this.state.value) return
-    if (!this.state.tagsString) {
-      this.setState({
-        submittedWithoutTags: true
-      })
-      return
-    }
+    // if (!this.state.value) return
+    // if (!this.state.tagsString) {
+    //   this.setState({
+    //     submittedWithoutTags: true
+    //   })
+    //   return
+    // }
     const { issueNum, repo, title } = this.getIssueNumAndRepo()
 
     const tagsString = this.state.tagsString

@@ -1,39 +1,55 @@
-export const votingIntervalParameter = {
-  title: 'votingInterval'
-}
+import _ from 'lodash'
 
-export const proposalPctDIDToApproveParameter = {
-  title: 'proposalPctDIDToApprove'
-}
+export const parameters = [
+  {
+    title: 'votingInterval',
+    shouldConvertFromSolidity: false
+  },
+  {
+    title: 'pctDIDToDetermineTaskReward',
+    shouldConvertFromSolidity: true
+  },
+  {
+    title: 'pctDIDRequiredToMergePullRequest',
+    shouldConvertFromSolidity: true
+  },
+  {
+    title: 'maxReward',
+    shouldConvertFromSolidity: false
+  },
+  {
+    title: 'numDIDReqApproveVotePullRequest',
+    shouldConvertFromSolidity: false
+  },
+  {
+    title: 'numDIDRequiredToTaskRewardVote',
+    shouldConvertFromSolidity: false
+  },
+  {
+    title: 'numDIDRequiredToAddTask',
+    shouldConvertFromSolidity: false
+  },
+  {
+    title: 'minNumberOfTaskRewardVoters',
+    shouldConvertFromSolidity: false
+  },
+  {
+    title: 'defaultReward',
+    shouldConvertFromSolidity: false
+  },
+  {
+    title: 'didPerEther',
+    shouldConvertFromSolidity: false
+  },
+  {
+    title: 'votingPowerLimit',
+    shouldConvertFromSolidity: true
+  }
+]
 
-export const pctDIDRequiredToMergePullRequestParameter = {
-  title: 'pctDIDRequiredToMergePullRequest'
-}
-
-export const maxRewardParameter = {
-  title: 'maxReward'
-}
-
-export const numDIDRequiredToApproveVotePullRequestParameter = {
-  title: 'numDIDReqApproveVotePullRequest'
-}
-
-export const numDIDRequiredToTaskRewardVoteParameter = {
-  title: 'numDIDRequiredToTaskRewardVote'
-}
-
-export const minNumberOfTaskRewardVotersParameter = {
-  title: 'minNumberOfTaskRewardVoters'
-}
-
-export const numDIDRequiredToAddTaskParameter = {
-  title: 'numDIDRequiredToAddTask'
-}
-
-export const defaultRewardParameter = {
-  title: 'defaultReward'
-}
-
-export const didPerEtherParameter = {
-  title: 'didPerEther'
+export const shouldConvertParameterFromSolidity = title => {
+  const param = _.find(parameters, parameter => {
+    return parameter.title === title
+  })
+  return param.shouldConvertFromSolidity
 }

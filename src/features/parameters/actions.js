@@ -2,6 +2,7 @@ import _ from 'lodash'
 import web3Utils from 'web3-utils'
 import { BigNumber } from 'bignumber.js'
 
+import { store } from '../../store'
 import { PARAMETERS_REQUEST, PARAMETERS_RECEIVE } from './reducers'
 
 import DIDTokenArtifacts from 'distense-contracts/build/contracts/DIDToken.json'
@@ -10,10 +11,10 @@ import * as contracts from '../../contracts'
 import { setDefaultStatus, updateStatusMessage } from '../status/actions'
 import { getGasPrice } from '../user/getGasPrice'
 import { convertSolidityIntToInt } from '../../utils'
-import { store } from '../../store'
 import { getParameterValueByTitle } from '../parameters/reducers'
 import { DID_PER_ETHER_PARAMETER_TITLE } from '../parameters/operations/parameterTitles'
 import { receiveNumDIDUserMayExchange } from '../user/actions'
+import { shouldConvertParameterFromSolidity } from './operations/parameterDetails'
 
 const RECEIVE_NUM_DID_EXCHANGEABLE = 'RECEIVE_NUM_DID_EXCHANGEABLE'
 const BANK_ACCOUNT_NUM_ETHER_RECEIVE = 'BANK_ACCOUNT_NUM_ETHER_RECEIVE'
@@ -54,7 +55,9 @@ export const fetchParameter = async title => {
   title = web3Utils.toAscii(title).replace(/\u0000/g, '')
   const parameter = await getParameterByTitle(title)
 
-  const value = convertSolidityIntToInt(parameter[1].toNumber())
+  let value = parameter[1].toNumber()
+  if (shouldConvertParameterFromSolidity(title))
+    value = convertSolidityIntToInt(value)
   return Object.assign(
     {},
     {

@@ -63,7 +63,9 @@ describe('<AddTask /> page component', function() {
   })
 
   it('should set return correct values from getIssueNumAndRepo', () => {
-    const { wrapper } = setup(false, [{ title: 'some title', number: 321 }])
+    const { wrapper } = setup(false, [
+      { title: 'some title', number: 321, repository_url: 'distense-ui' }
+    ])
     wrapper.setState({ value: 'some title' })
     const { issueNum, repo, title } = wrapper.instance().getIssueNumAndRepo()
     expect(issueNum).toEqual(321)
@@ -91,9 +93,11 @@ describe('<AddTask /> page component', function() {
   })
 
   it('should call addTask and set redirect to true after calling onSubmit', () => {
-    const { wrapper, props } = setup(false, [
-      { title: 'some title', number: 123 }
-    ])
+    const { wrapper, props } = setup(
+      false,
+      [{ title: 'some title', number: 123, repository_url: 'distense-ui' }],
+      100
+    )
     const mockedEvent = { preventDefault: () => {} }
     wrapper.setState({
       value: 'some title',

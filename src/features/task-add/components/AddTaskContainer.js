@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import AddTask from './AddTask'
-import { addTask } from '../../tasks/actions'
 import { NUM_DID_REQUIRED_TO_ADD_TASK_PARAMETER_TITLE } from '../../parameters/operations/parameterTitles'
 
 import { getParameterValueByTitle } from '../../parameters/reducers'
-import { fetchIssuesIfNeeded } from '../actions'
+import { addTask, fetchIssuesIfNeeded } from '../actions'
 import { getIssues } from '../reducers'
 import { store } from '../../../store'
 
@@ -45,8 +44,8 @@ export class AddTaskContainer extends Component {
 
     return (
       <AddTask
+        addTask={this.props.addTask}
         issues={issues}
-        addTask={addTask}
         numDIDRequiredToAddTask={numDIDRequiredToAddTask}
       />
     )

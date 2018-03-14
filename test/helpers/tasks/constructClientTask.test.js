@@ -24,7 +24,7 @@ describe('constructClientTask', function() {
     const contractTask = [
       'some amazing title', //  title
       '0x0de5be0e82493accb8e83d2af99e72458249bbf9', // createdBy
-      new BigNumber(32000), //  didReward Solidity int
+      new BigNumber(320), //  didReward Solidity int
       new BigNumber(1), // rewardStatusInteger; 1 is DETERMINED
       2500, // pctDIDVoted Solidity int (multiplied by 100)
       2 //  numVotes
@@ -58,7 +58,7 @@ describe('constructClientTask', function() {
     const contractTask = [
       'another amazing title', //  title
       '0x0de5be0e82493accb8e83d2af99e72458249bbf9', // createdBy
-      new BigNumber(121321), //  didReward Solidity int
+      new BigNumber(1213.21), //  didReward Solidity int
       new BigNumber(2), // rewardStatusInteger; 2 is PAID
       5000, // pctDIDVoted Solidity int (multiplied by 100)
       3 //  numVotes
