@@ -67,16 +67,21 @@ const receiveGithubPullRequests = githubPullRequests => ({
 
 export const fetchGithubPullRequests = () => dispatch => {
   dispatch(requestGithubPullRequests())
-  console.log(`requesting github pullRequests`)
-  return fetch(`https://api.github.com/repos/Distense/distense-ui/pulls`)
-    .then(response => response.json())
-    .then(githubPullRequests => {
-      console.log(`${githubPullRequests.length} distense-ui pullRequests`)
-      return githubPullRequests
-    })
-    .then(githubPullRequests =>
-      dispatch(receiveGithubPullRequests(githubPullRequests))
-    )
+
+  const repos = ['ui', 'contracts']
+
+  for (let repo of repos) {
+    fetch(`https://api.github.com/repos/Distense/distense-${repo}/pulls`)
+      .then(response => response.json())
+      .then(githubPullRequests => {
+        console.log(
+          `receiving ${
+            githubPullRequests.length
+          } distense-${repo} repo Github githubPullRequests`
+        )
+        dispatch(receiveGithubPullRequests(githubPullRequests))
+      })
+  }
 }
 
 function shouldFetchPullRequests(state) {

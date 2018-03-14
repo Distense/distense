@@ -31,21 +31,22 @@ class AddPullRequestContainer extends Component {
         receivedTasks &&
         !fetchingTasks
       ) {
+        console.log(`Received pull requests and tasks`)
         const githubPullRequests = getGitHubPullRequests(store.getState())
         const tasks = getAllTasks(store.getState())
         this.setState({
           githubPullRequests,
           tasks
         })
-        clearTimeout(this.githubPullRequestsInterval)
+        clearInterval(this.githubPullRequestsInterval)
       } else {
         console.log(`no pull requests yet`)
       }
-    }, 200)
+    }, 300)
   }
 
   componentWillUnmount() {
-    clearTimeout(this.githubPullRequestsInterval)
+    clearInterval(this.githubPullRequestsInterval)
   }
   render() {
     return (

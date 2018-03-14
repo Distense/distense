@@ -35,7 +35,7 @@ function renderSuggestion(suggestion, { query }) {
           </span>
         )
       })}{' '}
-      (Issue #{suggestion.number}) (Repo: {repo})
+      Issue #{suggestion.number}) (Repo: {repo}
     </div>
   )
 }

@@ -11,21 +11,18 @@ const receiveIssues = issues => ({
 })
 
 export const fetchIssues = () => dispatch => {
-  dispatch(requestIssues())
-  fetch(`https://api.github.com/repos/Distense/distense-contracts/issues`)
-    .then(response => response.json())
-    .then(issues => {
-      console.log(
-        `receiving ${issues.length} distense-contracts repo Github issues`
-      )
-      dispatch(receiveIssues(issues))
-    })
-  fetch(`https://api.github.com/repos/Distense/distense-ui/issues`)
-    .then(response => response.json())
-    .then(issues => {
-      console.log(`receiving ${issues.length} distense-ui repo Github issues`)
-      dispatch(receiveIssues(issues))
-    })
+  const repos = ['ui', 'contracts']
+
+  for (let repo of repos) {
+    fetch(`https://api.github.com/repos/Distense/distense-${repo}/issues`)
+      .then(response => response.json())
+      .then(issues => {
+        console.log(
+          `receiving ${issues.length} distense-${repo} repo Github issues`
+        )
+        dispatch(receiveIssues(issues))
+      })
+  }
 }
 
 function shouldFetchIssues(state) {
