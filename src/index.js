@@ -29,7 +29,7 @@ window.addEventListener('load', async function() {
   new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
   await store.dispatch(fetchParameters())
   await store.dispatch(fetchUserAccountInfo())
-  store.dispatch(fetchTotalSupplyDID())
+  await store.dispatch(fetchTotalSupplyDID())
 
   ReactDOM.render(App(), document.getElementById('root'))
   registerServiceWorker()
