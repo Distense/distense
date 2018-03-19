@@ -10,7 +10,12 @@ class ParametersContainer extends Component {
     console.log(`params: ${this.props.parameters.length} parameters`)
   }
   render() {
-    return <Parameters parameters={this.props.parameters} />
+    return (
+      <Parameters
+        voteOnParameter={this.props.voteOnParameter}
+        parameters={this.props.parameters}
+      />
+    )
   }
 }
 

@@ -2,61 +2,60 @@ import { parameters } from './parameterDetails'
 
 export const constructClientParameterDetails = p => {
   let title
-
   let value
 
   if (p.title === parameters[0].title) {
     value = p.value / 86400 + ' days'
-    title = 'Parameter voting interval'
+    title = parameters[0].clientTitle
   }
 
   if (p.title === parameters[1].title) {
     value = p.value + '%'
-    title = '% DID required to determine reward'
+    title = parameters[1].clientTitle
   }
 
   if (p.title === parameters[2].title) {
     value = p.value + '%'
-    title = '% DID that must approve pull requests'
+    title = parameters[2].clientTitle
   }
 
   if (p.title === parameters[3].title) {
     value = p.value + ' DID'
-    title = 'Max DID Reward'
+    title = parameters[3].clientTitle
   }
 
   if (p.title === parameters[4].title) {
     value = p.value + ' DID'
-    title = 'Num. DID to approve pull requests'
+    title = parameters[4].clientTitle
   }
 
   if (p.title === parameters[5].title) {
     value = p.value + ' DID'
-    title = 'Num. DID to vote task rewards'
+    title = parameters[5].clientTitle
   }
 
   if (p.title === parameters[6].title) {
     value = p.value + ' DID'
-    title = 'Num. DID required to propose tasks'
+    title = parameters[6].clientTitle
   }
 
   if (p.title === parameters[7].title) {
     value = p.value + ' voters'
-    title = 'Num. of voters for task reward'
+    title = parameters[7].clientTitle
   }
 
   if (p.title === parameters[8].title) {
     value = p.value + ' DID'
-    title = 'Default task reward'
+    title = parameters[8].clientTitle
   }
 
   if (p.title === parameters[9].title) {
     value = p.value + ' DID'
-    title = 'DID/ETH exchange rate'
+    title = parameters[9].clientTitle
   }
   if (p.title === parameters[10].title) {
     value = p.value + '%'
-    title = 'Voting power limit'
+    title = parameters[10].clientTitle
   }
 
   return {

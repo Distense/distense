@@ -156,12 +156,17 @@ export const voteOnParameter = ({ title, vote }) => async (
   }
   const { voteOnParameter } = await contracts.Distense // Get callable function from Tasks contract instance
 
-  const voteValue = vote === 'upvote' ? 1 : -1
+  let voteValue
+  if (vote !== 1 || vote !== -1) {
+    voteValue = new BigNumber(vote)
+  }
 
+  const currentValue = getParameterValueByTitle(store.getState(), title)
   const receipt = await voteOnParameter(title, voteValue, {
     from: coinbase,
     gasPrice: getGasPrice()
   })
+
   if (receipt.tx) {
     console.log(`vote on parameter receipt`)
     dispatch(updateStatusMessage('vote on parameter receipt'))

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Form, Input, Icon, List } from 'semantic-ui-react'
+import { Button, Form, Input, List } from 'semantic-ui-react'
 
 import { constructClientParameterDetails } from '../operations/constructClientParameterDetails'
 
@@ -24,7 +24,7 @@ export const Parameter = ({ param, onClick }) => {
                   id="downvote"
                   size="small"
                   basic
-                  onClick={e => onClick(p.title, 'downvote', e)}
+                  onClick={e => onClick(p.title, -1, e)}
                 >
                   Min
                 </Button>
@@ -32,12 +32,15 @@ export const Parameter = ({ param, onClick }) => {
                   className="button-parameter"
                   id="upvote"
                   basic
-                  onClick={e => onClick(p.title, 'upvote', e)}
+                  onClick={e => onClick(p.title, 1, e)}
                 >
                   Max
                 </Button>
               </Button.Group>
-              <form className="parameter-voting-value" size="medium">
+              <form
+                onSubmit={e => onClick(p.title, 'value', e)}
+                className="parameter-voting-value"
+              >
                 <Form.Group inline>
                   <label className="parameter-voting-label">Your vote:</label>
                   <Input />
@@ -77,9 +80,13 @@ export const Parameter = ({ param, onClick }) => {
           min-height: 6.5rem;
           display: flex;
           align-items: center;
+          margin-top: 15px;
         }
         .parameter-voting-value {
           margin-left: 20px;
+        }
+        .parameter-voting-value input {
+          width: 130px;
         }
         .parameter-voting-label {
           padding: 0 10px;

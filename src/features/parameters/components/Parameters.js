@@ -26,12 +26,12 @@ export class Parameters extends Component {
       })
   }
 
-  onClick = async (title, vote, e) => {
+  onClick = (title, vote, e) => {
     e.preventDefault()
 
     this.props.voteOnParameter({ title, vote })
     this.setState({
-      redirect: true
+      voting: true
     })
   }
 
@@ -48,7 +48,7 @@ export class Parameters extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={16}>
-              <Message>
+              <Message className="message-margin">
                 <Message.Item>
                   DID holders can vote to affect parameter values
                 </Message.Item>
@@ -63,8 +63,6 @@ export class Parameters extends Component {
                 <Message.Item>The min vote is always 0</Message.Item>
               </Message>
             </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
             <Grid.Column width={16}>
               <List divided>
                 {parameters.length > 0 ? (
@@ -89,6 +87,9 @@ export class Parameters extends Component {
         <style global jsx>{`
           .parameter-card-width {
             width: 366px !important;
+          }
+          .message-margin {
+            margin-top: 11px !important;
           }
         `}</style>
       </div>
