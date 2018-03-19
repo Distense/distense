@@ -3,6 +3,7 @@ import web3Utils from 'web3-utils'
 import { BigNumber } from 'bignumber.js'
 
 import { store } from '../../store'
+
 import { PARAMETERS_REQUEST, PARAMETERS_RECEIVE } from './reducers'
 
 import DIDTokenArtifacts from 'distense-contracts/build/contracts/DIDToken.json'

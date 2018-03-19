@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Card, Grid, Header, Segment } from 'semantic-ui-react'
+import { Grid, List, Message, Segment } from 'semantic-ui-react'
 
 import Head from '../../../components/Head'
+import PageTitling from '../../../components/PageTitling'
+
 import { Parameter } from './Parameter'
 
 export class Parameters extends Component {
@@ -38,27 +40,51 @@ export class Parameters extends Component {
 
     return (
       <div>
-        <Head title="Votable Parameters" />
-        <Header as="h1">Parameters</Header>
-        <Header as="h3">Govern if you dare (and own DID)</Header>
-        <Grid.Row>
-          <Card.Group>
-            {parameters.length > 0 ? (
-              parameters.map((parameter, i) => (
-                <Parameter
-                  key={i}
-                  param={parameter}
-                  onChange={this.handleInputChange}
-                  onClick={this.onClick}
-                />
-              ))
-            ) : (
-              <Card className="parameter-card-width" raised>
-                <Segment>Loading Distense parameters...</Segment>
-              </Card>
-            )}
-          </Card.Group>
-        </Grid.Row>
+        <Head title="Parameters" />
+        <PageTitling
+          title="Parameters"
+          subtitle="DID holders can vote on parameters"
+        />
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={16}>
+              <Message>
+                <Message.Item>
+                  DID holders can vote to affect parameter values
+                </Message.Item>
+                <Message.Item>
+                  The up and down arrows vote the maximum and minimum values
+                  that may be vote
+                </Message.Item>
+                <Message.Item>
+                  The max vote is always 2x the current value and will affect
+                  the parameter value by the voter's percentage ownership
+                </Message.Item>
+                <Message.Item>The min vote is always 0</Message.Item>
+              </Message>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column width={16}>
+              <List divided>
+                {parameters.length > 0 ? (
+                  parameters.map((parameter, i) => (
+                    <Parameter
+                      key={i}
+                      param={parameter}
+                      onChange={this.handleInputChange}
+                      onClick={this.onClick}
+                    />
+                  ))
+                ) : (
+                  <List.Item raised>
+                    <Segment>Loading Distense parameters...</Segment>
+                  </List.Item>
+                )}
+              </List>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         {/*language=CSS*/}
         <style global jsx>{`
           .parameter-card-width {

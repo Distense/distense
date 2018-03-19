@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card } from 'semantic-ui-react'
+import { Button, Form, Input, Icon, List } from 'semantic-ui-react'
 
 import { constructClientParameterDetails } from '../operations/constructClientParameterDetails'
 
@@ -7,30 +7,87 @@ export const Parameter = ({ param, onClick }) => {
   const p = constructClientParameterDetails(param)
 
   return (
-    <Card className="parameter-card-width" raised>
-      <Card.Content>
-        <Card.Header>{p.title}</Card.Header>
-        <Card.Meta>{p.placeholder}</Card.Meta>
-        <Card.Content>Current Value: {p.value}</Card.Content>
-        <Card.Content extra>
-          <Button
-            color="black"
-            id="upvote"
-            basic
-            onClick={e => onClick(p.title, 'upvote', e)}
-          >
-            DownVote
-          </Button>
-          <Button
-            color="black"
-            id="downvote"
-            basic
-            onClick={e => onClick(p.title, 'downvote', e)}
-          >
-            UpVote
-          </Button>
-        </Card.Content>
-      </Card.Content>
-    </Card>
+    <div id="parameter-list-item">
+      <List.Item>
+        <List.Content>
+          <div>
+            <div className="parameter-title-value">
+              <h2>{p.title}</h2>
+              <h4 className="parameter-value-current">
+                Current Value: {p.value}
+              </h4>
+            </div>
+            <div className="parameter-voting">
+              <Button.Group>
+                <Button
+                  className="button-parameter"
+                  id="downvote"
+                  size="small"
+                  basic
+                  onClick={e => onClick(p.title, 'downvote', e)}
+                >
+                  Min
+                </Button>
+                <Button
+                  className="button-parameter"
+                  id="upvote"
+                  basic
+                  onClick={e => onClick(p.title, 'upvote', e)}
+                >
+                  Max
+                </Button>
+              </Button.Group>
+              <form className="parameter-voting-value" size="medium">
+                <Form.Group inline>
+                  <label className="parameter-voting-label">Your vote:</label>
+                  <Input />
+                  <Button className="parameter-value-button" type="submit">
+                    Submit
+                  </Button>
+                </Form.Group>
+              </form>
+            </div>
+          </div>
+        </List.Content>
+      </List.Item>
+      {/*language=CSS*/}
+      <style global jsx>{`
+        .button-parameter {
+          border: 1px solid lightgray !important;
+        }
+        .parameter-title-value {
+          float: left !important;
+          width: 440px;
+        }
+        .parameter-voting {
+          margin: 5px 0 0 480px;
+          padding-left: 20px;
+          display: flex;
+          align-items: center;
+        }
+        .parameter-value-current {
+          margin-top: 5px;
+        }
+        #parameter-list-item {
+          border: 1px solid lightgray;
+          border-radius: 3px 3px 3px 3px;
+          -moz-border-radius: 3px 3px 3px 3px;
+          -webkit-border-radius: 3px 3px 3px 3px;
+          padding: 20px;
+          min-height: 6.5rem;
+          display: flex;
+          align-items: center;
+        }
+        .parameter-voting-value {
+          margin-left: 20px;
+        }
+        .parameter-voting-label {
+          padding: 0 10px;
+        }
+        .parameter-value-button.ui.button {
+          margin-left: 10px;
+        }
+      `}</style>
+    </div>
   )
 }
