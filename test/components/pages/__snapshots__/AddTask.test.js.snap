@@ -432,7 +432,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
           }
 
           .react-autosuggest__suggestion--highlighted {
-            background-color: lightgray;
+            background-color: rgba(0, 0, 0, 0.1);
           }
 
           .dropdown .menu .item {
