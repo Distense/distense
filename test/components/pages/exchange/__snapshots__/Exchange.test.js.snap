@@ -24,7 +24,7 @@ exports[`<Exchange /> page component snapshot 1`] = `
       </p>
     </div>
     <div
-      className="eight wide column"
+      className="sixteen wide column"
     >
       <div
         className="ui message"

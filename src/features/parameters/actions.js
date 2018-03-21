@@ -10,7 +10,7 @@ import DIDTokenArtifacts from 'distense-contracts/build/contracts/DIDToken.json'
 
 import * as contracts from '../../contracts'
 import { setDefaultStatus } from '../status/actions'
-import { incrementNumPendingTx } from '../task-add/sagas'
+// import { incrementNumPendingTx } from '../task-add/sagas'
 import { getGasPrice } from '../user/getGasPrice'
 import { convertSolidityIntToInt } from '../../utils'
 import { getParameterValueByTitle } from '../parameters/reducers'
@@ -176,7 +176,7 @@ export const voteOnParameter = ({ title, vote }) => async (
 
   if (receipt.tx) {
     console.log(`vote on parameter receipt`)
-    dispatch(incrementNumPendingTx(receipt.tx))
+    // dispatch(incrementNumPendingTx(receipt.tx))
   } else {
     console.log('user vote on parameter failed')
   }
