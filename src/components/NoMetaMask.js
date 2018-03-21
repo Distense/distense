@@ -21,7 +21,7 @@ export class MetaMaskWarning extends Component {
             <Grid.Row className="margin-bottom-rem">
               {(!hasWeb3 || !correctNetwork) && (
                 <Message>
-                  <Message.Item>
+                  <Message.Item className="item">
                     If you don't have it installed, please install{' '}
                     <a
                       target="_blank"
@@ -32,7 +32,7 @@ export class MetaMaskWarning extends Component {
                     </a>{' '}
                     and connect to {NETWORK_NAME}
                   </Message.Item>
-                  <Message.Item>
+                  <Message.Item className="item">
                     Your experience on this website will be degraded until you
                     do so
                   </Message.Item>
