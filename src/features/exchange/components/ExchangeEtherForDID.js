@@ -87,9 +87,8 @@ export default class ExchangeEtherForDID extends Component {
               </List.Item>
             )}
             <List.Item>
-              You may exchange ether only to the extent you have contributed to
-              Distense. I.e, according to the number of DID you{' '}
-              <em>continue</em> to own
+              You may invest ETH to the extent you have contributed to Distense.
+              I.e, according to the number of DID you <em>continue</em> to own
             </List.Item>
             <List.Item>
               DID have a very high chance of being worthless. DID are not traded

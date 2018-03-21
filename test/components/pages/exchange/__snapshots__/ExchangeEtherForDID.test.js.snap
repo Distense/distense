@@ -66,8 +66,7 @@ exports[`<ExchangeEtherForDID /> page component snapshot 1`] = `
         onClick={[Function]}
         role="listitem"
       >
-        You may exchange ether only to the extent you have contributed to Distense. I.e, according to the number of DID you
-         
+        You may invest ETH to the extent you have contributed to Distense. I.e, according to the number of DID you 
         <em>
           continue
         </em>

@@ -357,7 +357,7 @@ exports[`<AddTask /> page component snapshot 1`] = `
               onClick={[Function]}
               role="listitem"
             >
-              Select your task.
+              Select a task.
             </div>
             <div
               className="item"
