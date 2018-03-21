@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux'
 
 export const TOTAL_SUPPLY_DID_RECEIVE = 'TOTAL_SUPPLY_DID_RECEIVE'
-export const NUM_ETHER_IN_BANK_ACCOUNT_RECEIVE =
-  'NUM_ETHER_IN_BANK_ACCOUNT_RECEIVE'
+export const BANK_ACCOUNT_NUM_ETHER_RECEIVE = 'BANK_ACCOUNT_NUM_ETHER_RECEIVE'
 export const NUM_DID_EXCHANGEABLE_RECEIVE = 'NUM_DID_EXCHANGEABLE_RECEIVE'
 
 const distense = (
@@ -20,7 +19,7 @@ const distense = (
       return Object.assign({}, state, {
         totalSupplyDID: action.totalSupplyDID
       })
-    case NUM_ETHER_IN_BANK_ACCOUNT_RECEIVE:
+    case BANK_ACCOUNT_NUM_ETHER_RECEIVE:
       return Object.assign({}, state, {
         numBankAccountEther: action.numBankAccountEther
       })
@@ -44,8 +43,8 @@ export const getTotalSupplyDID = state => {
 }
 
 export const getNumDIDExchangeAbleTotal = state =>
-  state.distense.numDIDExchangeAbleTotal
+  state.distense.distense.totalDIDExchangeAble
 
 export const getNumBankAccountEther = state => {
-  return state.distense.numBankAccountEther
+  return state.distense.distense.numBankAccountEther
 }

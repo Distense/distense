@@ -3,12 +3,14 @@ import web3Utils from 'web3-utils'
 import { BigNumber } from 'bignumber.js'
 
 import { store } from '../../store'
+
 import { PARAMETERS_REQUEST, PARAMETERS_RECEIVE } from './reducers'
 
 import DIDTokenArtifacts from 'distense-contracts/build/contracts/DIDToken.json'
 
 import * as contracts from '../../contracts'
-import { setDefaultStatus, updateStatusMessage } from '../status/actions'
+import { setDefaultStatus } from '../status/actions'
+// import { incrementNumPendingTx } from '../task-add/sagas'
 import { getGasPrice } from '../user/getGasPrice'
 import { convertSolidityIntToInt } from '../../utils'
 import { getParameterValueByTitle } from '../parameters/reducers'
@@ -155,15 +157,28 @@ export const voteOnParameter = ({ title, vote }) => async (
   }
   const { voteOnParameter } = await contracts.Distense // Get callable function from Tasks contract instance
 
-  const voteValue = vote === 'upvote' ? 1 : -1
+  let voteValue = vote
+  if (voteValue !== 1 && voteValue !== -1) {
+    const currentParamValue = getParameterValueByTitle(store.getState(), title)
+    voteValue = new BigNumber(vote)
+      .div(currentParamValue)
+      .times(100) // convert to integer
+      .minus(100) // subtract the 1 because on-chain function must be less than 1 -- we're just looking for the percentage change
+      .dp(0) // decimals
+      .toString()
+  }
 
+  console.log(`user parameter voted: ${voteValue}%`)
   const receipt = await voteOnParameter(title, voteValue, {
     from: coinbase,
     gasPrice: getGasPrice()
   })
+
   if (receipt.tx) {
     console.log(`vote on parameter receipt`)
-    dispatch(updateStatusMessage('vote on parameter receipt'))
+    // dispatch(incrementNumPendingTx(receipt.tx))
+  } else {
+    console.log('user vote on parameter failed')
   }
   dispatch(setDefaultStatus())
 

@@ -18,7 +18,7 @@ export default class Exchange extends Component {
             title="Exchange"
             subtitle="DID holders may exchange their DID into ether or vice versa"
           />
-          <Grid.Column width={8}>
+          <Grid.Column width={16}>
             <Message>
               <Message.Header>Distense Finances</Message.Header>
               <List bulleted>

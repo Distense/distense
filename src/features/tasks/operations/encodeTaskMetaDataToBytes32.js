@@ -28,9 +28,5 @@ export const encodeTaskMetaDataToBytes32 = task => {
 
   const repoNum = getRepoNumber(task.repoString)
 
-  const encodedMetaData =
-    dateString + 'a' + tags + 'b' + task.issueNum + 'c' + repoNum
-  console.log(`encodedMetaData: ${encodedMetaData}`)
-
-  return encodedMetaData
+  return dateString + 'a' + tags + 'b' + task.issueNum + 'c' + repoNum
 }

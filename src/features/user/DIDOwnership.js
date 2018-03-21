@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import { fetchTotalSupplyDID } from '../distense/actions'
 import { getTotalSupplyDID } from '../distense/reducers'
+import { calcPctDIDOwned } from './actions'
 
 export class DIDOwnership extends Component {
   componentDidMount() {
@@ -17,21 +18,9 @@ export class DIDOwnership extends Component {
     )
   }
 
-  calculatePercentageOwned() {
-    const { numDID, totalSupplyDid } = this.props
-
-    let pctDID = (numDID / totalSupplyDid * 100).toFixed(2)
-
-    pctDID = isNaN(pctDID) ? '0' : pctDID
-    pctDID = pctDID === '0.00' ? '0' : pctDID
-    pctDID = pctDID === '100.00' ? '100' : pctDID
-
-    return pctDID
-  }
-
   render() {
     const { numDID } = this.props
-    const pctDID = this.calculatePercentageOwned()
+    const pctDID = calcPctDIDOwned(numDID)
 
     return (
       <Menu.Item

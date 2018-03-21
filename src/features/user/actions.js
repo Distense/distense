@@ -1,4 +1,5 @@
 import * as contracts from '../../contracts'
+import BigNumber from 'bignumber.js'
 
 import {
   ACCOUNT_RECEIVE,
@@ -7,10 +8,13 @@ import {
   USER_NOT_AUTHENTICATED_RECEIVE,
   USER_NUM_DID_RECEIVE,
   USER_NUM_ETHER_RECEIVE,
+  USER_PCT_DID_RECEIVE,
   NUM_DID_USER_MAY_EXCHANGE_RECEIVE
 } from './reducers'
 
 import { setDefaultStatus } from '../status/actions'
+import { getTotalSupplyDID } from '../distense/reducers'
+import { store } from '../../store'
 
 const receiveAccountAction = account => ({
   type: ACCOUNT_RECEIVE,
@@ -35,6 +39,11 @@ export const receiveAccountNumDID = numDIDOwned => ({
   numDIDOwned
 })
 
+export const receivePctDIDOwned = pctDID => ({
+  type: USER_PCT_DID_RECEIVE,
+  pctDID
+})
+
 export const receiveAccountNumEther = numEther => ({
   type: USER_NUM_ETHER_RECEIVE,
   numEther
@@ -50,6 +59,20 @@ export const receiveNumDIDUserMayExchange = numDIDUserMayExchange => ({
   numDIDUserMayExchange
 })
 
+export const calcPctDIDOwned = numDIDOwned => {
+  const totalSupply = getTotalSupplyDID(store.getState())
+  let pctDID = new BigNumber(numDIDOwned)
+    .div(totalSupply)
+    .dp(3)
+    .toString()
+
+  pctDID =
+    new BigNumber(pctDID).lt(1) && new BigNumber(pctDID).gt(0)
+      ? new BigNumber(pctDID).times(100).toString()
+      : '0'
+
+  return pctDID
+}
 export const fetchUserAccountInfo = () => async dispatch => {
   /*global web3 */
   const hasWeb3 = window.web3 !== undefined
@@ -68,8 +91,9 @@ export const fetchUserAccountInfo = () => async dispatch => {
 
         const numDIDOwned = await getNumDIDByAddress(coinbase)
         dispatch(receiveAccountNumDID(numDIDOwned.toString()))
-
-        console.log(`coinbase: ${coinbase}`)
+        const pctDID = calcPctDIDOwned(numDIDOwned)
+        console.log(`coinbase owns: ${pctDID}% of DID`)
+        dispatch(receivePctDIDOwned(pctDID.toString()))
         console.log(`coinbase owns: ${numDIDOwned} DID`)
         receiveAccountBalance(coinbase, dispatch)
       } else {

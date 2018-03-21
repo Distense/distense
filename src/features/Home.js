@@ -206,8 +206,7 @@ class Home extends Component {
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               Work on a per-task basis, from anywhere, whenever. Govern the
-              organization you work for. Receive your reward immediately, not
-              maybe in a few weeks by a human.
+              organization you work for. Receive compensation immediately.
             </p>
           </Container>
         </Segment>
