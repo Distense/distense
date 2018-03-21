@@ -11,7 +11,7 @@ export const selectContractInstance = contractBuild => {
       const myContract = contract(contractBuild)
       myContract.setProvider(window.web3.currentProvider)
       myContract.defaults({
-        gas: 50000000
+        gas: 2e6
       })
       return myContract.deployed()
     }
