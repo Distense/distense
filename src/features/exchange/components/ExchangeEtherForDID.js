@@ -78,7 +78,9 @@ export default class ExchangeEtherForDID extends Component {
           <Message.Header>Invest Ether for DID</Message.Header>
           <List bulleted>
             {numEtherUserMayInvest ? (
-              <List.Item>You may invest {numEtherUserMayInvest} ETH</List.Item>
+              <List.Item>
+                You may invest up to {numEtherUserMayInvest} ETH
+              </List.Item>
             ) : (
               // <List.Item>For a maximum of: {num} DID</List.Item>
               <List.Item>

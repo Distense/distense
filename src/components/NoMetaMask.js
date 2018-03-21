@@ -32,6 +32,10 @@ export class MetaMaskWarning extends Component {
                     </a>{' '}
                     and connect to {NETWORK_NAME}
                   </Message.Item>
+                  <Message.Item>
+                    Your experience on this website will be degraded until you
+                    do so
+                  </Message.Item>
                 </Message>
               )}
             </Grid.Row>
