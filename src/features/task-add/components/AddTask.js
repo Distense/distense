@@ -191,7 +191,7 @@ export default class AddTask extends Component {
               <Message>
                 <Message.Header>Info</Message.Header>
                 <List bulleted>
-                  <List.Item>Select your task.</List.Item>
+                  <List.Item>Select a task.</List.Item>
                   <List.Item>Select the appropriate tags.</List.Item>
                   <List.Item>
                     You must own at least {numDIDRequiredToAddTask} DID to
