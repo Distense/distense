@@ -1,17 +1,23 @@
 import contract from 'truffle-contract'
+import { NETWORK } from './features/user/network'
 
 export const selectContractInstance = contractBuild => {
-  return new Promise(resolve => {
-    const web3 = window.web3
-    if (web3 && web3.currentProvider) {
+  try {
+    const web3 = window.web3 && window.web3.currentProvider
+    const correctNetwork = window.web3.version.network === NETWORK
+    if (web3 && correctNetwork) {
+      console.log(`correct network`)
+      console.log(`trying to get contract instance`)
       const myContract = contract(contractBuild)
-      myContract.setProvider(web3.currentProvider)
+      myContract.setProvider(window.web3.currentProvider)
       myContract.defaults({
-        gas: 2e6
+        gas: 50000000
       })
-      myContract.deployed().then(instance => resolve(instance))
+      return myContract.deployed()
     }
-  })
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 export const PromisifyWeb3 = web3 => {

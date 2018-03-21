@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import PullRequests from './PullRequests'
 import { fetchPullRequests } from '../actions'
 import { getAllPullRequests } from '../reducers'
-import { getIsLoading } from '../reducers'
 import { fetchTasks } from '../../tasks/actions'
 
 export class PullRequestsContainer extends Component {
@@ -15,16 +14,14 @@ export class PullRequestsContainer extends Component {
   componentDidMount() {}
 
   render() {
-    const { loading, pullRequests } = this.props
+    const { pullRequests } = this.props
 
-    if (loading) return <p>Loading...</p>
     return <PullRequests pullRequests={pullRequests} />
   }
 }
 
 const mapStateToProps = state => ({
-  pullRequests: getAllPullRequests(state),
-  loading: getIsLoading(state)
+  pullRequests: getAllPullRequests(state)
 })
 
 const mapDispatchToProps = dispatch => ({

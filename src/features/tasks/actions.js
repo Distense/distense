@@ -56,18 +56,21 @@ export const setNumTasks = numTasks => ({
 
 export const fetchTasks = () => async dispatch => {
   // Have to get numTasks from chain to know how many to query by index
-  dispatch(requestTasksInstance())
-  const { getNumTasks } = await contracts.Tasks
+  try {
+    dispatch(requestTasksInstance())
+    const { getNumTasks } = await contracts.Tasks
 
-  dispatch(receiveTasksInstance())
-  const numTasks = +await getNumTasks()
-  console.log(`${numTasks} tasks`)
-  dispatch(setNumTasks(numTasks))
-  dispatch(requestTasks())
+    dispatch(receiveTasksInstance())
+    const numTasks = +await getNumTasks()
+    console.log(`${numTasks} tasks`)
+    dispatch(setNumTasks(numTasks))
+    dispatch(requestTasks())
 
-  const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
-  dispatch(receiveTasks(tasks.filter(_.identity)))
-  dispatch(setDefaultStatus())
+    const tasks = await Promise.all(_.range(numTasks).map(getTaskByIndex))
+    dispatch(receiveTasks(tasks.filter(_.identity)))
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 const getTaskByIndex = async index => {

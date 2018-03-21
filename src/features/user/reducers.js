@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { NETWORK } from './network'
 
 export const ACCOUNT_RECEIVE = 'ACCOUNT_RECEIVE'
 export const ACCOUNTS_RECEIVE = 'ACCOUNTS_RECEIVE'
@@ -32,7 +33,7 @@ const user = (
   switch (action.type) {
     case HAS_WEB3_RECEIVE:
       return Object.assign({}, state, {
-        hasWeb3: true
+        hasWeb3: action.hasWeb3
       })
     case ACCOUNT_UNLOCKED_RECEIVE:
       return Object.assign({}, state, {
@@ -125,4 +126,7 @@ export const getNumEtherUserMayInvest = state =>
 export const getAccounts = state => state.accounts
 export const getCoinbase = state => state.user.accounts[0]
 export const getNetworkId = state => state.user.network
+export const hasWeb3 = state => state.user.user.hasWeb3
+export const getConnectedCorrectNetwork = state =>
+  state.user.user.network === NETWORK
 export const getPctDID = state => state.user.pctDID

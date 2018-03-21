@@ -20,6 +20,9 @@ export const App = () => (
 
 window.addEventListener('load', async function() {
   if (typeof window.web3 !== 'undefined') {
+    console.log(`metamask or another web3 provider detected`)
+    new Web3(window.web3.currentProvider)
+  } else {
     new Web3(
       new Web3.providers.HttpProvider(
         'https://ropsten.infura.io/7b9DnEAJNDLIo9StzcvI'

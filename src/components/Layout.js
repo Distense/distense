@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Menu, Segment } from 'semantic-ui-react'
 import TotalDID from './TotalDID'
-
+import NoMetaMask from './NoMetaMask'
 import Footer from '../features/footer/Footer'
 
 export default ({ children }) => (
@@ -46,7 +46,10 @@ export default ({ children }) => (
       </Menu>
     </Segment>
 
-    <Container style={{ marginTop: '3em' }}>{children}</Container>
+    <Container style={{ marginTop: '3em' }}>
+      <NoMetaMask />
+      {children}
+    </Container>
 
     <Footer />
     {/*language=CSS*/}
@@ -66,6 +69,9 @@ export default ({ children }) => (
       }
       .distense-green {
         color: rgb(13, 246, 121);
+      }
+      .margin-bottom-rem {
+        margin-bottom: 1rem;
       }
     `}</style>
   </div>

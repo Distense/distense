@@ -71,7 +71,9 @@ export const fetchGithubPullRequests = () => dispatch => {
   return fetch(`https://api.github.com/repos/Distense/distense-ui/pulls`)
     .then(response => response.json())
     .then(githubPullRequests => {
-      console.log(`${githubPullRequests.length} distense-ui pullRequests`)
+      console.log(
+        `${githubPullRequests.length} github distense-ui pullRequests`
+      )
       return githubPullRequests
     })
     .then(githubPullRequests =>

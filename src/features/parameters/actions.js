@@ -71,79 +71,77 @@ export const fetchParameter = async title => {
 
 export const fetchParameters = () => async dispatch => {
   dispatch(requestParameters())
+  try {
+    // Have to get numPRs from chain to know how many to query by index
+    const { getNumParameters } = await contracts.Distense
+    const numParameters = await getNumParameters()
+    const parameters = await Promise.all(
+      _.range(numParameters).map(fetchParameterByIndex)
+    )
+    dispatch(receiveParameters(parameters.filter(_.identity)))
+    window.web3.version.getNetwork((err, network) => {
+      if (err) console.error(`error: ${err}`)
+      console.log(`network: ${network}`)
 
-  // Have to get numPRs from chain to know how many to query by index
-  const { getNumParameters } = await contracts.Distense
-  const numParameters = await getNumParameters()
-  const parameters = await Promise.all(
-    _.range(numParameters).map(fetchParameterByIndex)
-  )
+      if (network) {
+        const didTokenAddress = DIDTokenArtifacts.networks[network].address
 
-  dispatch(receiveParameters(parameters.filter(_.identity)))
+        window.web3.eth.getBalance(didTokenAddress, (err, balance) => {
+          const didTokenContractEtherBalance = window.web3.fromWei(
+            balance,
+            'ether'
+          )
+          console.log(
+            `DIDToken contract bank account balance: ${didTokenContractEtherBalance} ether`
+          )
+          dispatch(
+            receiveBankAccountNumEther(didTokenContractEtherBalance.toString())
+          )
 
-  window.web3.version.getNetwork((err, network) => {
-    console.log(`network: ${network}`)
+          const didPerEther = getParameterValueByTitle(
+            store.getState(),
+            DID_PER_ETHER_PARAMETER_TITLE
+          )
 
-    if (network) {
-      const didTokenAddress = DIDTokenArtifacts.networks[network].address
+          const numDIDExchangeAbleTotal = didTokenContractEtherBalance.times(
+            didPerEther
+          )
+          dispatch(receiveNumDIDExchangeAbleTotal(numDIDExchangeAbleTotal))
 
-      window.web3.eth.getBalance(didTokenAddress, (err, balance) => {
-        // let didTokenEtherBalance = new BigNumber(balance)
-        const didTokenContractEtherBalance = window.web3.fromWei(
-          balance,
-          'ether'
-        )
-        console.log(
-          `DIDToken contract bank account balance: ${didTokenContractEtherBalance} ether`
-        )
-        dispatch(
-          receiveBankAccountNumEther(didTokenContractEtherBalance.toString())
-        )
+          const numDIDOwned = store.getState().user.numDID
+          if (numDIDOwned) {
+            const totalDIDExchangeAble = store.getState().distense
+              .numDIDExchangeAbleTotal
+            console.log(`total DID exchangeable: ${totalDIDExchangeAble}`)
 
-        const didPerEther = getParameterValueByTitle(
-          store.getState(),
-          DID_PER_ETHER_PARAMETER_TITLE
-        )
+            const numDIDUserMayExchange =
+              +numDIDOwned >= +totalDIDExchangeAble
+                ? totalDIDExchangeAble
+                : numDIDOwned
 
-        const numDIDExchangeAbleTotal = didTokenContractEtherBalance.times(
-          didPerEther
-        )
-        dispatch(receiveNumDIDExchangeAbleTotal(numDIDExchangeAbleTotal))
+            console.log(`user may exchange: ${numDIDUserMayExchange} DID`)
+            dispatch(receiveNumDIDUserMayExchange(numDIDUserMayExchange))
 
-        const numDIDOwned = store.getState().user.numDID
-        if (numDIDOwned) {
-          const totalDIDExchangeAble = store.getState().distense
-            .numDIDExchangeAbleTotal
-          console.log(`total DID exchangeable: ${totalDIDExchangeAble}`)
+            const maxPotentialEtherAccountCouldInvest = new BigNumber(
+              numDIDOwned
+            ).div(didPerEther)
 
-          const numDIDUserMayExchange =
-            +numDIDOwned >= +totalDIDExchangeAble
-              ? totalDIDExchangeAble
-              : numDIDOwned
+            const numEtherUserMayInvest =
+              maxPotentialEtherAccountCouldInvest.toNumber() >
+              didTokenContractEtherBalance.toNumber()
+                ? didTokenContractEtherBalance
+                : maxPotentialEtherAccountCouldInvest
 
-          console.log(`user may exchange: ${numDIDUserMayExchange} DID`)
-          dispatch(receiveNumDIDUserMayExchange(numDIDUserMayExchange))
-
-          const maxPotentialEtherAccountCouldInvest = new BigNumber(
-            numDIDOwned
-          ).div(didPerEther)
-
-          const numEtherUserMayInvest =
-            maxPotentialEtherAccountCouldInvest.toNumber() >
-            didTokenContractEtherBalance.toNumber()
-              ? didTokenContractEtherBalance
-              : maxPotentialEtherAccountCouldInvest
-
-          console.log(`user may invest: ${numDIDUserMayExchange} ETH`)
-          dispatch(receiveNumEtherUserMayInvest(numEtherUserMayInvest))
-        }
-      })
-    }
-  })
-
-  dispatch(setDefaultStatus())
-
-  return parameters
+            console.log(`user may invest: ${numDIDUserMayExchange} ETH`)
+            dispatch(receiveNumEtherUserMayInvest(numEtherUserMayInvest))
+          }
+        })
+      }
+    })
+    return parameters
+  } catch (e) {
+    console.error(`${e}`)
+  }
 }
 
 export const voteOnParameter = ({ title, vote }) => async (

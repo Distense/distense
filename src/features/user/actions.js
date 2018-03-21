@@ -21,8 +21,9 @@ const receiveAccountAction = account => ({
   account
 })
 
-const receiveHasWeb3 = () => ({
-  type: HAS_WEB3_RECEIVE
+const receiveHasWeb3 = hasWeb3 => ({
+  type: HAS_WEB3_RECEIVE,
+  hasWeb3
 })
 
 export const receiveNetwork = network => ({
@@ -74,35 +75,41 @@ export const calcPctDIDOwned = numDIDOwned => {
   return pctDID
 }
 export const fetchUserAccountInfo = () => async dispatch => {
-  /*global web3 */
-  const hasWeb3 = window.web3 !== undefined
-  let isConnected = false
-  if (hasWeb3) {
-    isConnected = web3.isConnected()
-    if (isConnected) {
-      console.log(`web3: isConnected`)
-      const accounts = web3.eth.accounts
-      const network = web3.version.network
-      dispatch(receiveNetwork(network))
+  let numDIDOwned
+  try {
+    /*global web3 */
+    const hasWeb3 = window.web3 !== undefined
+    let isConnected = false
+    if (hasWeb3) {
+      isConnected = web3.isConnected()
+      if (isConnected) {
+        console.log(`web3: isConnected`)
+        const accounts = web3.eth.accounts
+        const network = web3.version.network
+        dispatch(receiveNetwork(network))
 
-      if (accounts && accounts.length) {
-        const coinbase = accounts[0]
-        dispatch(receiveAccountAction(coinbase))
+        if (accounts && accounts.length) {
+          const coinbase = accounts[0]
+          dispatch(receiveAccountAction(coinbase))
 
-        const numDIDOwned = await getNumDIDByAddress(coinbase)
-        dispatch(receiveAccountNumDID(numDIDOwned.toString()))
-        const pctDID = calcPctDIDOwned(numDIDOwned)
-        console.log(`coinbase owns: ${pctDID}% of DID`)
-        dispatch(receivePctDIDOwned(pctDID.toString()))
-        console.log(`coinbase owns: ${numDIDOwned} DID`)
-        receiveAccountBalance(coinbase, dispatch)
+          numDIDOwned = await getNumDIDByAddress(coinbase)
+
+          dispatch(receiveAccountNumDID(numDIDOwned.toString()))
+          const pctDID = calcPctDIDOwned(numDIDOwned)
+          console.log(`coinbase owns: ${pctDID}% of DID`)
+          dispatch(receivePctDIDOwned(pctDID.toString()))
+          console.log(`coinbase owns: ${numDIDOwned} DID`)
+          receiveAccountBalance(coinbase, dispatch)
+        }
       } else {
         console.error(`no accounts found`)
       }
     }
+    dispatch(receiveHasWeb3(hasWeb3))
+    dispatch(setDefaultStatus())
+  } catch (e) {
+    console.error(`${e}`)
   }
-  dispatch(receiveHasWeb3(hasWeb3))
-  dispatch(setDefaultStatus())
 }
 
 function receiveAccountBalance(coinbase, dispatch) {
