@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button, Form, Input, List } from 'semantic-ui-react'
-import classNames from 'classnames'
 
 import BigNumber from 'bignumber.js'
 

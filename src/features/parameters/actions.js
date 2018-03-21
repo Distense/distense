@@ -20,7 +20,7 @@ import { shouldConvertParameterFromSolidity } from './operations/parameterDetail
 
 const RECEIVE_NUM_DID_EXCHANGEABLE = 'RECEIVE_NUM_DID_EXCHANGEABLE'
 const BANK_ACCOUNT_NUM_ETHER_RECEIVE = 'BANK_ACCOUNT_NUM_ETHER_RECEIVE'
-const RECEIVE_NUM_ETHER_USER_MAY_INVEST = 'RECEIVE_NUM_ETHER_USER_MAY_INVEST'
+const NUM_ETHER_USER_MAY_INVEST_RECEIVE = 'NUM_ETHER_USER_MAY_INVEST_RECEIVE'
 
 export const receiveBankAccountNumEther = numBankAccountEther => ({
   type: BANK_ACCOUNT_NUM_ETHER_RECEIVE,
@@ -33,7 +33,7 @@ export const receiveNumDIDExchangeAbleTotal = numDIDExchangeAbleTotal => ({
 })
 
 const receiveNumEtherUserMayInvest = numEtherUserMayInvest => ({
-  type: RECEIVE_NUM_ETHER_USER_MAY_INVEST,
+  type: NUM_ETHER_USER_MAY_INVEST_RECEIVE,
   numEtherUserMayInvest
 })
 
@@ -108,7 +108,7 @@ export const fetchParameters = () => async dispatch => {
           )
           dispatch(receiveNumDIDExchangeAbleTotal(numDIDExchangeAbleTotal))
 
-          const numDIDOwned = store.getState().user.numDID
+          const numDIDOwned = store.getState().user.user.numDID
           if (numDIDOwned) {
             const totalDIDExchangeAble = store.getState().distense
               .numDIDExchangeAbleTotal
@@ -132,8 +132,12 @@ export const fetchParameters = () => async dispatch => {
                 ? didTokenContractEtherBalance
                 : maxPotentialEtherAccountCouldInvest
 
-            console.log(`user may invest: ${numDIDUserMayExchange} ETH`)
-            dispatch(receiveNumEtherUserMayInvest(numEtherUserMayInvest))
+            console.log(
+              `user may invest: ${numEtherUserMayInvest.toString()} ETH`
+            )
+            dispatch(
+              receiveNumEtherUserMayInvest(numEtherUserMayInvest.toString())
+            )
           }
         })
       }

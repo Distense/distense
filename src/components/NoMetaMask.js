@@ -23,25 +23,17 @@ export class MetaMaskWarning extends Component {
                 <Message>
                   <Message.Item>
                     If you don't have it installed, please install{' '}
-                    <a target="_blank" href="https://metamask.io/">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="https://metamask.io/"
+                    >
                       MetaMask
                     </a>{' '}
                     and connect to {NETWORK_NAME}
                   </Message.Item>
                 </Message>
               )}
-              {/*{hasWeb3 &&*/}
-              {/*!correctNetwork && (*/}
-              {/*<Message>*/}
-              {/*<Message.Item>*/}
-              {/*It seems like you have MetaMask installed but you are not*/}
-              {/*connected to the right network*/}
-              {/*</Message.Item>*/}
-              {/*<Message.Item>*/}
-              {/*Please connect to {NETWORK_NAME}*/}
-              {/*</Message.Item>*/}
-              {/*</Message>*/}
-              {/*)}*/}
             </Grid.Row>
           </Grid.Column>
         </Grid>

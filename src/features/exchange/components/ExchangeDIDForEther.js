@@ -50,7 +50,7 @@ export default class ExchangeDIDForEther extends Component {
     e.preventDefault()
 
     const { numDIDToExchange } = this.state
-    exchangeDIDForEther({ numDIDToExchange })
+    exchangeDIDForEther(numDIDToExchange)
   }
 
   render() {
