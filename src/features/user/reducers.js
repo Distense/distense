@@ -8,6 +8,7 @@ export const COINBASE_RECEIVE = 'COINBASE_RECEIVE'
 export const ACCOUNT_TRANSACTIONS_RECEIVE = 'ACCOUNT_TRANSACTIONS_RECEIVE'
 export const USER_NOT_AUTHENTICATED_RECEIVE = 'USER_NOT_AUTHENTICATED_RECEIVE'
 export const USER_NUM_DID_RECEIVE = 'USER_NUM_DID_RECEIVE'
+export const USER_PCT_DID_RECEIVE = 'USER_PCT_DID_RECEIVE'
 
 export const NETWORK_RECEIVE = 'NETWORK_RECEIVE'
 export const USER_NUM_ETHER_RECEIVE = 'USER_NUM_ETHER_RECEIVE'
@@ -21,6 +22,7 @@ const user = (
     hasWeb3: false,
     accountUnlocked: false,
     numDID: 0,
+    pctDID: 0,
     network: null,
     numEther: 0,
     numDIDUserMayExchange: 0
@@ -39,6 +41,10 @@ const user = (
     case USER_NUM_DID_RECEIVE:
       return Object.assign({}, state, {
         numDID: action.numDIDOwned
+      })
+    case USER_PCT_DID_RECEIVE:
+      return Object.assign({}, state, {
+        pctDID: action.pctDID
       })
     case USER_NUM_ETHER_RECEIVE:
       return Object.assign({}, state, {
@@ -119,3 +125,4 @@ export const getNumEtherUserMayInvest = state =>
 export const getAccounts = state => state.accounts
 export const getCoinbase = state => state.user.accounts[0]
 export const getNetworkId = state => state.user.network
+export const getPctDID = state => state.user.pctDID

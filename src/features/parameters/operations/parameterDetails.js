@@ -32,15 +32,16 @@ export const parameters = [
     clientTitle: 'Num. DID to vote on task rewards'
   },
   {
+    title: 'minNumberOfTaskRewardVoters',
+    shouldConvertFromSolidity: true,
+    clientTitle: 'Num. of voters for task reward'
+  },
+  {
     title: 'numDIDRequiredToAddTask',
     shouldConvertFromSolidity: false,
     clientTitle: 'Num. DID required to propose tasks'
   },
-  {
-    title: 'minNumberOfTaskRewardVoters',
-    shouldConvertFromSolidity: false,
-    clientTitle: 'Num. of voters for task reward'
-  },
+
   {
     title: 'defaultReward',
     shouldConvertFromSolidity: false,

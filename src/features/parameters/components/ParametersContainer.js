@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import { getPctDID } from '../../user/reducers'
 import { voteOnParameter } from '../actions'
 import { getParameters } from '../reducers'
 import { Parameters } from './Parameters'
 
 class ParametersContainer extends Component {
   componentDidMount() {
-    console.log(`params: ${this.props.parameters.length} parameters`)
+    console.log(`${this.props.parameters.length} parameters`)
   }
+
   render() {
     return (
       <Parameters
+        pctDID={this.props.pctDID}
         voteOnParameter={this.props.voteOnParameter}
         parameters={this.props.parameters}
       />
@@ -20,6 +23,7 @@ class ParametersContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  pctDID: getPctDID(state),
   parameters: getParameters(state)
 })
 

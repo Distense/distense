@@ -15,26 +15,6 @@ export class Parameters extends Component {
     }
   }
 
-  handleInputChange(event) {
-    const target = event.target
-    const name = target.name
-    const value = target.value
-
-    if (value.length < 3)
-      this.setState({
-        [name]: value
-      })
-  }
-
-  onClick = (title, vote, e) => {
-    e.preventDefault()
-
-    this.props.voteOnParameter({ title, vote })
-    this.setState({
-      voting: true
-    })
-  }
-
   render() {
     const { parameters } = this.props
 
@@ -70,8 +50,8 @@ export class Parameters extends Component {
                     <Parameter
                       key={i}
                       param={parameter}
-                      onChange={this.handleInputChange}
-                      onClick={this.onClick}
+                      onChange={this.onChangeVoteValue}
+                      voteOnParameter={this.props.voteOnParameter}
                     />
                   ))
                 ) : (

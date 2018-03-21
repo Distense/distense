@@ -35,12 +35,12 @@ export const constructClientParameterDetails = p => {
   }
 
   if (p.title === parameters[6].title) {
-    value = p.value + ' DID'
+    value = p.value + ' voters'
     title = parameters[6].clientTitle
   }
 
   if (p.title === parameters[7].title) {
-    value = p.value + ' voters'
+    value = p.value + ' DID'
     title = parameters[7].clientTitle
   }
 
