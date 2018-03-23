@@ -148,15 +148,17 @@ class Home extends Component {
               inverted
               columns="1"
             >
-              <Link
+              <a
                 style={{
                   color: '#0df679',
                   textDecoration: 'underline'
                 }}
-                to="/howitworks"
+                href="https://medium.com/@distenseorg/introducing-distense-a-decentralized-code-cooperative-260cf6211aef"
+                target="_blank"
+                rel="noopener"
               >
-                How It Works
-              </Link>
+                Intro Blog Post
+              </a>
             </Grid>
           </Container>
         </Segment>
