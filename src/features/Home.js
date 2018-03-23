@@ -155,7 +155,7 @@ class Home extends Component {
                 }}
                 href="https://medium.com/@distenseorg/introducing-distense-a-decentralized-code-cooperative-260cf6211aef"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 Intro Blog Post
               </a>
