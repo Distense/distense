@@ -4,7 +4,7 @@
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![codecov](https://codecov.io/gh/Distense/distense-ui/branch/dev/graph/badge.svg)](https://codecov.io/gh/Distense/distense-ui)
 
- ![Distense logo](https://i.imgur.com/W8XjeyS.png, 'Distense')
+ ![Distense logo](https://i.imgur.com/acI7y9U.png, 'Distense')
 
 ## What is Distense?
 
