@@ -157,7 +157,7 @@ class Home extends Component {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Intro Blog Post
+                Introduction
               </a>
             </Grid>
           </Container>
