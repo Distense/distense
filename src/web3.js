@@ -6,7 +6,6 @@ export const selectContractInstance = contractBuild => {
     const web3 = window.web3 && window.web3.currentProvider
     const correctNetwork = window.web3.version.network === NETWORK
     if (web3 && correctNetwork) {
-      console.log(`correct network`)
       console.log(`trying to get contract instance`)
       const myContract = contract(contractBuild)
       myContract.setProvider(window.web3.currentProvider)

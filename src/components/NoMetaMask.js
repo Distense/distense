@@ -13,13 +13,14 @@ export class MetaMaskWarning extends Component {
 
   render() {
     const { hasWeb3, correctNetwork } = this.props
-
+    console.log(`hasWeb3: ${hasWeb3}`)
+    console.log(`correctNetwork: ${correctNetwork}`)
     return (
       <div>
-        <Grid>
-          <Grid.Column>
-            <Grid.Row className="margin-bottom-rem">
-              {(!hasWeb3 || !correctNetwork) && (
+        {(!hasWeb3 || !correctNetwork) && (
+          <Grid>
+            <Grid.Column>
+              <Grid.Row className="margin-bottom-rem">
                 <Message>
                   <Message.Item className="item">
                     If you don't have it installed, please install{' '}
@@ -37,10 +38,10 @@ export class MetaMaskWarning extends Component {
                     do so
                   </Message.Item>
                 </Message>
-              )}
-            </Grid.Row>
-          </Grid.Column>
-        </Grid>
+              </Grid.Row>
+            </Grid.Column>
+          </Grid>
+        )}
       </div>
     )
   }

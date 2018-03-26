@@ -79,8 +79,10 @@ export const fetchUserAccountInfo = () => async dispatch => {
   try {
     /*global web3 */
     const hasWeb3 = window.web3 !== undefined
+
     let isConnected = false
     if (hasWeb3) {
+      dispatch(receiveHasWeb3(hasWeb3))
       isConnected = web3.isConnected()
       if (isConnected) {
         console.log(`web3: isConnected`)
@@ -105,7 +107,6 @@ export const fetchUserAccountInfo = () => async dispatch => {
         console.error(`no accounts found`)
       }
     }
-    dispatch(receiveHasWeb3(hasWeb3))
     dispatch(setDefaultStatus())
   } catch (e) {
     console.error(`${e}`)
