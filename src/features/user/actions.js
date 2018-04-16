@@ -51,8 +51,8 @@ export const receiveAccountNumEther = numEther => ({
 })
 
 export const getNumDIDByAddress = async address => {
-  const { balances } = await contracts.DIDToken
-  return await balances(address)
+  const { getAddressBalance } = await contracts.DIDToken
+  return await getAddressBalance(address)
 }
 
 export const receiveNumDIDUserMayExchange = numDIDUserMayExchange => ({
