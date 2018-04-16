@@ -12,11 +12,10 @@ import * as contracts from '../../contracts'
 import { setDefaultStatus } from '../status/actions'
 // import { incrementNumPendingTx } from '../task-add/sagas'
 import { getGasPrice } from '../user/getGasPrice'
-import { convertSolidityIntToInt } from '../../utils'
 import { getParameterValueByTitle } from '../parameters/reducers'
 import { DID_PER_ETHER_PARAMETER_TITLE } from '../parameters/operations/parameterTitles'
 import { receiveNumDIDUserMayExchange } from '../user/actions'
-import { shouldConvertParameterFromSolidity } from './operations/parameterDetails'
+import { convertSolidityIntToInt } from '../../utils'
 
 const RECEIVE_NUM_DID_EXCHANGEABLE = 'RECEIVE_NUM_DID_EXCHANGEABLE'
 const BANK_ACCOUNT_NUM_ETHER_RECEIVE = 'BANK_ACCOUNT_NUM_ETHER_RECEIVE'
@@ -57,9 +56,7 @@ export const fetchParameter = async title => {
   title = web3Utils.toAscii(title).replace(/\u0000/g, '')
   const parameter = await getParameterByTitle(title)
 
-  let value = parameter[1].toNumber()
-  if (shouldConvertParameterFromSolidity(title))
-    value = convertSolidityIntToInt(value)
+  const value = convertSolidityIntToInt(parameter[1].toString())
   return Object.assign(
     {},
     {

@@ -1,7 +1,8 @@
 import BigNumber from 'bignumber.js'
 
 export const convertSolidityIntToInt = function(integer) {
-  return integer / 100
+  const oneEtherEquivalent = window.web3.toWei(1, 'ether')
+  return new BigNumber(integer).div(oneEtherEquivalent).toString()
 }
 
 export const convertIntToSolidityInt = function(integer) {
