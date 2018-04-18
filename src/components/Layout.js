@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Menu, Segment } from 'semantic-ui-react'
+import { Container, Image, Menu, Segment } from 'semantic-ui-react'
 import TotalDID from './TotalDID'
 import NoMetaMask from './NoMetaMask'
 import Footer from '../features/footer/Footer'
@@ -24,7 +24,12 @@ export default ({ children }) => (
       >
         <Container textAlign="center">
           <Menu.Item to="/" as={Link} position="left">
-            Distense
+            <Image
+              src="/public/rectangle-transparent-small.png"
+              style={{
+                width: '120px'
+              }}
+            />
           </Menu.Item>
           <Menu.Item to="/tasks/add" as={Link}>
             Propose
@@ -46,7 +51,7 @@ export default ({ children }) => (
       </Menu>
     </Segment>
 
-    <Container style={{ marginTop: '3em' }}>
+    <Container style={{ marginTop: '3.2em' }}>
       <NoMetaMask />
       {children}
     </Container>
@@ -58,7 +63,7 @@ export default ({ children }) => (
         font-family: 'Inconsolata', sans-serif !important;
       }
       .item {
-        font-size: 1.1rem;
+        /*font-size: 1.1rem;*/
       }
       .ui.container > .footer-item {
         padding: 0 0.75rem;

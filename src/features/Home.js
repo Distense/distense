@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import {
+  Button,
   Container,
   Form,
   Grid,
   Header,
+  Image,
   Input,
   List,
   Menu,
@@ -66,10 +68,15 @@ class Home extends Component {
           }}
           vertical
         >
-          <Menu borderless className="inconsolata" inverted size="large">
+          <Menu size="large" borderless className="inconsolata" inverted>
             <Container textAlign="center">
               <Menu.Item to="/" as={Link} position="left">
-                Distense
+                <Image
+                  src="/public/rectangle-transparent-small.png"
+                  style={{
+                    width: '120px'
+                  }}
+                />
               </Menu.Item>
               <Menu.Item to="/tasks/add" as={Link}>
                 Propose
@@ -90,75 +97,109 @@ class Home extends Component {
             </Container>
           </Menu>
 
-          <Container text>
-            <Header
-              as="h1"
-              className="inconsolata"
-              content="Distense"
-              inverted
-              style={{
-                fontSize: '4em',
-                marginBottom: 0,
-                marginTop: '3em'
-              }}
-            />
-            <Header
-              as="h2"
-              className="inconsolata"
-              inverted
-              style={{
-                fontSize: '1.7em',
-                fontWeight: 'normal'
-              }}
-            >
-              A decentralized code-cooperative
-            </Header>
-            <Grid
-              style={{
-                marginTop: '2.8em'
-              }}
-              centered
-              inverted
-              columns="1"
-            >
-              {emailSubmitSuccess ? (
-                <span>We'll keep you updated!</span>
-              ) : (
-                <Form size="large" onSubmit={this.onSubmitEmail}>
-                  <Form.Group>
+          <Container>
+            <Grid verticalAlign="middle" centered stackable columns={2}>
+              <Grid.Column
+                className="landing-column-one"
+                width={8}
+                textAlign="center"
+              >
+                <Header as="h1" style={{ fontSize: '2.55em' }} inverted>
+                  Work is Broken
+                </Header>
+                <Header as="h3" style={{ fontSize: '1.65em' }} inverted>
+                  Let's fix it, together
+                </Header>
+                {emailSubmitSuccess ? (
+                  <span>We'll keep you updated!</span>
+                ) : (
+                  <Form className="center" onSubmit={this.onSubmitEmail}>
                     <Form.Input
                       className="email-subscribe"
                       icon="mail"
                       type="text"
+                      style={{
+                        backgroundColor: '#0df679',
+                        textDecoration: 'underline',
+                        fontSize: '1.33em',
+                        marginTop: '1em'
+                      }}
                       placeholder="Get Email Updates"
                       value={email}
                       onChange={this.onChangeEmail}
                     />
-                  </Form.Group>
-                </Form>
-              )}
-            </Grid>
-            <Grid
-              style={{
-                fontSize: '2rem',
-                marginTop: '2em',
-                color: 'green'
-              }}
-              centered
-              inverted
-              columns="1"
-            >
-              <a
-                style={{
-                  color: '#0df679',
-                  textDecoration: 'underline'
-                }}
-                href="https://medium.com/@distenseorg/introducing-distense-a-decentralized-code-cooperative-260cf6211aef"
-                target="_blank"
-                rel="noopener noreferrer"
+                  </Form>
+                )}
+                <Button
+                  primary
+                  as="a"
+                  style={{
+                    backgroundColor: '#0df679',
+                    textDecoration: 'underline',
+                    fontSize: '1.33em',
+                    marginTop: '1.5em'
+                  }}
+                  href="https://medium.com/@distenseorg/introducing-distense-a-decentralized-code-cooperative-260cf6211aef"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {' '}
+                  Read Intro Blog
+                </Button>
+              </Grid.Column>
+              <Grid.Column
+                className="landing-column-two"
+                width={8}
+                textAlign="center"
               >
-                Introduction
-              </a>
+                <Header
+                  as="h3"
+                  className="inconsolata"
+                  inverted
+                  style={{
+                    fontSize: '1.5em',
+                    fontWeight: 'normal'
+                  }}
+                >
+                  Distense is a for-profit company that runs on the Ethereum
+                  blockchain.
+                </Header>
+                <Header
+                  as="h3"
+                  className="inconsolata"
+                  inverted
+                  style={{
+                    fontSize: '1.5em',
+                    fontWeight: 'normal'
+                  }}
+                >
+                  Contributors earn DID, an Ethereum token which is issued
+                  immediately after work is approved by other contributors. DID
+                  are immediately exchangeable into ETH.
+                </Header>
+                <Header
+                  as="h3"
+                  className="inconsolata"
+                  inverted
+                  style={{
+                    fontSize: '1.5em',
+                    fontWeight: 'normal'
+                  }}
+                >
+                  Anyone can{' '}
+                  <a
+                    href="https://github.com/Distense/distense-ui/issues"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: '#0df679',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    contribute
+                  </a>.
+                </Header>
+              </Grid.Column>
             </Grid>
           </Container>
         </Segment>
@@ -166,7 +207,7 @@ class Home extends Component {
         <Segment style={{ padding: '7em 0em' }} textAlign="center" vertical>
           <Container text>
             <Header as="h3" style={{ fontSize: '1.7em' }}>
-              Work is broken
+              The Problems
             </Header>
             <Grid divided inverted stackable>
               <Grid.Row className="landing-work-broken" textAlign="center">
@@ -180,7 +221,7 @@ class Home extends Component {
                     </List.Item>
                     <List.Item>
                       <List.Icon name="frown" />
-                      <List.Content>Harrassment and biases</List.Content>
+                      <List.Content>Harassment and biases</List.Content>
                     </List.Item>
                   </List>
                 </Grid.Column>
@@ -208,7 +249,7 @@ class Home extends Component {
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               Work on a per-task basis, from anywhere, whenever. Govern the
-              organization you work for. Receive compensation immediately.
+              organization you work for. Be compensated immediately.
             </p>
           </Container>
         </Segment>
@@ -312,8 +353,15 @@ class Home extends Component {
             width: 50% !important;
           }
 
+          .email-subscribe {
+            text-align: center !important;
+            display: inline-block;
+          }
           .email-subscribe input {
             text-align: center !important;
+            -webkit-border-radius: 28571429rem !important;
+            -moz-border-radius: 0.28571429rem !important;
+            border-radius: 0.28571429rem !important;
           }
 
           .inconsolata {
@@ -333,6 +381,15 @@ class Home extends Component {
             font-size: 1.2rem;
             color: #f5eec5;
             padding: 1rem 0;
+          }
+
+          @media screen and (min-width: 767px) {
+            .landing-column-one {
+              padding-top: 165px !important;
+            }
+            .landing-column-two {
+              padding-top: 150px !important;
+            }
           }
 
           .landing-work-broken .item .content {
