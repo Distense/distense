@@ -68,7 +68,7 @@ class Home extends Component {
           }}
           vertical
         >
-          <Menu size="large" borderless className="inconsolata" inverted>
+          <Menu size="large" borderless className="inconsolata" inverted stackable>
             <Container textAlign="center">
               <Menu.Item to="/" as={Link} position="left">
                 <Image

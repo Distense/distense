@@ -21,6 +21,7 @@ export default ({ children }) => (
         className="inconsolata"
         inverted
         size="large"
+        stackable
       >
         <Container textAlign="center">
           <Menu.Item to="/" as={Link} position="left">
