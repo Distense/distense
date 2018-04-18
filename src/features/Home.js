@@ -104,10 +104,15 @@ class Home extends Component {
                 width={8}
                 textAlign="center"
               >
-                <Header as="h1" style={{ fontSize: '2.55em' }} inverted>
+                <Header as="h1" style={{ fontSize: '2.6em' }} inverted>
                   Work is Broken
                 </Header>
-                <Header as="h3" style={{ fontSize: '1.65em' }} inverted>
+                <Header
+                  as="h3"
+                  className="fix-it-header-margin"
+                  style={{ fontSize: '1.7em' }}
+                  inverted
+                >
                   Let's fix it, together
                 </Header>
                 {emailSubmitSuccess ? (
@@ -119,7 +124,7 @@ class Home extends Component {
                       icon="mail"
                       type="text"
                       style={{
-                        backgroundColor: '#0df679',
+                        borderRadius: '0.28571429rem',
                         textDecoration: 'underline',
                         fontSize: '1.33em',
                         marginTop: '1em'
@@ -187,17 +192,15 @@ class Home extends Component {
                   }}
                 >
                   Anyone can{' '}
-                  <a
-                    href="https://github.com/Distense/distense-ui/issues"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    to="/tasks"
                     style={{
                       color: '#0df679',
                       textDecoration: 'underline'
                     }}
                   >
                     contribute
-                  </a>.
+                  </Link>.
                 </Header>
               </Grid.Column>
             </Grid>
@@ -406,6 +409,9 @@ class Home extends Component {
             .landing-work-broken .ui.relaxed.right.floated.list {
               float: none;
             }
+          }
+          .fix-it-header-margin {
+            margin: -2px 0 4px 0 !important;
           }
         `}</style>
       </div>
