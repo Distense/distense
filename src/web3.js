@@ -4,9 +4,9 @@ import { NETWORK } from './features/user/network'
 export const selectContractInstance = contractBuild => {
   try {
     const web3 = window.web3 && window.web3.currentProvider
-    const correctNetwork = window.web3.version.network === NETWORK
-    if (web3 && correctNetwork) {
-      console.log(`trying to get contract instance`)
+    // const correctNetwork = window.web3.version.network === NETWORK
+    if (web3) {
+      console.log(`getting contract instance for ${contractBuild.contractName}`)
       const myContract = contract(contractBuild)
       myContract.setProvider(window.web3.currentProvider)
       myContract.defaults({

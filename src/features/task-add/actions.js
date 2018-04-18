@@ -7,7 +7,6 @@ import { receiveUserNotAuthenticated } from '../user/actions'
 import * as contracts from '../../contracts'
 import { encodeTaskMetaDataToBytes32 } from '../tasks/operations/encodeTaskMetaDataToBytes32'
 import { TASK_RECEIVE } from '../tasks/reducers'
-import { incrementNumPendingTx } from './sagas'
 
 const requestIssues = () => ({
   type: ISSUES_REQUEST
@@ -76,17 +75,12 @@ export const addTask = ({ title, tagsString, issueNum, repo }) => async (
   }
   originalTask._id = encodeTaskMetaDataToBytes32(originalTask)
 
-  const txHash = await addTask(originalTask._id, title, {
+  await addTask(originalTask._id, title, {
     from: coinbase,
     gasPrice: getGasPrice()
   })
 
-  if (typeof txHash === 'string') {
-    dispatch(incrementNumPendingTx(txHash))
-    console.log(`successfully added task to Ethereum blockchain`)
-    dispatch(receiveTask(originalTask))
-  } else console.log(`FAILED to add task`)
-
+  dispatch(receiveTask(originalTask))
   dispatch(setDefaultStatus())
 
   return originalTask

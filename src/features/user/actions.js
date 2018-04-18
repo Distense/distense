@@ -15,6 +15,7 @@ import {
 import { setDefaultStatus } from '../status/actions'
 import { getTotalSupplyDID } from '../distense/reducers'
 import { store } from '../../store'
+import { convertSolidityIntToInt } from '../../utils'
 
 const receiveAccountAction = account => ({
   type: ACCOUNT_RECEIVE,
@@ -52,7 +53,7 @@ export const receiveAccountNumEther = numEther => ({
 
 export const getNumDIDByAddress = async address => {
   const { getAddressBalance } = await contracts.DIDToken
-  return await getAddressBalance(address)
+  return await convertSolidityIntToInt(getAddressBalance(address))
 }
 
 export const receiveNumDIDUserMayExchange = numDIDUserMayExchange => ({
