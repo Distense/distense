@@ -12,6 +12,7 @@ import {
   getNumBankAccountEther
 } from '../distense/reducers'
 import { getParameterValueByTitle } from '../parameters/reducers'
+import { exchangeDIDForEther, investEtherForDID } from './actions'
 
 export class ExchangeContainer extends Component {
   render() {
@@ -31,4 +32,9 @@ const mapStateToProps = state => ({
   )
 })
 
-export default connect(mapStateToProps)(ExchangeContainer)
+const mapDispatchToProps = dispatch => ({
+  exchangeDIDForEther: numDID => dispatch(exchangeDIDForEther(numDID)),
+  investEtherForDID: numEther => dispatch(investEtherForDID(numEther))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeContainer)

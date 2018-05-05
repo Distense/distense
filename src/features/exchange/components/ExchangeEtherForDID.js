@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { BigNumber } from 'bignumber.js'
 import { Button, Input, Form, Grid, List, Message } from 'semantic-ui-react'
 
-import { investEtherForDID } from '../actions'
-
 export default class ExchangeEtherForDID extends Component {
   constructor(props) {
     super(props)
@@ -45,12 +43,10 @@ export default class ExchangeEtherForDID extends Component {
     }
   }
 
-  onSubmitInvestEtherForDID = async e => {
+  onSubmitInvestEtherForDID = e => {
     e.preventDefault()
 
-    const { numEtherToExchange } = this.state
-
-    investEtherForDID({ numEtherToExchange })
+    this.props.investEtherForDID(this.state.numEtherToInvest)
   }
 
   render() {
@@ -82,7 +78,6 @@ export default class ExchangeEtherForDID extends Component {
                 You may invest up to {numEtherUserMayInvest} ETH
               </List.Item>
             ) : (
-              // <List.Item>For a maximum of: {num} DID</List.Item>
               <List.Item>
                 You don't own any DID in the selected Ethereum account so you
                 have no DID to exchange

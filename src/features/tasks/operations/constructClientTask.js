@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 import { decodeTaskBytes32ToMetaData } from './decodeTaskBytes32ToMetaData'
 import { taskIdDecoded } from './taskIdDecoded'
 import {
@@ -16,10 +18,13 @@ export const constructClientTask = (taskId, contractTask, didPerEtherValue) => {
   const title = contractTask[0].replace(/(\/)/g, '-')
   const createdBy = contractTask[1]
 
-  const didReward = contractTask[2].toNumber()
+  const oneEtherEquiv = window.web3.toWei(1, 'ether')
+  const didReward = new BigNumber(contractTask[2].toNumber())
+    .div(oneEtherEquiv)
+    .dp(4)
   const rewardStatusEnumInteger = contractTask[3].toNumber()
   let pctDIDVoted = convertSolidityIntToInt(contractTask[4].toString())
-  pctDIDVoted = pctDIDVoted === 0 ? '00.00' : pctDIDVoted.toFixed(2)
+  pctDIDVoted = pctDIDVoted === 0 ? '00.00' : pctDIDVoted
   const numVotes = contractTask[5]
 
   const { createdAt, tags, issueNum, repoName } = decodeTaskBytes32ToMetaData(

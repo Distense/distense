@@ -5,10 +5,6 @@ export const convertSolidityIntToInt = function(integer) {
   return new BigNumber(integer).div(oneEtherEquivalent).toString()
 }
 
-export const convertIntToSolidityInt = function(integer) {
-  return integer * 100
-}
-
 /**
  *
  * @param numDID
@@ -17,12 +13,9 @@ export const convertIntToSolidityInt = function(integer) {
  * based on the value of our didPerEther parameter
  */
 export const convertDIDRewardToEtherReward = (numDID, didPerEtherValue) => {
-  BigNumber.config({ ROUNDING_MODE: 1 }) // round down for conservatism
-  numDID = new BigNumber(numDID)
-
   didPerEtherValue = new BigNumber(didPerEtherValue)
-  return numDID
+  return new BigNumber(numDID.toString())
     .div(didPerEtherValue)
-    .dp(3)
+    .dp(4)
     .toString()
 }

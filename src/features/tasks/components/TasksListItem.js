@@ -36,7 +36,7 @@ export const TasksListItem = ({ task }) => (
         title="Submit work for this task"
         to={`/pullrequests/add/${task._id}`}
       >
-        Submit
+        Submit PR
       </Button>
     </Table.Cell>
   </Table.Row>

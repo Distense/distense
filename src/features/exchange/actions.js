@@ -6,11 +6,10 @@ import {
   receiveAccountNumDID,
   receiveUserNotAuthenticated
 } from '../user/actions'
+import { getGasPrice } from '../user/getGasPrice'
 
-export const exchangeDIDForEther = ({ numDID }) => async (
-  dispatch,
-  getState
-) => {
+export const exchangeDIDForEther = numDID => async (dispatch, getState) => {
+  console.log(`beginning exchange of DID for ether`)
   const coinbase = getState().user.accounts[0]
   if (!coinbase) {
     dispatch(receiveUserNotAuthenticated())
@@ -21,8 +20,7 @@ export const exchangeDIDForEther = ({ numDID }) => async (
 
   const successfulExchange = await exchangeDIDForEther(numDID, {
     from: coinbase,
-    gasPrice: 2000000000,
-    gas: 1000000
+    gasPrice: getGasPrice()
   })
 
   if (successfulExchange && successfulExchange.logs.length) {
@@ -44,15 +42,14 @@ export const investEtherForDID = numEther => async (dispatch, getState) => {
     return
   }
 
+  console.log(`beginning exchange of ether for DID`)
   const { investEtherForDID } = await contracts.DIDToken
   const invested = await investEtherForDID(
     {},
     {
       from: coinbase,
-      /*global web3 */
-      /*eslint no-undef: "error"*/
-      value: web3.toWei(numEther),
-      gasPrice: 30000000000
+      value: window.web3.toWei(numEther, 'ether'),
+      gasPrice: getGasPrice()
     }
   )
 
@@ -65,5 +62,5 @@ export const investEtherForDID = numEther => async (dispatch, getState) => {
 
   dispatch(setDefaultStatus())
 
-  return invested
+  // return invested
 }
