@@ -13,6 +13,7 @@ import {
   Segment
 } from 'semantic-ui-react'
 
+import { FaBars } from 'react-icons/lib/fa';
 import Head from '../components/Head'
 import TotalDID from '../components/TotalDID'
 
@@ -53,6 +54,26 @@ class Home extends Component {
     )
   }
 
+  toggleNav() {
+    const menuItems = document.querySelectorAll('.menuItem');
+    menuItems.forEach(menuItem => menuItem.style.display === 'none' ? menuItem.style.display = 'flex' : menuItem.style.display = 'none');
+  }
+
+  componentDidMount() {
+    const menuItems = document.querySelectorAll('.menuItem');
+    const hamburger = document.querySelector('.bars');
+    window.addEventListener('resize', () => {
+      if(window.innerWidth < 768) {
+        menuItems.forEach(menuItem => menuItem.style.display = 'none');
+        hamburger.style.display='block';
+      }
+      else {
+        menuItems.forEach(menuItem => menuItem.style.display = 'flex');
+        hamburger.style.display = 'none';
+      }
+    })
+  }
+  
   render() {
     const { email, emailSubmitSuccess, footerSubmitSuccess } = this.state
 
@@ -68,7 +89,7 @@ class Home extends Component {
           }}
           vertical
         >
-          <Menu size="large" borderless className="inconsolata" inverted>
+          <Menu size="large" borderless className="inconsolata" inverted stackable>
             <Container textAlign="center">
               <Menu.Item to="/" as={Link} position="left">
                 <Image
@@ -78,22 +99,23 @@ class Home extends Component {
                   }}
                 />
               </Menu.Item>
-              <Menu.Item to="/tasks/add" as={Link}>
+              <Menu.Item to="/tasks/add" as={Link} className="menuItem">
                 Propose
               </Menu.Item>
-              <Menu.Item to="/tasks" as={Link}>
+              <Menu.Item to="/tasks" as={Link} className="menuItem">
                 View
               </Menu.Item>
-              <Menu.Item to="/pullrequests/add" as={Link}>
+              <Menu.Item to="/pullrequests/add" as={Link} className="menuItem">
                 Submit
               </Menu.Item>
-              <Menu.Item to="/pullrequests" as={Link}>
+              <Menu.Item to="/pullrequests" as={Link} className="menuItem">
                 Approve
               </Menu.Item>
-              <Menu.Item to="/exchange" as={Link}>
+              <Menu.Item to="/exchange" as={Link} className="menuItem">
                 Exchange
               </Menu.Item>
-              <TotalDID />
+              <FaBars className="bars display-none" onClick={this.toggleNav}/>
+              <TotalDID className="menuItem"/>
             </Container>
           </Menu>
 
@@ -412,6 +434,9 @@ class Home extends Component {
           }
           .fix-it-header-margin {
             margin: -2px 0 4px 0 !important;
+          }
+          .display-none {
+            display: none
           }
         `}</style>
       </div>
