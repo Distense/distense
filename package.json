@@ -25,7 +25,7 @@
     "bignumber.js": "^6.0.0",
     "classnames": "^2.2.5",
     "cross-fetch": "^2.0.0",
-    "distense-contracts": "^1.0.1",
+    "distense-contracts": "^1.0.6",
     "lodash": "^4.17.4",
     "meteor-random": "0.0.3",
     "object-assign": "4.1.1",
