@@ -10,14 +10,14 @@ import DIDTokenArtifacts from 'distense-contracts/build/contracts/DIDToken.json'
 
 import * as contracts from '../../contracts'
 import { setDefaultStatus } from '../status/actions'
-// import { incrementNumPendingTx } from '../task-add/sagas'
 import { getGasPrice } from '../user/getGasPrice'
 import { getParameterValueByTitle } from '../parameters/reducers'
 import { DID_PER_ETHER_PARAMETER_TITLE } from '../parameters/operations/parameterTitles'
 import { receiveNumDIDUserMayExchange } from '../user/actions'
 import { convertSolidityIntToInt } from '../../utils'
+import { parameters } from './operations/parameterDetails'
+import { NUM_DID_EXCHANGEABLE_RECEIVE } from '../distense/reducers'
 
-const RECEIVE_NUM_DID_EXCHANGEABLE = 'RECEIVE_NUM_DID_EXCHANGEABLE'
 const BANK_ACCOUNT_NUM_ETHER_RECEIVE = 'BANK_ACCOUNT_NUM_ETHER_RECEIVE'
 const NUM_ETHER_USER_MAY_INVEST_RECEIVE = 'NUM_ETHER_USER_MAY_INVEST_RECEIVE'
 
@@ -27,7 +27,7 @@ export const receiveBankAccountNumEther = numBankAccountEther => ({
 })
 
 export const receiveNumDIDExchangeAbleTotal = numDIDExchangeAbleTotal => ({
-  type: RECEIVE_NUM_DID_EXCHANGEABLE,
+  type: NUM_DID_EXCHANGEABLE_RECEIVE,
   numDIDExchangeAbleTotal
 })
 
@@ -103,39 +103,39 @@ export const fetchParameters = () => async dispatch => {
           const numDIDExchangeAbleTotal = didTokenContractEtherBalance.times(
             didPerEther
           )
-          dispatch(receiveNumDIDExchangeAbleTotal(numDIDExchangeAbleTotal))
+          dispatch(
+            receiveNumDIDExchangeAbleTotal(numDIDExchangeAbleTotal.toNumber())
+          )
 
-          const numDIDOwned = store.getState().user.user.numDID
-          if (numDIDOwned) {
-            const totalDIDExchangeAble = store.getState().distense
+          const numDIDFromContributions = store.getState().user.user
+            .numDIDFromContributions
+          if (numDIDFromContributions) {
+            const totalDIDExchangeAble = store.getState().distense.distense
               .numDIDExchangeAbleTotal
             console.log(`total DID exchangeable: ${totalDIDExchangeAble}`)
 
             const numDIDUserMayExchange =
-              +numDIDOwned >= +totalDIDExchangeAble
+              +numDIDFromContributions >= +totalDIDExchangeAble
                 ? totalDIDExchangeAble
-                : numDIDOwned
+                : numDIDFromContributions
 
             console.log(`user may exchange: ${numDIDUserMayExchange} DID`)
             dispatch(receiveNumDIDUserMayExchange(numDIDUserMayExchange))
 
             const maxPotentialEtherAccountCouldInvest = new BigNumber(
-              numDIDOwned
+              numDIDFromContributions
             ).div(didPerEther)
 
-            const numEtherUserMayInvest =
-              maxPotentialEtherAccountCouldInvest.toNumber() >
-              didTokenContractEtherBalance.toNumber()
-                ? didTokenContractEtherBalance
-                : maxPotentialEtherAccountCouldInvest
-
             console.log(
-              `user may invest: ${numEtherUserMayInvest.toString()} ETH`
+              `user may invest: ${maxPotentialEtherAccountCouldInvest.toString()} ETH`
             )
             dispatch(
-              receiveNumEtherUserMayInvest(numEtherUserMayInvest.toString())
+              receiveNumEtherUserMayInvest(
+                maxPotentialEtherAccountCouldInvest.toString()
+              )
             )
           }
+          console.log(`numDIDFromContributions: ${numDIDFromContributions}`)
         })
       }
     })
@@ -158,12 +158,19 @@ export const voteOnParameter = ({ title, vote }) => async (
 
   let voteValue = vote
   if (voteValue !== 1 && voteValue !== -1) {
-    const currentParamValue = getParameterValueByTitle(store.getState(), title)
-    voteValue = new BigNumber(vote)
+    const currentParamValue = new BigNumber(
+      getParameterValueByTitle(store.getState(), title)
+    )
+    // if votingInterval
+    if (title === parameters[0].title) {
+      vote = new BigNumber(vote).times(86400).toString() // convert back to time-seconds
+    }
+    const oneEther = window.web3.toWei(1, 'ether')
+    voteValue = new BigNumber(voteValue)
       .div(currentParamValue)
-      .times(100) // convert to integer
-      .minus(100) // subtract the 1 because on-chain function must be less than 1 -- we're just looking for the percentage change
-      .dp(0) // decimals
+      .minus(1)
+      .times(100)
+      .times(oneEther)
       .toString()
   }
 
@@ -175,7 +182,6 @@ export const voteOnParameter = ({ title, vote }) => async (
 
   if (receipt.tx) {
     console.log(`vote on parameter receipt`)
-    // dispatch(incrementNumPendingTx(receipt.tx))
   } else {
     console.log('user vote on parameter failed')
   }

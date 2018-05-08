@@ -9,6 +9,8 @@ export const COINBASE_RECEIVE = 'COINBASE_RECEIVE'
 export const ACCOUNT_TRANSACTIONS_RECEIVE = 'ACCOUNT_TRANSACTIONS_RECEIVE'
 export const USER_NOT_AUTHENTICATED_RECEIVE = 'USER_NOT_AUTHENTICATED_RECEIVE'
 export const USER_NUM_DID_RECEIVE = 'USER_NUM_DID_RECEIVE'
+export const USER_NUM_DID_CONTRIBUTIONS_RECEIVE =
+  'USER_NUM_DID_CONTRIBUTIONS_RECEIVE'
 export const USER_PCT_DID_RECEIVE = 'USER_PCT_DID_RECEIVE'
 
 export const NETWORK_RECEIVE = 'NETWORK_RECEIVE'
@@ -23,6 +25,7 @@ const user = (
     hasWeb3: false,
     accountUnlocked: false,
     numDID: 0,
+    numDIDFromContributions: 0,
     pctDID: 0,
     network: null,
     numEther: 0,
@@ -42,6 +45,10 @@ const user = (
     case USER_NUM_DID_RECEIVE:
       return Object.assign({}, state, {
         numDID: action.numDIDOwned
+      })
+    case USER_NUM_DID_CONTRIBUTIONS_RECEIVE:
+      return Object.assign({}, state, {
+        numDIDFromContributions: action.numDIDFromContributions
       })
     case USER_PCT_DID_RECEIVE:
       return Object.assign({}, state, {
@@ -63,7 +70,6 @@ const user = (
       return Object.assign({}, state, {
         numEtherUserMayInvest: action.numEtherUserMayInvest
       })
-
     default:
       return state
   }

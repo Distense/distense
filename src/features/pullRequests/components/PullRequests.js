@@ -18,10 +18,15 @@ export default class PullRequests extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      pullRequests:
-        this.props.pullRequests.length > 0 ? this.props.pullRequests : []
-    })
+    this.someTimeout = setTimeout(() => {
+      this.setState({
+        pullRequests: this.props.pullRequests
+      })
+    }, 1500)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.someTimeout)
   }
 
   handleSort = clickedColumn => () => {

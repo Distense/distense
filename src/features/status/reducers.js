@@ -14,10 +14,8 @@ import { PARAMETERS_RECEIVE } from '../parameters/reducers'
 export const SET_DEFAULT_STATUS = 'SET_DEFAULT_STATUS'
 export const SET_STATUS_MESSAGE = 'SET_STATUS_MESSAGE'
 export const RECEIVE_NUM_DID_EXCHANGEABLE = 'RECEIVE_NUM_DID_EXCHANGEABLE'
-export const RECEIVE_TOTAL_SUPPLY_DID = 'RECEIVE_TOTAL_SUPPLY_DID'
 export const BANK_ACCOUNT_NUM_ETHER_RECEIVE = 'BANK_ACCOUNT_NUM_ETHER_RECEIVE'
 export const TOTAL_SUPPLY_DID_RECEIVE = 'TOTAL_SUPPLY_DID_RECEIVE'
-export const NUM_DID_EXCHANGEABLE_RECEIVE = 'NUM_DID_EXCHANGEABLE_RECEIVE'
 
 /**
  * Standard redux reducer used to control the state of Status component that is always located in footer.  Basically the idea is to update the user
@@ -42,7 +40,6 @@ export const NUM_DID_EXCHANGEABLE_RECEIVE = 'NUM_DID_EXCHANGEABLE_RECEIVE'
  */
 const status = (
   state = {
-    avgBlockTime: 15,
     message: 'idle',
     txSubmitted: false
   },

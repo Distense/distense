@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { BigNumber } from 'bignumber.js'
 import { Button, Input, Form, Grid, List, Message } from 'semantic-ui-react'
 
-import { exchangeDIDForEther } from '../actions'
-
 export default class ExchangeDIDForEther extends Component {
   constructor(props) {
     super(props)
@@ -46,11 +44,11 @@ export default class ExchangeDIDForEther extends Component {
     }
   }
 
-  onSubmitExchangeDIDForEther = async e => {
+  onSubmitExchangeDIDForEther = e => {
     e.preventDefault()
 
     const { numDIDToExchange } = this.state
-    exchangeDIDForEther(numDIDToExchange)
+    this.props.exchangeDIDForEther(numDIDToExchange)
   }
 
   render() {

@@ -1,5 +1,4 @@
 import contract from 'truffle-contract'
-import { NETWORK } from './features/user/network'
 
 export const selectContractInstance = contractBuild => {
   try {

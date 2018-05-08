@@ -7,15 +7,31 @@ import { getAllPullRequests } from '../reducers'
 import { fetchTasks } from '../../tasks/actions'
 
 export class PullRequestsContainer extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      pullRequests: this.props.pullRequests || []
+    }
+  }
+
   componentWillMount() {
     this.props.fetchPullRequests()
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.someTimeout = setTimeout(() => {
+      this.setState({
+        pullRequests: this.props.pullRequests
+      })
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.someTimeout)
+  }
 
   render() {
-    const { pullRequests } = this.props
-
+    const { pullRequests } = this.state
     return <PullRequests pullRequests={pullRequests} />
   }
 }
