@@ -59,18 +59,24 @@ class Home extends Component {
     menuItems.forEach(menuItem => menuItem.style.display === 'none' ? menuItem.style.display = 'flex' : menuItem.style.display = 'none');
   }
 
-  componentDidMount() {
+  handleResize() {
     const menuItems = document.querySelectorAll('.menuItem');
     const hamburger = document.querySelector('.bars');
+    if(window.innerWidth < 768) {
+      menuItems.forEach(menuItem => menuItem.style.display = 'none');
+      hamburger.style.display='block';
+    }
+    else {
+      menuItems.forEach(menuItem => menuItem.style.display = 'flex');
+      hamburger.style.display = 'none';
+    }
+    
+  }
+
+  componentDidMount() {
+    this.handleResize();
     window.addEventListener('resize', () => {
-      if(window.innerWidth < 768) {
-        menuItems.forEach(menuItem => menuItem.style.display = 'none');
-        hamburger.style.display='block';
-      }
-      else {
-        menuItems.forEach(menuItem => menuItem.style.display = 'flex');
-        hamburger.style.display = 'none';
-      }
+      this.handleResize();
     })
   }
   
@@ -99,6 +105,7 @@ class Home extends Component {
                   }}
                 />
               </Menu.Item>
+              <FaBars className="bars display-none" onClick={this.toggleNav}/>
               <Menu.Item to="/tasks/add" as={Link} className="menuItem">
                 Propose
               </Menu.Item>
@@ -114,7 +121,6 @@ class Home extends Component {
               <Menu.Item to="/exchange" as={Link} className="menuItem">
                 Exchange
               </Menu.Item>
-              <FaBars className="bars display-none" onClick={this.toggleNav}/>
               <TotalDID className="menuItem"/>
             </Container>
           </Menu>
@@ -434,6 +440,13 @@ class Home extends Component {
           }
           .fix-it-header-margin {
             margin: -2px 0 4px 0 !important;
+          }
+          .bars {
+            margin-left: 20px;
+            font-size: 20px;
+          }
+          .bars: hover {
+            transform: scale(1.1);
           }
           .display-none {
             display: none
