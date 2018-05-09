@@ -27,6 +27,8 @@ class Home extends Component {
     }
   }
 
+  onResize = () => this.onResize();
+  
   onChangeEmail = ({ target: { value: email } }) => {
     this.setState({ email })
   }
@@ -78,6 +80,10 @@ class Home extends Component {
     window.addEventListener('resize', () => {
       this.handleResize();
     })
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('resize', this.onResize.bind(this));
   }
   
   render() {

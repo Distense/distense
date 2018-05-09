@@ -8,7 +8,8 @@ import {FaBars} from 'react-icons/lib/fa';
 
 
 class Layout extends React.Component {
-  
+  onResize = () => this.onResize();
+
   toggleNav() {
     const menuItems = document.querySelectorAll('.menuItem');
     menuItems.forEach(menuItem => menuItem.style.display === 'none' ? menuItem.style.display = 'flex' : menuItem.style.display = 'none');
@@ -33,6 +34,10 @@ class Layout extends React.Component {
     window.addEventListener('resize', () => {
       this.handleResize();
     })
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('resize', this.onResize.bind(this));
   }
 
   render() {
