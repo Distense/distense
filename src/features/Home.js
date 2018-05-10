@@ -103,11 +103,12 @@ class Home extends Component {
         >
           <Menu size="large" borderless className="inconsolata" inverted stackable>
             <Container textAlign="center">
-              <Menu.Item to="/" as={Link} position="left">
+              <Menu.Item to="/" as={Link} position="left" className="fixed-item">
                 <Image
                   src="/public/rectangle-transparent-small.png"
                   style={{
-                    width: '120px'
+                    width: '120px',
+                    order: 1
                   }}
                 />
               </Menu.Item>
@@ -127,7 +128,7 @@ class Home extends Component {
               <Menu.Item to="/exchange" as={Link} className="menuItem">
                 Exchange
               </Menu.Item>
-              <TotalDID className="menuItem"/>
+              <TotalDID />
             </Container>
           </Menu>
 
@@ -440,6 +441,10 @@ class Home extends Component {
               text-align: -ms-center;
             }
 
+            .menuItem {
+              order: 10;
+              width: 100%;
+            }
             .landing-work-broken .ui.relaxed.right.floated.list {
               float: none;
             }
@@ -448,14 +453,24 @@ class Home extends Component {
             margin: -2px 0 4px 0 !important;
           }
           .bars {
-            margin-left: 20px;
+            margin-top: 20px;
             font-size: 20px;
+            order: 3;
           }
           .bars: hover {
             transform: scale(1.1);
           }
           .display-none {
             display: none
+          }
+          .ui.stackable.menu .fixed-item {
+            width: 140px!important
+          }
+          .ui.center.aligned.container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around
           }
         `}</style>
       </div>
