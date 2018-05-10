@@ -61,11 +61,12 @@ class Layout extends React.Component {
             stackable
           >
             <Container textAlign="center">
-              <Menu.Item to="/" as={Link} position="left">
+              <Menu.Item to="/" as={Link} position="left" className="fixed-item">
                 <Image
                   src="/public/rectangle-transparent-small.png"
                   style={{
-                    width: '120px'
+                    width: '120px',
+                    order: 1
                   }}
                 />
               </Menu.Item>
@@ -118,8 +119,9 @@ class Layout extends React.Component {
             margin-bottom: 1rem;
           }
           .bars {
-                margin-left: 20px;
-                font-size: 20px;
+            margin-top: 20px;
+            font-size: 20px;
+            order: 3;
           }
           .bars: hover {
             transform: scale(1.1);
@@ -127,6 +129,23 @@ class Layout extends React.Component {
           .display-none {
             display: none
           }
+          .ui.stackable.menu .fixed-item {
+            width: 140px!important
+          }
+          .ui.center.aligned.container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around
+          }
+
+          @media screen and (max-width: 767px) {
+            .menuItem {
+              order: 10;
+              width: 100%;
+            }
+          }
+
         `}</style>
       </div>
     )
