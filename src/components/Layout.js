@@ -143,6 +143,7 @@ class Layout extends React.Component {
             .menuItem {
               order: 10;
               width: 100%;
+              justify-content: flex-end;
             }
           }
 

@@ -444,6 +444,7 @@ class Home extends Component {
             .menuItem {
               order: 10;
               width: 100%;
+              justify-content: flex-end;
             }
             .landing-work-broken .ui.relaxed.right.floated.list {
               float: none;
