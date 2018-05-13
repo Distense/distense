@@ -19,7 +19,7 @@ export const constructClientTask = (taskId, contractTask, didPerEtherValue) => {
   const createdBy = contractTask[1]
 
   const oneEtherEquiv = window.web3.toWei(1, 'ether')
-  const didReward = new BigNumber(contractTask[2].toNumber())
+  const didReward = new BigNumber(contractTask[2].toString())
     .div(oneEtherEquiv)
     .dp(4)
   const rewardStatusEnumInteger = contractTask[3].toNumber()
