@@ -13,6 +13,7 @@ import {
   Segment
 } from 'semantic-ui-react'
 
+import { FaBars } from 'react-icons/lib/fa';
 import Head from '../components/Head'
 import TotalDID from '../components/TotalDID'
 
@@ -26,6 +27,8 @@ class Home extends Component {
     }
   }
 
+  onResize = () => this.onResize();
+  
   onChangeEmail = ({ target: { value: email } }) => {
     this.setState({ email })
   }
@@ -53,6 +56,36 @@ class Home extends Component {
     )
   }
 
+  toggleNav() {
+    const menuItems = document.querySelectorAll('.menuItem');
+    menuItems.forEach(menuItem => menuItem.style.display === 'none' ? menuItem.style.display = 'flex' : menuItem.style.display = 'none');
+  }
+
+  handleResize() {
+    const menuItems = document.querySelectorAll('.menuItem');
+    const hamburger = document.querySelector('.bars');
+    if(window.innerWidth < 768) {
+      menuItems.forEach(menuItem => menuItem.style.display = 'none');
+      hamburger.style.display='block';
+    }
+    else {
+      menuItems.forEach(menuItem => menuItem.style.display = 'flex');
+      hamburger.style.display = 'none';
+    }
+    
+  }
+
+  componentDidMount() {
+    this.handleResize();
+    window.addEventListener('resize', () => {
+      this.handleResize();
+    })
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('resize', this.onResize.bind(this));
+  }
+  
   render() {
     const { email, emailSubmitSuccess, footerSubmitSuccess } = this.state
 
@@ -68,29 +101,31 @@ class Home extends Component {
           }}
           vertical
         >
-          <Menu size="large" borderless className="inconsolata" inverted>
+          <Menu size="large" borderless className="inconsolata" inverted stackable>
             <Container textAlign="center">
-              <Menu.Item to="/" as={Link} position="left">
+              <Menu.Item to="/" as={Link} position="left" className="fixed-item">
                 <Image
                   src="/public/rectangle-transparent-small.png"
                   style={{
-                    width: '120px'
+                    width: '120px',
+                    order: 1
                   }}
                 />
               </Menu.Item>
-              <Menu.Item to="/tasks/add" as={Link}>
+              <FaBars className="bars display-none" onClick={this.toggleNav}/>
+              <Menu.Item to="/tasks/add" as={Link} className="menuItem">
                 Propose
               </Menu.Item>
-              <Menu.Item to="/tasks" as={Link}>
+              <Menu.Item to="/tasks" as={Link} className="menuItem">
                 View
               </Menu.Item>
-              <Menu.Item to="/pullrequests/add" as={Link}>
+              <Menu.Item to="/pullrequests/add" as={Link} className="menuItem">
                 Submit
               </Menu.Item>
-              <Menu.Item to="/pullrequests" as={Link}>
+              <Menu.Item to="/pullrequests" as={Link} className="menuItem">
                 Approve
               </Menu.Item>
-              <Menu.Item to="/exchange" as={Link}>
+              <Menu.Item to="/exchange" as={Link} className="menuItem">
                 Exchange
               </Menu.Item>
               <TotalDID />
@@ -406,12 +441,37 @@ class Home extends Component {
               text-align: -ms-center;
             }
 
+            .menuItem {
+              order: 10;
+              width: 100%;
+              justify-content: flex-end;
+            }
             .landing-work-broken .ui.relaxed.right.floated.list {
               float: none;
             }
           }
           .fix-it-header-margin {
             margin: -2px 0 4px 0 !important;
+          }
+          .bars {
+            margin-top: 20px;
+            font-size: 20px;
+            order: 3;
+          }
+          .bars: hover {
+            transform: scale(1.1);
+          }
+          .display-none {
+            display: none
+          }
+          .ui.stackable.menu .fixed-item {
+            width: 140px!important
+          }
+          .ui.center.aligned.container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around
           }
         `}</style>
       </div>
