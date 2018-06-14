@@ -79,8 +79,8 @@ export default class ExchangeEtherForDID extends Component {
               </List.Item>
             ) : (
               <List.Item>
-                You don't own any DID in the selected Ethereum account so you
-                have no DID to exchange
+                You don't own any DID (from contributions) in the selected
+                Ethereum account so you may not invest ether
               </List.Item>
             )}
             <List.Item>
