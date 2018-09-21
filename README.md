@@ -12,7 +12,6 @@ Distense is a decentralized code cooperative: a company without executives, offi
 
 - Follow us on [Twitter](https://twitter.com/distenseorg)
 - Join our [Slack](https://join.slack.com/t/distense/shared_invite/enQtMzA4ODM5MzI5NzY2LWFmZDBhYTJjYzkzYmZjMjg0Y2I1YWZkYmU3NGIwYjE5NjA1Y2I0MDEzYjcyYjRmNGQzZmRhZjM1YmY0ZmY0OWY)
-- Support us by starring this repo
 - If you're interested in Solidity development, see our [contracts repo](https://github.com/Distense/distense-contracts)
 
 ## Usage
