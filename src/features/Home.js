@@ -149,7 +149,7 @@ class Home extends Component {
                   rel="noopener noreferrer"
                 >
                   {' '}
-                  Read Intro Blog
+                  Read Intro Blog Post
                 </Button>
               </Grid.Column>
               <Grid.Column
