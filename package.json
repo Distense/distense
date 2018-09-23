@@ -17,7 +17,10 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "no-control-regex": 0
+    }
   },
   "dependencies": {
     "autosuggest-highlight": "^3.1.1",
