@@ -21,7 +21,7 @@ export class Tasks extends Component {
     this.handleSort = this.handleSort.bind(this)
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchTasks()
   }
 
