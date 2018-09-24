@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './features/Home'
 import Events from './features/events/Events'
 import ExchangeContainer from './features/exchange/ExchangeContainer'
-import Faucet from './features/faucet/Faucet'
 import FAQ from './features/FAQ'
 import HowItWorks from './features/HowItWorks'
 import Layout from './components/Layout'
@@ -45,7 +44,6 @@ export const Routes = () => (
       <DefaultLayout path="/faq" component={FAQ} />
       <DefaultLayout path="/FAQ" component={FAQ} />
       <DefaultLayout exact path="/jobs" component={Jobs} />
-      <DefaultLayout exact path="/ropsten/faucet" component={Faucet} />
       <DefaultLayout exact path="/getstarted" component={GetStarted} />
       <DefaultLayout path="/tasks/:title/:id" component={Task} />
       <DefaultLayout path="/tasks/add" component={AddTaskContainer} />
