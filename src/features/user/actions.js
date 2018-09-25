@@ -64,8 +64,8 @@ export const getNumDIDByAddress = async address => {
 }
 
 export const getNumDIDFromContributionsByAddress = async address => {
-  const { getNetNumContributionsDID } = await contracts.DIDToken
-  const numDIDFromContributions = await getNetNumContributionsDID(address)
+  const { getNumContributionsDID } = await contracts.DIDToken
+  const numDIDFromContributions = await getNumContributionsDID  (address)
   return await convertSolidityIntToInt(numDIDFromContributions.toNumber())
 }
 
@@ -117,7 +117,8 @@ export const fetchUserAccountInfo = () => async dispatch => {
           dispatch(
             receiveAccountNumDIDFromContributions(numDIDFromContributions)
           )
-          const pctDID = calcPctDIDOwned(numDIDOwned)
+          const pctDID = calcPctDIDOwned(numDIDFromContributions)
+          console.log(`account: ${web3.eth.accounts[0]}`)
           console.log(`coinbase owns: ${pctDID}% of DID`)
           dispatch(receivePctDIDOwned(pctDID.toString()))
           console.log(`coinbase owns: ${numDIDOwned} DID`)
