@@ -28,7 +28,7 @@ export const fetchIssues = () => dispatch => {
   return fetch(`https://api.github.com/repos/Distense/distense-ui/issues`)
     .then(response => response.json())
     .then(issues => {
-      console.log(`${issues.length} distense-ui issues`)
+      console.log(`${issues.length} Github distense-ui issues`)
       return issues
     })
     .then(issues => dispatch(receiveIssues(issues)))
