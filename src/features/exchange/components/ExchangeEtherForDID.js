@@ -14,33 +14,18 @@ export default class ExchangeEtherForDID extends Component {
   }
 
   onChangeNumEther = ({ target: { value } }) => {
-    const numEtherUserMayInvest = this.props.numEtherUserMayInvest
     const didPerEtherExchangeRate = this.props.didPerEtherExchangeRate
 
-    value = +value
-    if (value > numEtherUserMayInvest) value = numEtherUserMayInvest
-
-    const numDIDUserWillReceive = new BigNumber(value)
+    const numDIDUserWillReceive = new BigNumber(+value)
       .times(didPerEtherExchangeRate)
       .dp(4)
       .toString()
 
-    if (value > 0 && value <= numEtherUserMayInvest) {
-      this.setState({
-        numDIDUserWillReceive,
-        numEtherToInvest: value
-      })
-    } else if (value > numEtherUserMayInvest) {
-      this.setState({
-        numEtherToInvest: numEtherUserMayInvest,
-        numDIDUserWillReceive
-      })
-    } else {
-      this.setState({
-        numEtherToInvest: '',
-        numDIDUserWillReceive
-      })
-    }
+    console.log('numDIDUserWillReceive', numDIDUserWillReceive)
+    this.setState({
+      numEtherToInvest: value,
+      numDIDUserWillReceive
+    })
   }
 
   onSubmitInvestEtherForDID = e => {
@@ -50,7 +35,7 @@ export default class ExchangeEtherForDID extends Component {
   }
 
   render() {
-    const { numEtherToInvest, numDIDWillReceive } = this.state
+    const { numEtherToInvest, numDIDUserWillReceive } = this.state
 
     const { numEtherUserMayInvest } = this.props
     return (
@@ -67,7 +52,7 @@ export default class ExchangeEtherForDID extends Component {
             />
           </Form.Field>
           <Button size="medium" color="green" type="submit">
-            Invest {numEtherToInvest} ether for {numDIDWillReceive} DID
+            Invest {numEtherToInvest} ether for {numDIDUserWillReceive} DID
           </Button>
         </Form>
         <Message>
