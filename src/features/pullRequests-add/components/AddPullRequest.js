@@ -152,7 +152,7 @@ export class AddPullRequest extends Component {
     const { githubPullRequests, tasks } = this.props
 
     const pullRequestsProps = {
-      placeholder: `Select from existing pull requests`,
+      placeholder: `Begin typing your pull request message from Github`,
       onChange: this.onChangePullRequest,
       value: githubPullRequestValue
     }
