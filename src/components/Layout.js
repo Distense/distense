@@ -51,7 +51,7 @@ export default ({ children }) => (
       </Menu>
     </Segment>
 
-    <Container style={{ marginTop: '3.2em' }}>
+    <Container style={{ marginTop: '5.2em' }}>
       <NoMetaMask />
       {children}
     </Container>

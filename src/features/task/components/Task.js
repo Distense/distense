@@ -81,16 +81,19 @@ export class Task extends Component {
                       <Item.Description>
                         Tags: <Tags tags={task.tags} />
                       </Item.Description>
-                      <Item.Description>
-                        Issue URL:
-                        <a className="" target="_blank" href={task.issueURL}>
-                          {task.issueURL}
-                        </a>
-                      </Item.Description>
                       <Item.Meta>
                         Created: {task.createdAt.toDateString()}
                       </Item.Meta>
-                      <Item.Extra>
+                      <Item.Extra style={{paddingTop:'2em'}}>
+                        <Button
+                          href={task.issueURL}
+                          target="_blank"
+                          color="grey"
+                          compact
+                          size="large"
+                        >
+                          View Discussion
+                        </Button>
                         <Button
                           as={Link}
                           to={`/pullrequests/add/${task._id}`}
@@ -135,19 +138,22 @@ const TaskRewardInput = ({
       <Form.Field required>
         <label>DID Token Reward Min: 0 Max: 5000</label>
         <Input
-          type="text"
+          type="number"
           placeholder="positive numeric reward value"
           onChange={event => onChangeReward(event)}
           name="reward"
           value={reward}
+          min="0"
+          max="5000"
+          autocomplete="false"
         />
       </Form.Field>
       <Button
         disabled={disabled}
-        inverted
-        size="small"
-        color="green"
         type="submit"
+        color="black"
+        compact
+        size="large"
       >
         Vote on Reward
       </Button>
