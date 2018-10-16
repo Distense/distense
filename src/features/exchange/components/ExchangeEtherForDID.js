@@ -15,8 +15,7 @@ export default class ExchangeEtherForDID extends Component {
   }
 
   onChangeNumEther = ({ target: { value } }) => {
-    // const didPerEtherExchangeRate = this.props.didPerEtherExchangeRate
-    const didPerEtherExchangeRate = 0.18;
+    const didPerEtherExchangeRate = this.props.didPerEtherExchangeRate
     let numDIDUserWillReceive;
     let regex = new RegExp('^[+]?[0-9]*[.,]?[0-9]+$');
     console.log('value',value);
