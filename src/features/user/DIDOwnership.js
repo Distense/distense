@@ -11,7 +11,7 @@ export class DIDOwnership extends Component {
     this.props.fetchTotalSupplyDID()
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     return (
       this.props.numDID !== nextProps.numDID ||
       this.props.totalSupplyDid !== nextProps.totalSupplyDid
