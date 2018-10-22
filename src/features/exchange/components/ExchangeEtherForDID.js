@@ -18,7 +18,6 @@ export default class ExchangeEtherForDID extends Component {
     const didPerEtherExchangeRate = this.props.didPerEtherExchangeRate
     let numDIDUserWillReceive;
     let regex = new RegExp('^[+]?[0-9]*[.,]?[0-9]+$');
-    console.log('value',value);
     regex.test(value) 
       ? (
           numDIDUserWillReceive = new BigNumber(value)
