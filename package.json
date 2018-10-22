@@ -28,7 +28,7 @@
     "bignumber.js": "^6.0.0",
     "classnames": "^2.2.6",
     "cross-fetch": "^2.2.2",
-    "distense-contracts": "^1.1.9",
+    "distense-contracts": "^1.1.11",
     "fbjs": "^1.0.0",
     "lodash": "^4.17.11",
     "meteor-random": "0.0.3",
