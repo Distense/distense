@@ -35,7 +35,7 @@ export class PullRequest extends Component {
     })
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { fetchPullRequest, match: { params: { prId } } } = this.props
     fetchPullRequest(prId)
   }
@@ -57,7 +57,7 @@ export class PullRequest extends Component {
                     </Header>
                     <Item>
                       Pull Request URL:
-                      <a className="" target="_blank" href={pullRequest.url}>
+                      <a className="" target="_blank" rel="noopener noreferrer" href={pullRequest.url}>
                         {pullRequest.url}
                       </a>
                     </Item>
