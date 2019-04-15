@@ -78,6 +78,9 @@ export class Task extends Component {
                   <Item>
                     <Item.Content>
                       <Header as="h2">{task.title}</Header>
+                      <Item.Meta>
+                        Created: {task.createdAt.toDateString()}
+                      </Item.Meta>
                       <Item.Description>
                         Tags: <Tags tags={task.tags} />
                       </Item.Description>
@@ -89,15 +92,12 @@ export class Task extends Component {
                               margin: '5px 0px 5px 0px'
                             }}
                             compact
-                            size="medium"
+                            size="large"
                             href={task.issueURL}
                           >
                             View Issue and Discussion on Github 
                         </Button>
                       </Item.Description>
-                      <Item.Meta>
-                        Created: {task.createdAt.toDateString()}
-                      </Item.Meta>
                       <Item.Extra>
                         <Button
                           as={Link}
