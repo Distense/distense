@@ -16,7 +16,6 @@ export class Events extends Component {
 
     return (
       <div>
-        <Head subtitle="Add Task" />
         <PageTitling
           title="Important Distense events"
           subtitle="Including DID issuances, task reward determinations and pull request approvals appear here"
@@ -26,7 +25,9 @@ export class Events extends Component {
             {events.length > 0 ? (
               events.map(event => <EventItem key={event.txHash} e={event} />)
             ) : events.length === 0 ? (
-              'No events'
+              <Grid.Column>
+                <p>No Events Yet</p>
+              </Grid.Column>
             ) : (
               <Segment>
                 <Dimmer active>
