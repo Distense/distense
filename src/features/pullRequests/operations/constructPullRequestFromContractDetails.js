@@ -11,7 +11,7 @@ export const constructPullRequestFromContractDetails = (prId, contractPR) => {
 
   const taskMetadata = decodeTaskBytes32ToMetaData(taskId)
   const url =
-    'https://github.com/Distense/' + taskMetadata.repoName + '/pulls/' + prNum
+    'https://github.com/Distense/' + taskMetadata.repoName + '/pull/' + prNum
 
   return Object.assign(
     {},
