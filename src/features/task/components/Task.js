@@ -78,18 +78,26 @@ export class Task extends Component {
                   <Item>
                     <Item.Content>
                       <Header as="h2">{task.title}</Header>
-                      <Item.Description>
-                        Tags: <Tags tags={task.tags} />
-                      </Item.Description>
-                      <Item.Description>
-                        Issue URL:
-                        <a className="" target="_blank" href={task.issueURL}>
-                          {task.issueURL}
-                        </a>
-                      </Item.Description>
                       <Item.Meta>
                         Created: {task.createdAt.toDateString()}
                       </Item.Meta>
+                      <Item.Description>
+                        Tags: <Tags tags={task.tags} />
+                      </Item.Description>
+                      <Item.Description> 
+                        <Button
+                            as="a"
+                            color="blue"
+                            style= {{
+                              margin: '5px 0px 5px 0px'
+                            }}
+                            compact
+                            size="large"
+                            href={task.issueURL}
+                          >
+                            View Issue and Discussion on Github 
+                        </Button>
+                      </Item.Description>
                       <Item.Extra>
                         <Button
                           as={Link}
