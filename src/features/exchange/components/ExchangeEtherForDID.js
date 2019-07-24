@@ -7,43 +7,50 @@ export default class ExchangeEtherForDID extends Component {
     super(props)
     this.state = {
       numEtherToInvest: '',
-      numDIDUserWillReceive: ''
+      numDIDUserWillReceive: '',
+      inputError: false
     }
-
     this.onChangeNumEther = this.onChangeNumEther.bind(this)
   }
 
   onChangeNumEther = ({ target: { value } }) => {
     const didPerEtherExchangeRate = this.props.didPerEtherExchangeRate
-
-    const numDIDUserWillReceive = new BigNumber(+value)
-      .times(didPerEtherExchangeRate)
-      .dp(4)
-      .toString()
-
-    console.log('numDIDUserWillReceive', numDIDUserWillReceive)
-    this.setState({
-      numEtherToInvest: value,
-      numDIDUserWillReceive
-    })
+    let numDIDUserWillReceive;
+    let regex = new RegExp('^[+]?[0-9]*[.,]?[0-9]+$');
+    regex.test(value) 
+      ? (
+          numDIDUserWillReceive = new BigNumber(value)
+            .times(didPerEtherExchangeRate)
+            .dp(4)
+            .toString(),
+          this.setState({
+            numEtherToInvest: value,
+            numDIDUserWillReceive,
+            inputError: false
+          })
+        )
+      : (
+        this.setState({
+          numEtherToInvest: value,
+          inputError: true
+        })
+      )
   }
 
   onSubmitInvestEtherForDID = e => {
     e.preventDefault()
-
     this.props.investEtherForDID(this.state.numEtherToInvest)
   }
 
   render() {
-    const { numEtherToInvest, numDIDUserWillReceive } = this.state
+    const { numEtherToInvest, numDIDUserWillReceive, inputError } = this.state
 
     const { numEtherUserMayInvest } = this.props
     return (
       <Grid.Column width={8}>
-        <Form onSubmit={this.onSubmitInvestEtherForDID}>
-          <Form.Field>
+        <Form onSubmit={this.onSubmitInvestEtherForDID} error={inputError}>
+          <Form.Field error = {inputError && numEtherToInvest.length > 0}>
             <Input
-              type="text"
               placeholder={`number of ETH you want to invest in exchange for DID`}
               onChange={this.onChangeNumEther}
               className=""
@@ -51,8 +58,15 @@ export default class ExchangeEtherForDID extends Component {
               value={numEtherToInvest}
             />
           </Form.Field>
-          <Button size="medium" color="green" type="submit">
-            Invest {numEtherToInvest} ether for {numDIDUserWillReceive} DID
+          {(inputError && numEtherToInvest.length > 0) && 
+          <Message 
+            error = {inputError}
+            header = 'Ops, theres problem with your value'
+            content = 'Number you have entered is invalid.'
+            />
+          }
+          <Button size="medium" color="green" type="submit" disabled = {inputError || (numEtherToInvest.length === 0)}>
+            Invest {!inputError ? numEtherToInvest : ''} ether for {!inputError ? numDIDUserWillReceive : ''} DID
           </Button>
         </Form>
         <Message>
