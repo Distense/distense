@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Grid, Dimmer, Loader, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import Head from '../../components/Head'
 import EventItem from '../events/components/EventItem'
 import PageTitling from '../../components/PageTitling'
 
