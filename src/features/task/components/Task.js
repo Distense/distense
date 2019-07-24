@@ -26,7 +26,7 @@ export class Task extends Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { fetchTask, match: { params: { id } } } = this.props
     fetchTask(id)
   }
