@@ -60,13 +60,15 @@ export const receiveAccountNumEther = numEther => ({
 export const getNumDIDByAddress = async address => {
   const { getAddressBalance } = await contracts.DIDToken
   const numDIDOwned = await getAddressBalance(address)
-  return await convertSolidityIntToInt(numDIDOwned.toString())
+  return convertSolidityIntToInt(numDIDOwned.toString())
 }
 
 export const getNumDIDFromContributionsByAddress = async address => {
   const { getNumContributionsDID } = await contracts.DIDToken
-  const numDIDFromContributions = await getNumContributionsDID  (address)
-  return await convertSolidityIntToInt(numDIDFromContributions.toNumber())
+  let numDIDFromContributions = await getNumContributionsDID  (address)
+  numDIDFromContributions = convertSolidityIntToInt(numDIDFromContributions.toNumber())
+  console.log(`asdf numDIDFromContributions: ${numDIDFromContributions}`)
+  return numDIDFromContributions
 }
 
 export const receiveNumDIDUserMayExchange = numDIDUserMayExchange => ({
@@ -112,7 +114,6 @@ export const fetchUserAccountInfo = () => async dispatch => {
           numDIDFromContributions = await getNumDIDFromContributionsByAddress(
             coinbase
           )
-
           dispatch(receiveAccountNumDID(numDIDOwned))
           dispatch(
             receiveAccountNumDIDFromContributions(numDIDFromContributions)

@@ -107,35 +107,38 @@ export const fetchParameters = () => async dispatch => {
             receiveNumDIDExchangeAbleTotal(numDIDExchangeAbleTotal.toNumber())
           )
 
-          const numDIDFromContributions = store.getState().user.user
-            .numDIDFromContributions
-          if (numDIDFromContributions) {
-            const totalDIDExchangeAble = store.getState().distense.distense
-              .numDIDExchangeAbleTotal
-            console.log(`total DID exchangeable: ${totalDIDExchangeAble}`)
+          setTimeout(() => {
+            const numDIDFromContributions = store.getState().user.user.numDIDFromContributions
+            console.log(`numDIDFromContributions: ${numDIDFromContributions}`)
+            if (numDIDFromContributions) {
+              const totalDIDExchangeAble = store.getState().distense.distense
+                .numDIDExchangeAbleTotal
+              console.log(`total DID exchangeable: ${totalDIDExchangeAble}`)
 
-            const numDIDUserMayExchange =
-              +numDIDFromContributions >= +totalDIDExchangeAble
-                ? totalDIDExchangeAble
-                : numDIDFromContributions
+              const numDIDUserMayExchange =
+                +numDIDFromContributions >= +totalDIDExchangeAble
+                  ? totalDIDExchangeAble
+                  : numDIDFromContributions
 
-            console.log(`user may exchange: ${numDIDUserMayExchange} DID`)
-            dispatch(receiveNumDIDUserMayExchange(numDIDUserMayExchange))
+              console.log(`user may exchange: ${numDIDUserMayExchange} DID`)
+              dispatch(receiveNumDIDUserMayExchange(numDIDUserMayExchange))
 
-            const maxPotentialEtherAccountCouldInvest = new BigNumber(
-              numDIDFromContributions
-            ).div(didPerEther)
+              const maxPotentialEtherAccountCouldInvest = new BigNumber(
+                numDIDFromContributions
+              ).div(didPerEther)
 
-            console.log(
-              `user may invest: ${maxPotentialEtherAccountCouldInvest.toString()} ETH`
-            )
-            dispatch(
-              receiveNumEtherUserMayInvest(
-                maxPotentialEtherAccountCouldInvest.toString()
+              console.log(
+                `user may invest: ${maxPotentialEtherAccountCouldInvest.toString()} ETH`
               )
-            )
-          }
-          console.log(`numDIDFromContributions: ${numDIDFromContributions}`)
+              dispatch(
+                receiveNumEtherUserMayInvest(
+                  maxPotentialEtherAccountCouldInvest.toString()
+                )
+              )
+            }
+            console.log(`numDIDFromContributions: ${numDIDFromContributions}`)
+          }, 1000 )
+
         })
       }
     })
