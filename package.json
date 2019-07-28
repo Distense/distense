@@ -28,7 +28,7 @@
     "bignumber.js": "^6.0.0",
     "classnames": "^2.2.6",
     "cross-fetch": "^2.2.2",
-    "distense-contracts": "^1.1.11",
+    "distense-contracts": "^1.2.2",
     "fbjs": "^1.0.0",
     "lodash": "^4.17.11",
     "meteor-random": "0.0.3",
@@ -109,7 +109,7 @@
     "url-loader": "0.5.9",
     "webpack": "^3.12.0",
     "webpack-auto-inject-version": "^1.1.0",
-    "webpack-dev-server": "3.1.11",
+    "webpack-dev-server": "^2.11.5",
     "webpack-manifest-plugin": "1.2.1"
   },
   "jest": {
