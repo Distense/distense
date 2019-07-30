@@ -57,10 +57,8 @@ export const setNumTasks = numTasks => ({
 export const fetchTasks = () => async dispatch => {
   // Have to get numTasks from chain to know how many to query by index
   try {
-    dispatch(requestTasksInstance())
     const { getNumTasks } = await contracts.Tasks
 
-    dispatch(receiveTasksInstance())
     const numTasks = +await getNumTasks()
     console.log(`${numTasks} tasks`)
     dispatch(setNumTasks(numTasks))
