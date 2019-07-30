@@ -25,4 +25,8 @@ Distense is a decentralized code cooperative: a company without executives, offi
 
 ## License
 
-Copyright 2018 Distense
+Copyright 2019 Distense
+
+## Getting your first ether
+
+If you want to submit an on-chain PR but don't have any ether, just create a PR here, make sure to include an Ethereum address (which you should do anyways) and we'll send you enough ETH to submit a PR on chain at https://disten.se/pullrequests/add.
