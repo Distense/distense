@@ -64,6 +64,7 @@ export const constructClientTask = (taskId, contractTask, didPerEtherValue) => {
       votingStatus,
       pctDIDVoted,
       numVotes,
+      number: issueNum,
       title,
       issueURL,
       repoName,

@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {Link, Redirect} from 'react-router-dom'
 import {
   Button,
   Form,
@@ -11,40 +11,70 @@ import {
   Message
 } from 'semantic-ui-react'
 
-import { fetchTask } from '../../tasks/actions'
-import { voteOnTaskReward } from '../actions'
-import { getTask } from '../../tasks/reducers'
+import {fetchTask} from '../../tasks/actions'
+import {voteOnTaskReward} from '../actions'
+import {getTask} from '../../tasks/reducers'
 
 import Head from '../../../components/Head'
 import Tags from '../../tasks/components/Tags'
+import fetch from "cross-fetch"
+import {getRepoNameFromNumber} from "../../tasks/operations/getRepoNameFromNumber"
 
 export class Task extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      reward: ''
+      initialComment: 'No comments for this task',
+      isLoading: true
     }
   }
 
   UNSAFE_componentWillMount() {
-    const { fetchTask, match: { params: { id } } } = this.props
+    const {fetchTask, match: {params: {id}}} = this.props
     fetchTask(id)
+  }
+
+  componentDidMount() {
+
+    const taskId = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
+    const issueNumber = taskId.slice(
+      taskId.indexOf('b') + 1,
+      taskId.indexOf('c')
+    )
+
+    const repoName = getRepoNameFromNumber(taskId.slice(taskId.indexOf('c') + 1))
+    console.log(`${issueNumber}`)
+    this.setState({
+      isLoading: true
+    })
+
+    const url = `https://api.github.com/repos/Distense/${repoName}/issues/${issueNumber}`
+    fetch(url)
+      .then(response => response.json())
+      .then(issue => {
+        this.setState({
+          isLoading: false,
+          initialComment: issue.body || 'No comments for this task'
+        })
+
+      })
+
   }
 
   componentWillUnmount() {
     clearTimeout(this.redirectTimeout)
   }
 
-  onChangeReward = ({ target: { value: reward } }) => {
+  onChangeReward = ({target: {value: reward}}) => {
     reward = reward.replace(/\D/g, '')
-    this.setState({ reward })
+    this.setState({reward})
   }
 
   onSubmitReward = e => {
     e.preventDefault()
     const taskId = this.props.task._id
     const reward = this.state.reward
-    this.props.voteOnTaskReward({ taskId, reward })
+    this.props.voteOnTaskReward({taskId, reward})
     this.setState(
       {
         reward: 'Vote submitted to blockchain. Redirecting to list of tasks'
@@ -60,16 +90,16 @@ export class Task extends Component {
   }
 
   render() {
-    const { task } = this.props
-    const { redirect, reward } = this.state
+    const {task} = this.props
+    const {initialComment, isLoading, redirect, reward} = this.state
 
     if (redirect) {
-      return <Redirect to="/tasks" />
+      return <Redirect to="/tasks"/>
     }
 
     return (
       <div>
-        <Head title="Task" />
+        <Head title="Task"/>
         <div className="task">
           {task ? (
             <Grid divided="vertically">
@@ -82,21 +112,21 @@ export class Task extends Component {
                         Created: {task.createdAt.toDateString()}
                       </Item.Meta>
                       <Item.Description>
-                        Tags: <Tags tags={task.tags} />
+                        Tags: <Tags tags={task.tags}/>
                       </Item.Description>
-                      <Item.Description> 
+                      <Item.Description>
                         <Button
-                            as="a"
-                            color="blue"
-                            style= {{
-                              margin: '5px 0px 5px 0px'
-                            }}
-                            compact
-                            size="large"
-                            href={task.issueURL}
-                            target="_blank"
-                          >
-                            View Issue and Discussion on Github 
+                          as={Link}
+                          color="blue"
+                          style={{
+                            margin: '5px 0px 5px 0px'
+                          }}
+                          compact
+                          size="large"
+                          to={task.issueURL}
+                          target="_blank"
+                        >
+                          View Issue Details on Github
                         </Button>
                       </Item.Description>
                       <Item.Extra>
@@ -107,9 +137,14 @@ export class Task extends Component {
                           compact
                           size="large"
                         >
-                          Submit PR
+                          Submit On-Chain PR
                         </Button>
                       </Item.Extra>
+                      <Item.Description>
+                        <p style={{'fontSize': '16px', 'marginTop': '20px'}}>
+                          <i>"{isLoading ? 'Loading initial task comment' : initialComment}"</i>
+                        </p>
+                      </Item.Description>
                     </Item.Content>
                   </Item>
                 </Grid.Column>
@@ -133,12 +168,12 @@ export class Task extends Component {
 }
 
 const TaskRewardInput = ({
-  disabled,
-  max,
-  reward,
-  onSubmitReward,
-  onChangeReward
-}) => (
+                           disabled,
+                           max,
+                           reward,
+                           onSubmitReward,
+                           onChangeReward
+                         }) => (
   <Message>
     <Form onSubmit={event => onSubmitReward(event)}>
       <Form.Field required>
@@ -164,7 +199,7 @@ const TaskRewardInput = ({
   </Message>
 )
 
-const mapStateToProps = (state, { match: { params: { id } } }) => ({
+const mapStateToProps = (state, {match: {params: {id}}}) => ({
   task: getTask(state, id)
 })
 
