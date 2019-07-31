@@ -10,6 +10,11 @@ export const receiveNumDollarsPerEther = ethPrice => ({
   ethPrice
 })
 
+export const receiveNumDollarsPerEther = ethPrice => ({
+  type: DOLLARS_PER_ETHER_RECEIVE,
+  ethPrice
+})
+
 export const receiveTotalSupplyDID = totalSupplyDID => ({
   type: TOTAL_SUPPLY_DID_RECEIVE,
   totalSupplyDID
