@@ -1,9 +1,13 @@
 import * as contracts from '../../contracts'
 
-import { TOTAL_SUPPLY_DID_RECEIVE } from './reducers'
+import {DOLLARS_PER_ETHER_RECEIVE, TOTAL_SUPPLY_DID_RECEIVE} from './reducers'
 import { convertSolidityIntToInt } from '../../utils'
 import { setDefaultStatus } from '../status/actions'
-import {receiveNumDollarsPerEther} from "../parameters/actions"
+
+export const receiveNumDollarsPerEther = ethPrice => ({
+  type: DOLLARS_PER_ETHER_RECEIVE,
+  ethPrice
+})
 
 export const receiveTotalSupplyDID = totalSupplyDID => ({
   type: TOTAL_SUPPLY_DID_RECEIVE,
