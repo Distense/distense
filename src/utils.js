@@ -6,7 +6,6 @@ export const convertSolidityIntToInt = function(integer) {
 }
 
 /**
- *
  * @param numDID
  * @param didPerEtherValue
  * Convert a number of DID that represents the task reward to a number of ether
@@ -19,3 +18,14 @@ export const convertDIDRewardToEtherReward = (numDID, didPerEtherValue) => {
     .dp(4)
     .toString()
 }
+
+
+/**
+ * @param numETH
+ * @param dollarsPerEther
+ */
+export const convertEtherRewardToDollarReward = (numETH, dollarsPerEther) => {
+  return new BigNumber(numETH.toString()).times(dollarsPerEther)
+}
+
+
