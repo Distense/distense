@@ -3,12 +3,6 @@ import * as contracts from '../../contracts'
 import {DOLLARS_PER_ETHER_RECEIVE, TOTAL_SUPPLY_DID_RECEIVE} from './reducers'
 import { convertSolidityIntToInt } from '../../utils'
 import { setDefaultStatus } from '../status/actions'
-import {receiveNumDollarsPerEther} from "../parameters/actions"
-
-export const receiveNumDollarsPerEther = ethPrice => ({
-  type: DOLLARS_PER_ETHER_RECEIVE,
-  ethPrice
-})
 
 export const receiveNumDollarsPerEther = ethPrice => ({
   type: DOLLARS_PER_ETHER_RECEIVE,
