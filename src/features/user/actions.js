@@ -67,7 +67,7 @@ export const getNumDIDFromContributionsByAddress = async address => {
   const { getNumContributionsDID } = await contracts.DIDToken
   let numDIDFromContributions = await getNumContributionsDID  (address)
   numDIDFromContributions = convertSolidityIntToInt(numDIDFromContributions.toNumber())
-  console.log(`asdf numDIDFromContributions: ${numDIDFromContributions}`)
+  console.log(`numDIDFromContributions: ${numDIDFromContributions}`)
   return numDIDFromContributions
 }
 

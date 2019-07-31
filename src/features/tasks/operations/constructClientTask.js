@@ -1,11 +1,15 @@
 import BigNumber from 'bignumber.js'
 
+import {store} from '../../../store'
+
 import { decodeTaskBytes32ToMetaData } from './decodeTaskBytes32ToMetaData'
 import { taskIdDecoded } from './taskIdDecoded'
 import {
   convertSolidityIntToInt,
-  convertDIDRewardToEtherReward
+  convertDIDRewardToEtherReward,
+  convertEtherRewardToDollarReward
 } from '../../../utils'
+import {getEthPrice} from "../../distense/reducers"
 
 /**
  * A Client Task is what gets shown to the user in a table on our list of tasks page: /tasks
@@ -37,10 +41,13 @@ export const constructClientTask = (taskId, contractTask, didPerEtherValue) => {
       ? 'TENTATIVE'
       : rewardStatusEnumInteger === 1 ? 'DETERMINED' : 'PAID'
 
-  const etherReward = convertDIDRewardToEtherReward(didReward, didPerEtherValue)
+  const numETH = convertDIDRewardToEtherReward(didReward, didPerEtherValue)
+  const dollarsPerETH = getEthPrice(store.getState())
+  console.log(`dollarsPerETH: ${dollarsPerETH}`)
+  const dollarReward = convertEtherRewardToDollarReward(numETH, dollarsPerETH)
   const rewardString =
     rewardStatusEnumInteger === 1 || rewardStatusEnumInteger === 2
-      ? `\xa0${etherReward} ETH || ${didReward} DID`
+      ? `\xa0${numETH} ETH || ${didReward} DID || ${Math.round(dollarReward)} USD`
       : 'n/a'
 
   const votingStatus = pctDIDVoted + `% voted\xa0` + numVotes + ' votes'
