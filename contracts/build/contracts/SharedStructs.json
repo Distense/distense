@@ -1,0 +1,401 @@
+{
+  "contractName": "SharedStructs",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/john/distense-contracts/contracts/lib/SharedStructs.sol\":\"SharedStructs\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/john/distense-contracts/contracts/lib/SharedStructs.sol\":{\"keccak256\":\"0xcee7ea454d2a1f26c12bfd9e9e6e62e64c393d0e583ce434c855d575bcd58664\",\"urls\":[\"bzzr://479b6b92b96e410a464148e26c16b74dd14f6e44101358bd7cef9d4f4e065f62\"]}},\"version\":1}",
+  "bytecode": "0x604c6023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea165627a7a72305820ee26dfd41b10eb6ff431f5a09a8618609c44c6dc8f2f52c4492ef80ff6af6a770029",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea165627a7a72305820ee26dfd41b10eb6ff431f5a09a8618609c44c6dc8f2f52c4492ef80ff6af6a770029",
+  "sourceMap": "25:309:10:-;;132:2:-1;166:7;155:9;146:7;137:37;255:7;249:14;246:1;241:23;235:4;232:33;222:2;;269:9;222:2;293:9;290:1;283:20;323:4;314:7;306:22;347:7;338;331:24",
+  "deployedSourceMap": "25:309:10:-;;;;;;;;",
+  "source": "pragma solidity ^0.5.8;\n\nlibrary SharedStructs {\n    struct DIDHolder {\n        uint256 balance;\n        uint256 netContributionsDID;    // essentially the number of DID remaining for calculating how much ether an account may invest\n        uint256 DIDHoldersIndex;\n        uint256 weiInvested;\n        uint256 tasksCompleted;\n    }\n}",
+  "sourcePath": "/Users/john/distense-contracts/contracts/lib/SharedStructs.sol",
+  "ast": {
+    "absolutePath": "/Users/john/distense-contracts/contracts/lib/SharedStructs.sol",
+    "exportedSymbols": {
+      "SharedStructs": [
+        3356
+      ]
+    },
+    "id": 3357,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3344,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".8"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:10"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 3356,
+        "linearizedBaseContracts": [
+          3356
+        ],
+        "name": "SharedStructs",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "SharedStructs.DIDHolder",
+            "id": 3355,
+            "members": [
+              {
+                "constant": false,
+                "id": 3346,
+                "name": "balance",
+                "nodeType": "VariableDeclaration",
+                "scope": 3355,
+                "src": "80:15:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3345,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "80:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3348,
+                "name": "netContributionsDID",
+                "nodeType": "VariableDeclaration",
+                "scope": 3355,
+                "src": "105:27:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3347,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "105:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3350,
+                "name": "DIDHoldersIndex",
+                "nodeType": "VariableDeclaration",
+                "scope": 3355,
+                "src": "241:23:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3349,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "241:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3352,
+                "name": "weiInvested",
+                "nodeType": "VariableDeclaration",
+                "scope": 3355,
+                "src": "274:19:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3351,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "274:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3354,
+                "name": "tasksCompleted",
+                "nodeType": "VariableDeclaration",
+                "scope": 3355,
+                "src": "303:22:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3353,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "303:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "DIDHolder",
+            "nodeType": "StructDefinition",
+            "scope": 3356,
+            "src": "53:279:10",
+            "visibility": "public"
+          }
+        ],
+        "scope": 3357,
+        "src": "25:309:10"
+      }
+    ],
+    "src": "0:334:10"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/john/distense-contracts/contracts/lib/SharedStructs.sol",
+    "exportedSymbols": {
+      "SharedStructs": [
+        3356
+      ]
+    },
+    "id": 3357,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3344,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".8"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:10"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 3356,
+        "linearizedBaseContracts": [
+          3356
+        ],
+        "name": "SharedStructs",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "SharedStructs.DIDHolder",
+            "id": 3355,
+            "members": [
+              {
+                "constant": false,
+                "id": 3346,
+                "name": "balance",
+                "nodeType": "VariableDeclaration",
+                "scope": 3355,
+                "src": "80:15:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3345,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "80:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3348,
+                "name": "netContributionsDID",
+                "nodeType": "VariableDeclaration",
+                "scope": 3355,
+                "src": "105:27:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3347,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "105:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3350,
+                "name": "DIDHoldersIndex",
+                "nodeType": "VariableDeclaration",
+                "scope": 3355,
+                "src": "241:23:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3349,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "241:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3352,
+                "name": "weiInvested",
+                "nodeType": "VariableDeclaration",
+                "scope": 3355,
+                "src": "274:19:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3351,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "274:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3354,
+                "name": "tasksCompleted",
+                "nodeType": "VariableDeclaration",
+                "scope": 3355,
+                "src": "303:22:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3353,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "303:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "DIDHolder",
+            "nodeType": "StructDefinition",
+            "scope": 3356,
+            "src": "53:279:10",
+            "visibility": "public"
+          }
+        ],
+        "scope": 3357,
+        "src": "25:309:10"
+      }
+    ],
+    "src": "0:334:10"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {
+    "1": {
+      "events": {},
+      "links": {},
+      "address": "0x579aC8b05c71Ec3ED543C9172C26312321FdCE86",
+      "transactionHash": "0x149d5815221d26a63e9df43c68bd9d837168929a8883bd30e128c7de62e4ffae"
+    },
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xfF64C951dB45A2cEcA8f71D2ff6ece6316198643",
+      "transactionHash": "0x0cdf479871fcfad10217325a52dab16e4777df566071f4027c72844c0f020d16"
+    }
+  },
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-08-01T21:52:25.153Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

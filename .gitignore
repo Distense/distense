@@ -1,13 +1,11 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
+ui/node_modules
+contracts/node_modules
 
 # testing
-/coverage
+contracts/coverage
 
 # production
-/build
+ui/build
 
 # misc
 .DS_Store
@@ -21,4 +19,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
-.nyc_output
+contract/.nyc_output
