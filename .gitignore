@@ -19,4 +19,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
-contract/.nyc_output
+contracts/.nyc_output
