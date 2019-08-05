@@ -9,18 +9,13 @@
     "dev": "DEV=true node scripts/start.js",
     "start": "node scripts/start.js",
     "test": "node scripts/test.js --env=jsdom",
-    "coverage": "node scripts/test.js --env=jsdom --coverage"
+    "coverage": "node scripts/test.js --env=jsdom --coverage",
+    "preinstall": "rm -rf node_modules/*/.git"
   },
   "babel": {
     "presets": [
       "react-app"
     ]
-  },
-  "eslintConfig": {
-    "extends": "react-app",
-    "rules": {
-      "no-control-regex": 0
-    }
   },
   "dependencies": {
     "autosuggest-highlight": "^3.1.1",
@@ -30,9 +25,11 @@
     "cross-fetch": "^2.2.2",
     "distense-contracts": "^1.2.2",
     "fbjs": "^1.0.0",
+    "html-webpack-plugin": "^4.0.0-beta.8",
     "lodash": "^4.17.11",
     "meteor-random": "0.0.3",
-    "npm": "^6.4.1",
+    "mixin-deep": "^2.0.1",
+    "npm": "^6.10.2",
     "object-assign": "4.1.1",
     "promise": "^8.0.2",
     "prop-types": "^15.6.2",
@@ -50,18 +47,18 @@
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
     "run": "^1.4.0",
-    "semantic-ui-react": "^0.72.0",
+    "semantic-ui-react": "^0.87.3",
     "start": "^5.1.0",
     "styled-jsx": "^1.0.11",
     "truffle-contract": "^2.0.5",
-    "web3": "^0.20.7",
-    "web3-utils": "^1.0.0-beta.36"
+    "web3": "^1.2.0",
+    "web3-utils": "^1.2.0",
+    "websocket": "^1.0.29"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
     "babel-plugin-transform-es3-property-literals": "^6.22.0",
@@ -82,16 +79,7 @@
     "dotenv": "4.0.0",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
-    "eslint": "^4.19.1",
-    "eslint-config-react-app": "^2.1.0",
-    "eslint-loader": "^1.9.0",
-    "eslint-plugin-flowtype": "^2.50.1",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.11.1",
-    "extract-text-webpack-plugin": "3.0.0",
     "file-loader": "0.11.2",
-    "html-webpack-plugin": "^2.29.0",
     "istanbul": "^0.4.5",
     "jest": "^22.4.4",
     "jsdom": "11.6.2",
@@ -100,14 +88,13 @@
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
     "prettier": "1.10.2",
-    "react-dev-utils": "^3.1.2",
+    "react-dev-utils": "^9.0.0-next.68",
     "react-test-renderer": "^16.5.2",
-    "react-web3": "^0.4.5",
     "sinon": "^4.5.0",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "0.5.9",
-    "webpack": "^3.12.0",
+    "webpack": "^4.39.1",
     "webpack-auto-inject-version": "^1.1.0",
     "webpack-dev-server": ">=3.1.11",
     "webpack-manifest-plugin": "1.2.1"
