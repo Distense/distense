@@ -22,7 +22,7 @@
     "babel-runtime": "^6.26.0",
     "bignumber.js": "^6.0.0",
     "classnames": "^2.2.6",
-    "cross-fetch": "^2.2.2",
+    "cross-fetch": "^3.1.5",
     "distense-contracts": "^1.2.2",
     "fbjs": "^1.0.0",
     "html-webpack-plugin": "^4.0.0-beta.8",
