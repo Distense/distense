@@ -31,7 +31,7 @@
     "chai": "^4.2.0",
     "chai-bn": "^0.1.1",
     "lodash": "^4.17.11",
-    "node-fetch": "^1.7.3",
+    "node-fetch": "^2.6.7",
     "prettier": "^1.10.2",
     "sshpk": "^1.14.2",
     "truffle": "^4.1.15",
