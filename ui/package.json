@@ -29,7 +29,7 @@
     "lodash": "^4.17.11",
     "meteor-random": "0.0.3",
     "mixin-deep": "^2.0.1",
-    "npm": "^6.10.2",
+    "npm": "^9.6.4",
     "object-assign": "4.1.1",
     "promise": "^8.0.2",
     "prop-types": "^15.6.2",
